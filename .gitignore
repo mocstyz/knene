@@ -1,0 +1,86 @@
+﻿# -------------------------------
+# Logs
+# -------------------------------
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+*.log
+
+# -------------------------------
+# Dependencies（不要忽略锁文件）
+# -------------------------------
+node_modules/
+**/node_modules/
+
+# -------------------------------
+# Build / Output / Coverage
+# -------------------------------
+dist/
+build/
+out/
+coverage/
+.storybook-out/
+storybook-static/
+.next/
+.nuxt/
+.svelte-kit/
+.turbo/
+.cache/
+.vite/
+.parcel-cache/
+.eslintcache
+*.tsbuildinfo
+
+# -------------------------------
+# Framework/tool specific
+# -------------------------------
+.cypress/
+cypress/videos/
+cypress/screenshots/
+playwright-report/
+test-results/
+.vscode-test/
+
+# -------------------------------
+# Environment & local overrides
+# -------------------------------
+.env
+.env.*.local
+*.local
+!.env.example
+!.env.sample
+
+# -------------------------------
+# OS / Editors
+# -------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/
+*.code-workspace
+
+# -------------------------------
+# Temp / Artifacts
+# -------------------------------
+tmp/
+temp/
+*.tmp
+
+# -------------------------------
+# Project-specific
+# -------------------------------
+stitch_*/**/*.tmp
+
+# -------------------------------
+# Archives & binaries
+# -------------------------------
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z

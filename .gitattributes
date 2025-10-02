@@ -1,0 +1,56 @@
+﻿# 自动将文本归一化为 LF（跨平台更稳定）
+* text=auto eol=lf
+
+# 常见文本类型显式声明
+*.js   text eol=lf
+*.jsx  text eol=lf
+*.ts   text eol=lf
+*.tsx  text eol=lf
+*.css  text eol=lf
+*.scss text eol=lf
+*.less text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+*.yaml text eol=lf
+*.yml  text eol=lf
+*.graphql text eol=lf
+*.sh   text eol=lf
+*.env  text eol=lf
+*.cfg  text eol=lf
+*.ini  text eol=lf
+
+# Windows 脚本保持 CRLF
+*.bat eol=crlf
+*.cmd eol=crlf
+*.ps1 eol=crlf
+
+# 二进制文件不做文本归一化
+*.png  -text
+*.jpg  -text
+*.jpeg -text
+*.gif  -text
+*.webp -text
+*.ico  -text
+*.bmp  -text
+*.svg  -text
+*.mp4  -text
+*.mov  -text
+*.avi  -text
+*.mp3  -text
+*.wav  -text
+*.woff -text
+*.woff2 -text
+*.ttf  -text
+*.eot  -text
+*.pdf  -text
+*.doc  -text
+*.docx -text
+*.xls  -text
+*.xlsx -text
+*.ppt  -text
+*.pptx -text
+*.zip  -text
+*.7z   -text
+*.tar  -text
+*.gz   -text

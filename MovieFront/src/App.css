@@ -1,0 +1,39 @@
+/* App.css - 应用程序主样式文件 */
+
+/* 全局样式重置 */
+* {
+  box-sizing: border-box;
+}
+
+/* 应用程序根容器 */
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* 通用工具类 */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 响应式断点 */
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .desktop-hidden {
+    display: none;
+  }
+}

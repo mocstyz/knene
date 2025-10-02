@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>新闻公告详情</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style type="text/tailwindcss">
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+    }
+    :root {
+      --brand-color: #87e8c0;
+    }
+    .brand-glow {
+      box-shadow: 0 0 40px -10px theme('colors.primary/50');
+    }
+  </style>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: 'var(--brand-color)',
+            'light-bg': '#f7fdfb',
+            'light-text': '#0c1a14',
+            'light-surface': '#ffffff',
+            'light-muted': '#5a6b64',
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="bg-light-bg text-light-text antialiased">
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+<div class="max-w-4xl w-full mx-auto">
+<div class="bg-light-surface rounded-2xl shadow-xl border border-gray-200/80 overflow-hidden">
+<div class="p-8 md:p-12 lg:p-16">
+<header class="text-center mb-10">
+<h1 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-light-text leading-tight mb-4">
+              网站系统全面升级及维护公告
+            </h1>
+<p class="text-light-muted text-sm md:text-base">
+              发布日期：2023年10月27日
+            </p>
+</header>
+<article class="prose prose-lg max-w-none text-light-text prose-headings:text-light-text prose-p:leading-relaxed prose-a:text-primary hover:prose-a:text-green-600 prose-strong:font-semibold">
+<p>尊敬的用户：</p>
+<p>为了给您带来更优质、更流畅的观影体验，我们计划对网站进行一次全面的系统升级和维护。在此期间，部分服务可能会受到短暂影响，我们对此深表歉意，并感谢您的理解与支持。</p>
+<div class="my-12">
+<img alt="服务器维护示意图" class="rounded-xl shadow-lg w-full h-auto object-cover brand-glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk3zEjCIIEJYYddI0uPmD6d9e2qZCmKGSu0jDHgpPxy73uPM9uv16pl3oBE8Z9pHGHT5NIw0LjHJbhzxMqAISJ_Kr8apO0WR-sJixtwgMM-B6Iv-IFchaHbhqFLAwSorISfBzTDXKskmrQoO69lyeFq8P0KcMn5vfkK0ZV1wGJCG7xXWnVw7HZPpcMlYonjd7Tq2vfveFyYZKEnkJS-eswI6KI0XmuvTgV97-lfqvWbNlAjOof_mVXbo3TVzYlbLOy98kxkiXSTek"/>
+<p class="text-center text-sm text-light-muted mt-3">技术团队正在进行系统升级</p>
+</div>
+<h2 class="font-bold text-2xl mb-4">主要升级内容</h2>
+<ul class="list-disc pl-5 space-y-2">
+<li><span class="font-semibold">性能优化：</span> 全面提升网站加载速度和视频播放流畅度，减少卡顿现象。</li>
+<li><span class="font-semibold">界面革新：</span> 推出全新设计的用户界面，风格更尊贵，操作更便捷。</li>
+<li><span class="font-semibold">功能增强：</span> 新增智能推荐算法和多设备同步播放记录功能。</li>
+<li><span class="font-semibold">安全加固：</span> 升级服务器安全策略，保障您的账户信息和隐私安全。</li>
+</ul>
+<blockquote class="border-l-4 border-primary bg-primary/10 p-6 my-8 rounded-r-lg">
+<p class="font-medium italic text-light-text mb-0">“我们始终致力于通过技术创新，为您提供无与伦比的数字娱乐体验。”</p>
+<footer class="text-sm text-light-muted mt-2">- 首席技术官</footer>
+</blockquote>
+<p>维护期间，您可能短暂无法访问网站或使用部分功能。我们预计整个升级过程将在48小时内完成。完成后，您将能体验到一个焕然一新的网站。如有任何疑问，请随时通过我们的官方渠道联系客服。</p>
+<p>再次感谢您的耐心等待与支持！</p>
+<p class="font-semibold">网站运营团队</p>
+</article>
+<footer class="mt-16 pt-8 border-t border-gray-200 text-center">
+<a class="inline-flex items-center justify-center bg-primary text-gray-900 font-bold py-3 px-8 rounded-full hover:opacity-90 shadow-lg brand-glow transition-all text-base space-x-2 group" href="#">
+<span class="material-symbols-outlined transition-transform duration-300 group-hover:-translate-x-1">
+                arrow_back_ios_new
+              </span>
+<span>返回新闻列表</span>
+</a>
+</footer>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

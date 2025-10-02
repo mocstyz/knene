@@ -1,0 +1,333 @@
+import React, { useState, useEffect } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useAuth } from '@/application/hooks'
+import { AuthenticationService } from '@/domain/services'
+import { AuthTemplate } from '@/components/templates'
+import { Button, Input, Icon } from '@/components/atoms'
+
+interface LoginFormData {
+  email: string
+  password: string
+  rememberMe: boolean
+}
+
+const LoginPage: React.FC = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { login, isLoading } = useAuth()
+
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: '',
+    password: '',
+    rememberMe: false
+  })
+
+  const [errors, setErrors] = useState<Partial<LoginFormData>>({})
+  const [showPassword, setShowPassword] = useState(false)
+  const [loginAttempts, setLoginAttempts] = useState(0)
+  const [isBlocked, setIsBlocked] = useState(false)
+  const [blockTimeRemaining, setBlockTimeRemaining] = useState(0)
+
+  // 从URL参数或location state获取重定向路径
+  const from = location.state?.from?.pathname || '/dashboard'
+
+  useEffect(() => {
+    // 检查是否被临时锁定
+    const lastAttempt = localStorage.getItem('lastLoginAttempt')
+    const attempts = parseInt(localStorage.getItem('loginAttempts') || '0')
+    
+    if (lastAttempt && attempts >= 5) {
+      const timeDiff = Date.now() - parseInt(lastAttempt)
+      const lockDuration = 15 * 60 * 1000 // 15分钟
+      
+      if (timeDiff < lockDuration) {
+        setIsBlocked(true)
+        setBlockTimeRemaining(Math.ceil((lockDuration - timeDiff) / 1000))
+        
+        const timer = setInterval(() => {
+          setBlockTimeRemaining(prev => {
+            if (prev <= 1) {
+              setIsBlocked(false)
+              localStorage.removeItem('loginAttempts')
+              localStorage.removeItem('lastLoginAttempt')
+              clearInterval(timer)
+              return 0
+            }
+            return prev - 1
+          })
+        }, 1000)
+        
+        return () => clearInterval(timer)
+      } else {
+        // 锁定时间已过，重置计数
+        localStorage.removeItem('loginAttempts')
+        localStorage.removeItem('lastLoginAttempt')
+      }
+    }
+  }, [])
+
+  const validateForm = (): boolean => {
+    const newErrors: Partial<LoginFormData> = {}
+
+    // 邮箱验证
+    if (!formData.email) {
+      newErrors.email = '请输入邮箱地址'
+    } else if (!AuthenticationService.validateEmail(formData.email)) {
+      newErrors.email = '请输入有效的邮箱地址'
+    }
+
+    // 密码验证
+    if (!formData.password) {
+      newErrors.password = '请输入密码'
+    } else if (formData.password.length < 6) {
+      newErrors.password = '密码至少需要6个字符'
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleInputChange = (field: keyof LoginFormData) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = field === 'rememberMe' ? e.target.checked : e.target.value
+    setFormData(prev => ({ ...prev, [field]: value }))
+    
+    // 清除对应字段的错误
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: undefined }))
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (isBlocked) {
+      return
+    }
+
+    if (!validateForm()) {
+      return
+    }
+
+    try {
+      login({
+        email: formData.email,
+        password: formData.password
+      })
+
+      // 登录成功，清除失败计数
+      localStorage.removeItem('loginAttempts')
+      localStorage.removeItem('lastLoginAttempt')
+
+      // 重定向到目标页面
+      navigate(from, { replace: true })
+    } catch (error: any) {
+      // 记录登录失败
+      const attempts = parseInt(localStorage.getItem('loginAttempts') || '0') + 1
+      localStorage.setItem('loginAttempts', attempts.toString())
+      localStorage.setItem('lastLoginAttempt', Date.now().toString())
+      setLoginAttempts(attempts)
+
+      // 检查是否需要锁定
+      if (attempts >= 5) {
+        setIsBlocked(true)
+        setBlockTimeRemaining(15 * 60) // 15分钟
+      }
+
+      // 显示错误信息
+      if (error.message.includes('email')) {
+        setErrors({ email: '邮箱地址不存在' })
+      } else if (error.message.includes('password')) {
+        setErrors({ password: '密码错误' })
+      } else {
+        setErrors({ email: '登录失败，请检查邮箱和密码' })
+      }
+    }
+  }
+    
+  const handleSocialLogin = (provider: string) => {
+    console.log(`使用 ${provider} 登录`)
+    // TODO: 实现社交登录
+  }
+
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60)
+    const remainingSeconds = seconds % 60
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`
+  }
+
+  const formContent = (
+    <div className="w-full max-w-md">
+      <div className="text-center mb-8">
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">欢迎回来</h1>
+        <p className="text-gray-600">登录您的账户以继续使用</p>
+      </div>
+
+      {/* 社交登录 */}
+      <div className="mb-6">
+        <div className="grid grid-cols-2 gap-3">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => handleSocialLogin('Google')}
+            disabled={isBlocked}
+          >
+            <Icon name="globe" size="sm" className="mr-2" />
+            Google
+          </Button>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => handleSocialLogin('GitHub')}
+            disabled={isBlocked}
+          >
+            <Icon name="github" size="sm" className="mr-2" />
+            GitHub
+          </Button>
+        </div>
+        
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300" />
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-white text-gray-500">或使用邮箱登录</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 登录表单 */}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {isBlocked && (
+          <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+            <div className="flex items-center">
+              <Icon name="exclamation-triangle" size="sm" className="text-red-500 mr-2" />
+              <div>
+                <p className="text-sm font-medium text-red-800">账户暂时锁定</p>
+                <p className="text-sm text-red-600">
+                  由于多次登录失败，您的账户已被暂时锁定。请在 {formatTime(blockTimeRemaining)} 后重试。
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {loginAttempts > 0 && loginAttempts < 5 && !isBlocked && (
+          <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <div className="flex items-center">
+              <Icon name="exclamation-triangle" size="sm" className="text-yellow-500 mr-2" />
+              <p className="text-sm text-yellow-700">
+                登录失败 {loginAttempts} 次，还有 {5 - loginAttempts} 次机会。5次失败后账户将被锁定15分钟。
+              </p>
+            </div>
+          </div>
+        )}
+
+        <Input
+          label="邮箱地址"
+          type="email"
+          value={formData.email}
+          onChange={handleInputChange('email')}
+          error={!!errors.email}
+          helperText={errors.email}
+          placeholder="请输入您的邮箱地址"
+          leftIcon="mail"
+          fullWidth
+          disabled={isBlocked}
+        />
+
+        <div className="relative">
+          <Input
+            label="密码"
+            type={showPassword ? 'text' : 'password'}
+            value={formData.password}
+            onChange={handleInputChange('password')}
+            error={!!errors.password}
+            helperText={errors.password}
+            placeholder="请输入您的密码"
+            leftIcon="lock"
+            fullWidth
+            disabled={isBlocked}
+          />
+          <button
+            type="button"
+            className="absolute right-3 top-9 text-gray-400 hover:text-gray-600"
+            onClick={() => setShowPassword(!showPassword)}
+            disabled={isBlocked}
+          >
+            <Icon name={showPassword ? 'eye-slash' : 'eye'} size="sm" />
+          </button>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <label className="flex items-center">
+            <input
+              type="checkbox"
+              checked={formData.rememberMe}
+              onChange={handleInputChange('rememberMe')}
+              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              disabled={isBlocked}
+            />
+            <span className="ml-2 text-sm text-gray-600">记住我</span>
+          </label>
+
+          <Link
+            to="/auth/forgot-password"
+            className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
+          >
+            忘记密码？
+          </Link>
+        </div>
+
+        <Button
+          type="submit"
+          variant="primary"
+          size="lg"
+          className="w-full"
+          disabled={isLoading || isBlocked}
+        >
+          {isLoading ? (
+            <>
+              <Icon name="loading" size="sm" className="mr-2" />
+              登录中...
+            </>
+          ) : (
+            '登录'
+          )}
+        </Button>
+      </form>
+
+      {/* 注册链接 */}
+      <div className="mt-6 text-center">
+        <p className="text-sm text-gray-600">
+          还没有账户？{' '}
+          <Link
+            to="/auth/register"
+            className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
+          >
+            立即注册
+          </Link>
+        </p>
+      </div>
+    </div>
+  )
+
+  return (
+    <AuthTemplate
+      title="登录"
+      subtitle="访问您的个人影片库"
+      features={[
+        '海量高清影片资源',
+        '个性化推荐系统',
+        '多设备同步观看',
+        '离线下载功能'
+      ]}
+      backgroundImage="https://via.placeholder.com/800x600/1e40af/ffffff?text=Movie+Background"
+    >
+      {formContent}
+    </AuthTemplate>
+  )
+}
+
+export default LoginPage
