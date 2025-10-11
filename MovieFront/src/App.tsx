@@ -11,7 +11,7 @@
 import { QueryProvider, AppThemeProvider } from '@application/providers'
 import { router } from '@presentation/router/routes'
 import { RouterProvider } from 'react-router-dom'
-import './App.css'
+import '@styles/App.css'
 
 /**
  * 主应用组件

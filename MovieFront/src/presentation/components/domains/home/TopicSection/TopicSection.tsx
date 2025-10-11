@@ -14,8 +14,8 @@ import type {
   TopicItem as BaseTopicItem,
 } from '@types-movie/movie.types'
 import { cn } from '@utils/cn'
-import { Link } from 'react-router-dom'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 /**
  * 专题项目接口 - 扩展基础接口

@@ -36,7 +36,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       fullWidth = false,
       disabled,
       children,
-      asChild = false,
+      _asChild = false,
       ...props
     },
     ref

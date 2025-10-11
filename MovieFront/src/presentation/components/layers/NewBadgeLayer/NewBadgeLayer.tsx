@@ -77,7 +77,7 @@ const NewBadgeLayer: React.FC<NewBadgeLayerProps> = ({
   }
 
   // 获取新片类型对应的文本
-  const getNewTypeText = (type: NewBadgeType): string => {
+  const getNewTypeText = (_type: NewBadgeType): string => {
     // 统一返回 'new'，确保所有新片标签显示相同的文本
     return 'new'
   }

@@ -1,3 +1,13 @@
+/**
+ * @fileoverview 英雄区域轮播组件
+ * @description 首页主要展示区域的轮播组件，支持自动轮播、手动切换、指示器导航等功能。
+ * 使用所有heroes目录中的图片，提供流畅的视觉体验和用户交互。
+ *
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.1.0
+ */
+
 import { Icon } from '@components/atoms/Icon'
 import { heroData } from '@data/home/heroData'
 import React, { useState, useEffect } from 'react'
@@ -16,10 +26,10 @@ const HeroSection = React.forwardRef<HTMLElement>((_, ref) => {
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [currentIndex])
+  }, [])
 
-  // 使用HTML设计稿中的Starlight Symphony作为默认显示
-  const currentHero = heroData[0] // Starlight Symphony
+  // 使用当前索引获取英雄项
+  const currentHero = heroData[currentIndex]
 
   const goToPrevious = () => {
     setIsTransitioning(true)
