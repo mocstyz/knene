@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StreamHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#6EE7B7",
+                        "background-light": "#F3F4F6",
+                        "background-dark": "#111827",
+                    },
+                    fontFamily: {
+                        display: ["Manrope", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .material-icons {
+            font-size: 20px;
+        }
+
+        /* Dropdown menu styles */
+        .dropdown-content {
+            display: none !important;
+            background: rgba(243, 244, 246, 0.7) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(110, 231, 183, 0.3) !important;
+        }
+
+        .dark .dropdown-content {
+            background: rgba(17, 24, 39, 0.7) !important;
+            border: 1px solid rgba(110, 231, 183, 0.5) !important;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block !important;
+        }
+
+        /* Create hover bridge and fix dropdown disappearing */
+        .dropdown:hover > a + .dropdown-content,
+        .dropdown-content:hover {
+            display: block !important;
+        }
+
+        /* Add a small invisible bridge area */
+        .dropdown-content::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: transparent;
+        }
+
+        /* Override any possible conflicting styles */
+        body .dropdown-content {
+            background: rgba(243, 244, 246, 0.7) !important;
+        }
+
+        body.dark .dropdown-content {
+            background: rgba(17, 24, 39, 0.7) !important;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100">
+<div class="min-h-screen">
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50 bg-transparent transition-colors duration-300">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center space-x-8">
+<div class="flex items-center space-x-2">
+<span class="material-icons text-primary">movie</span>
+<span class="text-xl font-bold">Knene</span>
+</div>
+<nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+<div class="relative dropdown">
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors flex items-center space-x-1" href="#">Home<span class="material-icons text-sm align-middle">expand_more</span></a>
+<div class="dropdown-content absolute left-0 mt-1 w-96 rounded-lg shadow-xl z-50" style="background: rgba(243, 244, 246, 0.7) !important; backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important; border: 1px solid rgba(110, 231, 183, 0.5) !important;">
+<div class="p-6">
+<div class="flex space-x-6">
+<!-- Left side - Image -->
+<div>
+<a href="#" class="block group">
+<div class="relative aspect-[2/3] w-40 rounded-lg overflow-hidden">
+<img src="https://maas-log-prod.cn-wlcb.ufileos.com/anthropic/242dc2fd-af46-4d41-a734-a38686351210/458f65dbcd501c5181ff02ad297e576e.jpg?UCloudPublicKey=TOKEN_e15ba47a-d098-4fbd-9afc-a0dcf0e4e621&Expires=1759228054&Signature=uL9s8CmI4sJK2SRUgINYkoLR2BE=" alt="Featured Content" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+<div class="absolute bottom-2 left-2 z-10">
+<h3 class="text-white text-sm font-semibold">Featured</h3>
+<p class="text-white/80 text-xs">Latest releases</p>
+</div>
+</div>
+</a>
+</div>
+<!-- Right side - Text links -->
+<div class="flex-1">
+<div class="space-y-4">
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Movies</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Explore the latest movie releases</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">TV Shows</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Watch popular TV series</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Genres</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Browse by categories</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="relative dropdown">
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors flex items-center space-x-1" href="#">Movies<span class="material-icons text-sm align-middle">expand_more</span></a>
+<div class="dropdown-content absolute left-0 mt-1 w-96 rounded-lg shadow-xl z-50" style="background: rgba(243, 244, 246, 0.7) !important; backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important; border: 1px solid rgba(110, 231, 183, 0.5) !important;">
+<div class="p-6">
+<div class="grid grid-cols-2 gap-8">
+<!-- Left column -->
+<div class="space-y-3">
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">New Releases</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Latest movies this week</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Top Rated</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Highest rated films</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Trending Now</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Popular right now</div>
+</a>
+</div>
+<!-- Right column -->
+<div class="space-y-3">
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Action</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Thrilling adventures</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Comedy</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Funny and entertaining</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Drama</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Emotional stories</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="relative dropdown">
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors flex items-center space-x-1" href="#">TV Shows<span class="material-icons text-sm align-middle">expand_more</span></a>
+<div class="dropdown-content absolute left-0 mt-1 w-96 rounded-lg shadow-xl z-50" style="background: rgba(243, 244, 246, 0.7) !important; backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important; border: 1px solid rgba(110, 231, 183, 0.5) !important;">
+<div class="p-6">
+<div class="grid grid-cols-2 gap-8">
+<!-- Left column -->
+<div class="space-y-3">
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">New Episodes</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Latest episodes this week</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Bingeworthy</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Addictive series</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Returning Series</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">New seasons available</div>
+</a>
+</div>
+<!-- Right column -->
+<div class="space-y-3">
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Drama Series</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Compelling stories</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Comedy Series</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Laugh-out-loud shows</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Documentaries</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Real-life stories</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="relative dropdown">
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors flex items-center space-x-1" href="#">Genres<span class="material-icons text-sm align-middle">expand_more</span></a>
+<div class="dropdown-content absolute left-0 mt-1 w-96 rounded-lg shadow-xl z-50" style="background: rgba(243, 244, 246, 0.7) !important; backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important; border: 1px solid rgba(110, 231, 183, 0.5) !important;">
+<div class="p-6">
+<div class="grid grid-cols-2 gap-8">
+<!-- Left column -->
+<div class="space-y-3">
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Action & Adventure</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Exciting and thrilling</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Comedy</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Funny and lighthearted</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Drama</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Emotional and intense</div>
+</a>
+</div>
+<!-- Right column -->
+<div class="space-y-3">
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Horror</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Spine-chilling and scary</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Romance</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Love and relationships</div>
+</a>
+<a href="#" class="block">
+<div class="text-base text-gray-700 dark:text-gray-300 hover:text-primary py-2">Sci-Fi & Fantasy</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Imaginative worlds</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</div>
+<div class="flex items-center space-x-4">
+<div class="relative hidden sm:block">
+<span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+<input class="bg-gray-200 dark:bg-gray-800 border-none rounded-lg pl-10 pr-4 py-2 text-sm w-48 focus:ring-primary focus:border-primary" placeholder="Search..." type="text"/>
+</div>
+<a class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" href="#">Log In</a>
+<a class="px-4 py-2 text-sm font-medium text-black bg-primary rounded-md hover:bg-opacity-80 transition-colors" href="#">Register</a>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-16">
+<section id="hero" class="relative -mt-16 h-[75vh] min-h-[520px] flex items-center">
+<div class="absolute inset-0">
+<img alt="A person standing under celestial lights" class="w-full h-full object-cover" src="assets/0034.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-light dark:from-background-dark via-transparent to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background-light dark:from-background-dark via-background-light/50 dark:via-background-dark/50 to-transparent"></div>
+</div>
+<div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-xl">
+<h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">Starlight Symphony</h1>
+<p class="mt-4 text-lg text-gray-700 dark:text-gray-300">A captivating tale of music, love, and destiny under the celestial lights. Follow the journey of two souls brought together by a cosmic melody.</p>
+<div class="mt-8 flex items-center space-x-4">
+<button class="flex items-center space-x-2 bg-primary text-black px-6 py-3 rounded-lg font-semibold hover:bg-opacity-80 transition-colors">
+<span class="material-icons">play_arrow</span>
+<span>Play</span>
+</button>
+<button class="flex items-center space-x-2 bg-gray-500/20 dark:bg-gray-400/20 text-gray-900 dark:text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-500/30 dark:hover:bg-gray-400/30 transition-colors">
+<span class="material-icons">info</span>
+<span>More Info</span>
+</button>
+</div>
+</div>
+</div>
+<div class="absolute bottom-8 right-8 flex space-x-2">
+<span class="h-2 w-2 rounded-full bg-gray-400"></span>
+<span class="h-2 w-4 rounded-full bg-primary"></span>
+<span class="h-2 w-2 rounded-full bg-gray-400"></span>
+</div>
+</section>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+<section>
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-2xl font-bold">Trending</h2>
+<a class="text-sm font-medium text-primary hover:underline" href="#">More &gt;</a>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Midnight Bloom movie poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWrtLyvURYEwZHDaPMh4SsAhZL3e6bfXwdSnFCbxF8yhVpFUOI_JBnW3lgpdViyi04zkk6avnAtfuZN2gx6GCwVvXAna8BVszgI6HkM8k67kbAVknbZdeiLlcA5OtoAaOCELBk9l1PC-69y35MCWfnIEsV2VdMipj_5IhCM3IwGm2VHS9McBsWqJ52HHcbGYox67Dl1oRoYpA0Snx8UYSspvZi5A-RiPju4TV7_O7-Kgf4g-ZJrqWOLpxjZ_nhybSnP__KHUlme2GV"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">8.7</div>
+</div>
+<h3 class="font-semibold text-sm">The Midnight Bloom</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Movie</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Echoes of the Past movie poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_VwJFVGZUiXHDnNhQcGLrsu3a6Q_VZ8WeVDYWrBP_pjVfRR2FYM7FdulpNKRr2B2i2XLvCW41NSB8Ek2Xzcv-gYhJgH_loMmIFesG8q9ZdCakY33KUiFTqGBVK47tLSgUhLmm58d_sfQoT6fyftOsGGL9Sau7ZQmbwyhfE8BAcqud_dwUxNMYP-L3xc8RLclNlc9OxxatlZIk3j9lAN3hN_9oPT3bP4M1raLv1OmQAKJIlsI6lllhsVuLqFoAGW7lyRbqyRiPDCf4"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">8.3</div>
+</div>
+<h3 class="font-semibold text-sm">Echoes of the Past</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Movie</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Starlight Symphony TV show poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJHsfYbASyFqoE_O2BEx26hPqQWY4MI-9ytTStmVb_9Z3ZYr5QlLVmNrkqhpnOxlM_JaCtC2FDpfIa59q184Er7Ne9X2OmV9LYUg1iv3c1ucUH5REtQKocXN07L8jmvKQXTyS4eDILPYe2E7pIX_-G7N-Hxht4Ks4slesWEkyr_Wgpw2Zi3e_-F6XqzKtZ4_rFf8EfaGxkRKVnFSuDUdb1IXU_-_DVr2VrSIF_NySbRBTcUYjldtaO5vlERvIRATG1GYAdsf5OzjWY"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-red-500 text-xs font-bold">9.1</div>
+</div>
+<h3 class="font-semibold text-sm">Starlight Symphony</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">TV Show</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Crimson Tide movie poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA232pu3G37ctoqCnFe26C3RvPuri8rB4G24uvYKyrj5n8tBVLU_ST3WoBIG2NLzPcaI13hwc3sfoe8BhcDPzLzTXn1bxhmYN-Wftz4diFijbVN5ET1BAxxTsj9_R32H8q9icbCqmXEqg4aGa5QPL6OYEHORkHsAnamyB-ZkK3ufEJdxh1zoZy1N1OkOQUP5XQRu_sXGC4DVNqpnOEdDEGeFLRAk1H9Na0AxvktXHgJT0vDP01hxpi2NZ-lUQ6IfCyniL2duCSbI5Qn"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">7.8</div>
+</div>
+<h3 class="font-semibold text-sm">Crimson Tide</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Movie</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Whispers of the Wind movie poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBidWG3bixnZ8oYWkSXdK9sybFNMvrquVfKYvFE6Liml8-arwM15rrezoMp7D3ese0S334b5NSG7PJ3XePwGut_6e6y1YwmqluRmONRgdkEAiiLbNnRz7U7Yua7XlpCxpxKE1xjZ3c9WvNL1Ut9BSUX_RKOxr7zeR5MCvp8fA-xEn5kyTdM313XcHmn600R5dhEWhJnxe9D7UhRHTgqAaT9Ox_0bTfeLOH292azHRMfqhFs2xlaPIwo-ZH659KmdU8rYiZbHuMztaiZ"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">8.0</div>
+</div>
+<h3 class="font-semibold text-sm">Whispers of the Wind</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Movie</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Eternal Horizon TV show poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMo6EB1MPo7u-bXh3kxdUyJGL2GIbArQ4pIy7b3l5-X_LcbO7_JYAQ351r7ibLkzi-xO1h09SCD3HBx5GBlQbdviR_d9uTMNy5hxL6dtXkYwMokRqmEV7423j5JMxC7-moEwKha27CX_jDtX2lJQhvYTcO_e4LbLlH4OH8ri1B1vRy1mZUd47pA-3nSq2o9mtF5ze8u_o5Ghep-2niaI_qyi8YUS0PliNlovdJLt-PFGESt7qrHYOJVDEf_S7vgzXwc3Q-Eqa6NUZY"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">8.5</div>
+</div>
+<h3 class="font-semibold text-sm">Eternal Horizon</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">TV Show</p>
+</div>
+</div>
+</section>
+<section>
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-2xl font-bold">Popular</h2>
+<a class="text-sm font-medium text-primary hover:underline" href="#">More &gt;</a>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Shadows of Destiny movie poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVpIzwx-jsD9wZF5KwerLrNo3sj8YbKOAfzugCSofxWlLAahc7r8S2J1PT-YM2LXLvlvYaQONSwJRUbbmZ8IN0NsC16GcK20-V1A2drsWKbvGBcQdLYqAUiZrEzgh_fHCns61jLXHY9lzD_vShB8zP441DtQ48YMXP0IVKLTvBwc0GzytkJto3ya7oeW-5P9pwoEnLtMAktklho564xeVFVpwWUmG8Yq4eGbHZvVmIKPNFILMtzz5Y0EH3-tKgIr05DpArtpasOFeF"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">8.2</div>
+</div>
+<h3 class="font-semibold text-sm">Shadows of Destiny</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Movie</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Celestial Dance movie poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9TZxUpTj3OcflUjOSTThCSv0_ZULItIMWjNaasEmeb7GT9Yhq-faneER7d1Kqudshe7MEvuBDO8f6DWRefG-7I-HEXRXqy9CLqUktRToJLFnCH-dK0uKYeZHOQPFbKxcdqBP0WsYoKpO3QDppIJ2xC6cwY7oB_GGg-IoiEkk24uXerz4nhe1vagOshcQH-2DkVE0mL8npE75yIEdw5S5CCA_MKh2brBccDyu4bV1kSxAkEazhTwYFVPoK0q84nBPaW5SN4kkAiaUN"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-red-500 text-xs font-bold">8.9</div>
+</div>
+<h3 class="font-semibold text-sm">Celestial Dance</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Movie</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Lost in Translation TV show poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVqfC4NLtZL_DgrflkWthPn8XuLcMOrDiDVOK3qAOygRTOpxRjCw2qJaNmj46aUpcmimsI8ewdWPJfJV41d01UmK-W2xVIrOvS464EBxwcgRh6zH5iFL4k907yvx8Xzx1wBV_fYrLBxd6OY-o6GhVk24q050Vy8kQiHhNKihProSmWJOQldS_1nXuwQWrRyVzgZgjObs-8loSazYfPxe-vBiVWf9OVcmvQwAU6oL8xROhfZYalCGjEzsNJJx7sPtZrI6q_hi135CRV"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">7.6</div>
+</div>
+<h3 class="font-semibold text-sm">Lost in Translation</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">TV Show</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="The Silent Witness movie poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY0p9J2XVtRqhpeC1xbaEUgUQu-A-Pc3soExFdg5H-AbyEuoEe7ulR8Tpl_9VKZg5xcfO4fq-2BQX47tYTchLI102DI9-3ELz2YCVUva9xQgynr5cZTPZicXJ0_gzvq_vMDBwrZltBEqnxNaf2gOYEdUYgyxwBlhTSqYILST2Pmq-2urwsh166MWNgqwErDYtzkBlfztEZ1YSYKz38k4n2fd9JfWr9-X13WOrbHDz3wZM57CHaTlSf6YR0bfln8QSZZ0DzCgU0WMkK"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">8.1</div>
+</div>
+<h3 class="font-semibold text-sm">The Silent Witness</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Movie</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Beneath the Surface movie poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdgH1zmSNcfgMPhHjxq9GS5wb-DvK8ee7TfPLwBeGgjBR4vCN3DEp1_ddUfInUmLbivDJiRdcHW8oECiCUSKDfTvu0gTjzwHz5nRfz5Q6Pgq3wpyNES25LCLW9VDJMi5Dm97ghMw2VnsZ-Q9v1uxofHG11zQHq-hBvN0gNcgkWSmwZlBHJPAV1f2MRRUYO0AkUqEB87Y-UE7ATXeVeDGBkar7PWsEonN0JZfgT33dM48ozxujEGvpTuKmaHmAu7CqOShRaKdzZ2c5m"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">7.9</div>
+</div>
+<h3 class="font-semibold text-sm">Beneath the Surface</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Movie</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Echo Chamber TV show poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAonbg9afAu1g4hEdJ-OfalHmaVnZ_n1I1lbfGOjWDXbiOF3d4Et0nGvaFkKV2hEs9ANKuufMZ_pQvlvACzUoN8ljSoAuYrEl5Phb7IuHEZ-u98uiUvfdi14YbihTuH469iDqbjZuCe7mupfw3RrPxB7pW0Ry3LMWk5JcxD9HKHjs1G9-pPojHCgJMrmkgc8zJS1s5EIFg_Ux-Sjdl16ihbPkhmXWp-YZD7-l2E1ymjx_zkaL9wzohhc4IGI8WGkAPKjOQ36YsWX_da"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">8.4</div>
+</div>
+<h3 class="font-semibold text-sm">Echo Chamber</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">TV Show</p>
+</div>
+</div>
+</section>
+<section>
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-2xl font-bold">New Releases</h2>
+<a class="text-sm font-medium text-primary hover:underline" href="#">More &gt;</a>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Crimson Tide movie poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5wCkdLdxFfZUNqKTB7yohlmzc1Jmp39qcCaLeDjhliN1o4hy-2X8nLUhLslpgtEBx4-O6rMcq3W3_7QTm9VEUfF1VdAhx6Td_-zih83sv9qXpPocFjwYpql0NNxj25atJ26CPz73wVew4HkF3JEUIu3MpVAS3mGxPwEBxnKBE8KxYUqSNNi59SJ2i5iJ9tbLZDJei-F1tlhIDwBsD6sw-EM7jNoirW-I-Vr9IUW_Z4-ouC02gpl-X6O1qgQz2Z0EFbdd2vD0zL56a"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">7.8</div>
+</div>
+<h3 class="font-semibold text-sm">Crimson Tide</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Movie</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Celestial Dance movie poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCG0U_tjpu-PnZ7iqn_DUSvM1A3ceZ_cV9iM-DnDp_mYlH8w5OkfQR8pnM1Z7j7lBnO3PRrnuKTAzX7sOGm0eauzbN8P3BJy0TVjRyzw88-zg9oK-4YkMh_W82vGb9F39Gjie7O-VDqJu5fgIgFQQzS3-AfnqkVnV2vDOXLCG1gOYV9ui_MRgl2JZrL127fwkuMg_9-iDNQsDIf9cPmj4Dib5CDGJHDa9o2S4OpXx9PqpGrROIAMNdFxDCBpcGGmZUSAz7wi7xyY2Ah"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-red-500 text-xs font-bold">8.9</div>
+</div>
+<h3 class="font-semibold text-sm">Celestial Dance</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Movie</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Eternal Horizon TV show poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVfKeuJ1HVWDBH7pcvpymo54WWl6jOZJzPIAtrPgqFhxfRDgg8l5H5Arykd-nLUmLO-NmBtDVvkmjb9x_1pT04rMRBV2Zjvg3_X1tRKU77GhPJ6cDdCz3m4hreNRBFPVSYfFU0ea6t4uAAMLNyfHmJFKncHX9YQ3om0iKB0HVRa9V7j_o-HxpogxtN9ETdLCtltFp-lZz_wBJGf7LKlkmaGS5xduVzMQ1m89lgkmNZcC-wW1EBicE9VzbAtVg_uNvOfjiU_vsHQxUl"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">8.6</div>
+</div>
+<h3 class="font-semibold text-sm">Eternal Horizon</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">TV Show</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Echoes of the Past movie poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXtbO29gAvstPaFHCwuRil4U2lAxcO1YCcJmZ2Szg4bQFhgCg-HzJjCCUEnhAX7Rg9sgzrDpXZoLB1FIRvJOa8ArMXyicjBgw9kjR0vvy2lc9_2rNikw9abAuxGCKMCZeNYocPV2z7wy9067rWfpym9E_tWiVUwFVpgYdb1ZOpdwEHJfPick1ce4-euxhbHmSqxeEzM97GkjIqjORYbVncpNZcl8qEEI7Uiqt7M_fmsM-ciITxNOSSim_HJwiTn5f2OtJsyqV9fTlb"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-purple-400 text-xs font-bold">8.3</div>
+</div>
+<h3 class="font-semibold text-sm">Echoes of the Past</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Movie</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="Starlight Symphony TV show poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqpRckjQbn28YpPAELJc6TPhsC6aRPGvuPW0_viWw67CXHgUjuQV43g4vZ_IMkSgiq3QF72ucyJRDr9ku_Hwjl5QL9GBG_2j8zCzmnzB0cdS0Z6HQlU6Hn2lVxlJESphiIAtAAtE4ZKUfNQ7pxt4C4gAqfVJeYkOacbFdSk0VHQPvZvpP7fpfuTUCy6m2IbGjIz3u79pBecLkhKGV9gkWYyCpCCl69XjnLYUq7-AnfjZdff26D0VJV7Q42FsmYCQcvRAmUgxwJluys"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-red-500 text-xs font-bold">9.2</div>
+</div>
+<h3 class="font-semibold text-sm">Starlight Symphony</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">TV Show</p>
+</div>
+<div class="space-y-2 group">
+<div class="aspect-[2/3] rounded-lg overflow-hidden relative">
+								<img alt="The Midnight Bloom movie poster" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDe_Mit399LXFOMh-nNAfiGy5UzuOQ3GTC0RNusjPH68dMaafpUnKKhS6FtYjTh8qcWWeP8QGZqkc8dRsgCQen7y7J65GWuKJK_9VH5KimRmTV-zQUQdMuB09FzVJ9_msDha0LD_e9ZRqJ0WBBo60G17TcF4_a0-xlUTnX1O0XUM_DEDSIsOiivGXk4kxKIbF7G8yqRWnSX0Yc3idTxFKjQKgp0hID5BShFIGsgKbKI5DDJ_XcsFnTMubjmkeD4c6NZNSY8Hwajomb-"/>
+								<div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+								<div class="absolute left-2 bottom-2 z-10 px-2 py-1 rounded-md bg-black/70 text-white text-xs font-bold">6.4</div>
+</div>
+<h3 class="font-semibold text-sm">The Midnight Bloom</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Movie</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+
+<script>
+	(function() {
+		const header = document.getElementById('site-header');
+		const hero = document.getElementById('hero');
+		if (!header || !hero) return;
+
+		const defaultClasses = 'bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm';
+		const transparentClasses = 'bg-transparent backdrop-blur-0';
+
+		function updateHeader() {
+			const heroBottom = hero.getBoundingClientRect().bottom;
+			if (heroBottom <= 0) {
+				// past hero: ensure default blurred background
+				header.classList.remove(...transparentClasses.split(' '));
+				header.classList.add(...defaultClasses.split(' '));
+			} else {
+				// within hero: keep transparent
+				header.classList.remove(...defaultClasses.split(' '));
+				header.classList.add(...transparentClasses.split(' '));
+			}
+		}
+
+		updateHeader();
+		window.addEventListener('scroll', updateHeader, { passive: true });
+		window.addEventListener('resize', updateHeader);
+	})();
+</script>
+
+</body></html>

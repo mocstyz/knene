@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>APP 下载 - 您的专属影院</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#87e8c0",
+                        "background-light": "#f8f9fa",
+                        "background-dark": "#121212",
+                    },
+                    fontFamily: {
+                        display: ["'Inter', sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .dark .hero-bg {
+            background-image: radial-gradient(circle at 50% 0%, rgba(135, 232, 192, 0.2), transparent 50%);
+        }
+        .hero-bg {
+            background-image: radial-gradient(circle at 50% 0%, rgba(135, 232, 192, 0.4), transparent 60%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200">
+<div class="min-h-screen flex flex-col">
+<header class="absolute top-0 left-0 right-0 z-30 p-4">
+<div class="container mx-auto flex justify-between items-center">
+<a class="flex items-center space-x-2" href="#">
+<span class="material-symbols-outlined text-primary text-3xl">movie_filter</span>
+<span class="text-xl font-bold text-white">电影天堂</span>
+</a>
+<nav class="hidden md:flex items-center space-x-6">
+<a class="text-gray-300 hover:text-white transition" href="#">首页</a>
+<a class="text-gray-300 hover:text-white transition" href="#">电影</a>
+<a class="text-white font-semibold transition" href="#">APP下载</a>
+</nav>
+<button class="md:hidden text-white">
+<span class="material-icons">menu</span>
+</button>
+</div>
+</header>
+<main class="flex-grow">
+<section class="relative overflow-hidden hero-bg pt-24 pb-16 md:pt-40 md:pb-24">
+<div class="container mx-auto px-4 text-center relative z-10">
+<h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white mb-4 leading-tight">
+                        您的专属移动影院
+                    </h1>
+<p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8">
+                        随时随地，畅享海量高清电影资源。极速下载，离线观看，尊享极致观影体验。
+                    </p>
+<div class="flex justify-center items-center flex-wrap gap-4">
+<a class="bg-primary text-gray-900 px-8 py-4 rounded-lg font-bold text-lg flex items-center space-x-2 hover:opacity-90 transition-transform transform hover:scale-105 shadow-lg" href="#">
+<span class="material-icons">android</span>
+<span>下载 Android 版</span>
+</a>
+<a class="bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-transform transform hover:scale-105 shadow-lg" href="#">
+<span class="material-icons">apple</span>
+<span>下载 iOS 版</span>
+</a>
+</div>
+<div class="mt-8 text-sm text-gray-500 dark:text-gray-400">
+                        支持 Android 8.0+ 和 iOS 14+
+                    </div>
+</div>
+<div class="relative mt-12 md:mt-20 flex justify-center items-center">
+<div class="absolute w-full max-w-4xl h-32 bg-primary/20 blur-3xl rounded-full bottom-0"></div>
+<img alt="APP界面展示" class="w-full max-w-4xl h-auto relative z-10 select-none pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgNYj0TdYb8McuLFv6mbedM3e5K9joQWn65y_WZF_PPJw0BuIDrp6SWGmtj9-9tBA899Yd_hUsIAfjluRikngRpG-FnIKuJ8Y5up5pN6i1oIZv4-g8n9_dezhVMOnhaMCe1LhfvCXyyPO1xaw1Uz73IyzT7VWS1ux5G6l-0vuL8MyaazmkU7EUZrSAi-lzW1nQQOX-E4mHliDe7eiE3u-rB3BaJzCQ0mPtYDJzSdjDSxl-SuHVFgBbG9tSJxrtlVZ1NAmOaK9OHyE"/>
+</div>
+</section>
+<section class="py-16 md:py-24 bg-white dark:bg-gray-900">
+<div class="container mx-auto px-4">
+<div class="text-center mb-12">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">为什么选择我们的APP？</h2>
+<p class="text-lg text-gray-500 dark:text-gray-400 mt-2">为您提供无与伦比的观影体验</p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="text-center p-6 bg-gray-50 dark:bg-gray-800/50 rounded-xl hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+<div class="flex items-center justify-center h-16 w-16 rounded-full bg-primary/20 text-primary mx-auto mb-4">
+<span class="material-symbols-outlined text-4xl">database</span>
+</div>
+<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">海量资源库</h3>
+<p class="text-gray-600 dark:text-gray-400">每日更新，轻松找到全球最新、最热门的电影。</p>
+</div>
+<div class="text-center p-6 bg-gray-50 dark:bg-gray-800/50 rounded-xl hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+<div class="flex items-center justify-center h-16 w-16 rounded-full bg-primary/20 text-primary mx-auto mb-4">
+<span class="material-symbols-outlined text-4xl">speed</span>
+</div>
+<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">极速下载</h3>
+<p class="text-gray-600 dark:text-gray-400">多线程下载引擎，享受闪电般的下载速度，无需等待。</p>
+</div>
+<div class="text-center p-6 bg-gray-50 dark:bg-gray-800/50 rounded-xl hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+<div class="flex items-center justify-center h-16 w-16 rounded-full bg-primary/20 text-primary mx-auto mb-4">
+<span class="material-symbols-outlined text-4xl">hd</span>
+</div>
+<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">高清画质</h3>
+<p class="text-gray-600 dark:text-gray-400">支持4K、1080p等多种分辨率，带来影院级视觉盛宴。</p>
+</div>
+<div class="text-center p-6 bg-gray-50 dark:bg-gray-800/50 rounded-xl hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+<div class="flex items-center justify-center h-16 w-16 rounded-full bg-primary/20 text-primary mx-auto mb-4">
+<span class="material-symbols-outlined text-4xl">airplanemode_active</span>
+</div>
+<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">离线观看</h3>
+<p class="text-gray-600 dark:text-gray-400">随时随地离线观看，地铁、旅途，精彩从不间断。</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 md:py-24 bg-background-light dark:bg-background-dark">
+<div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+<div class="w-full md:w-1/2">
+<div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-2xl">
+<img alt="APP功能截图" class="rounded-lg w-full h-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArYYwTYRtwRGvdpDdtzFkvkQQIJM8brm5aIhyTfTuL4-btjD3S_zsFrh29Wlh2wba70oji9NUX0YOZ2_OlDvw_saj5SdCCpCqQDGVA9YvFnAa47TyTK-Hh0jzJs3obW93hdv6GFwQgdAr9oCVI5uzLboYcke6xeH1OtgL9G4Kno339vJmnOoDcHdmoxC7ACIp7gkk_hkXR6_UbUkw343SZDODRIJrTSEl_uR_9MFHlYusExW5VRJIvDCX9Fm-StWLIh_K3COfvqls"/>
+</div>
+</div>
+<div class="w-full md:w-1/2">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">更多强大功能</h2>
+<ul class="space-y-6 text-lg">
+<li class="flex items-start">
+<span class="material-symbols-outlined text-primary mr-3 mt-1">check_circle</span>
+<div>
+<h4 class="font-semibold text-gray-800 dark:text-gray-100">智能搜索</h4>
+<p class="text-gray-600 dark:text-gray-400 text-base">快速精准定位您想看的任何影片。</p>
+</div>
+</li>
+<li class="flex items-start">
+<span class="material-symbols-outlined text-primary mr-3 mt-1">check_circle</span>
+<div>
+<h4 class="font-semibold text-gray-800 dark:text-gray-100">多语言字幕</h4>
+<p class="text-gray-600 dark:text-gray-400 text-base">自动匹配多国语言字幕，跨越语言障碍。</p>
+</div>
+</li>
+<li class="flex items-start">
+<span class="material-symbols-outlined text-primary mr-3 mt-1">check_circle</span>
+<div>
+<h4 class="font-semibold text-gray-800 dark:text-gray-100">个性化推荐</h4>
+<p class="text-gray-600 dark:text-gray-400 text-base">根据您的观影喜好，推荐专属片单。</p>
+</div>
+</li>
+<li class="flex items-start">
+<span class="material-symbols-outlined text-primary mr-3 mt-1">check_circle</span>
+<div>
+<h4 class="font-semibold text-gray-800 dark:text-gray-100">纯净无广告</h4>
+<p class="text-gray-600 dark:text-gray-400 text-base">尊享会员服务，告别所有广告干扰。</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="bg-white dark:bg-gray-900">
+<div class="container mx-auto px-4 py-16 md:py-24 text-center">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                        立即下载，开启您的观影之旅
+                    </h2>
+<p class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400 mb-8">
+                       我们致力于提供最极致的下载与观影服务，您的满意是我们的最终追求。
+                    </p>
+<div class="flex justify-center items-center gap-4">
+<a class="bg-primary text-gray-900 px-8 py-4 rounded-lg font-bold text-lg flex items-center space-x-2 hover:opacity-90 transition-transform transform hover:scale-105 shadow-lg" href="#">
+<span class="material-symbols-outlined">qr_code_2</span>
+<span>扫码下载</span>
+</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-gray-800 dark:bg-black text-gray-400">
+<div class="container mx-auto px-4 py-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<div>
+<h4 class="font-semibold text-white mb-3">网站导航</h4>
+<ul>
+<li class="mb-2"><a class="hover:text-primary transition" href="#">首页</a></li>
+<li class="mb-2"><a class="hover:text-primary transition" href="#">最新电影</a></li>
+<li class="mb-2"><a class="hover:text-primary transition" href="#">热门剧集</a></li>
+<li class="mb-2"><a class="hover:text-primary transition" href="#">排行榜</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-semibold text-white mb-3">支持</h4>
+<ul>
+<li class="mb-2"><a class="hover:text-primary transition" href="#">帮助中心</a></li>
+<li class="mb-2"><a class="hover:text-primary transition" href="#">联系我们</a></li>
+<li class="mb-2"><a class="hover:text-primary transition" href="#">APP下载</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-semibold text-white mb-3">法律</h4>
+<ul>
+<li class="mb-2"><a class="hover:text-primary transition" href="#">服务条款</a></li>
+<li class="mb-2"><a class="hover:text-primary transition" href="#">隐私政策</a></li>
+<li class="mb-2"><a class="hover:text-primary transition" href="#">版权声明</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-semibold text-white mb-3">关注我们</h4>
+<div class="flex space-x-4">
+<a class="text-gray-400 hover:text-primary transition" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg>
+</a>
+<a class="text-gray-400 hover:text-primary transition" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12.001c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12.001C22 6.477 17.523 2 12 2z" fill-rule="evenodd"></path></svg>
+</a>
+</div>
+</div>
+</div>
+<div class="mt-8 border-t border-gray-700 pt-6 text-center text-sm">
+<p>© 2024 电影天堂. 保留所有权利. 本站只提供web页面服务,并不提供影片资源存储,也不参与录制、上传。</p>
+</div>
+</div>
+</footer>
+</div>
+
+</body></html>

@@ -1,0 +1,26 @@
+# Build outputs
+dist/
+build/
+coverage/
+
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+
+# Generated files
+*.generated.ts
+*.generated.js
+
+# HTML files that should not be formatted
+code.html
+**/code.html
+
+# Config files that have specific formatting
+.nyc_output
+
+# Documentation files
+*.md
+
+# Temporary files
+*.tmp
+*.temp

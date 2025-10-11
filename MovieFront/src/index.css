@@ -1,0 +1,247 @@
+@import '@radix-ui/themes/styles.css';
+
+/* === HarmonyOS Sans SC 字体声明 === */
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src: url('./assets/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Thin.ttf')
+    format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src: url('./assets/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Light.ttf')
+    format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src: url('./assets/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Regular.ttf')
+    format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src: url('./assets/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Medium.ttf')
+    format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src: url('./assets/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Bold.ttf')
+    format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src: url('./assets/fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Black.ttf')
+    format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* === Tailwind CSS === */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === 全局字体系统 === */
+@layer base {
+  /* 全局默认字体 */
+  html {
+    font-family:
+      'HarmonyOS Sans SC',
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      'Roboto',
+      sans-serif !important;
+  }
+
+  body {
+    font-family: inherit !important;
+  }
+
+  /* 确保所有文本元素都使用正确的字体 */
+  *,
+  *::before,
+  *::after {
+    font-family: inherit !important;
+  }
+}
+
+/* === 强制字体继承（覆盖第三方库样式） === */
+html,
+body,
+nav,
+header,
+footer,
+main,
+section,
+div,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+button,
+input,
+textarea,
+select {
+  font-family:
+    'HarmonyOS Sans SC',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Roboto',
+    sans-serif !important;
+}
+
+/* === 自定义字体工具类（按需使用） === */
+.font-harmony {
+  font-family: 'HarmonyOS Sans SC', system-ui, sans-serif;
+}
+
+/* === 自定义主题色变量 === */
+:root {
+  --primary-color: #6ee7b7;
+  --primary-dark: #059669;
+  --primary-hover: #87e8c0;
+}
+
+.dark {
+  --primary-color: #6ee7b7;
+  --primary-dark: #6ee7b7;
+  --primary-hover: #87e8c0;
+}
+
+/* === Icon组件样式支持 === */
+/* Logo图标颜色支持 - 使用自定义主题色 */
+div.flex.items-center svg.text-\[\#6EE7B7\] {
+  color: var(--primary-color) !important;
+}
+
+.dark div.flex.items-center svg.text-\[\#6EE7B7\] {
+  color: var(--primary-color) !important;
+}
+
+/* 确保Icon组件SVG继承正确的字体设置 */
+svg[class*='w-'] {
+  font-family: inherit !important;
+}
+
+/* === 全局链接样式规范 === */
+/* 基于claude.md规范，所有链接去除下划线，hover时显示主题色 - 修复完成 */
+.link-brand {
+  @apply text-sm font-medium text-gray-600 dark:text-gray-300;
+  @apply transition-colors duration-200;
+  color: var(--primary-color) !important;
+}
+
+.link-brand:hover {
+  color: var(--primary-hover) !important;
+  @apply no-underline;
+}
+
+/* 导航链接样式 */
+.link-nav {
+  @apply text-sm font-medium text-gray-700 dark:text-gray-200;
+  @apply transition-colors duration-200;
+  @apply hover:no-underline;
+}
+
+.link-nav:hover {
+  color: var(--primary-color) !important;
+}
+
+/* More链接样式 */
+.link-more {
+  @apply text-sm font-medium text-gray-600 dark:text-gray-300;
+  @apply transition-colors duration-200;
+  @apply focus:outline-none focus:ring-0 focus:ring-offset-0;
+}
+
+.link-more:hover {
+  color: var(--primary-color) !important;
+  @apply no-underline !important;
+}
+
+/* 全局a标签重置 - 确保所有链接默认无下划线 */
+a {
+  @apply no-underline;
+  @apply transition-colors duration-200;
+}
+
+a:hover {
+  @apply no-underline;
+}
+
+/* 针对具有特定颜色的链接，保持hover时的主题色效果 */
+a.text-green-600:hover {
+  color: var(--primary-hover) !important;
+}
+
+a.text-gray-600:hover,
+a.text-gray-12:hover,
+.dark a.text-gray-1:hover,
+.dark a.text-gray-2:hover {
+  color: var(--primary-color) !important;
+}
+
+/* 确保导航菜单中的hover效果使用主题色 */
+.group:hover .group-hover\:text-\[#6EE7B7\] {
+  color: var(--primary-color) !important;
+}
+
+.dark .group:hover .group-hover\:text-\[#6EE7B7\] {
+  color: var(--primary-color) !important;
+}
+
+/* 修复下拉菜单项hover背景色 */
+.dropdown-item:hover {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+/* 修复按钮背景色 */
+.btn-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover) !important;
+}
+
+/* 修复输入框focus样式 */
+input:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px var(--primary-color) !important;
+}
+
+/* 确保导航栏搜索框使用主题色 */
+input.w-48:focus {
+  border-color: var(--primary-color) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(110, 231, 183, 0.2) !important;
+}

@@ -1,0 +1,64 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Path mapping */
+    "baseUrl": ".",
+    "paths": {
+      // 根目录别名
+      "@/*": ["./src/*"],
+
+      // DDD架构主要层级别名
+      "@components/*": ["./src/presentation/components/*"],
+      "@pages/*": ["./src/presentation/pages/*"],
+      "@domain/*": ["./src/domain/*"],
+      "@application/*": ["./src/application/*"],
+      "@infrastructure/*": ["./src/infrastructure/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@tokens/*": ["./src/tokens/*"],
+      "@data/*": ["./src/data/*"],
+      "@types-movie/*": ["./src/types/*"],
+
+      // 高频使用的子目录别名（基于项目实际需求）
+      "@hooks/*": ["./src/hooks/*"],
+      "@application/hooks/*": ["./src/application/hooks/*"],
+      "@application/stores/*": ["./src/application/stores/*"],
+      "@application/services/*": ["./src/application/services/*"],
+      "@domain/services/*": ["./src/domain/services/*"],
+      "@domain/entities/*": ["./src/domain/entities/*"],
+      "@domain/value-objects/*": ["./src/domain/value-objects/*"],
+      "@domain/events/*": ["./src/domain/events/*"],
+      "@infrastructure/api/*": ["./src/infrastructure/api/*"],
+      "@infrastructure/repositories/*": ["./src/infrastructure/repositories/*"],
+      "@infrastructure/storage/*": ["./src/infrastructure/storage/*"],
+      "@presentation/router/*": ["./src/presentation/router/*"],
+      "@presentation/hooks/*": ["./src/presentation/hooks/*"],
+
+      // 静态资源别名
+      "@assets/*": ["./src/assets/*"],
+      "@fonts/*": ["./src/assets/fonts/*"],
+      "@images/*": ["./src/assets/images/*"],
+      "@icons/*": ["./src/assets/icons/*"]
+    }
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
