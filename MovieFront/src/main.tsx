@@ -8,7 +8,7 @@
  * @version 1.2.0
  */
 
-import App from '@src/App'
+import App from '@/App'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
