@@ -24,6 +24,7 @@ export interface MovieListLayoutProps {
     md?: number
     lg?: number
     xl?: number
+    xxl?: number
   }
   /** 自定义CSS类名 */
   className?: string
@@ -47,14 +48,15 @@ const MovieListLayout: React.FC<MovieListLayoutProps> = ({
     xs: 2,
     sm: 3,
     md: 4,
-    lg: 6,
-    xl: 6,
+    lg: 4,
+    xl: 5,
+    xxl: 6,
   }
 
   // 构建响应式网格类 - 严格遵循CLAUDE.md规范中的网格系统规范
   const gridClasses = cn(
     'gap-4 sm:gap-6 lg:gap-8',
-    `grid grid-cols-${effectiveColumns.xs} sm:grid-cols-${effectiveColumns.sm} md:grid-cols-${effectiveColumns.md} lg:grid-cols-${effectiveColumns.lg} xl:grid-cols-${effectiveColumns.xl}`
+    `grid grid-cols-${effectiveColumns.xs} sm:grid-cols-${effectiveColumns.sm} md:grid-cols-${effectiveColumns.md} lg:grid-cols-${effectiveColumns.lg} xl:grid-cols-${effectiveColumns.xl} xxl:grid-cols-${effectiveColumns.xxl}`
   )
 
   // 构建列表类

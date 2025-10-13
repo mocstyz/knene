@@ -13,8 +13,16 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
+  safelist: [
+    // 强制生成xxl断点的网格类
+    'xxl:grid-cols-6',
+  ],
   theme: {
     extend: {
+      // 自定义断点 - 添加1920px断点
+      screens: {
+        'xxl': '1920px',
+      },
       // 注意：主要颜色由Radix UI Themes提供 (accent-1 to accent-12, gray-1 to gray-12)
       // 此处仅保留必要的业务特定扩展
       colors: {

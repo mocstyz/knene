@@ -45,6 +45,7 @@ export interface LatestSectionProps {
     md?: number
     lg?: number
     xl?: number
+    xxl?: number
   }
   /** 是否显示评分 */
   showRating?: boolean
@@ -74,8 +75,9 @@ const LatestSection: React.FC<LatestSectionProps> = ({
     xs: 2,
     sm: 3,
     md: 4,
-    lg: 6,
-    xl: 6,
+    lg: 4,
+    xl: 5,
+    xxl: 6,
   },
   showRating = true,
   showQuality = true,
