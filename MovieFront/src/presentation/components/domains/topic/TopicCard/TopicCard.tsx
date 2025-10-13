@@ -48,7 +48,7 @@ const TopicCard: React.FC<TopicCardProps> = ({
   topic,
   onClick,
   className,
-  aspectRatio = 'square',
+  aspectRatio = 'portrait',
   showVipBadge = true,
   hoverEffect = true,
 }) => {
