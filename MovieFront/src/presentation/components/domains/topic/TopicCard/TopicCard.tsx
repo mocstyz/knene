@@ -23,6 +23,8 @@ export interface TopicCardProps {
     description?: string
     imageUrl: string
     alt?: string
+    isNew?: boolean
+    newType?: 'new' | 'update' | 'today' | 'latest'
   }
   /** 点击事件 */
   onClick?: () => void
@@ -93,8 +95,8 @@ const TopicCard: React.FC<TopicCardProps> = ({
       <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
         {/* New badge - top-left */}
         <NewBadgeLayer
-          isNew={true}
-          newType="new"
+          isNew={topic.isNew ?? true}
+          newType={topic.newType ?? 'new'}
           position="top-left"
           size="responsive"
           variant="default"

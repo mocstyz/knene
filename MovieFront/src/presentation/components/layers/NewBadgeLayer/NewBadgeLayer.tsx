@@ -90,8 +90,7 @@ const NewBadgeLayer: React.FC<NewBadgeLayerProps> = ({
     badgeLayerVariants.base,
     badgeLayerVariants.position[position],
     badgeLayerVariants.size[size],
-    // 添加红色背景样式，与其他标签保持一致的透明度
-    'bg-red-500/80 dark:bg-red-600/80 text-white dark:text-gray-100',
+    badgeLayerVariants.variant.new[_variant || 'default' as keyof typeof badgeLayerVariants.variant.new], // 使用Token系统替代硬编码
     // 动画效果
     animated && animationType === 'pulse' && 'animate-pulse',
     animated && animationType === 'bounce' && 'animate-bounce',

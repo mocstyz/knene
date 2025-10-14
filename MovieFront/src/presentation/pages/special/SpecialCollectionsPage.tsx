@@ -9,6 +9,17 @@ import { useImageService } from '@presentation/hooks/image'
 import React, { useState } from 'react'
 
 /**
+ * 配置化专题标题生成函数
+ * @param category 专题分类名称
+ * @param pageNum 页码
+ * @param itemIndex 当前页的项目索引
+ * @returns 格式化的专题标题
+ */
+const generateTopicTitle = (category: string, pageNum: number, itemIndex: number): string => {
+  return `${category} - 第${pageNum}页-${itemIndex + 1}`
+}
+
+/**
  * 生成专题数据的Hook
  * 使用配置化图片服务替换硬编码URL
  */
@@ -75,10 +86,12 @@ const useSpecialCollections = () => {
 
       topicsArray.push({
         id: `${i + 1}`,
-        title: `${categories[categoryIndex]} - 第${pageNum}页-${(i % 12) + 1}`,
+        title: generateTopicTitle(categories[categoryIndex], pageNum, i % 12), // 使用配置化函数
         imageUrl: getTopicCover(`collection${i}`, { width: 400, height: 500 }),
         description: descriptions[categoryIndex],
         type: 'Movie' as const,
+        isNew: true, // 添加new标识
+        newType: 'new' as const, // 添加new类型
       })
     }
 

@@ -22,6 +22,8 @@ export interface Topic {
   imageUrl: string
   description?: string
   type?: 'Movie' | 'TV Show' | 'Collection'
+  isNew?: boolean
+  newType?: 'new' | 'update' | 'today' | 'latest'
 }
 
 /**
