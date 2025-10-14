@@ -16,6 +16,15 @@ export default {
   safelist: [
     // 强制生成xxl断点的网格类
     'xxl:grid-cols-6',
+    // 强制生成group hover效果类
+    'group-hover:text-red-500',
+    'group-hover:text-primary',
+    'group-hover:text-blue-500',
+    'group-hover:text-green-500',
+    'group',
+    'duration-[200ms]',
+    'duration-[300ms]',
+    'duration-[150ms]',
   ],
   theme: {
     extend: {
@@ -258,6 +267,31 @@ export default {
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           backdropFilter: 'blur(10px)',
           border: '1px solid rgba(255, 255, 255, 0.1)',
+        },
+        // Group hover效果 - 使用!important强制应用
+        '.group:hover .group-hover\\:text-red-500': {
+          'color': '#ef4444 !important',
+          'transition-property': 'color',
+          'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
+          'transition-duration': '200ms',
+        },
+        '.group:hover .group-hover\\:text-primary': {
+          'color': '#6ee7b7 !important',
+          'transition-property': 'color',
+          'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
+          'transition-duration': '200ms',
+        },
+        '.group:hover .group-hover\\:text-blue-500': {
+          'color': '#3b82f6 !important',
+          'transition-property': 'color',
+          'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
+          'transition-duration': '200ms',
+        },
+        '.group:hover .group-hover\\:text-green-500': {
+          'color': '#22c55e !important',
+          'transition-property': 'color',
+          'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
+          'transition-duration': '200ms',
         },
       }
       addUtilities(newUtilities)

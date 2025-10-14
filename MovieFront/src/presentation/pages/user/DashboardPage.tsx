@@ -1,6 +1,7 @@
 import { useCurrentUser } from '@application/hooks'
 import { Button, Icon } from '@components/atoms'
 import { UserTemplate } from '@components/templates'
+import { formatDateShort, getStatusColor, getStatusText } from '@utils/formatters'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -86,40 +87,7 @@ const DashboardPage: React.FC = () => {
     )
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'downloading':
-        return 'text-blue-600'
-      case 'completed':
-        return 'text-green-600'
-      case 'paused':
-        return 'text-yellow-600'
-      default:
-        return 'text-gray-600'
-    }
-  }
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'downloading':
-        return '下载中'
-      case 'completed':
-        return '已完成'
-      case 'paused':
-        return '已暂停'
-      default:
-        return '未知'
-    }
-  }
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('zh-CN', {
-      month: 'short',
-      day: 'numeric',
-    })
-  }
-
+  
   const headerContent = (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -307,7 +275,7 @@ const DashboardPage: React.FC = () => {
                   <div className="rounded bg-black bg-opacity-75 px-2 py-1">
                     <div className="flex items-center justify-between text-xs text-white">
                       <span>{movie.progress}%</span>
-                      <span>{formatDate(movie.lastWatched)}</span>
+                      <span>{formatDateShort(movie.lastWatched)}</span>
                     </div>
                     <div className="mt-1 h-1 w-full rounded-full bg-gray-600">
                       <div

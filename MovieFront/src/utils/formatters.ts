@@ -289,3 +289,139 @@ export function formatRelativeTime(date: Date | number | string): string {
     return formatDate(dateObj)
   }
 }
+
+/**
+ * 格式化短日期（月日格式）
+ * @param date 日期对象或时间戳
+ * @returns 格式化后的短日期字符串（如"1月15日"）
+ */
+export function formatDateShort(date: Date | number | string): string {
+  const dateObj =
+    typeof date === 'number' || typeof date === 'string' ? new Date(date) : date
+
+  if (isNaN(dateObj.getTime())) {
+    return '无效日期'
+  }
+
+  return dateObj.toLocaleDateString('zh-CN', {
+    month: 'short',
+    day: 'numeric',
+  })
+}
+
+/**
+ * 生成随机评分
+ * @param min 最小值，默认5.0
+ * @param max 最大值，默认10.0
+ * @param precision 精度，默认1位小数
+ * @returns 随机评分字符串
+ */
+export function generateRandomRating(
+  min: number = 5.0,
+  max: number = 10.0,
+  precision: number = 1
+): string {
+  const rating = Math.random() * (max - min) + min
+  return rating.toFixed(precision)
+}
+
+/**
+ * 评分验证和格式化函数
+ * @param rating 评分值（数字或字符串）
+ * @returns 验证和格式化后的结果
+ */
+export function formatAndValidateRating(
+  rating: number | string
+): { isValid: boolean; displayText: string; numericValue?: number } {
+  // 处理字符串评分
+  if (typeof rating === 'string') {
+    // 去除空格并转为大写
+    const cleanRating = rating.trim().toUpperCase()
+
+    // 处理特殊评分文本
+    if (
+      cleanRating === 'NC-17' ||
+      cleanRating === 'NR' ||
+      cleanRating === 'NOT RATED'
+    ) {
+      return { isValid: true, displayText: cleanRating }
+    }
+
+    // 尝试提取数字部分
+    const numericMatch = cleanRating.match(/(\d+\.?\d*)/)
+    if (numericMatch) {
+      const numValue = parseFloat(numericMatch[1])
+      return {
+        isValid: true,
+        displayText: rating,
+        numericValue: numValue,
+      }
+    }
+
+    // 其他字符串评分（如"A"、"B+"等）
+    return { isValid: true, displayText: rating }
+  }
+
+  // 处理数字评分
+  if (typeof rating === 'number') {
+    if (isNaN(rating) || rating < 0) {
+      return { isValid: false, displayText: '', numericValue: 0 }
+    }
+
+    // 限制评分范围在0-10之间
+    const clampedRating = Math.min(Math.max(rating, 0), 10)
+    return {
+      isValid: true,
+      displayText: formatRating(clampedRating),
+      numericValue: clampedRating,
+    }
+  }
+
+  return { isValid: false, displayText: '', numericValue: 0 }
+}
+
+/**
+ * 获取状态颜色类名
+ * @param status 状态字符串
+ * @returns Tailwind CSS颜色类名
+ */
+export function getStatusColor(status: string): string {
+  switch (status) {
+    case 'downloading':
+      return 'text-blue-600'
+    case 'completed':
+      return 'text-green-600'
+    case 'paused':
+      return 'text-yellow-600'
+    case 'failed':
+      return 'text-red-600'
+    case 'pending':
+      return 'text-gray-600'
+    default:
+      return 'text-gray-600'
+  }
+}
+
+/**
+ * 获取状态文本
+ * @param status 状态字符串
+ * @returns 状态的中文名称
+ */
+export function getStatusText(status: string): string {
+  switch (status) {
+    case 'downloading':
+      return '下载中'
+    case 'completed':
+      return '已完成'
+    case 'paused':
+      return '已暂停'
+    case 'failed':
+      return '下载失败'
+    case 'pending':
+      return '等待中'
+    case 'cancelled':
+      return '已取消'
+    default:
+      return '未知状态'
+  }
+}

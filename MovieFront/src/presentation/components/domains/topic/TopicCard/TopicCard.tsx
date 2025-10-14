@@ -125,6 +125,11 @@ const TopicCard: React.FC<TopicCardProps> = ({
         contentPosition="bottom-left"
         showGradient={true}
         gradientIntensity="medium"
+        hoverEffect={{
+          enabled: true,
+          hoverColor: 'red',
+          transitionDuration: '200ms'
+        }}
       />
     </div>
   )

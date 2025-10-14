@@ -1,4 +1,5 @@
 import { Avatar, Button, Icon, Badge } from '@components/atoms'
+import { formatDate, formatNumber } from '@utils/formatters'
 import { cn } from '@utils/cn'
 import React, { useState } from 'react'
 
@@ -140,7 +141,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
             <div className="flex items-center gap-4 text-sm text-gray-500">
               <span className="flex items-center gap-1">
                 <Icon name="calendar" size="sm" />
-                加入于 {new Date(user.joinDate).toLocaleDateString()}
+                加入于 {formatDate(user.joinDate)}
               </span>
               {user.isOnline && (
                 <span className="flex items-center gap-1 text-green-600">
@@ -157,13 +158,13 @@ const UserProfile: React.FC<UserProfileProps> = ({
           <div className="mb-6 grid grid-cols-2 gap-4">
             <div className="rounded-lg bg-gray-50 p-4 text-center">
               <div className="mb-1 text-2xl font-bold text-gray-900">
-                {user.downloadCount.toLocaleString()}
+                {formatNumber(user.downloadCount)}
               </div>
               <div className="text-sm text-gray-500">下载次数</div>
             </div>
             <div className="rounded-lg bg-gray-50 p-4 text-center">
               <div className="mb-1 text-2xl font-bold text-gray-900">
-                {user.favoriteCount.toLocaleString()}
+                {formatNumber(user.favoriteCount)}
               </div>
               <div className="text-sm text-gray-500">收藏影片</div>
             </div>

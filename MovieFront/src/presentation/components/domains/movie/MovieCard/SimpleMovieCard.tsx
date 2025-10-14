@@ -44,6 +44,15 @@ export interface SimpleMovieCardProps {
   newBadgeType?: 'new' | 'update' | 'today' | 'latest'
   /** 点击回调 */
   onClick?: (movie: any) => void
+  /** 副标题hover效果配置 */
+  subtitleHoverEffect?: {
+    /** 是否启用hover效果 */
+    enabled?: boolean
+    /** hover时的颜色 */
+    hoverColor?: 'red' | 'primary' | 'blue' | 'green'
+    /** 过渡动画时长 */
+    transitionDuration?: string
+  }
 }
 
 /**
@@ -64,6 +73,7 @@ const SimpleMovieCard: React.FC<SimpleMovieCardProps> = ({
   showNewBadge = true,
   newBadgeType = 'new',
   onClick,
+  subtitleHoverEffect = { enabled: true, hoverColor: 'red', transitionDuration: '200ms' },
 }) => {
   return (
     <div
@@ -84,7 +94,13 @@ const SimpleMovieCard: React.FC<SimpleMovieCardProps> = ({
           alt: movie.alt,
         }}
         ratingColor={ratingColor}
-        hoverEffect={hoverEffect}
+        imageHoverEffect={hoverEffect}
+        titleHoverEffect={{
+          enabled: true,
+          hoverColor: 'red',
+          transitionDuration: '200ms'
+        }}
+        subtitleHoverEffect={subtitleHoverEffect}
         showVipBadge={showVipBadge}
         showRatingBadge={showRatingBadge}
         showQualityBadge={showQualityBadge}

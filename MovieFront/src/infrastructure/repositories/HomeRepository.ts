@@ -9,6 +9,7 @@
  */
 
 import { MOVIE_ENDPOINTS } from '@infrastructure/api/endpoints'
+import { generateRandomRating } from '@utils/formatters'
 
 /**
  * 简单电影项目接口（与MovieList组件保持一致）
@@ -277,7 +278,7 @@ export class HomeRepository implements IHomeRepository {
       id: movie.id || movie._id,
       title: movie.title || movie.name,
       type: movie.type === 'series' ? 'TV Show' : 'Movie',
-      rating: movie.rating?.toString() || this.generateRandomRating(),
+      rating: movie.rating?.toString() || generateRandomRating(),
       imageUrl: movie.poster || movie.imageUrl || movie.coverImage,
       ratingColor: this.getRatingColor(movie.rating),
       quality: movie.quality || this.getRandomQuality(),
@@ -298,13 +299,7 @@ export class HomeRepository implements IHomeRepository {
     return 'white'
   }
 
-  /**
-   * 生成随机评分（作为fallback）
-   */
-  private generateRandomRating(): string {
-    return (Math.random() * 5 + 5).toFixed(1)
-  }
-
+  
   /**
    * 获取随机质量（作为fallback）
    */

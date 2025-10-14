@@ -16,6 +16,7 @@ import {
   TitleLayer,
   VipBadgeLayer,
 } from '@components/layers'
+import { cn } from '@utils/cn'
 import React from 'react'
 
 /**
@@ -46,8 +47,26 @@ export interface SimpleMovieLayerProps {
   showNewBadge?: boolean
   /** 新片类型 */
   newBadgeType?: 'new' | 'update' | 'today' | 'latest'
-  /** 是否支持悬停效果 */
-  hoverEffect?: boolean
+  /** 是否支持图片悬停效果 */
+  imageHoverEffect?: boolean
+  /** 标题hover效果配置 */
+  titleHoverEffect?: {
+    /** 是否启用hover效果 */
+    enabled?: boolean
+    /** hover时的颜色 */
+    hoverColor?: 'red' | 'primary' | 'blue' | 'green'
+    /** 过渡动画时长 */
+    transitionDuration?: string
+  }
+  /** 副标题hover效果配置 */
+  subtitleHoverEffect?: {
+    /** 是否启用hover效果 */
+    enabled?: boolean
+    /** hover时的颜色 */
+    hoverColor?: 'red' | 'primary' | 'blue' | 'green'
+    /** 过渡动画时长 */
+    transitionDuration?: string
+  }
 }
 
 /**
@@ -65,7 +84,9 @@ const SimpleMovieLayer: React.FC<SimpleMovieLayerProps> = ({
   qualityText,
   showNewBadge = false,
   newBadgeType = 'new',
-  hoverEffect = true,
+  imageHoverEffect = true,
+  titleHoverEffect = { enabled: true, hoverColor: 'red', transitionDuration: '200ms' },
+  subtitleHoverEffect = { enabled: true, hoverColor: 'red', transitionDuration: '200ms' },
 }) => {
   // 评分颜色映射 - 使用组件变体Token系统
   const getRatingTextColor = () => {
@@ -90,7 +111,7 @@ const SimpleMovieLayer: React.FC<SimpleMovieLayerProps> = ({
           alt={movie.alt || `${movie.title} ${movie.type} poster`}
           aspectRatio="custom"
           objectFit="cover"
-          hoverScale={hoverEffect}
+          hoverScale={imageHoverEffect}
           fallbackType="gradient"
         />
 
@@ -153,10 +174,17 @@ const SimpleMovieLayer: React.FC<SimpleMovieLayerProps> = ({
           maxLines={1}
           color="primary"
           weight="semibold"
+          hoverEffect={titleHoverEffect}
         />
 
         {/* 类型 */}
-        <p className="text-xs text-gray-500 dark:text-gray-400">{movie.type}</p>
+        <p className={cn(
+          'text-xs text-gray-500 dark:text-gray-400 transition-colors',
+          subtitleHoverEffect?.enabled && 'duration-[200ms]',
+          subtitleHoverEffect?.enabled && 'group-hover:text-red-500'
+        )}>
+          {movie.type}
+        </p>
       </div>
     </div>
   )

@@ -13,6 +13,7 @@ import {
   type HomeDataResponse,
   type HomeDataParams,
 } from '@infrastructure/repositories/HomeRepository'
+import { generateRandomRating } from '@utils/formatters'
 
 /**
  * 首页应用服务类
@@ -224,7 +225,7 @@ export class HomeApplicationService {
         id: 'photo-1',
         title: 'The Midnight Bloom',
         type: 'Movie' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'photo-1',
         ratingColor: this.generateRandomRatingColor(),
         quality: '4K HDR',
@@ -235,7 +236,7 @@ export class HomeApplicationService {
         id: 'photo-2',
         title: 'Echoes of the Past',
         type: 'Movie' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: '/src/assets/images/heroes/0034.jpg',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'HD',
@@ -246,7 +247,7 @@ export class HomeApplicationService {
         id: 'photo-3',
         title: 'Starlight Symphony',
         type: 'TV Show' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'photo-3',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'Dolby Vision',
@@ -257,7 +258,7 @@ export class HomeApplicationService {
         id: 'photo-4',
         title: 'Crimson Tide',
         type: 'Movie' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'photo-4',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'SD',
@@ -268,7 +269,7 @@ export class HomeApplicationService {
         id: 'photo-5',
         title: 'Whispers of the Wind',
         type: 'Movie' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: '/src/assets/images/heroes/0056.png',
         ratingColor: this.generateRandomRatingColor(),
         quality: '4K',
@@ -279,7 +280,7 @@ export class HomeApplicationService {
         id: 'photo-6',
         title: 'Eternal Horizon',
         type: 'TV Show' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'photo-6',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'IMAX',
@@ -298,7 +299,7 @@ export class HomeApplicationService {
         id: 'latest-1',
         title: 'Shadows of Destiny',
         type: 'Movie' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'latest-1',
         ratingColor: this.generateRandomRatingColor(),
         quality: '4K HDR',
@@ -310,7 +311,7 @@ export class HomeApplicationService {
         id: 'latest-2',
         title: 'Celestial Dance',
         type: 'Movie' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'latest-2',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'HD',
@@ -322,7 +323,7 @@ export class HomeApplicationService {
         id: 'latest-3',
         title: 'Lost in Translation',
         type: 'TV Show' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'latest-3',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'Dolby Vision',
@@ -334,7 +335,7 @@ export class HomeApplicationService {
         id: 'latest-4',
         title: 'The Silent Witness',
         type: 'Movie' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'latest-4',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'HD',
@@ -346,7 +347,7 @@ export class HomeApplicationService {
         id: 'latest-5',
         title: 'Beneath the Surface',
         type: 'Movie' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'latest-5',
         ratingColor: this.generateRandomRatingColor(),
         quality: '4K',
@@ -358,7 +359,7 @@ export class HomeApplicationService {
         id: 'latest-6',
         title: 'Echo Chamber',
         type: 'TV Show' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'latest-6',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'IMAX',
@@ -378,7 +379,7 @@ export class HomeApplicationService {
         id: 'top-1',
         title: 'Crimson Tide',
         type: 'Movie' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'top-1',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'SD',
@@ -390,7 +391,7 @@ export class HomeApplicationService {
         id: 'top-2',
         title: 'Celestial Dance',
         type: 'Movie' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'top-2',
         ratingColor: this.generateRandomRatingColor(),
         quality: '4K HDR',
@@ -402,7 +403,7 @@ export class HomeApplicationService {
         id: 'top-3',
         title: 'Eternal Horizon',
         type: 'TV Show' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'top-3',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'Dolby Vision',
@@ -414,7 +415,7 @@ export class HomeApplicationService {
         id: 'top-4',
         title: 'Echoes of the Past',
         type: 'Movie' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'top-4',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'HD',
@@ -426,7 +427,7 @@ export class HomeApplicationService {
         id: 'top-5',
         title: 'Starlight Symphony',
         type: 'TV Show' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'top-5',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'Dolby Vision',
@@ -438,7 +439,7 @@ export class HomeApplicationService {
         id: 'top-6',
         title: 'The Midnight Bloom',
         type: 'Movie' as const,
-        rating: this.generateRandomRating(),
+        rating: generateRandomRating(),
         imageUrl: 'top-6',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'HD',
@@ -449,13 +450,7 @@ export class HomeApplicationService {
     ]
   }
 
-  /**
-   * 生成随机评分
-   */
-  private generateRandomRating(): string {
-    return (Math.random() * 5 + 5).toFixed(1)
-  }
-
+  
   /**
    * 生成随机评分颜色
    */

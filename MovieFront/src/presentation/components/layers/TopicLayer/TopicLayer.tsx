@@ -34,6 +34,15 @@ export interface TopicLayerProps {
   gradientIntensity?: 'light' | 'medium' | 'strong'
   /** 点击事件处理 */
   onClick?: (id: string) => void
+  /** hover效果配置 */
+  hoverEffect?: {
+    /** 是否启用hover效果 */
+    enabled?: boolean
+    /** hover时的颜色 */
+    hoverColor?: 'red' | 'primary' | 'blue' | 'green'
+    /** 过渡动画时长 */
+    transitionDuration?: string
+  }
 }
 
 /**
@@ -48,6 +57,7 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
   showGradient = true,
   gradientIntensity = 'medium',
   onClick,
+  hoverEffect,
 }) => {
   // 内容位置样式映射
   const positionClasses = {
@@ -105,13 +115,16 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
             weight="bold"
             clickable={!!onClick}
             onClick={handleClick}
+            hoverEffect={hoverEffect}
           />
         </div>
 
         {topic.description && (
           <div
             className={cn(
-              'mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-gray-200',
+              'mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-gray-200 transition-colors',
+              hoverEffect?.enabled && 'duration-[200ms]',
+              hoverEffect?.enabled && 'group-hover:text-red-500',
               titleWidthClasses[contentPosition]
             )}
           >

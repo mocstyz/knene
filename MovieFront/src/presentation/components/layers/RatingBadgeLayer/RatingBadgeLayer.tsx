@@ -16,61 +16,9 @@ import {
   type BadgeLayerRatingColor,
 } from '@tokens/design-system'
 import { cn } from '@utils/cn'
-import { formatRating } from '@utils/formatters'
+import { formatAndValidateRating } from '@utils/formatters'
 import React from 'react'
 
-/**
- * 评分验证和格式化函数
- */
-const formatAndValidateRating = (
-  rating: number | string
-): { isValid: boolean; displayText: string; numericValue?: number } => {
-  // 处理字符串评分
-  if (typeof rating === 'string') {
-    // 去除空格并转为大写
-    const cleanRating = rating.trim().toUpperCase()
-
-    // 处理特殊评分文本
-    if (
-      cleanRating === 'NC-17' ||
-      cleanRating === 'NR' ||
-      cleanRating === 'NOT RATED'
-    ) {
-      return { isValid: true, displayText: cleanRating }
-    }
-
-    // 尝试提取数字部分
-    const numericMatch = cleanRating.match(/(\d+\.?\d*)/)
-    if (numericMatch) {
-      const numValue = parseFloat(numericMatch[1])
-      return {
-        isValid: true,
-        displayText: rating,
-        numericValue: numValue,
-      }
-    }
-
-    // 其他字符串评分（如"A"、"B+"等）
-    return { isValid: true, displayText: rating }
-  }
-
-  // 处理数字评分
-  if (typeof rating === 'number') {
-    if (isNaN(rating) || rating < 0) {
-      return { isValid: false, displayText: '', numericValue: 0 }
-    }
-
-    // 限制评分范围在0-10之间
-    const clampedRating = Math.min(Math.max(rating, 0), 10)
-    return {
-      isValid: true,
-      displayText: formatRating(clampedRating),
-      numericValue: clampedRating,
-    }
-  }
-
-  return { isValid: false, displayText: '', numericValue: 0 }
-}
 
 /**
  * 获取评分颜色样式函数 - 使用组件变体Token系统

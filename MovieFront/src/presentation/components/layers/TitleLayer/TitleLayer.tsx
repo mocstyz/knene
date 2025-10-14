@@ -47,6 +47,15 @@ export interface TitleLayerProps {
   onClick?: () => void
   /** 是否显示渐变遮罩 */
   showGradient?: boolean
+  /** hover效果配置 */
+  hoverEffect?: {
+    /** 是否启用hover效果 */
+    enabled?: boolean
+    /** hover时的颜色 */
+    hoverColor?: 'red' | 'primary' | 'blue' | 'green'
+    /** 过渡动画时长 */
+    transitionDuration?: string
+  }
 }
 
 /**
@@ -67,6 +76,7 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
   clickable = false,
   onClick,
   showGradient = false,
+  hoverEffect = { enabled: false, hoverColor: 'red', transitionDuration: '200ms' },
 }) => {
   // 字体粗细样式映射
   const weightClasses = {
@@ -144,8 +154,30 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
 
   // 可点击样式
   const clickableClasses = clickable
-    ? 'cursor-pointer transition-colors duration-200 hover:text-primary'
+    ? 'cursor-pointer transition-colors duration-200'
     : ''
+
+  // hover效果样式 - 支持父容器hover
+  const getHoverClasses = () => {
+    if (!hoverEffect?.enabled) return ''
+
+    const durationClass = hoverEffect.transitionDuration
+      ? `duration-[${hoverEffect.transitionDuration}]`
+      : 'duration-200'
+
+    switch (hoverEffect.hoverColor) {
+      case 'red':
+        return `transition-colors ${durationClass} group-hover:text-red-500`
+      case 'primary':
+        return `transition-colors ${durationClass} group-hover:text-primary`
+      case 'blue':
+        return `transition-colors ${durationClass} group-hover:text-blue-500`
+      case 'green':
+        return `transition-colors ${durationClass} group-hover:text-green-500`
+      default:
+        return `transition-colors ${durationClass} group-hover:text-red-500`
+    }
+  }
 
   // 组合CSS类名
   const titleClasses = cn(
@@ -156,6 +188,7 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
     getColorClasses(),
     truncateClasses[maxLines],
     clickableClasses,
+    getHoverClasses(),
     className
   )
 
