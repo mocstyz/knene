@@ -8,10 +8,11 @@
  * @version 1.0.0
  */
 
-import { MovieList, type SimpleMovieItem } from '@components/domains'
-import type { PhotoItem as BasePhotoItem } from '@types-movie/movie.types'
-import { cn } from '@utils/cn'
 import React from 'react'
+import { cn } from '@utils/cn'
+import { TextLink } from '@components/atoms'
+import { MovieList } from '@components/domains'
+import type { PhotoItem as BasePhotoItem } from '@types-movie/movie.types'
 
 /**
  * 写真项目接口 - 扩展基础接口
@@ -88,12 +89,9 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">写真</h2>
         {showMoreLink && (
-          <a
-            href={moreLinkUrl}
-            className="text-primary transition-colors hover:underline"
-          >
+          <TextLink href={moreLinkUrl} variant="primary" size="sm">
             {moreLinkText}
-          </a>
+          </TextLink>
         )}
       </div>
 
@@ -106,7 +104,7 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({
         columns={columns}
         onMovieClick={
           onPhotoClick
-            ? (item: SimpleMovieItem) => onPhotoClick(item as PhotoItem)
+            ? (item: BasePhotoItem) => onPhotoClick(item as PhotoItem)
             : undefined
         }
         cardConfig={{

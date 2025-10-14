@@ -231,12 +231,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
       {/* 背景遮罩 - 只在移动端显示 */}
       <div
         ref={backdropRef}
-        className={`
-          fixed inset-0 z-50 bg-black/50 backdrop-blur-sm
-          transition-opacity duration-200 ease-in-out
-          ${isOpen ? 'opacity-100' : 'opacity-0'}
-          lg:hidden
-        `}
+        className={`fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity duration-200 ease-in-out ${isOpen ? 'opacity-100' : 'opacity-0'} lg:hidden`}
         onClick={handleBackdropClick}
         aria-hidden="true"
       />
@@ -245,14 +240,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
       <div
         ref={drawerRef}
         id="mobile-navigation-menu"
-        className={`
-          fixed right-0 top-0 z-50 h-full w-80 max-w-[85vw]
-          transform bg-white shadow-2xl
-          transition-transform duration-300 ease-out dark:bg-gray-900
-          ${isOpen ? 'translate-x-0' : 'translate-x-full'}
-          ${className}
-          lg:hidden
-        `}
+        className={`fixed right-0 top-0 z-50 h-full w-80 max-w-[85vw] transform bg-white shadow-2xl transition-transform duration-300 ease-out dark:bg-gray-900 ${isOpen ? 'translate-x-0' : 'translate-x-full'} ${className} lg:hidden`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="mobile-nav-title"

@@ -15,38 +15,79 @@
   </head>
   <body>
     <div
-      class="relative flex h-auto min-h-screen w-full flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden"
-      style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'
+      class="group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-[#f8fbfa]"
+      style="font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif"
     >
       <div class="layout-container flex h-full grow flex-col">
-        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3">
+        <header
+          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3"
+        >
           <div class="flex items-center gap-8">
             <div class="flex items-center gap-4 text-[#0e1b14]">
               <div class="size-4">
-                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor"></path>
+                <svg
+                  viewBox="0 0 48 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z"
+                    fill="currentColor"
+                  ></path>
                 </svg>
               </div>
-              <h2 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em]">Streamr</h2>
+              <h2
+                class="text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
+              >
+                Streamr
+              </h2>
             </div>
             <div class="flex items-center gap-9">
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Home</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Movies</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">TV Shows</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Genres</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">My List</a>
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Home</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Movies</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >TV Shows</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Genres</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >My List</a
+              >
             </div>
           </div>
           <div class="flex flex-1 justify-end gap-8">
-            <label class="flex flex-col min-w-40 !h-10 max-w-64">
-              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+            <label class="flex !h-10 min-w-40 max-w-64 flex-col">
+              <div class="flex h-full w-full flex-1 items-stretch rounded-lg">
                 <div
-                  class="text-[#509573] flex border-none bg-[#e8f3ed] items-center justify-center pl-4 rounded-l-lg border-r-0"
+                  class="flex items-center justify-center rounded-l-lg border-r-0 border-none bg-[#e8f3ed] pl-4 text-[#509573]"
                   data-icon="MagnifyingGlass"
                   data-size="24px"
                   data-weight="regular"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24px"
+                    height="24px"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                  >
                     <path
                       d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
                     ></path>
@@ -54,16 +95,27 @@
                 </div>
                 <input
                   placeholder="Search"
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-full placeholder:text-[#509573] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                  class="form-input flex h-full w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none border-l-0 border-none bg-[#e8f3ed] px-4 pl-2 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
                   value=""
                 />
               </div>
             </label>
             <button
-              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#e8f3ed] text-[#0e1b14] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+              class="flex h-10 min-w-0 max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-[#e8f3ed] px-2.5 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
             >
-              <div class="text-[#0e1b14]" data-icon="Bell" data-size="20px" data-weight="regular">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <div
+                class="text-[#0e1b14]"
+                data-icon="Bell"
+                data-size="20px"
+                data-weight="regular"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20px"
+                  height="20px"
+                  fill="currentColor"
+                  viewBox="0 0 256 256"
+                >
                   <path
                     d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"
                   ></path>
@@ -71,117 +123,223 @@
               </div>
             </button>
             <div
-              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwxeHJdCCbbn7u55KQNrPxIazZXeTSvVPCF_H3Jt-DUc82BVIUcZXnIJwD_wYNoPrKks7P9Xju9C45JunvuSV2nnSUlE_Ye6QfTXxFNFC9rsFNdXAkKpswwCo_ZYiokW3gSIVGpEKdH-p2-OBPX0bdij1gB8Mhz_ughd-vFlrG1aJM4OoHrYtFysab15G6A78-7haEeOv-etWNcCAhIKovayWzAsoNvWSeHm9frhuDjkF5EV3FCELoY6DXfX92Q1k17UQxHGhhavT1");'
+              class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat"
+              style="
+                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDwxeHJdCCbbn7u55KQNrPxIazZXeTSvVPCF_H3Jt-DUc82BVIUcZXnIJwD_wYNoPrKks7P9Xju9C45JunvuSV2nnSUlE_Ye6QfTXxFNFC9rsFNdXAkKpswwCo_ZYiokW3gSIVGpEKdH-p2-OBPX0bdij1gB8Mhz_ughd-vFlrG1aJM4OoHrYtFysab15G6A78-7haEeOv-etWNcCAhIKovayWzAsoNvWSeHm9frhuDjkF5EV3FCELoY6DXfX92Q1k17UQxHGhhavT1');
+              "
             ></div>
           </div>
         </header>
-        <div class="px-40 flex flex-1 justify-center py-5">
-          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-            <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-[#0e1b14] tracking-light text-[32px] font-bold leading-tight min-w-72">Action Movies</p></div>
-            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+        <div class="flex flex-1 justify-center px-40 py-5">
+          <div
+            class="layout-content-container flex max-w-[960px] flex-1 flex-col"
+          >
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <p
+                class="tracking-light min-w-72 text-[32px] font-bold leading-tight text-[#0e1b14]"
+              >
+                Action Movies
+              </p>
+            </div>
+            <div
+              class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4"
+            >
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBgiapuEIB6NhDI55UlIMWopTVhRwP4XrNZg83ZFJL8_-70zId-iYZZyf07DGyh50eWXp8rCfDQV8FOJcIgs_vcW15F6DFVl787C6PTe80GLbx2UOjqHA8hydkV3C5169bJfRzVmmv-yioh6okVhPnNjpY91DbqeoRHVKfVj0HwqCdE9UDTqRN6bTerV-wFfT2-4CVWZHLlvhYVyxSxv-vCYIOTo44OGlIOGMG3nZacI34Y1Q6jSKRgRu4f99CNwweM4h-cqPs2YsAs");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBgiapuEIB6NhDI55UlIMWopTVhRwP4XrNZg83ZFJL8_-70zId-iYZZyf07DGyh50eWXp8rCfDQV8FOJcIgs_vcW15F6DFVl787C6PTe80GLbx2UOjqHA8hydkV3C5169bJfRzVmmv-yioh6okVhPnNjpY91DbqeoRHVKfVj0HwqCdE9UDTqRN6bTerV-wFfT2-4CVWZHLlvhYVyxSxv-vCYIOTo44OGlIOGMG3nZacI34Y1Q6jSKRgRu4f99CNwweM4h-cqPs2YsAs');
+                  "
                 ></div>
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">The Last Stand</p>
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  The Last Stand
+                </p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB_MVBWm_hBTQamQP1m2ammJOwvqPIQcxcV99iAr6NbH--9KCfuPVK0gIxzQkNI0sOBOcHQ9zdbjeCday5FHD4opMOYpzzM4J_75PZyYRCEi6ORl3CgKPQkwa9YggsIDrNj4c0CY3n8CC1toygzZJLGOD3n84zZDaw5UjUI4YujLHun-AxR5WSThz5eDU_t2ALEY9D2dLvIGNnoaE7V2gwJ5emLc650nN442J0sEK8qbKO_8kDd-FM4gKElIgoq7vvAyaDKbUCdNHAs");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_MVBWm_hBTQamQP1m2ammJOwvqPIQcxcV99iAr6NbH--9KCfuPVK0gIxzQkNI0sOBOcHQ9zdbjeCday5FHD4opMOYpzzM4J_75PZyYRCEi6ORl3CgKPQkwa9YggsIDrNj4c0CY3n8CC1toygzZJLGOD3n84zZDaw5UjUI4YujLHun-AxR5WSThz5eDU_t2ALEY9D2dLvIGNnoaE7V2gwJ5emLc650nN442J0sEK8qbKO_8kDd-FM4gKElIgoq7vvAyaDKbUCdNHAs');
+                  "
                 ></div>
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">City of Shadows</p>
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  City of Shadows
+                </p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDRs73F1p4seVL3eSg1_AOSV7cRXxnVz0cItbYOLayoXhgYOpga6uxC3wiWeRQbXt1ttuQUQjA8vgT1T7pauHIFGW58F5hhLYbd49ZloVxuwz5W8w7mYYDSAFYhyXZXdxVt1hy-pKwXi9ZeWkAXovjDyZ7blXUNnmfUF4u6hBLsOCaHUsT9VSJsMhjnCbga6mOH8W4x7AL6wqgqTIRl2X7v9Q3euCJziSNMG5LpqtEzwz4dcYie9c_8-Jxu8mOMtAjN8fUpUhgyocVT");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDRs73F1p4seVL3eSg1_AOSV7cRXxnVz0cItbYOLayoXhgYOpga6uxC3wiWeRQbXt1ttuQUQjA8vgT1T7pauHIFGW58F5hhLYbd49ZloVxuwz5W8w7mYYDSAFYhyXZXdxVt1hy-pKwXi9ZeWkAXovjDyZ7blXUNnmfUF4u6hBLsOCaHUsT9VSJsMhjnCbga6mOH8W4x7AL6wqgqTIRl2X7v9Q3euCJziSNMG5LpqtEzwz4dcYie9c_8-Jxu8mOMtAjN8fUpUhgyocVT');
+                  "
                 ></div>
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">The Silent Witness</p>
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  The Silent Witness
+                </p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDfpyWs7rvVf77KDHyFKW6upzMLaptRov22t-4aETlISjCgWe2ZCvGdQJ4EGZmrPwjwmAhx_odSDAihS5VjoslkYnNSmIoPzeGABIXIWjpiCi4_P8JmbC_d3yOXuM5nSIfYQ9Qhs2uwxh8eEIIUWmvY118W6coDF2Cc_qJyERgP1z9tfNXM8WpARVktn3_zVS_9RYDSqWQioudUXzCYToGbwkE2FjLl8_oZIe2pG9Ee0DcAvqzmxfWjUhzRW_AtsaJ3gyn3ZwoErNFp");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDfpyWs7rvVf77KDHyFKW6upzMLaptRov22t-4aETlISjCgWe2ZCvGdQJ4EGZmrPwjwmAhx_odSDAihS5VjoslkYnNSmIoPzeGABIXIWjpiCi4_P8JmbC_d3yOXuM5nSIfYQ9Qhs2uwxh8eEIIUWmvY118W6coDF2Cc_qJyERgP1z9tfNXM8WpARVktn3_zVS_9RYDSqWQioudUXzCYToGbwkE2FjLl8_oZIe2pG9Ee0DcAvqzmxfWjUhzRW_AtsaJ3gyn3ZwoErNFp');
+                  "
                 ></div>
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Echoes of the Past</p>
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Echoes of the Past
+                </p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCKa0Gchp2Tll2y92betb7WOPnfjlJ7sh5qBo4ODRglJ_D6cCkRe7yikZx8hOOAzwCybmj1wJIro8hb5IITgcByfl8En-_Hb0FMFxzpQW15d9fAZreLP-uN6L69iIeUWJSO5LALLI1OX3i9gzby7weLetHVZrWeLg7xhlHV77uc6mOzXAdJGKCYH8CEz3zA7c3Ejbt_A_5bvwKCk7YEhMKOeikV52RJPueWps-EJpOPAAsyfj39f6mUMQTWVuom0dlXhiRDz7foo8EK");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCKa0Gchp2Tll2y92betb7WOPnfjlJ7sh5qBo4ODRglJ_D6cCkRe7yikZx8hOOAzwCybmj1wJIro8hb5IITgcByfl8En-_Hb0FMFxzpQW15d9fAZreLP-uN6L69iIeUWJSO5LALLI1OX3i9gzby7weLetHVZrWeLg7xhlHV77uc6mOzXAdJGKCYH8CEz3zA7c3Ejbt_A_5bvwKCk7YEhMKOeikV52RJPueWps-EJpOPAAsyfj39f6mUMQTWVuom0dlXhiRDz7foo8EK');
+                  "
                 ></div>
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">The Crimson Tide</p>
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  The Crimson Tide
+                </p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA0VAD4n98Ct5CMUH6EmtLh3FIxJIpN_IAPDK2dQmbUqzuhhcDrJNgGPhr17u8W0ygdJOVbX8NCbSnCbrzk2LTMlhMSwg8hC8FmXeNR-Q4j2dCcWRC_13XFdrGa3M-6_5sRtX6ZFZijN8NHYk1EEoBBYT5v6KHDGXN7qgmRaUT0SJXiyXwfNbLYv3t6pGJo3KqTUClkNti24Esb5w9Bcpai1MhzQ3l9v7qA_luesS-jN8dsZGOrOO3xRP9ly4ljCO7yA7Oq6Hi3wroz");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA0VAD4n98Ct5CMUH6EmtLh3FIxJIpN_IAPDK2dQmbUqzuhhcDrJNgGPhr17u8W0ygdJOVbX8NCbSnCbrzk2LTMlhMSwg8hC8FmXeNR-Q4j2dCcWRC_13XFdrGa3M-6_5sRtX6ZFZijN8NHYk1EEoBBYT5v6KHDGXN7qgmRaUT0SJXiyXwfNbLYv3t6pGJo3KqTUClkNti24Esb5w9Bcpai1MhzQ3l9v7qA_luesS-jN8dsZGOrOO3xRP9ly4ljCO7yA7Oq6Hi3wroz');
+                  "
                 ></div>
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Beneath the Surface</p>
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Beneath the Surface
+                </p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmLzPnkEKBSUF5PO-wdSE5lJ7FKKlHp5st8Z-oNqib2OE6Hif1kYDKzN3kQhpB9nR5SZ33lXu7Z9irUFVIvlVLCMIbemczJrjYmc9hHZ8-PoP9Cfd7K4uRBw5KkHoJYI94YG01IdtLtc0hpvruebIzhh9uObr9dHwlFzlrEj29n7jLeAE6EAxe9T3f3WW5vs_LHpcpP0ZITi99q7X__fOf24dy3dzjITM5SPo4X11IacRKsP6aGuTwOULhe8fXz4vCfmQ4DXCYS2Dq");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDmLzPnkEKBSUF5PO-wdSE5lJ7FKKlHp5st8Z-oNqib2OE6Hif1kYDKzN3kQhpB9nR5SZ33lXu7Z9irUFVIvlVLCMIbemczJrjYmc9hHZ8-PoP9Cfd7K4uRBw5KkHoJYI94YG01IdtLtc0hpvruebIzhh9uObr9dHwlFzlrEj29n7jLeAE6EAxe9T3f3WW5vs_LHpcpP0ZITi99q7X__fOf24dy3dzjITM5SPo4X11IacRKsP6aGuTwOULhe8fXz4vCfmQ4DXCYS2Dq');
+                  "
                 ></div>
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">The Ironclad</p>
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  The Ironclad
+                </p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBmXHc-T6pRErKHOJA24aZQ31Npn4bsXzyX-yNr3dYW9Wivgyc0_MZTVKe6RCqQCyQzWC8DGETWot-7SP1J6a5hcN_nvhTYzjzra3oZbe2AaYezZ2K4EdODIQRUs-rfdr0VvaUttiTJyGi1X9z9CvZ8Qy1o29gr3NTAtLAmK1ER4gomaCJYNV7TbG-nt5jS-WwA9tud_Z_oCAl4JYlNM1OZ1ifBB3yVMOJbDfOiNVFWi8dLsDHbaXz0TQfNyKBdc5pJ6Uf3gFUKVGCw");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBmXHc-T6pRErKHOJA24aZQ31Npn4bsXzyX-yNr3dYW9Wivgyc0_MZTVKe6RCqQCyQzWC8DGETWot-7SP1J6a5hcN_nvhTYzjzra3oZbe2AaYezZ2K4EdODIQRUs-rfdr0VvaUttiTJyGi1X9z9CvZ8Qy1o29gr3NTAtLAmK1ER4gomaCJYNV7TbG-nt5jS-WwA9tud_Z_oCAl4JYlNM1OZ1ifBB3yVMOJbDfOiNVFWi8dLsDHbaXz0TQfNyKBdc5pJ6Uf3gFUKVGCw');
+                  "
                 ></div>
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Whispers of Deceit</p>
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Whispers of Deceit
+                </p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAJbojuMXneIxz1AUjIBciMeSX1FE9KX8fmGbtXO3aOWvKykXtfB9dVf2QRRn6vv_wFA_iw_8maXKg6llCuEhJCWbLRrnI8v9eJdJLfhMjMPwqczpU0MgtsxMJkHo3tJha0EEYKVFKns9vFoLhA267GJk6xnTn29abcUM7bRiBL44L18OwLI7bBq4BTrIKpsPS2I2ZP_gpF8wmXoLa5pW4LnssYC9-EBlpCf5j1RaoJfWbhUntE46ldXTqc4ahTj9Ttn8NoUAx73UQW");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAJbojuMXneIxz1AUjIBciMeSX1FE9KX8fmGbtXO3aOWvKykXtfB9dVf2QRRn6vv_wFA_iw_8maXKg6llCuEhJCWbLRrnI8v9eJdJLfhMjMPwqczpU0MgtsxMJkHo3tJha0EEYKVFKns9vFoLhA267GJk6xnTn29abcUM7bRiBL44L18OwLI7bBq4BTrIKpsPS2I2ZP_gpF8wmXoLa5pW4LnssYC9-EBlpCf5j1RaoJfWbhUntE46ldXTqc4ahTj9Ttn8NoUAx73UQW');
+                  "
                 ></div>
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">The Final Hour</p>
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  The Final Hour
+                </p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBTcHV_b6uz87ZJPeMgvvOwI3LdYc9lRM9DTHNj_lPnxZlwPZbQLo3_rJev5tnr__Ju0UTDlEmpA0MMD7bQEerw0IHDqbeOzZ_k26P4gZzKVUz6dbTS26WXQ8hw3bDesn6APO_gUKmhfc5dc73oDinI2Qp3aXFDu1CgDtr_Yp-fg0V2oykARDhGl98gz9K9Aq7MOGAgnuQN2UrQIrkRw-QcPWc13HMV8rPMF83NHhfO_zHW8KJXAQZUHx36IfNTrVDFPm_2QKMLVIc8");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBTcHV_b6uz87ZJPeMgvvOwI3LdYc9lRM9DTHNj_lPnxZlwPZbQLo3_rJev5tnr__Ju0UTDlEmpA0MMD7bQEerw0IHDqbeOzZ_k26P4gZzKVUz6dbTS26WXQ8hw3bDesn6APO_gUKmhfc5dc73oDinI2Qp3aXFDu1CgDtr_Yp-fg0V2oykARDhGl98gz9K9Aq7MOGAgnuQN2UrQIrkRw-QcPWc13HMV8rPMF83NHhfO_zHW8KJXAQZUHx36IfNTrVDFPm_2QKMLVIc8');
+                  "
                 ></div>
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Legacy of Valor</p>
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Legacy of Valor
+                </p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA4VtFXuIed0ci2zn07qnq6nvyE1H2c-JWNCymdcT6HzpfHYziKKRQrO5vlpDrO8bfXU3DdZ0Uf8CAwXDi3_8vhM_nEYlU5aeVG1cVDIsMmrMF8YTu1yEeqB-I2ghhnFH3cgUiRekvMMPhPmnL9L78VNLQENRZRZ2_7Natm9VdrW19qBfXjatYcA-pazEOspSTYrkvEimR1fR6p4VGNCroSXdBdii2zTvpk0PsCp0dImjbJxDBpu9lvj7ht2E_KpQ5zcVTjz7gnN_C0");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA4VtFXuIed0ci2zn07qnq6nvyE1H2c-JWNCymdcT6HzpfHYziKKRQrO5vlpDrO8bfXU3DdZ0Uf8CAwXDi3_8vhM_nEYlU5aeVG1cVDIsMmrMF8YTu1yEeqB-I2ghhnFH3cgUiRekvMMPhPmnL9L78VNLQENRZRZ2_7Natm9VdrW19qBfXjatYcA-pazEOspSTYrkvEimR1fR6p4VGNCroSXdBdii2zTvpk0PsCp0dImjbJxDBpu9lvj7ht2E_KpQ5zcVTjz7gnN_C0');
+                  "
                 ></div>
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">The Serpent's Kiss</p>
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  The Serpent's Kiss
+                </p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAKn1NE2-u-HoDqu65HXBS8Qecz_ubnvq_R8JQmdtxaMK2n5qsMmkAqmTk37YOHjgBmr9eXy-yXF3L2cRmG8UXrIK-fc_eZ51hRxfKzQ9lm9dVpAYlhpX8-X3lLOFZDeZIaTQUy5RfDa7uzz42L82r06n1DtFfuC2JuDgkP1I9Dmu2wFqQ357AInTzZ941W9VvK0ONCfKOeE3KPbQ8US6UxrX9IjURBvGAe1abH5MCJLtk_KmrIwxRRUadrxPGZepS8R8xN-S07FNm8");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAKn1NE2-u-HoDqu65HXBS8Qecz_ubnvq_R8JQmdtxaMK2n5qsMmkAqmTk37YOHjgBmr9eXy-yXF3L2cRmG8UXrIK-fc_eZ51hRxfKzQ9lm9dVpAYlhpX8-X3lLOFZDeZIaTQUy5RfDa7uzz42L82r06n1DtFfuC2JuDgkP1I9Dmu2wFqQ357AInTzZ941W9VvK0ONCfKOeE3KPbQ8US6UxrX9IjURBvGAe1abH5MCJLtk_KmrIwxRRUadrxPGZepS8R8xN-S07FNm8');
+                  "
                 ></div>
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Veil of Secrets</p>
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Veil of Secrets
+                </p>
               </div>
             </div>
             <div class="flex items-center justify-center p-4">
               <a href="#" class="flex size-10 items-center justify-center">
-                <div class="text-[#0e1b14]" data-icon="CaretLeft" data-size="18px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+                <div
+                  class="text-[#0e1b14]"
+                  data-icon="CaretLeft"
+                  data-size="18px"
+                  data-weight="regular"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18px"
+                    height="18px"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                  >
+                    <path
+                      d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"
+                    ></path>
                   </svg>
                 </div>
               </a>
-              <a class="text-sm font-bold leading-normal tracking-[0.015em] flex size-10 items-center justify-center text-[#0e1b14] rounded-full bg-[#e8f3ed]" href="#">1</a>
-              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-[#0e1b14] rounded-full" href="#">2</a>
-              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-[#0e1b14] rounded-full" href="#">3</a>
-              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-[#0e1b14] rounded-full" href="#">4</a>
-              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-[#0e1b14] rounded-full" href="#">5</a>
+              <a
+                class="flex size-10 items-center justify-center rounded-full bg-[#e8f3ed] text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
+                href="#"
+                >1</a
+              >
+              <a
+                class="flex size-10 items-center justify-center rounded-full text-sm font-normal leading-normal text-[#0e1b14]"
+                href="#"
+                >2</a
+              >
+              <a
+                class="flex size-10 items-center justify-center rounded-full text-sm font-normal leading-normal text-[#0e1b14]"
+                href="#"
+                >3</a
+              >
+              <a
+                class="flex size-10 items-center justify-center rounded-full text-sm font-normal leading-normal text-[#0e1b14]"
+                href="#"
+                >4</a
+              >
+              <a
+                class="flex size-10 items-center justify-center rounded-full text-sm font-normal leading-normal text-[#0e1b14]"
+                href="#"
+                >5</a
+              >
               <a href="#" class="flex size-10 items-center justify-center">
-                <div class="text-[#0e1b14]" data-icon="CaretRight" data-size="18px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+                <div
+                  class="text-[#0e1b14]"
+                  data-icon="CaretRight"
+                  data-size="18px"
+                  data-weight="regular"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18px"
+                    height="18px"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                  >
+                    <path
+                      d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"
+                    ></path>
                   </svg>
                 </div>
               </a>

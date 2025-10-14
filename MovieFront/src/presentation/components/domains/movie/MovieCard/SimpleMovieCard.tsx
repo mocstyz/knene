@@ -73,12 +73,16 @@ const SimpleMovieCard: React.FC<SimpleMovieCardProps> = ({
   showNewBadge = true,
   newBadgeType = 'new',
   onClick,
-  subtitleHoverEffect = { enabled: true, hoverColor: 'red', transitionDuration: '200ms' },
+  subtitleHoverEffect = {
+    enabled: true,
+    hoverColor: 'red',
+    transitionDuration: '200ms',
+  },
 }) => {
   return (
     <div
       className={cn(
-        'group cursor-pointer space-y-3',
+        'cursor-pointer space-y-3 group',
         onClick &&
           'transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]',
         className
@@ -98,7 +102,7 @@ const SimpleMovieCard: React.FC<SimpleMovieCardProps> = ({
         titleHoverEffect={{
           enabled: true,
           hoverColor: 'red',
-          transitionDuration: '200ms'
+          transitionDuration: '200ms',
         }}
         subtitleHoverEffect={subtitleHoverEffect}
         showVipBadge={showVipBadge}

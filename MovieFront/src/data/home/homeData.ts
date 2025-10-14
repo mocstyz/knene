@@ -14,7 +14,6 @@ import type {
   PhotoItem,
   LatestItem,
   TopItem,
-  SimpleMovieItem,
 } from '@components/domains'
 import { useImageService } from '@presentation/hooks/image'
 import { useState, useEffect } from 'react'
@@ -59,89 +58,55 @@ export const useHomeData = (): UseHomeDataReturn => {
   const { getMoviePoster, getTopicCover } = useImageService()
 
   /**
-   * 转换专题数据 - 专题不需要评分信息
+   * 优化图片URL - 为专题数据使用合适的图片尺寸
    */
-  const convertToTopicItem = (data: SimpleMovieItem[]): TopicItem[] => {
-    return data.map(item => ({
-      id: item.id,
-      title: item.title,
-      type: 'Collection' as const,
-      imageUrl: getTopicCover(item.imageUrl, { width: 600, height: 400 }),
-      description: item.description,
-      alt: item.alt,
+  const optimizeTopicImages = (topics: TopicItem[]): TopicItem[] => {
+    return topics.map(topic => ({
+      ...topic,
+      imageUrl: getTopicCover(topic.imageUrl, { width: 600, height: 400 }),
     }))
   }
 
   /**
-   * 转换写真数据
+   * 优化图片URL - 为写真数据使用合适的图片尺寸
    */
-  const convertToPhotoItem = (data: SimpleMovieItem[]): PhotoItem[] => {
-    return data.map(item => ({
-      id: item.id,
-      title: item.title,
-      type:
-        item.type === 'Collection'
-          ? 'Movie'
-          : (item.type as 'Movie' | 'TV Show'),
-      rating: item.rating,
-      imageUrl: getMoviePoster(item.imageUrl, { width: 400, height: 600 }),
-      ratingColor: item.ratingColor,
-      quality: item.quality,
-      formatType: item.formatType,
-      alt: item.alt,
+  const optimizePhotoImages = (photos: PhotoItem[]): PhotoItem[] => {
+    return photos.map(photo => ({
+      ...photo,
+      imageUrl: getMoviePoster(photo.imageUrl, { width: 400, height: 600 }),
     }))
   }
 
   /**
-   * 转换最新更新数据
+   * 优化图片URL - 为最新更新数据使用合适的图片尺寸
    */
-  const convertToLatestItem = (data: SimpleMovieItem[]): LatestItem[] => {
-    return data.map(item => ({
-      id: item.id,
-      title: item.title,
-      type:
-        item.type === 'Collection'
-          ? 'Movie'
-          : (item.type as 'Movie' | 'TV Show'),
-      rating: item.rating,
+  const optimizeLatestImages = (latest: LatestItem[]): LatestItem[] => {
+    return latest.map(item => ({
+      ...item,
       imageUrl: getMoviePoster(item.imageUrl, { width: 400, height: 600 }),
-      ratingColor: item.ratingColor,
-      quality: item.quality,
-      alt: item.alt,
-      isNew: item.isNew,
-      newType: item.newType,
     }))
   }
 
   /**
-   * 转换TOP数据
+   * 优化图片URL - 为TOP数据使用合适的图片尺寸
    */
-  const convertToTopItem = (data: SimpleMovieItem[]): TopItem[] => {
-    return data.map((item, index) => ({
-      id: item.id,
-      title: item.title,
-      type:
-        item.type === 'Collection'
-          ? 'Movie'
-          : (item.type as 'Movie' | 'TV Show'),
-      rating: item.rating,
+  const optimizeTopImages = (topItems: TopItem[]): TopItem[] => {
+    return topItems.map(item => ({
+      ...item,
       imageUrl: getMoviePoster(item.imageUrl, { width: 400, height: 600 }),
-      ratingColor: item.ratingColor,
-      quality: item.quality,
-      alt: item.alt,
-      rank: index + 1,
     }))
   }
 
   /**
    * 加载首页数据
+   * Repository已返回正确的领域类型，只需进行图片优化
    */
   const loadHomeData = async () => {
     try {
       setIsLoading(true)
       setError(null)
 
-      // 并行获取所有模块数据
+      // 并行获取所有模块数据，Repository已返回具体的领域类型
       const [topics, photos, latestUpdates, topDaily] = await Promise.all([
         homeApplicationService.getTopics(3),
         homeApplicationService.getPhotos(6),
@@ -149,11 +114,11 @@ export const useHomeData = (): UseHomeDataReturn => {
         homeApplicationService.getTopDaily(6),
       ])
 
-      // 转换数据并更新状态
-      setTopicsData(convertToTopicItem(topics))
-      setTrendingMovies(convertToPhotoItem(photos))
-      setPopularMovies(convertToLatestItem(latestUpdates))
-      setNewReleases(convertToTopItem(topDaily))
+      // 优化图片URL并更新状态
+      setTopicsData(optimizeTopicImages(topics))
+      setTrendingMovies(optimizePhotoImages(photos))
+      setPopularMovies(optimizeLatestImages(latestUpdates))
+      setNewReleases(optimizeTopImages(topDaily))
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : 'Unknown error occurred'

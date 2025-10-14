@@ -9,7 +9,10 @@
  */
 
 import { TitleLayer } from '@components/layers'
-import { getOverlayGradient, type GradientOverlayIntensity } from '@tokens/design-system'
+import {
+  getOverlayGradient,
+  type GradientOverlayIntensity,
+} from '@tokens/design-system'
 import { cn } from '@utils/cn'
 import React from 'react'
 
@@ -69,20 +72,22 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
   }
 
   // 映射原有的渐变强度到新的Token系统
-  const mapGradientIntensity = (intensity: GradientOverlayIntensity | 'light' | 'medium' | 'strong'): GradientOverlayIntensity => {
+  const mapGradientIntensity = (
+    intensity: GradientOverlayIntensity | 'light' | 'medium' | 'strong'
+  ): GradientOverlayIntensity => {
     switch (intensity) {
       case 'light':
-        return 'subtle'   // 对应原来的 from-black/40 via-black/10 to-transparent
+        return 'subtle' // 对应原来的 from-black/40 via-black/10 to-transparent
       case 'strong':
-        return 'heavy'    // 对应原来的 from-black/80 via-black/40 to-transparent
+        return 'heavy' // 对应原来的 from-black/80 via-black/40 to-transparent
       case 'medium':
-        return 'strong'   // 对应原来的 from-black/60 via-black/20 to-transparent
+        return 'strong' // 对应原来的 from-black/60 via-black/20 to-transparent
       case 'subtle':
       case 'intense':
       case 'heavy':
-        return intensity  // 已经是新格式的，直接返回
+        return intensity // 已经是新格式的，直接返回
       default:
-        return 'strong'   // 默认使用中等强度
+        return 'strong' // 默认使用中等强度
     }
   }
 
@@ -107,7 +112,10 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
       {/* 渐变遮罩 - 使用统一的渐变Token系统 */}
       {showGradient && (
         <div
-          className={cn('absolute inset-0', getOverlayGradient(mappedIntensity))}
+          className={cn(
+            'absolute inset-0',
+            getOverlayGradient(mappedIntensity)
+          )}
         />
       )}
 

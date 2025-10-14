@@ -1,134 +1,236 @@
-<!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Popular Movies &amp; TV Shows</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-<script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            primary: "#FF4500", // Using a vibrant color for tags
-            "background-light": "#FFFFFF",
-            "background-dark": "#121212",
-          },
-          fontFamily: {
-            display: ["Inter", "sans-serif"],
-          },
-          borderRadius: {
-            DEFAULT: "8px",
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Popular Movies &amp; TV Shows</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: '#FF4500', // Using a vibrant color for tags
+              'background-light': '#FFFFFF',
+              'background-dark': '#121212',
+            },
+            fontFamily: {
+              display: ['Inter', 'sans-serif'],
+            },
+            borderRadius: {
+              DEFAULT: '8px',
+            },
           },
         },
-      },
-    };
-  </script>
-<style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-  </style>
-</head>
-<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100">
-<div class="container mx-auto p-8">
-<div class="flex justify-between items-center mb-6">
-<h1 class="text-2xl font-bold text-gray-800 dark:text-white">Popular</h1>
-<a class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" href="#">More &gt;</a>
-</div>
-<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-<div class="group">
-<div class="relative rounded-lg overflow-hidden shadow-lg transform group-hover:-translate-y-1 transition-transform duration-300 ease-in-out">
-<img alt="Shadows of Destiny poster" class="w-full h-auto object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHwgeO8iv39-4EVfO5r3j9hXbZruZrogrjPtI8dK3Y-d16a7ZqozWhfYoAnBZMZ2cTUIJLzha-MsW08lSTF_1LEuq94z-XKzMVtTg5VPv5z9wRdmXPVsPsH6ouOnDzJRxHk8X5DsC6T1fO-OKYkYX9pRjgHR3Dnu6ZrE1ifDLgZQNP_vjw5Uc0tr5G7RVB5JakHhe_picWZiZpiO8o8lPDtjtR-ya0BACMhQ3nqykb6OJKou2KvxSxS10hQSTcYVF0iPOYERG9m6B5"/>
-<div class="absolute top-2 right-2 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded">
-            4K HDR
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light text-gray-900 dark:bg-background-dark dark:text-gray-100"
+  >
+    <div class="container mx-auto p-8">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
+          Popular
+        </h1>
+        <a
+          class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+          href="#"
+          >More &gt;</a
+        >
+      </div>
+      <div
+        class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+      >
+        <div class="group">
+          <div
+            class="relative transform overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out group-hover:-translate-y-1"
+          >
+            <img
+              alt="Shadows of Destiny poster"
+              class="h-auto w-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHwgeO8iv39-4EVfO5r3j9hXbZruZrogrjPtI8dK3Y-d16a7ZqozWhfYoAnBZMZ2cTUIJLzha-MsW08lSTF_1LEuq94z-XKzMVtTg5VPv5z9wRdmXPVsPsH6ouOnDzJRxHk8X5DsC6T1fO-OKYkYX9pRjgHR3Dnu6ZrE1ifDLgZQNP_vjw5Uc0tr5G7RVB5JakHhe_picWZiZpiO8o8lPDtjtR-ya0BACMhQ3nqykb6OJKou2KvxSxS10hQSTcYVF0iPOYERG9m6B5"
+            />
+            <div
+              class="absolute right-2 top-2 rounded bg-black/60 px-2 py-1 text-xs font-bold text-white"
+            >
+              4K HDR
+            </div>
+            <div
+              class="absolute bottom-0 left-0 w-full bg-black/50 p-2 text-white"
+            >
+              <span class="rounded bg-green-600 px-2 py-1 text-lg font-bold"
+                >7.3</span
+              >
+            </div>
           </div>
-<div class="absolute bottom-0 left-0 bg-black/50 text-white p-2 w-full">
-<span class="text-lg font-bold bg-green-600 px-2 py-1 rounded">7.3</span>
-</div>
-</div>
-<div class="mt-2">
-<h3 class="font-bold text-gray-800 dark:text-white">Shadows of Destiny</h3>
-<p class="text-sm text-gray-500 dark:text-gray-400">Movie</p>
-</div>
-</div>
-<div class="group">
-<div class="relative rounded-lg overflow-hidden shadow-lg transform group-hover:-translate-y-1 transition-transform duration-300 ease-in-out">
-<img alt="Celestial Dance poster" class="w-full h-auto object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxgQcMowuB6HSwUtygFqNW6TjC2W0EKu-eegx6Ik_W9wvywdCHWjDXfK30p49WRNn4Erp8MesoiwKqN5_v7_TtujdSzql8fzCKrkhhWVsbOuNQQi07dUR3pOGYU79EOVXC2SToFmxpU6lgvLZ4JoZ54wzLefDrhxKrK-l5FsHwCRSSAPgl6El2IWLjBBP2K9zQAbBx4E4Fgftez3WdHCikMneUEuRRL1Wld4uJWCWJdksFABNiK52bsjF3zalLHaaXqIXcvVikhENK"/>
-<div class="absolute top-2 right-2 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded">
-            HD
+          <div class="mt-2">
+            <h3 class="font-bold text-gray-800 dark:text-white">
+              Shadows of Destiny
+            </h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Movie</p>
           </div>
-<div class="absolute bottom-0 left-0 bg-black/50 text-white p-2 w-full">
-<span class="text-lg font-bold bg-green-600 px-2 py-1 rounded">8.2</span>
-</div>
-</div>
-<div class="mt-2">
-<h3 class="font-bold text-gray-800 dark:text-white">Celestial Dance</h3>
-<p class="text-sm text-gray-500 dark:text-gray-400">Movie</p>
-</div>
-</div>
-<div class="group">
-<div class="relative rounded-lg overflow-hidden shadow-lg transform group-hover:-translate-y-1 transition-transform duration-300 ease-in-out">
-<img alt="Lost in Translation poster" class="w-full h-auto object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3fjFrMgFuxuSriVMOdnm46EN0YnckYgZirWAZaenjkas6IRIV3ewjjVccoH12ZQeWkXuT7od-bA1Mb7U01z36HcG-YgOCfhvrq6x8WRazKgQjvtMzhiBiADgkJojry-rZuykDktGFBJ-Nh45uwWA29koQRRUX1cev2y0RjMTRCBOM73ULq7HA0HS9mtn7E_5q6hKdo2ePyHJZZ-60A8SfV2BsGaUE3pMYvIgqARki36508fP2aRh95qFtA196HiwFd6hgnTKKsysq"/>
-<div class="absolute top-2 right-2 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded">
-            Dolby Vision
+        </div>
+        <div class="group">
+          <div
+            class="relative transform overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out group-hover:-translate-y-1"
+          >
+            <img
+              alt="Celestial Dance poster"
+              class="h-auto w-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxgQcMowuB6HSwUtygFqNW6TjC2W0EKu-eegx6Ik_W9wvywdCHWjDXfK30p49WRNn4Erp8MesoiwKqN5_v7_TtujdSzql8fzCKrkhhWVsbOuNQQi07dUR3pOGYU79EOVXC2SToFmxpU6lgvLZ4JoZ54wzLefDrhxKrK-l5FsHwCRSSAPgl6El2IWLjBBP2K9zQAbBx4E4Fgftez3WdHCikMneUEuRRL1Wld4uJWCWJdksFABNiK52bsjF3zalLHaaXqIXcvVikhENK"
+            />
+            <div
+              class="absolute right-2 top-2 rounded bg-black/60 px-2 py-1 text-xs font-bold text-white"
+            >
+              HD
+            </div>
+            <div
+              class="absolute bottom-0 left-0 w-full bg-black/50 p-2 text-white"
+            >
+              <span class="rounded bg-green-600 px-2 py-1 text-lg font-bold"
+                >8.2</span
+              >
+            </div>
           </div>
-<div class="absolute bottom-0 left-0 bg-black/50 text-white p-2 w-full">
-<span class="text-lg font-bold bg-green-600 px-2 py-1 rounded">9.6</span>
-</div>
-</div>
-<div class="mt-2">
-<h3 class="font-bold text-gray-800 dark:text-white">Lost in Translation</h3>
-<p class="text-sm text-red-500 dark:text-red-400">TV Show</p>
-</div>
-</div>
-<div class="group">
-<div class="relative rounded-lg overflow-hidden shadow-lg transform group-hover:-translate-y-1 transition-transform duration-300 ease-in-out">
-<img alt="The Silent Witness poster" class="w-full h-auto object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLVSwD7U9UYzPzqEkhhiiQK9CRQ4lxeYbrXlTe2ACYGvWJWn9qllx9WlMzlOYA0bj70lLOTnk3oOkZzP-CySvExO7RPtoTrVB8q7mImw6zYH4vthI_GHJi0qeG8GGKLll9dwFnjJCzn9UwuntovqhoOnzFEoxd5zXZxqrpdLTi7EccRuSHdrO2cpQEs7GFBVImXrfgPa9IKAmdZbuBMwe3rbRonkSfrgVwkbty4z150EGeBcXLp6wEs7PyGZ0QUg4T16NvwELJYP7h"/>
-<div class="absolute top-2 right-2 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded">
-            SD
+          <div class="mt-2">
+            <h3 class="font-bold text-gray-800 dark:text-white">
+              Celestial Dance
+            </h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Movie</p>
           </div>
-<div class="absolute bottom-0 left-0 bg-black/50 text-white p-2 w-full">
-<span class="text-lg font-bold bg-yellow-500 px-2 py-1 rounded">5.1</span>
-</div>
-</div>
-<div class="mt-2">
-<h3 class="font-bold text-gray-800 dark:text-white">The Silent Witness</h3>
-<p class="text-sm text-gray-500 dark:text-gray-400">Movie</p>
-</div>
-</div>
-<div class="group">
-<div class="relative rounded-lg overflow-hidden shadow-lg transform group-hover:-translate-y-1 transition-transform duration-300 ease-in-out">
-<img alt="Beneath the Surface poster" class="w-full h-auto object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdgpzdnHRb4OUnFHYWfNTt17_y4_crh2kTHM7bflmq64a9AlsVSZ1pLG_DE48P_GqQZTRTGgiTLcyq2zvkUuIFRIEL3SCQixcfN_Xi-Zz97JzENM0HTsIDbap60QurewsxTbxnvzmViy-t0LxnZ3mrKbzVr1AK4VPzZhtgZj6ALPlP_RQvVS-QQRp12B5bxssuE_Rer8DAO8C-jO-BXQtJ1mFuVH8jVUyY7Yg0PawUQXPtIbYMh84y-KMotVxJ-UVNKhhpNG86yimo"/>
-<div class="absolute top-2 right-2 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded">
-            4K
+        </div>
+        <div class="group">
+          <div
+            class="relative transform overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out group-hover:-translate-y-1"
+          >
+            <img
+              alt="Lost in Translation poster"
+              class="h-auto w-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3fjFrMgFuxuSriVMOdnm46EN0YnckYgZirWAZaenjkas6IRIV3ewjjVccoH12ZQeWkXuT7od-bA1Mb7U01z36HcG-YgOCfhvrq6x8WRazKgQjvtMzhiBiADgkJojry-rZuykDktGFBJ-Nh45uwWA29koQRRUX1cev2y0RjMTRCBOM73ULq7HA0HS9mtn7E_5q6hKdo2ePyHJZZ-60A8SfV2BsGaUE3pMYvIgqARki36508fP2aRh95qFtA196HiwFd6hgnTKKsysq"
+            />
+            <div
+              class="absolute right-2 top-2 rounded bg-black/60 px-2 py-1 text-xs font-bold text-white"
+            >
+              Dolby Vision
+            </div>
+            <div
+              class="absolute bottom-0 left-0 w-full bg-black/50 p-2 text-white"
+            >
+              <span class="rounded bg-green-600 px-2 py-1 text-lg font-bold"
+                >9.6</span
+              >
+            </div>
           </div>
-<div class="absolute bottom-0 left-0 bg-black/50 text-white p-2 w-full">
-<span class="text-lg font-bold bg-green-600 px-2 py-1 rounded">8.0</span>
-</div>
-</div>
-<div class="mt-2">
-<h3 class="font-bold text-gray-800 dark:text-white">Beneath the Surface</h3>
-<p class="text-sm text-gray-500 dark:text-gray-400">Movie</p>
-</div>
-</div>
-<div class="group">
-<div class="relative rounded-lg overflow-hidden shadow-lg transform group-hover:-translate-y-1 transition-transform duration-300 ease-in-out">
-<img alt="Echo Chamber poster" class="w-full h-auto object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXxIvioWHdBkolljYpJDKKNuKXwTdCRXkBPhwFTpYvFCdtt8-b_9LeuOlpu_WU7QijggGU-N3DsQAHZGVv9uW9WsoZA20ds9SBwmYHF_epKzkjn-P_yYclDVeDjYz02hoYoXQo9ged3iK2GSZhzNpaNm5fMie6i5aHA8X5QmrgKMefpntx7dCZrL3JyeWtgHSjQpUvpkJY_9hQh1NB8RdFMnuYMyEna4Dap4RcagBU2ddFaz4h_4lcUUwNjfnKTzcLrH8GGps6rXMX"/>
-<div class="absolute top-2 right-2 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded">
-            IMAX
+          <div class="mt-2">
+            <h3 class="font-bold text-gray-800 dark:text-white">
+              Lost in Translation
+            </h3>
+            <p class="text-sm text-red-500 dark:text-red-400">TV Show</p>
           </div>
-<div class="absolute bottom-0 left-0 bg-black/50 text-white p-2 w-full">
-<span class="text-lg font-bold bg-green-600 px-2 py-1 rounded">8.0</span>
-</div>
-</div>
-<div class="mt-2">
-<h3 class="font-bold text-gray-800 dark:text-white">Echo Chamber</h3>
-<p class="text-sm text-gray-500 dark:text-gray-400">TV Show</p>
-</div>
-</div>
-</div>
-</div>
-</body></html>
+        </div>
+        <div class="group">
+          <div
+            class="relative transform overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out group-hover:-translate-y-1"
+          >
+            <img
+              alt="The Silent Witness poster"
+              class="h-auto w-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLVSwD7U9UYzPzqEkhhiiQK9CRQ4lxeYbrXlTe2ACYGvWJWn9qllx9WlMzlOYA0bj70lLOTnk3oOkZzP-CySvExO7RPtoTrVB8q7mImw6zYH4vthI_GHJi0qeG8GGKLll9dwFnjJCzn9UwuntovqhoOnzFEoxd5zXZxqrpdLTi7EccRuSHdrO2cpQEs7GFBVImXrfgPa9IKAmdZbuBMwe3rbRonkSfrgVwkbty4z150EGeBcXLp6wEs7PyGZ0QUg4T16NvwELJYP7h"
+            />
+            <div
+              class="absolute right-2 top-2 rounded bg-black/60 px-2 py-1 text-xs font-bold text-white"
+            >
+              SD
+            </div>
+            <div
+              class="absolute bottom-0 left-0 w-full bg-black/50 p-2 text-white"
+            >
+              <span class="rounded bg-yellow-500 px-2 py-1 text-lg font-bold"
+                >5.1</span
+              >
+            </div>
+          </div>
+          <div class="mt-2">
+            <h3 class="font-bold text-gray-800 dark:text-white">
+              The Silent Witness
+            </h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Movie</p>
+          </div>
+        </div>
+        <div class="group">
+          <div
+            class="relative transform overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out group-hover:-translate-y-1"
+          >
+            <img
+              alt="Beneath the Surface poster"
+              class="h-auto w-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdgpzdnHRb4OUnFHYWfNTt17_y4_crh2kTHM7bflmq64a9AlsVSZ1pLG_DE48P_GqQZTRTGgiTLcyq2zvkUuIFRIEL3SCQixcfN_Xi-Zz97JzENM0HTsIDbap60QurewsxTbxnvzmViy-t0LxnZ3mrKbzVr1AK4VPzZhtgZj6ALPlP_RQvVS-QQRp12B5bxssuE_Rer8DAO8C-jO-BXQtJ1mFuVH8jVUyY7Yg0PawUQXPtIbYMh84y-KMotVxJ-UVNKhhpNG86yimo"
+            />
+            <div
+              class="absolute right-2 top-2 rounded bg-black/60 px-2 py-1 text-xs font-bold text-white"
+            >
+              4K
+            </div>
+            <div
+              class="absolute bottom-0 left-0 w-full bg-black/50 p-2 text-white"
+            >
+              <span class="rounded bg-green-600 px-2 py-1 text-lg font-bold"
+                >8.0</span
+              >
+            </div>
+          </div>
+          <div class="mt-2">
+            <h3 class="font-bold text-gray-800 dark:text-white">
+              Beneath the Surface
+            </h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Movie</p>
+          </div>
+        </div>
+        <div class="group">
+          <div
+            class="relative transform overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out group-hover:-translate-y-1"
+          >
+            <img
+              alt="Echo Chamber poster"
+              class="h-auto w-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXxIvioWHdBkolljYpJDKKNuKXwTdCRXkBPhwFTpYvFCdtt8-b_9LeuOlpu_WU7QijggGU-N3DsQAHZGVv9uW9WsoZA20ds9SBwmYHF_epKzkjn-P_yYclDVeDjYz02hoYoXQo9ged3iK2GSZhzNpaNm5fMie6i5aHA8X5QmrgKMefpntx7dCZrL3JyeWtgHSjQpUvpkJY_9hQh1NB8RdFMnuYMyEna4Dap4RcagBU2ddFaz4h_4lcUUwNjfnKTzcLrH8GGps6rXMX"
+            />
+            <div
+              class="absolute right-2 top-2 rounded bg-black/60 px-2 py-1 text-xs font-bold text-white"
+            >
+              IMAX
+            </div>
+            <div
+              class="absolute bottom-0 left-0 w-full bg-black/50 p-2 text-white"
+            >
+              <span class="rounded bg-green-600 px-2 py-1 text-lg font-bold"
+                >8.0</span
+              >
+            </div>
+          </div>
+          <div class="mt-2">
+            <h3 class="font-bold text-gray-800 dark:text-white">
+              Echo Chamber
+            </h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">TV Show</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -8,10 +8,11 @@
  * @version 1.0.0
  */
 
-import { MovieList, type SimpleMovieItem } from '@components/domains'
-import type { LatestItem as BaseLatestItem } from '@types-movie/movie.types'
-import { cn } from '@utils/cn'
 import React from 'react'
+import { cn } from '@utils/cn'
+import { TextLink } from '@components/atoms'
+import { MovieList } from '@components/domains'
+import type { LatestItem as BaseLatestItem } from '@types-movie/movie.types'
 
 /**
  * 最新更新项目接口 - 扩展基础接口
@@ -91,12 +92,9 @@ const LatestSection: React.FC<LatestSectionProps> = ({
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">最新更新</h2>
         {showMoreLink && (
-          <a
-            href={moreLinkUrl}
-            className="text-primary transition-colors hover:underline"
-          >
+          <TextLink href={moreLinkUrl} variant="primary" size="sm">
             {moreLinkText}
-          </a>
+          </TextLink>
         )}
       </div>
 
@@ -109,7 +107,7 @@ const LatestSection: React.FC<LatestSectionProps> = ({
         columns={columns}
         onMovieClick={
           onLatestClick
-            ? (item: SimpleMovieItem) => onLatestClick(item as LatestItem)
+            ? (item: BaseLatestItem) => onLatestClick(item as LatestItem)
             : undefined
         }
         cardConfig={{

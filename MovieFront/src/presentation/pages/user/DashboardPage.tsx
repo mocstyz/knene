@@ -1,7 +1,11 @@
 import { useCurrentUser } from '@application/hooks'
 import { Button, Icon } from '@components/atoms'
 import { UserTemplate } from '@components/templates'
-import { formatDateShort, getStatusColor, getStatusText } from '@utils/formatters'
+import {
+  formatDateShort,
+  getStatusColor,
+  getStatusText,
+} from '@utils/formatters'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -87,7 +91,6 @@ const DashboardPage: React.FC = () => {
     )
   }
 
-  
   const headerContent = (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -263,7 +266,7 @@ const DashboardPage: React.FC = () => {
       <div className="p-6">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {mockRecentMovies.map(movie => (
-            <div key={movie.id} className="group cursor-pointer">
+            <div key={movie.id} className="cursor-pointer group">
               <div className="relative mb-3 aspect-[2/3] overflow-hidden rounded-lg">
                 <img
                   src={movie.poster}

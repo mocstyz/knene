@@ -14,6 +14,12 @@ import {
   type HomeDataParams,
 } from '@infrastructure/repositories/HomeRepository'
 import { generateRandomRating } from '@utils/formatters'
+import type {
+  TopicItem,
+  PhotoItem,
+  LatestItem,
+  TopItem,
+} from '@types-movie/movie.types'
 
 /**
  * 首页应用服务类
@@ -182,15 +188,14 @@ export class HomeApplicationService {
   /**
    * 获取Mock专题数据
    */
-  private getMockTopics() {
+  private getMockTopics(): TopicItem[] {
     return [
       {
         id: 'topic-1',
         title:
           '超长的科幻宇宙世界探索之旅无尽的星际冒险与未知的文明奥秘等待你的发现',
         type: 'Collection' as const,
-        rating: '',
-        imageUrl: 'topic-1',
+                imageUrl: 'topic-1',
         description:
           '这是一个超级超级超级超级超级超级超级超级超级超级超级超级超级超级超级超级超级长的描述文本，用来测试省略效果的边界情况到底在哪里发生',
         alt: 'A robot looking out over a mountainous landscape on an alien planet',
@@ -199,8 +204,7 @@ export class HomeApplicationService {
         id: 'topic-2',
         title: 'Mind-Bending Thrillers',
         type: 'Collection' as const,
-        rating: '',
-        imageUrl: 'topic-2',
+                imageUrl: 'topic-2',
         description: "Twists you won't see coming.",
         alt: 'Two silhouetted figures stand on a hill against a dramatic sky',
       },
@@ -208,8 +212,7 @@ export class HomeApplicationService {
         id: 'topic-3',
         title: 'Award Winners',
         type: 'Collection' as const,
-        rating: '',
-        imageUrl: 'topic-3',
+                imageUrl: 'topic-3',
         description: 'Critically acclaimed masterpieces.',
         alt: 'An abstract image of a mountainous landscape with a faint circle in the sky',
       },
@@ -219,7 +222,7 @@ export class HomeApplicationService {
   /**
    * 获取Mock写真数据
    */
-  private getMockPhotos() {
+  private getMockPhotos(): PhotoItem[] {
     return [
       {
         id: 'photo-1',
@@ -229,7 +232,7 @@ export class HomeApplicationService {
         imageUrl: 'photo-1',
         ratingColor: this.generateRandomRatingColor(),
         quality: '4K HDR',
-        formatType: 'JPEG高',
+        formatType: 'JPEG高' as const,
         alt: 'The Midnight Bloom poster',
       },
       {
@@ -240,7 +243,7 @@ export class HomeApplicationService {
         imageUrl: '/src/assets/images/heroes/0034.jpg',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'HD',
-        formatType: 'PNG',
+        formatType: 'PNG' as const,
         alt: 'Echoes of the Past poster',
       },
       {
@@ -251,7 +254,7 @@ export class HomeApplicationService {
         imageUrl: 'photo-3',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'Dolby Vision',
-        formatType: 'WebP',
+        formatType: 'WebP' as const,
         alt: 'Starlight Symphony poster',
       },
       {
@@ -262,7 +265,7 @@ export class HomeApplicationService {
         imageUrl: 'photo-4',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'SD',
-        formatType: 'GIF',
+        formatType: 'GIF' as const,
         alt: 'Crimson Tide poster',
       },
       {
@@ -273,7 +276,7 @@ export class HomeApplicationService {
         imageUrl: '/src/assets/images/heroes/0056.png',
         ratingColor: this.generateRandomRatingColor(),
         quality: '4K',
-        formatType: 'JPEG高',
+        formatType: 'JPEG高' as const,
         alt: 'Whispers of the Wind poster',
       },
       {
@@ -284,7 +287,7 @@ export class HomeApplicationService {
         imageUrl: 'photo-6',
         ratingColor: this.generateRandomRatingColor(),
         quality: 'IMAX',
-        formatType: 'PNG',
+        formatType: 'PNG' as const,
         alt: 'Eternal Horizon poster',
       },
     ]
@@ -293,7 +296,7 @@ export class HomeApplicationService {
   /**
    * 获取Mock最新更新数据
    */
-  private getMockLatestUpdates() {
+  private getMockLatestUpdates(): LatestItem[] {
     return [
       {
         id: 'latest-1',
@@ -305,8 +308,7 @@ export class HomeApplicationService {
         quality: '4K HDR',
         alt: 'Shadows of Destiny poster',
         isNew: true,
-        newType: 'update',
-      },
+              },
       {
         id: 'latest-2',
         title: 'Celestial Dance',
@@ -317,8 +319,7 @@ export class HomeApplicationService {
         quality: 'HD',
         alt: 'Celestial Dance poster',
         isNew: true,
-        newType: 'new',
-      },
+              },
       {
         id: 'latest-3',
         title: 'Lost in Translation',
@@ -329,8 +330,7 @@ export class HomeApplicationService {
         quality: 'Dolby Vision',
         alt: 'Lost in Translation poster',
         isNew: true,
-        newType: 'today',
-      },
+              },
       {
         id: 'latest-4',
         title: 'The Silent Witness',
@@ -341,8 +341,7 @@ export class HomeApplicationService {
         quality: 'HD',
         alt: 'The Silent Witness poster',
         isNew: true,
-        newType: 'latest',
-      },
+              },
       {
         id: 'latest-5',
         title: 'Beneath the Surface',
@@ -353,8 +352,7 @@ export class HomeApplicationService {
         quality: '4K',
         alt: 'Beneath the Surface poster',
         isNew: true,
-        newType: 'update',
-      },
+              },
       {
         id: 'latest-6',
         title: 'Echo Chamber',
@@ -365,15 +363,14 @@ export class HomeApplicationService {
         quality: 'IMAX',
         alt: 'Echo Chamber poster',
         isNew: true,
-        newType: 'new',
-      },
+              },
     ]
   }
 
   /**
    * 获取Mock 24小时TOP数据
    */
-  private getMockTopDaily() {
+  private getMockTopDaily(): TopItem[] {
     return [
       {
         id: 'top-1',
@@ -385,8 +382,7 @@ export class HomeApplicationService {
         quality: 'SD',
         alt: 'Crimson Tide poster',
         rank: 1,
-        newType: 'new',
-      },
+              },
       {
         id: 'top-2',
         title: 'Celestial Dance',
@@ -397,8 +393,7 @@ export class HomeApplicationService {
         quality: '4K HDR',
         alt: 'Celestial Dance poster',
         rank: 2,
-        newType: 'latest',
-      },
+              },
       {
         id: 'top-3',
         title: 'Eternal Horizon',
@@ -409,8 +404,7 @@ export class HomeApplicationService {
         quality: 'Dolby Vision',
         alt: 'Eternal Horizon poster',
         rank: 3,
-        newType: 'today',
-      },
+              },
       {
         id: 'top-4',
         title: 'Echoes of the Past',
@@ -421,8 +415,7 @@ export class HomeApplicationService {
         quality: 'HD',
         alt: 'Echoes of the Past poster',
         rank: 4,
-        newType: 'update',
-      },
+              },
       {
         id: 'top-5',
         title: 'Starlight Symphony',
@@ -433,8 +426,7 @@ export class HomeApplicationService {
         quality: 'Dolby Vision',
         alt: 'Starlight Symphony poster',
         rank: 5,
-        newType: 'new',
-      },
+              },
       {
         id: 'top-6',
         title: 'The Midnight Bloom',
@@ -445,12 +437,10 @@ export class HomeApplicationService {
         quality: 'HD',
         alt: 'The Midnight Bloom poster',
         rank: 6,
-        newType: 'latest',
-      },
+              },
     ]
   }
 
-  
   /**
    * 生成随机评分颜色
    */

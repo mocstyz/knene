@@ -141,20 +141,22 @@ export interface LatestItem extends BaseMovieItem, MediaStatusItem {}
 export interface TopItem extends BaseMovieItem, MediaRankItem {}
 
 // ============================================================================
-// 兼容性接口 - 保持向后兼容
+// 迁移完成说明
 // ============================================================================
 
 /**
- * @deprecated 使用 BaseMovieItem 替代
- * 保留原SimpleMovieItem接口以确保向后兼容
+ * SimpleMovieItem和MovieItem接口已完全移除
+ * 请使用以下具体类型替代：
+ * - BaseMovieItem: 基础电影项目
+ * - FullMovieItem: 完整电影项目
+ * - TopicItem: 专题项目
+ * - PhotoItem: 写真项目
+ * - LatestItem: 最新更新项目
+ * - TopItem: TOP排名项目
+ *
+ * 迁移完成时间：2025-10-14
+ * 遵循DDD架构原则，使用领域专用类型
  */
-export interface SimpleMovieItem extends FullMovieItem {}
-
-/**
- * @deprecated 使用 FullMovieItem 替代
- * 保留原MovieItem接口以确保向后兼容
- */
-export interface MovieItem extends FullMovieItem {}
 
 // ============================================================================
 // 配置接口定义

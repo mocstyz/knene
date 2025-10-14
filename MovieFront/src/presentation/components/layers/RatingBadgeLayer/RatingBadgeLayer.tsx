@@ -19,7 +19,6 @@ import { cn } from '@utils/cn'
 import { formatAndValidateRating } from '@utils/formatters'
 import React from 'react'
 
-
 /**
  * 获取评分颜色样式函数 - 使用组件变体Token系统
  */

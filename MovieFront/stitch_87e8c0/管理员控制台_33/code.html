@@ -14,108 +14,268 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   </head>
   <body>
-    <div class="relative flex h-auto min-h-screen w-full flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
+    <div
+      class="group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-[#f8fbfa]"
+      style="font-family: Manrope, 'Noto Sans', sans-serif"
+    >
       <div class="layout-container flex h-full grow flex-col">
-        <div class="gap-1 px-6 flex flex-1 justify-center py-5">
-          <div class="layout-content-container flex flex-col w-80">
-            <div class="flex h-full min-h-[700px] flex-col justify-between bg-[#f8fbfa] p-4">
+        <div class="flex flex-1 justify-center gap-1 px-6 py-5">
+          <div class="layout-content-container flex w-80 flex-col">
+            <div
+              class="flex h-full min-h-[700px] flex-col justify-between bg-[#f8fbfa] p-4"
+            >
               <div class="flex flex-col gap-4">
-                <h1 class="text-[#0e1b14] text-base font-medium leading-normal">Admin Panel</h1>
+                <h1 class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Admin Panel
+                </h1>
                 <div class="flex flex-col gap-2">
                   <div class="flex items-center gap-3 px-3 py-2">
-                    <div class="text-[#0e1b14]" data-icon="House" data-size="24px" data-weight="regular">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <div
+                      class="text-[#0e1b14]"
+                      data-icon="House"
+                      data-size="24px"
+                      data-weight="regular"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24px"
+                        height="24px"
+                        fill="currentColor"
+                        viewBox="0 0 256 256"
+                      >
                         <path
                           d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.1Z"
                         ></path>
                       </svg>
                     </div>
-                    <p class="text-[#0e1b14] text-sm font-medium leading-normal">Dashboard</p>
+                    <p
+                      class="text-sm font-medium leading-normal text-[#0e1b14]"
+                    >
+                      Dashboard
+                    </p>
                   </div>
                   <div class="flex items-center gap-3 px-3 py-2">
-                    <div class="text-[#0e1b14]" data-icon="FilmReel" data-size="24px" data-weight="regular">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <div
+                      class="text-[#0e1b14]"
+                      data-icon="FilmReel"
+                      data-size="24px"
+                      data-weight="regular"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24px"
+                        height="24px"
+                        fill="currentColor"
+                        viewBox="0 0 256 256"
+                      >
                         <path
                           d="M224,216H183.36A103.95,103.95,0,1,0,128,232h96a8,8,0,0,0,0-16ZM40,128a88,88,0,1,1,88,88A88.1,88.1,0,0,1,40,128Zm88-24a24,24,0,1,0-24-24A24,24,0,0,0,128,104Zm0-32a8,8,0,1,1-8,8A8,8,0,0,1,128,72Zm24,104a24,24,0,1,0-24,24A24,24,0,0,0,152,176Zm-32,0a8,8,0,1,1,8,8A8,8,0,0,1,120,176Zm56-24a24,24,0,1,0-24-24A24,24,0,0,0,176,152Zm0-32a8,8,0,1,1-8,8A8,8,0,0,1,176,120ZM80,104a24,24,0,1,0,24,24A24,24,0,0,0,80,104Zm0,32a8,8,0,1,1,8-8A8,8,0,0,1,80,136Z"
                         ></path>
                       </svg>
                     </div>
-                    <p class="text-[#0e1b14] text-sm font-medium leading-normal">Movies</p>
+                    <p
+                      class="text-sm font-medium leading-normal text-[#0e1b14]"
+                    >
+                      Movies
+                    </p>
                   </div>
                   <div class="flex items-center gap-3 px-3 py-2">
-                    <div class="text-[#0e1b14]" data-icon="Megaphone" data-size="24px" data-weight="regular">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <div
+                      class="text-[#0e1b14]"
+                      data-icon="Megaphone"
+                      data-size="24px"
+                      data-weight="regular"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24px"
+                        height="24px"
+                        fill="currentColor"
+                        viewBox="0 0 256 256"
+                      >
                         <path
                           d="M240,120a48.05,48.05,0,0,0-48-48H152.2c-2.91-.17-53.62-3.74-101.91-44.24A16,16,0,0,0,24,40V200a16,16,0,0,0,26.29,12.25c37.77-31.68,77-40.76,93.71-43.3v31.72A16,16,0,0,0,151.12,214l11,7.33A16,16,0,0,0,186.5,212l11.77-44.36A48.07,48.07,0,0,0,240,120ZM40,199.93V40h0c42.81,35.91,86.63,45,104,47.24v65.48C126.65,155,82.84,164.07,40,199.93Zm131,8,0,.11-11-7.33V168h21.6ZM192,152H160V88h32a32,32,0,1,1,0,64Z"
                         ></path>
                       </svg>
                     </div>
-                    <p class="text-[#0e1b14] text-sm font-medium leading-normal">Requests</p>
+                    <p
+                      class="text-sm font-medium leading-normal text-[#0e1b14]"
+                    >
+                      Requests
+                    </p>
                   </div>
-                  <div class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#e8f3ed]">
-                    <div class="text-[#0e1b14]" data-icon="Flag" data-size="24px" data-weight="fill">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                  <div
+                    class="flex items-center gap-3 rounded-lg bg-[#e8f3ed] px-3 py-2"
+                  >
+                    <div
+                      class="text-[#0e1b14]"
+                      data-icon="Flag"
+                      data-size="24px"
+                      data-weight="fill"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24px"
+                        height="24px"
+                        fill="currentColor"
+                        viewBox="0 0 256 256"
+                      >
                         <path
                           d="M224,48V168a8,8,0,0,1-2.76,6c-15.28,13.23-29.89,18-43.82,18-18.91,0-36.57-8.74-53-16.85C97.87,162,74.79,150.61,48,171.77V216a8,8,0,0,1-16,0V48a8,8,0,0,1,2.77-6h0c36-31.18,68.31-15.21,96.79-1.12C159,54.46,182.79,66.2,210.76,42A8,8,0,0,1,224,48Z"
                         ></path>
                       </svg>
                     </div>
-                    <p class="text-[#0e1b14] text-sm font-medium leading-normal">Reports</p>
+                    <p
+                      class="text-sm font-medium leading-normal text-[#0e1b14]"
+                    >
+                      Reports
+                    </p>
                   </div>
                   <div class="flex items-center gap-3 px-3 py-2">
-                    <div class="text-[#0e1b14]" data-icon="Gear" data-size="24px" data-weight="regular">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <div
+                      class="text-[#0e1b14]"
+                      data-icon="Gear"
+                      data-size="24px"
+                      data-weight="regular"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24px"
+                        height="24px"
+                        fill="currentColor"
+                        viewBox="0 0 256 256"
+                      >
                         <path
                           d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"
                         ></path>
                       </svg>
                     </div>
-                    <p class="text-[#0e1b14] text-sm font-medium leading-normal">Settings</p>
+                    <p
+                      class="text-sm font-medium leading-normal text-[#0e1b14]"
+                    >
+                      Settings
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+          <div
+            class="layout-content-container flex max-w-[960px] flex-1 flex-col"
+          >
             <div class="flex flex-wrap justify-between gap-3 p-4">
               <div class="flex min-w-72 flex-col gap-3">
-                <p class="text-[#0e1b14] tracking-light text-[32px] font-bold leading-tight">Reporting and Analytics</p>
-                <p class="text-[#509573] text-sm font-normal leading-normal">Analyze site performance and user engagement with key metrics and trends.</p>
+                <p
+                  class="tracking-light text-[32px] font-bold leading-tight text-[#0e1b14]"
+                >
+                  Reporting and Analytics
+                </p>
+                <p class="text-sm font-normal leading-normal text-[#509573]">
+                  Analyze site performance and user engagement with key metrics
+                  and trends.
+                </p>
               </div>
             </div>
             <div class="flex flex-wrap gap-4 p-4">
-              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#e8f3ed]">
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Active Users</p>
-                <p class="text-[#0e1b14] tracking-light text-2xl font-bold leading-tight">2,500</p>
-                <p class="text-[#07882c] text-base font-medium leading-normal">+10%</p>
+              <div
+                class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg bg-[#e8f3ed] p-6"
+              >
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Active Users
+                </p>
+                <p
+                  class="tracking-light text-2xl font-bold leading-tight text-[#0e1b14]"
+                >
+                  2,500
+                </p>
+                <p class="text-base font-medium leading-normal text-[#07882c]">
+                  +10%
+                </p>
               </div>
-              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#e8f3ed]">
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Popular Content</p>
-                <p class="text-[#0e1b14] tracking-light text-2xl font-bold leading-tight">The Great Escape</p>
-                <p class="text-[#07882c] text-base font-medium leading-normal">+5%</p>
+              <div
+                class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg bg-[#e8f3ed] p-6"
+              >
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Popular Content
+                </p>
+                <p
+                  class="tracking-light text-2xl font-bold leading-tight text-[#0e1b14]"
+                >
+                  The Great Escape
+                </p>
+                <p class="text-base font-medium leading-normal text-[#07882c]">
+                  +5%
+                </p>
               </div>
-              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#e8f3ed]">
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Request Fulfillment Rate</p>
-                <p class="text-[#0e1b14] tracking-light text-2xl font-bold leading-tight">85%</p>
-                <p class="text-[#07882c] text-base font-medium leading-normal">+15%</p>
+              <div
+                class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg bg-[#e8f3ed] p-6"
+              >
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Request Fulfillment Rate
+                </p>
+                <p
+                  class="tracking-light text-2xl font-bold leading-tight text-[#0e1b14]"
+                >
+                  85%
+                </p>
+                <p class="text-base font-medium leading-normal text-[#07882c]">
+                  +15%
+                </p>
               </div>
-              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#e8f3ed]">
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Total Downloads</p>
-                <p class="text-[#0e1b14] tracking-light text-2xl font-bold leading-tight">15,000</p>
-                <p class="text-[#07882c] text-base font-medium leading-normal">+8%</p>
+              <div
+                class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg bg-[#e8f3ed] p-6"
+              >
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Total Downloads
+                </p>
+                <p
+                  class="tracking-light text-2xl font-bold leading-tight text-[#0e1b14]"
+                >
+                  15,000
+                </p>
+                <p class="text-base font-medium leading-normal text-[#07882c]">
+                  +8%
+                </p>
               </div>
             </div>
-            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Performance Metrics</h2>
+            <h2
+              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
+            >
+              Performance Metrics
+            </h2>
             <div class="flex flex-wrap gap-4 px-4 py-6">
-              <div class="flex min-w-72 flex-1 flex-col gap-2 rounded-lg border border-[#d1e6db] p-6">
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">User Engagement Over Time</p>
-                <p class="text-[#0e1b14] tracking-light text-[32px] font-bold leading-tight truncate">+15%</p>
+              <div
+                class="flex min-w-72 flex-1 flex-col gap-2 rounded-lg border border-[#d1e6db] p-6"
+              >
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  User Engagement Over Time
+                </p>
+                <p
+                  class="tracking-light truncate text-[32px] font-bold leading-tight text-[#0e1b14]"
+                >
+                  +15%
+                </p>
                 <div class="flex gap-1">
-                  <p class="text-[#509573] text-base font-normal leading-normal">Last 30 Days</p>
-                  <p class="text-[#07882c] text-base font-medium leading-normal">+5%</p>
+                  <p
+                    class="text-base font-normal leading-normal text-[#509573]"
+                  >
+                    Last 30 Days
+                  </p>
+                  <p
+                    class="text-base font-medium leading-normal text-[#07882c]"
+                  >
+                    +5%
+                  </p>
                 </div>
                 <div class="flex min-h-[180px] flex-1 flex-col gap-8 py-4">
-                  <svg width="100%" height="148" viewBox="-3 0 478 150" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                  <svg
+                    width="100%"
+                    height="148"
+                    viewBox="-3 0 478 150"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="none"
+                  >
                     <path
                       d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z"
                       fill="url(#paint0_linear_1131_5935)"
@@ -127,62 +287,213 @@
                       stroke-linecap="round"
                     ></path>
                     <defs>
-                      <linearGradient id="paint0_linear_1131_5935" x1="236" y1="1" x2="236" y2="149" gradientUnits="userSpaceOnUse">
+                      <linearGradient
+                        id="paint0_linear_1131_5935"
+                        x1="236"
+                        y1="1"
+                        x2="236"
+                        y2="149"
+                        gradientUnits="userSpaceOnUse"
+                      >
                         <stop stop-color="#e8f3ed"></stop>
-                        <stop offset="1" stop-color="#e8f3ed" stop-opacity="0"></stop>
+                        <stop
+                          offset="1"
+                          stop-color="#e8f3ed"
+                          stop-opacity="0"
+                        ></stop>
                       </linearGradient>
                     </defs>
                   </svg>
                   <div class="flex justify-around">
-                    <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">Jul 1</p>
-                    <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">Jul 8</p>
-                    <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">Jul 15</p>
-                    <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">Jul 22</p>
-                    <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">Jul 29</p>
+                    <p
+                      class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                    >
+                      Jul 1
+                    </p>
+                    <p
+                      class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                    >
+                      Jul 8
+                    </p>
+                    <p
+                      class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                    >
+                      Jul 15
+                    </p>
+                    <p
+                      class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                    >
+                      Jul 22
+                    </p>
+                    <p
+                      class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                    >
+                      Jul 29
+                    </p>
                   </div>
                 </div>
               </div>
-              <div class="flex min-w-72 flex-1 flex-col gap-2 rounded-lg border border-[#d1e6db] p-6">
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Content Popularity</p>
-                <p class="text-[#0e1b14] tracking-light text-[32px] font-bold leading-tight truncate">+8%</p>
+              <div
+                class="flex min-w-72 flex-1 flex-col gap-2 rounded-lg border border-[#d1e6db] p-6"
+              >
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Content Popularity
+                </p>
+                <p
+                  class="tracking-light truncate text-[32px] font-bold leading-tight text-[#0e1b14]"
+                >
+                  +8%
+                </p>
                 <div class="flex gap-1">
-                  <p class="text-[#509573] text-base font-normal leading-normal">Last 30 Days</p>
-                  <p class="text-[#07882c] text-base font-medium leading-normal">+3%</p>
+                  <p
+                    class="text-base font-normal leading-normal text-[#509573]"
+                  >
+                    Last 30 Days
+                  </p>
+                  <p
+                    class="text-base font-medium leading-normal text-[#07882c]"
+                  >
+                    +3%
+                  </p>
                 </div>
-                <div class="grid min-h-[180px] grid-flow-col gap-6 grid-rows-[1fr_auto] items-end justify-items-center px-3">
-                  <div class="border-[#509573] bg-[#e8f3ed] border-t-2 w-full" style="height: 30%;"></div>
-                  <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">The Great Escape</p>
-                  <div class="border-[#509573] bg-[#e8f3ed] border-t-2 w-full" style="height: 80%;"></div>
-                  <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">The Lost City</p>
-                  <div class="border-[#509573] bg-[#e8f3ed] border-t-2 w-full" style="height: 100%;"></div>
-                  <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">The Silent Witness</p>
-                  <div class="border-[#509573] bg-[#e8f3ed] border-t-2 w-full" style="height: 80%;"></div>
-                  <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">The Hidden Gem</p>
-                  <div class="border-[#509573] bg-[#e8f3ed] border-t-2 w-full" style="height: 50%;"></div>
-                  <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">The Midnight Sun</p>
+                <div
+                  class="grid min-h-[180px] grid-flow-col grid-rows-[1fr_auto] items-end justify-items-center gap-6 px-3"
+                >
+                  <div
+                    class="w-full border-t-2 border-[#509573] bg-[#e8f3ed]"
+                    style="height: 30%"
+                  ></div>
+                  <p
+                    class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                  >
+                    The Great Escape
+                  </p>
+                  <div
+                    class="w-full border-t-2 border-[#509573] bg-[#e8f3ed]"
+                    style="height: 80%"
+                  ></div>
+                  <p
+                    class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                  >
+                    The Lost City
+                  </p>
+                  <div
+                    class="w-full border-t-2 border-[#509573] bg-[#e8f3ed]"
+                    style="height: 100%"
+                  ></div>
+                  <p
+                    class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                  >
+                    The Silent Witness
+                  </p>
+                  <div
+                    class="w-full border-t-2 border-[#509573] bg-[#e8f3ed]"
+                    style="height: 80%"
+                  ></div>
+                  <p
+                    class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                  >
+                    The Hidden Gem
+                  </p>
+                  <div
+                    class="w-full border-t-2 border-[#509573] bg-[#e8f3ed]"
+                    style="height: 50%"
+                  ></div>
+                  <p
+                    class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                  >
+                    The Midnight Sun
+                  </p>
                 </div>
               </div>
             </div>
-            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Download Trends</h2>
+            <h2
+              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
+            >
+              Download Trends
+            </h2>
             <div class="flex flex-wrap gap-4 px-4 py-6">
-              <div class="flex min-w-72 flex-1 flex-col gap-2 rounded-lg border border-[#d1e6db] p-6">
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Download Trends by Category</p>
-                <p class="text-[#0e1b14] tracking-light text-[32px] font-bold leading-tight truncate">+12%</p>
+              <div
+                class="flex min-w-72 flex-1 flex-col gap-2 rounded-lg border border-[#d1e6db] p-6"
+              >
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Download Trends by Category
+                </p>
+                <p
+                  class="tracking-light truncate text-[32px] font-bold leading-tight text-[#0e1b14]"
+                >
+                  +12%
+                </p>
                 <div class="flex gap-1">
-                  <p class="text-[#509573] text-base font-normal leading-normal">Last 30 Days</p>
-                  <p class="text-[#07882c] text-base font-medium leading-normal">+4%</p>
+                  <p
+                    class="text-base font-normal leading-normal text-[#509573]"
+                  >
+                    Last 30 Days
+                  </p>
+                  <p
+                    class="text-base font-medium leading-normal text-[#07882c]"
+                  >
+                    +4%
+                  </p>
                 </div>
-                <div class="grid min-h-[180px] gap-x-4 gap-y-6 grid-cols-[auto_1fr] items-center py-3">
-                  <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">Action</p>
-                  <div class="h-full flex-1"><div class="border-[#509573] bg-[#e8f3ed] border-r-2 h-full" style="width: 90%;"></div></div>
-                  <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">Comedy</p>
-                  <div class="h-full flex-1"><div class="border-[#509573] bg-[#e8f3ed] border-r-2 h-full" style="width: 40%;"></div></div>
-                  <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">Drama</p>
-                  <div class="h-full flex-1"><div class="border-[#509573] bg-[#e8f3ed] border-r-2 h-full" style="width: 20%;"></div></div>
-                  <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">Thriller</p>
-                  <div class="h-full flex-1"><div class="border-[#509573] bg-[#e8f3ed] border-r-2 h-full" style="width: 20%;"></div></div>
-                  <p class="text-[#509573] text-[13px] font-bold leading-normal tracking-[0.015em]">Sci-Fi</p>
-                  <div class="h-full flex-1"><div class="border-[#509573] bg-[#e8f3ed] border-r-2 h-full" style="width: 90%;"></div></div>
+                <div
+                  class="grid min-h-[180px] grid-cols-[auto_1fr] items-center gap-x-4 gap-y-6 py-3"
+                >
+                  <p
+                    class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                  >
+                    Action
+                  </p>
+                  <div class="h-full flex-1">
+                    <div
+                      class="h-full border-r-2 border-[#509573] bg-[#e8f3ed]"
+                      style="width: 90%"
+                    ></div>
+                  </div>
+                  <p
+                    class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                  >
+                    Comedy
+                  </p>
+                  <div class="h-full flex-1">
+                    <div
+                      class="h-full border-r-2 border-[#509573] bg-[#e8f3ed]"
+                      style="width: 40%"
+                    ></div>
+                  </div>
+                  <p
+                    class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                  >
+                    Drama
+                  </p>
+                  <div class="h-full flex-1">
+                    <div
+                      class="h-full border-r-2 border-[#509573] bg-[#e8f3ed]"
+                      style="width: 20%"
+                    ></div>
+                  </div>
+                  <p
+                    class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                  >
+                    Thriller
+                  </p>
+                  <div class="h-full flex-1">
+                    <div
+                      class="h-full border-r-2 border-[#509573] bg-[#e8f3ed]"
+                      style="width: 20%"
+                    ></div>
+                  </div>
+                  <p
+                    class="text-[13px] font-bold leading-normal tracking-[0.015em] text-[#509573]"
+                  >
+                    Sci-Fi
+                  </p>
+                  <div class="h-full flex-1">
+                    <div
+                      class="h-full border-r-2 border-[#509573] bg-[#e8f3ed]"
+                      style="width: 90%"
+                    ></div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -10,34 +10,26 @@
 
 import { MOVIE_ENDPOINTS } from '@infrastructure/api/endpoints'
 import { generateRandomRating } from '@utils/formatters'
-
-/**
- * 简单电影项目接口（与MovieList组件保持一致）
- */
-export interface SimpleMovieItem {
-  id: string
-  title: string
-  type: 'Movie' | 'TV Show' | 'Collection'
-  rating: string
-  imageUrl: string
-  ratingColor?: 'purple' | 'red' | 'white' | 'default'
-  quality?: string
-  description?: string
-  alt?: string
-}
+import type {
+  TopicItem,
+  PhotoItem,
+  LatestItem,
+  TopItem,
+} from '@types-movie/movie.types'
 
 /**
  * 首页数据响应接口
+ * 使用具体的领域类型，遵循DDD架构原则
  */
 export interface HomeDataResponse {
   /** 专题数据 */
-  topics: SimpleMovieItem[]
+  topics: TopicItem[]
   /** 写真数据 */
-  photos: SimpleMovieItem[]
+  photos: PhotoItem[]
   /** 最新更新数据 */
-  latestUpdates: SimpleMovieItem[]
+  latestUpdates: LatestItem[]
   /** 24小时TOP数据 */
-  topDaily: SimpleMovieItem[]
+  topDaily: TopItem[]
 }
 
 /**
@@ -54,6 +46,7 @@ export interface HomeDataParams {
 
 /**
  * 首页仓储接口
+ * 使用具体的领域类型，遵循DDD架构原则
  */
 export interface IHomeRepository {
   /**
@@ -68,28 +61,28 @@ export interface IHomeRepository {
    * @param limit 数量限制
    * @returns 专题列表
    */
-  getTopics(limit?: number): Promise<SimpleMovieItem[]>
+  getTopics(limit?: number): Promise<TopicItem[]>
 
   /**
    * 获取写真数据
    * @param limit 数量限制
    * @returns 写真列表
    */
-  getPhotos(limit?: number): Promise<SimpleMovieItem[]>
+  getPhotos(limit?: number): Promise<PhotoItem[]>
 
   /**
    * 获取最新更新数据
    * @param limit 数量限制
    * @returns 最新更新列表
    */
-  getLatestUpdates(limit?: number): Promise<SimpleMovieItem[]>
+  getLatestUpdates(limit?: number): Promise<LatestItem[]>
 
   /**
    * 获取24小时TOP数据
    * @param limit 数量限制
    * @returns TOP列表
    */
-  getTopDaily(limit?: number): Promise<SimpleMovieItem[]>
+  getTopDaily(limit?: number): Promise<TopItem[]>
 }
 
 /**
@@ -141,7 +134,7 @@ export class HomeRepository implements IHomeRepository {
   /**
    * 获取专题数据
    */
-  async getTopics(limit = 3): Promise<SimpleMovieItem[]> {
+  async getTopics(limit = 3): Promise<TopicItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
       `${MOVIE_ENDPOINTS.CATEGORIES}/topics`,
@@ -167,7 +160,7 @@ export class HomeRepository implements IHomeRepository {
   /**
    * 获取写真数据
    */
-  async getPhotos(limit = 6): Promise<SimpleMovieItem[]> {
+  async getPhotos(limit = 6): Promise<PhotoItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
       `${MOVIE_ENDPOINTS.CATEGORIES}/photos`,
@@ -183,7 +176,7 @@ export class HomeRepository implements IHomeRepository {
       }
 
       const data = await response.json()
-      return this.transformMovies(data)
+      return this.transformPhotos(data)
     } catch (error) {
       console.error('Error fetching photos:', error)
       return []
@@ -193,7 +186,7 @@ export class HomeRepository implements IHomeRepository {
   /**
    * 获取最新更新数据
    */
-  async getLatestUpdates(limit = 6): Promise<SimpleMovieItem[]> {
+  async getLatestUpdates(limit = 6): Promise<LatestItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
       MOVIE_ENDPOINTS.LATEST,
@@ -209,7 +202,7 @@ export class HomeRepository implements IHomeRepository {
       }
 
       const data = await response.json()
-      return this.transformMovies(data)
+      return this.transformLatestUpdates(data)
     } catch (error) {
       console.error('Error fetching latest updates:', error)
       return []
@@ -219,7 +212,7 @@ export class HomeRepository implements IHomeRepository {
   /**
    * 获取24小时TOP数据
    */
-  async getTopDaily(limit = 6): Promise<SimpleMovieItem[]> {
+  async getTopDaily(limit = 6): Promise<TopItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
       `${MOVIE_ENDPOINTS.TRENDING}/daily`,
@@ -235,7 +228,7 @@ export class HomeRepository implements IHomeRepository {
       }
 
       const data = await response.json()
-      return this.transformMovies(data)
+      return this.transformTopDaily(data)
     } catch (error) {
       console.error('Error fetching top daily:', error)
       return []
@@ -248,42 +241,75 @@ export class HomeRepository implements IHomeRepository {
   private transformApiResponse(apiData: any): HomeDataResponse {
     return {
       topics: this.transformTopics(apiData.topics || []),
-      photos: this.transformMovies(apiData.photos || []),
-      latestUpdates: this.transformMovies(apiData.latestUpdates || []),
-      topDaily: this.transformMovies(apiData.topDaily || []),
+      photos: this.transformPhotos(apiData.photos || []),
+      latestUpdates: this.transformLatestUpdates(apiData.latestUpdates || []),
+      topDaily: this.transformTopDaily(apiData.topDaily || []),
     }
   }
 
   /**
-   * 转换专题数据 - 专题不需要评分信息
+   * 转换专题数据 - 直接返回TopicItem类型
    */
-  private transformTopics(topics: any[]): SimpleMovieItem[] {
+  private transformTopics(topics: any[]): TopicItem[] {
     return topics.map(topic => ({
       id: topic.id || topic._id,
       title: topic.title || topic.name,
       type: 'Collection' as const,
-      rating: '', // 专题不需要评分信息
       imageUrl: topic.poster || topic.imageUrl || topic.coverImage,
-      ratingColor: 'default' as const,
       description: topic.description || topic.summary,
       alt: topic.alt || `${topic.title || topic.name} poster`,
     }))
   }
 
   /**
-   * 转换电影数据
+   * 转换写真数据 - 直接返回PhotoItem类型
    */
-  private transformMovies(movies: any[]): SimpleMovieItem[] {
-    return movies.map(movie => ({
-      id: movie.id || movie._id,
-      title: movie.title || movie.name,
-      type: movie.type === 'series' ? 'TV Show' : 'Movie',
-      rating: movie.rating?.toString() || generateRandomRating(),
-      imageUrl: movie.poster || movie.imageUrl || movie.coverImage,
-      ratingColor: this.getRatingColor(movie.rating),
-      quality: movie.quality || this.getRandomQuality(),
-      description: movie.description || movie.summary,
-      alt: movie.alt || `${movie.title || movie.name} poster`,
+  private transformPhotos(photos: any[]): PhotoItem[] {
+    return photos.map(photo => ({
+      id: photo.id || photo._id,
+      title: photo.title || photo.name,
+      type: photo.type === 'series' ? 'TV Show' : 'Movie',
+      rating: photo.rating?.toString() || generateRandomRating(),
+      imageUrl: photo.poster || photo.imageUrl || photo.coverImage,
+      ratingColor: this.getRatingColor(photo.rating),
+      quality: photo.quality || this.getRandomQuality(),
+      formatType: (photo.formatType as 'JPEG高' | 'PNG' | 'WebP' | 'GIF' | 'BMP') || 'JPEG高',
+      alt: photo.alt || `${photo.title || photo.name} poster`,
+    }))
+  }
+
+  /**
+   * 转换最新更新数据 - 直接返回LatestItem类型
+   */
+  private transformLatestUpdates(latest: any[]): LatestItem[] {
+    return latest.map(item => ({
+      id: item.id || item._id,
+      title: item.title || item.name,
+      type: item.type === 'series' ? 'TV Show' : 'Movie',
+      rating: item.rating?.toString() || generateRandomRating(),
+      imageUrl: item.poster || item.imageUrl || item.coverImage,
+      ratingColor: this.getRatingColor(item.rating),
+      quality: item.quality || this.getRandomQuality(),
+      alt: item.alt || `${item.title || item.name} poster`,
+      isNew: item.isNew || Math.random() > 0.7, // 随机设置新片状态
+      newType: (item.newType as 'new' | 'update' | 'today' | 'latest') || (Math.random() > 0.5 ? 'new' : 'update'),
+    }))
+  }
+
+  /**
+   * 转换TOP数据 - 直接返回TopItem类型
+   */
+  private transformTopDaily(topItems: any[]): TopItem[] {
+    return topItems.map((item, index) => ({
+      id: item.id || item._id,
+      title: item.title || item.name,
+      type: item.type === 'series' ? 'TV Show' : 'Movie',
+      rating: item.rating?.toString() || generateRandomRating(),
+      imageUrl: item.poster || item.imageUrl || item.coverImage,
+      ratingColor: this.getRatingColor(item.rating),
+      quality: item.quality || this.getRandomQuality(),
+      alt: item.alt || `${item.title || item.name} poster`,
+      rank: index + 1, // 设置排名
     }))
   }
 
@@ -299,7 +325,6 @@ export class HomeRepository implements IHomeRepository {
     return 'white'
   }
 
-  
   /**
    * 获取随机质量（作为fallback）
    */

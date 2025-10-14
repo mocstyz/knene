@@ -8,7 +8,8 @@
  * @version 1.0.0
  */
 
-import { MovieList, type SimpleMovieItem } from '@components/domains'
+import { TextLink } from '@components/atoms'
+import { MovieList } from '@components/domains'
 import type { TopItem as BaseTopItem } from '@types-movie/movie.types'
 import { cn } from '@utils/cn'
 import React from 'react'
@@ -91,12 +92,9 @@ const TopSection: React.FC<TopSectionProps> = ({
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">24小时TOP</h2>
         {showMoreLink && (
-          <a
-            href={moreLinkUrl}
-            className="text-primary transition-colors hover:underline"
-          >
+          <TextLink href={moreLinkUrl} variant="primary" size="sm">
             {moreLinkText}
-          </a>
+          </TextLink>
         )}
       </div>
 
@@ -109,7 +107,7 @@ const TopSection: React.FC<TopSectionProps> = ({
         columns={columns}
         onMovieClick={
           onTopClick
-            ? (item: SimpleMovieItem) => onTopClick(item as TopItem)
+            ? (item: BaseTopItem) => onTopClick(item as TopItem)
             : undefined
         }
         cardConfig={{

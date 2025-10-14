@@ -35,10 +35,16 @@
 
 ```typescript
 // 只导入需要的基础组件变体
-import { buttonVariants, type ButtonVariant } from '@tokens/design-system/base-variants'
+import {
+  buttonVariants,
+  type ButtonVariant,
+} from '@tokens/design-system/base-variants'
 
 // 只导入需要的业务组件变体
-import { movieCardVariants, type MovieCardVariant } from '@tokens/domains/movie-variants'
+import {
+  movieCardVariants,
+  type MovieCardVariant,
+} from '@tokens/domains/movie-variants'
 ```
 
 ### 2. 便捷导入
@@ -66,12 +72,12 @@ export const newComponentVariants = {
   base: 'base-classes',
   variant: {
     primary: 'primary-classes',
-    secondary: 'secondary-classes'
+    secondary: 'secondary-classes',
   },
   size: {
     sm: 'small-classes',
-    md: 'medium-classes'
-  }
+    md: 'medium-classes',
+  },
 } as const
 
 export type NewComponentVariant = 'primary' | 'secondary'
@@ -88,8 +94,8 @@ export const newMovieComponentVariants = {
   base: 'base-classes',
   variant: {
     default: 'default-classes',
-    featured: 'featured-classes'
-  }
+    featured: 'featured-classes',
+  },
 } as const
 
 export type NewMovieComponentVariant = 'default' | 'featured'

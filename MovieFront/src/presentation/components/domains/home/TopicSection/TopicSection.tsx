@@ -8,14 +8,14 @@
  * @version 1.0.0
  */
 
+import React from 'react'
+import { cn } from '@utils/cn'
+import { TextLink } from '@components/atoms'
 import { MovieList } from '@components/domains'
 import type {
-  SimpleMovieItem,
   TopicItem as BaseTopicItem,
+  BaseMovieItem,
 } from '@types-movie/movie.types'
-import { cn } from '@utils/cn'
-import React from 'react'
-import { Link } from 'react-router-dom'
 
 /**
  * 专题项目接口 - 扩展基础接口
@@ -86,25 +86,24 @@ const TopicSection: React.FC<TopicSectionProps> = ({
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">专题</h2>
         {showMoreLink && (
-          <Link
-            to={moreLinkUrl}
-            className="text-primary transition-colors hover:underline"
-          >
+          <TextLink href={moreLinkUrl} variant="primary" size="sm">
             {moreLinkText}
-          </Link>
+          </TextLink>
         )}
       </div>
 
-      {/* 专题列表 - 将 TopicItem 转换为 SimpleMovieItem */}
+      {/* 专题列表 - 直接传递TopicItem，因为MovieList可以处理包含description的对象 */}
       <MovieList
         movies={topics.map(
-          (topic): SimpleMovieItem => ({
+          (topic) => ({
             id: topic.id,
             title: topic.title,
             type: topic.type,
             rating: '', // 专题不需要评分
             imageUrl: topic.imageUrl,
-            description: topic.description,
+            ratingColor: 'default' as const,
+            quality: undefined,
+            description: topic.description, // 保留描述字段作为副标题
             alt: topic.alt,
           })
         )}
@@ -114,7 +113,7 @@ const TopicSection: React.FC<TopicSectionProps> = ({
         columns={columns}
         onMovieClick={
           onTopicClick
-            ? (item: SimpleMovieItem) =>
+            ? (item: any) =>
                 onTopicClick({
                   id: item.id,
                   title: item.title,

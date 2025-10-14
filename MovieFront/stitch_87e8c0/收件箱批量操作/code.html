@@ -15,35 +15,79 @@
   </head>
   <body>
     <div
-      class="relative flex h-auto min-h-screen w-full flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden"
-      style='--radio-dot-svg: url(&apos;data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(99,233,166)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3ccircle cx=%278%27 cy=%278%27 r=%273%27/%3e%3c/svg%3e&apos;); font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'
+      class="group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-[#f8fbfa]"
+      style="
+        --radio-dot-svg: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(99,233,166)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3ccircle cx=%278%27 cy=%278%27 r=%273%27/%3e%3c/svg%3e');
+        font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif;
+      "
     >
       <div class="layout-container flex h-full grow flex-col">
-        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3">
+        <header
+          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3"
+        >
           <div class="flex items-center gap-4 text-[#0e1b14]">
             <div class="size-4">
-              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                viewBox="0 0 48 48"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z"
                   fill="currentColor"
                 ></path>
               </svg>
             </div>
-            <h2 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em]">CineHub</h2>
+            <h2
+              class="text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
+            >
+              CineHub
+            </h2>
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Home</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Movies</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">TV Shows</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Requests</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">My List</a>
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Home</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Movies</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >TV Shows</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Requests</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >My List</a
+              >
             </div>
             <button
-              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#e8f3ed] text-[#0e1b14] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+              class="flex h-10 min-w-0 max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-[#e8f3ed] px-2.5 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
             >
-              <div class="text-[#0e1b14]" data-icon="Bell" data-size="20px" data-weight="regular">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <div
+                class="text-[#0e1b14]"
+                data-icon="Bell"
+                data-size="20px"
+                data-weight="regular"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20px"
+                  height="20px"
+                  fill="currentColor"
+                  viewBox="0 0 256 256"
+                >
                   <path
                     d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"
                   ></path>
@@ -51,58 +95,92 @@
               </div>
             </button>
             <div
-              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAu17Rt6C8URqEpctRML1ci1KaIUEyfc2yBIy31n8KPsWW-LOcsCj86QZdWlP0v7M5ol6KtSyhTIQViOLiX64ZdDfBAmfwFAjxKw_h1v3bmryTfUqGQwYqNs948GoaXeOF38gE5AcsWETqTZP-3sm8RiQuJIkWivxXL4QSLm_S8qCxczDMjy5H5GWlf5N1r15aDJyr7escHJvkpvpHLhfM2ojv30lKC2tUK0HGqPQmir4pmg2PGf3AuSuJODT3qVBq4cHwRQ6DX__b9");'
+              class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat"
+              style="
+                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAu17Rt6C8URqEpctRML1ci1KaIUEyfc2yBIy31n8KPsWW-LOcsCj86QZdWlP0v7M5ol6KtSyhTIQViOLiX64ZdDfBAmfwFAjxKw_h1v3bmryTfUqGQwYqNs948GoaXeOF38gE5AcsWETqTZP-3sm8RiQuJIkWivxXL4QSLm_S8qCxczDMjy5H5GWlf5N1r15aDJyr7escHJvkpvpHLhfM2ojv30lKC2tUK0HGqPQmir4pmg2PGf3AuSuJODT3qVBq4cHwRQ6DX__b9');
+              "
             ></div>
           </div>
         </header>
-        <div class="px-40 flex flex-1 justify-center py-5">
-          <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
-            <h2 class="text-[#0e1b14] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Bulk Actions</h2>
+        <div class="flex flex-1 justify-center px-40 py-5">
+          <div
+            class="layout-content-container flex w-[512px] max-w-[512px] max-w-[960px] flex-1 flex-col py-5"
+          >
+            <h2
+              class="tracking-light px-4 pb-3 pt-5 text-center text-[28px] font-bold leading-tight text-[#0e1b14]"
+            >
+              Bulk Actions
+            </h2>
             <div class="flex flex-col gap-3 p-4">
-              <label class="flex items-center gap-4 rounded-lg border border-solid border-[#d1e6db] p-[15px]">
+              <label
+                class="flex items-center gap-4 rounded-lg border border-solid border-[#d1e6db] p-[15px]"
+              >
                 <input
                   type="radio"
                   class="h-5 w-5 border-2 border-[#d1e6db] bg-transparent text-transparent checked:border-[#63e9a6] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#63e9a6]"
                   name="c34884ac-26b0-4597-8be9-61bb94a1c0bd"
                   checked=""
                 />
-                <div class="flex grow flex-col"><p class="text-[#0e1b14] text-sm font-medium leading-normal">Archive Selected</p></div>
+                <div class="flex grow flex-col">
+                  <p class="text-sm font-medium leading-normal text-[#0e1b14]">
+                    Archive Selected
+                  </p>
+                </div>
               </label>
-              <label class="flex items-center gap-4 rounded-lg border border-solid border-[#d1e6db] p-[15px]">
+              <label
+                class="flex items-center gap-4 rounded-lg border border-solid border-[#d1e6db] p-[15px]"
+              >
                 <input
                   type="radio"
                   class="h-5 w-5 border-2 border-[#d1e6db] bg-transparent text-transparent checked:border-[#63e9a6] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#63e9a6]"
                   name="c34884ac-26b0-4597-8be9-61bb94a1c0bd"
                 />
-                <div class="flex grow flex-col"><p class="text-[#0e1b14] text-sm font-medium leading-normal">Delete Selected</p></div>
+                <div class="flex grow flex-col">
+                  <p class="text-sm font-medium leading-normal text-[#0e1b14]">
+                    Delete Selected
+                  </p>
+                </div>
               </label>
-              <label class="flex items-center gap-4 rounded-lg border border-solid border-[#d1e6db] p-[15px]">
+              <label
+                class="flex items-center gap-4 rounded-lg border border-solid border-[#d1e6db] p-[15px]"
+              >
                 <input
                   type="radio"
                   class="h-5 w-5 border-2 border-[#d1e6db] bg-transparent text-transparent checked:border-[#63e9a6] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#63e9a6]"
                   name="c34884ac-26b0-4597-8be9-61bb94a1c0bd"
                 />
-                <div class="flex grow flex-col"><p class="text-[#0e1b14] text-sm font-medium leading-normal">Mark as Read Selected</p></div>
+                <div class="flex grow flex-col">
+                  <p class="text-sm font-medium leading-normal text-[#0e1b14]">
+                    Mark as Read Selected
+                  </p>
+                </div>
               </label>
-              <label class="flex items-center gap-4 rounded-lg border border-solid border-[#d1e6db] p-[15px]">
+              <label
+                class="flex items-center gap-4 rounded-lg border border-solid border-[#d1e6db] p-[15px]"
+              >
                 <input
                   type="radio"
                   class="h-5 w-5 border-2 border-[#d1e6db] bg-transparent text-transparent checked:border-[#63e9a6] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#63e9a6]"
                   name="c34884ac-26b0-4597-8be9-61bb94a1c0bd"
                 />
-                <div class="flex grow flex-col"><p class="text-[#0e1b14] text-sm font-medium leading-normal">Mark as Unread Selected</p></div>
+                <div class="flex grow flex-col">
+                  <p class="text-sm font-medium leading-normal text-[#0e1b14]">
+                    Mark as Unread Selected
+                  </p>
+                </div>
               </label>
             </div>
             <div class="flex justify-center">
-              <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 max-w-[480px] justify-center">
+              <div
+                class="flex max-w-[480px] flex-1 flex-wrap justify-center gap-3 px-4 py-3"
+              >
                 <button
-                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-bold leading-normal tracking-[0.015em] grow"
+                  class="flex h-10 min-w-[84px] max-w-[480px] grow cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
                 >
                   <span class="truncate">Cancel</span>
                 </button>
                 <button
-                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#63e9a6] text-[#0e1b14] text-sm font-bold leading-normal tracking-[0.015em] grow"
+                  class="flex h-10 min-w-[84px] max-w-[480px] grow cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#63e9a6] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
                 >
                   <span class="truncate">Apply</span>
                 </button>

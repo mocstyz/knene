@@ -64,17 +64,7 @@ export const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({
       {/* 主菜单项 */}
       <a
         href={href}
-        className={`
-          flex items-center space-x-3 rounded-lg px-4 py-3
-          text-base font-medium text-gray-700 transition-all
-          duration-200 ease-in-out hover:bg-green-100 hover:text-green-600
-          hover:shadow-md
-          focus:outline-none focus:ring-1 focus:ring-primary/40
-          focus:ring-offset-1 focus:ring-offset-transparent dark:text-gray-300 dark:hover:bg-green-900/20 dark:hover:text-green-400
-          ${currentPage === href?.slice(1) ? 'bg-primary text-white focus:bg-primary focus:text-white' : ''}
-          ${hasSubmenu ? 'cursor-pointer' : ''}
-          ${className}
-        `}
+        className={`flex items-center space-x-3 rounded-lg px-4 py-3 text-base font-medium text-gray-700 transition-all duration-200 ease-in-out hover:bg-green-100 hover:text-green-600 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-primary/40 focus:ring-offset-1 focus:ring-offset-transparent dark:text-gray-300 dark:hover:bg-green-900/20 dark:hover:text-green-400 ${currentPage === href?.slice(1) ? 'bg-primary text-white focus:bg-primary focus:text-white' : ''} ${hasSubmenu ? 'cursor-pointer' : ''} ${className} `}
         role="menuitem"
         onClick={handleClick}
       >
@@ -89,10 +79,7 @@ export const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({
           <Icon
             name={expandIcon}
             size="xs"
-            className={`
-              opacity-50 transition-transform duration-200
-              ${isExpanded ? 'rotate-90' : ''}
-            `}
+            className={`opacity-50 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''} `}
           />
         )}
       </a>
@@ -100,10 +87,7 @@ export const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({
       {/* 二级菜单 */}
       {hasSubmenu && submenuContent && (
         <div
-          className={`
-            overflow-hidden transition-all duration-200 ease-in-out
-            ${isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
-          `}
+          className={`overflow-hidden transition-all duration-200 ease-in-out ${isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} `}
         >
           <div className="mt-1 border-t border-gray-200 dark:border-gray-700">
             <div className="py-2 pl-8 pr-4">{submenuContent}</div>

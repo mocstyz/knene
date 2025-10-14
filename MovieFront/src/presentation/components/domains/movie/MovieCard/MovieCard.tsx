@@ -108,7 +108,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
   return (
     <div
       className={cn(
-        'group cursor-pointer space-y-3',
+        'cursor-pointer space-y-3 group',
         !!onPlay &&
           'transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]',
         className

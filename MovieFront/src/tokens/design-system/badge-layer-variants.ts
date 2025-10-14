@@ -57,7 +57,8 @@ export const badgeLayerVariants = {
     new: {
       default: 'bg-red-500/80 dark:bg-red-600/80 text-white dark:text-gray-100',
       compact: 'bg-red-500/70 dark:bg-red-600/70 text-white dark:text-gray-100',
-      prominent: 'bg-red-500/90 dark:bg-red-600/90 text-white dark:text-gray-100 shadow-lg dark:shadow-xl',
+      prominent:
+        'bg-red-500/90 dark:bg-red-600/90 text-white dark:text-gray-100 shadow-lg dark:shadow-xl',
     },
   },
   // 评分颜色映射 - 匹配trending模块样式

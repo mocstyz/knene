@@ -5,11 +5,9 @@ export type { MovieListProps } from './MovieList'
 export type { MovieListLayoutProps } from './MovieListLayout'
 export type { MovieListItemProps } from './MovieListItem'
 
-// 从@types-movie导出相关类型，保持向后兼容
+// 从@types-movie导出相关类型，移除废弃的类型
 export type {
   BaseMovieItem,
-  SimpleMovieItem, // 向后兼容
-  MovieItem, // 向后兼容
   TopicItem,
   PhotoItem,
   LatestItem,

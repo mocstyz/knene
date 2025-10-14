@@ -15,7 +15,11 @@ import React, { useState } from 'react'
  * @param itemIndex 当前页的项目索引
  * @returns 格式化的专题标题
  */
-const generateTopicTitle = (category: string, pageNum: number, itemIndex: number): string => {
+const generateTopicTitle = (
+  category: string,
+  pageNum: number,
+  itemIndex: number
+): string => {
   return `${category} - 第${pageNum}页-${itemIndex + 1}`
 }
 

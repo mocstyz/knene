@@ -76,7 +76,11 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
   clickable = false,
   onClick,
   showGradient = false,
-  hoverEffect = { enabled: false, hoverColor: 'red', transitionDuration: '200ms' },
+  hoverEffect = {
+    enabled: false,
+    hoverColor: 'red',
+    transitionDuration: '200ms',
+  },
 }) => {
   // 字体粗细样式映射
   const weightClasses = {

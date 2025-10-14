@@ -330,9 +330,11 @@ export function generateRandomRating(
  * @param rating 评分值（数字或字符串）
  * @returns 验证和格式化后的结果
  */
-export function formatAndValidateRating(
-  rating: number | string
-): { isValid: boolean; displayText: string; numericValue?: number } {
+export function formatAndValidateRating(rating: number | string): {
+  isValid: boolean
+  displayText: string
+  numericValue?: number
+} {
   // 处理字符串评分
   if (typeof rating === 'string') {
     // 去除空格并转为大写

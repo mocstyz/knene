@@ -100,7 +100,7 @@ const HeroSection = React.forwardRef<HTMLElement>((_, ref) => {
       {/* 左右切换按钮 */}
       <button
         onClick={goToPrevious}
-        className="group absolute left-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-black/50"
+        className="absolute left-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-all duration-300 group hover:scale-110 hover:bg-black/50"
         aria-label="Previous slide"
       >
         <Icon
@@ -112,7 +112,7 @@ const HeroSection = React.forwardRef<HTMLElement>((_, ref) => {
 
       <button
         onClick={goToNext}
-        className="group absolute right-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-black/50"
+        className="absolute right-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-all duration-300 group hover:scale-110 hover:bg-black/50"
         aria-label="Next slide"
       >
         <Icon

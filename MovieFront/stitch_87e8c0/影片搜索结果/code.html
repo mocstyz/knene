@@ -15,15 +15,21 @@
   </head>
   <body>
     <div
-      class="relative flex h-auto min-h-screen w-full flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden"
-      style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'
+      class="group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-[#f8fbfa]"
+      style="font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif"
     >
       <div class="layout-container flex h-full grow flex-col">
-        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3">
+        <header
+          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3"
+        >
           <div class="flex items-center gap-8">
             <div class="flex items-center gap-4 text-[#0e1b14]">
               <div class="size-4">
-                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  viewBox="0 0 48 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z"
                     fill="currentColor"
@@ -36,25 +42,51 @@
                   ></path>
                 </svg>
               </div>
-              <h2 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em]">MovieSeeker</h2>
+              <h2
+                class="text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
+              >
+                MovieSeeker
+              </h2>
             </div>
             <div class="flex items-center gap-9">
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Home</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Movies</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">TV Shows</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Requests</a>
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Home</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Movies</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >TV Shows</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Requests</a
+              >
             </div>
           </div>
           <div class="flex flex-1 justify-end gap-8">
-            <label class="flex flex-col min-w-40 !h-10 max-w-64">
-              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+            <label class="flex !h-10 min-w-40 max-w-64 flex-col">
+              <div class="flex h-full w-full flex-1 items-stretch rounded-lg">
                 <div
-                  class="text-[#509573] flex border-none bg-[#e8f3ed] items-center justify-center pl-4 rounded-l-lg border-r-0"
+                  class="flex items-center justify-center rounded-l-lg border-r-0 border-none bg-[#e8f3ed] pl-4 text-[#509573]"
                   data-icon="MagnifyingGlass"
                   data-size="24px"
                   data-weight="regular"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24px"
+                    height="24px"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                  >
                     <path
                       d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
                     ></path>
@@ -62,16 +94,27 @@
                 </div>
                 <input
                   placeholder="Search"
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-full placeholder:text-[#509573] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                  class="form-input flex h-full w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none border-l-0 border-none bg-[#e8f3ed] px-4 pl-2 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
                   value=""
                 />
               </div>
             </label>
             <button
-              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#e8f3ed] text-[#0e1b14] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+              class="flex h-10 min-w-0 max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-[#e8f3ed] px-2.5 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
             >
-              <div class="text-[#0e1b14]" data-icon="Bell" data-size="20px" data-weight="regular">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <div
+                class="text-[#0e1b14]"
+                data-icon="Bell"
+                data-size="20px"
+                data-weight="regular"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20px"
+                  height="20px"
+                  fill="currentColor"
+                  viewBox="0 0 256 256"
+                >
                   <path
                     d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"
                   ></path>
@@ -79,38 +122,61 @@
               </div>
             </button>
             <div
-              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBNtNIoptzMDb-Wb4_wQ1quSDKJ1675NmXG36y_MRnxa_D7DU4zCFFIcLVfW1H0cXqJrTJ1qOQf6n4ZeSQ2fz4SagZIi6NHgdP_LomY0PkpNzu-isjGpAbsF-DGRtgXHmQZ6ffNbj5nch4mC88-nvGRRsghNSAAEMlV1m4yLTFiwD-9k2urmeW6R9CFM7P4vb8FQQkxLdI0X5fEXOHJRTeWpaUFXDcImH_VrIK-tqoIgkI-IRRD-QBitHKuQNlg66VjEbTPIkjyOep1");'
+              class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat"
+              style="
+                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBNtNIoptzMDb-Wb4_wQ1quSDKJ1675NmXG36y_MRnxa_D7DU4zCFFIcLVfW1H0cXqJrTJ1qOQf6n4ZeSQ2fz4SagZIi6NHgdP_LomY0PkpNzu-isjGpAbsF-DGRtgXHmQZ6ffNbj5nch4mC88-nvGRRsghNSAAEMlV1m4yLTFiwD-9k2urmeW6R9CFM7P4vb8FQQkxLdI0X5fEXOHJRTeWpaUFXDcImH_VrIK-tqoIgkI-IRRD-QBitHKuQNlg66VjEbTPIkjyOep1');
+              "
             ></div>
           </div>
         </header>
-        <div class="px-40 flex flex-1 justify-center py-5">
-          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+        <div class="flex flex-1 justify-center px-40 py-5">
+          <div
+            class="layout-content-container flex max-w-[960px] flex-1 flex-col"
+          >
             <div class="px-4 py-3">
-              <label class="flex flex-col min-w-40 h-12 w-full">
-                <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+              <label class="flex h-12 w-full min-w-40 flex-col">
+                <div class="flex h-full w-full flex-1 items-stretch rounded-lg">
                   <div
-                    class="text-[#509573] flex border-none bg-[#e8f3ed] items-center justify-center pl-4 rounded-l-lg border-r-0"
+                    class="flex items-center justify-center rounded-l-lg border-r-0 border-none bg-[#e8f3ed] pl-4 text-[#509573]"
                     data-icon="MagnifyingGlass"
                     data-size="24px"
                     data-weight="regular"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24px"
+                      height="24px"
+                      fill="currentColor"
+                      viewBox="0 0 256 256"
+                    >
                       <path
                         d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
                       ></path>
                     </svg>
                   </div>
                   <input
-                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-full placeholder:text-[#509573] px-4 rounded-r-none border-r-0 pr-2 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                    class="form-input flex h-full w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none rounded-r-none border-l-0 border-r-0 border-none bg-[#e8f3ed] px-4 pl-2 pr-2 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
                     value="Search for movies"
                   />
-                  <div class="flex items-center justify-center rounded-r-lg border-l-0 border-none bg-[#e8f3ed] pr-2 pr-4">
+                  <div
+                    class="flex items-center justify-center rounded-r-lg border-l-0 border-none bg-[#e8f3ed] pr-2 pr-4"
+                  >
                     <button
-                      class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent text-[#0e1b14] gap-2 text-base font-bold leading-normal tracking-[0.015em] h-auto min-w-0 px-0"
+                      class="flex h-auto min-w-0 max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-transparent px-0 text-base font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
                     >
-                      <div class="text-[#509573]" data-icon="XCircle" data-size="24px" data-weight="regular">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <div
+                        class="text-[#509573]"
+                        data-icon="XCircle"
+                        data-size="24px"
+                        data-weight="regular"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24px"
+                          height="24px"
+                          fill="currentColor"
+                          viewBox="0 0 256 256"
+                        >
                           <path
                             d="M165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"
                           ></path>
@@ -121,86 +187,156 @@
                 </div>
               </label>
             </div>
-            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Search Results</h2>
-            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+            <h2
+              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
+            >
+              Search Results
+            </h2>
+            <div
+              class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4"
+            >
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDsL-_7Wvi2bHKHFeuHqVRxzMJLfLTWJA7EhIeJ4-9vtcKhlQpE8qSkXK322Yl0xEZ9z0Htd--gg933ECd0lMVqQ0dBDdcm3I04aPIFBXhClJw6GTQd3Bm1isKWG1F739tjv8_ZE9YTR08WJqt8Jvz_waGa3W7h9fw14VOnKIXDKaSrrUTURp4P_loXywVi6H_VRfjOssdZrhuJKUuGHpIGX79LB1sUNOzxqDIcV8MwnjAai79RBhqudzSTPo6ZIi8KgDusmcrvl--i");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDsL-_7Wvi2bHKHFeuHqVRxzMJLfLTWJA7EhIeJ4-9vtcKhlQpE8qSkXK322Yl0xEZ9z0Htd--gg933ECd0lMVqQ0dBDdcm3I04aPIFBXhClJw6GTQd3Bm1isKWG1F739tjv8_ZE9YTR08WJqt8Jvz_waGa3W7h9fw14VOnKIXDKaSrrUTURp4P_loXywVi6H_VRfjOssdZrhuJKUuGHpIGX79LB1sUNOzxqDIcV8MwnjAai79RBhqudzSTPo6ZIi8KgDusmcrvl--i');
+                  "
                 ></div>
                 <div>
-                  <p class="text-[#0e1b14] text-base font-medium leading-normal">The Starry Night</p>
-                  <p class="text-[#509573] text-sm font-normal leading-normal">Drama, 2022</p>
+                  <p
+                    class="text-base font-medium leading-normal text-[#0e1b14]"
+                  >
+                    The Starry Night
+                  </p>
+                  <p class="text-sm font-normal leading-normal text-[#509573]">
+                    Drama, 2022
+                  </p>
                 </div>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCcrdnjYhmi8k9AVhtFrY-taSZpK80QgEvMqfXeH7OIr3KAVRIPfsXIMqmq5XZPjAJO0GqFXaSkibKT1gBJEU5OKteSbgp7lAus4TtdLFFWSf3gsR2UGDli45tbgP2KZdVheeiBWrhwP9FZnnEMa5mfoEkpHM4-PwIxSQaDBcUQ4Nxu0ccJjC7oI0-r00lToMh5lbh02d5y-1IESHUC7g3JPb6rTChwb7_7dMLxhK12dqz0xa2Hp7cKDhhwAkZdyjMC0DHlaf9FTeqy");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCcrdnjYhmi8k9AVhtFrY-taSZpK80QgEvMqfXeH7OIr3KAVRIPfsXIMqmq5XZPjAJO0GqFXaSkibKT1gBJEU5OKteSbgp7lAus4TtdLFFWSf3gsR2UGDli45tbgP2KZdVheeiBWrhwP9FZnnEMa5mfoEkpHM4-PwIxSQaDBcUQ4Nxu0ccJjC7oI0-r00lToMh5lbh02d5y-1IESHUC7g3JPb6rTChwb7_7dMLxhK12dqz0xa2Hp7cKDhhwAkZdyjMC0DHlaf9FTeqy');
+                  "
                 ></div>
                 <div>
-                  <p class="text-[#0e1b14] text-base font-medium leading-normal">Eternal Echoes</p>
-                  <p class="text-[#509573] text-sm font-normal leading-normal">Sci-Fi, 2023</p>
+                  <p
+                    class="text-base font-medium leading-normal text-[#0e1b14]"
+                  >
+                    Eternal Echoes
+                  </p>
+                  <p class="text-sm font-normal leading-normal text-[#509573]">
+                    Sci-Fi, 2023
+                  </p>
                 </div>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBbE2vqwJdNL2lGvRAmhpORABWMn30yn6qaZFaTfiY5etavfhyHv5IuzcTGapwYYpVp5V1WqtiZ-BEo8mesaXWfFs2qQordN-w-neLnTNxJaGo71Yjrx0NIe7FbuLQzBwa5tf0QZiYSPCCWMq6UWjJAB44Kcprco08J8c47DTZET_vDIGR74Hu9Z1XPg7JA3GDS9YqAG7Yy-KahZYR1jsswxcoUQc_XMr2OUB-0o1CJZfptmMXgoC15dWkNObvIwxJSXfwk2c3XLSHW");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBbE2vqwJdNL2lGvRAmhpORABWMn30yn6qaZFaTfiY5etavfhyHv5IuzcTGapwYYpVp5V1WqtiZ-BEo8mesaXWfFs2qQordN-w-neLnTNxJaGo71Yjrx0NIe7FbuLQzBwa5tf0QZiYSPCCWMq6UWjJAB44Kcprco08J8c47DTZET_vDIGR74Hu9Z1XPg7JA3GDS9YqAG7Yy-KahZYR1jsswxcoUQc_XMr2OUB-0o1CJZfptmMXgoC15dWkNObvIwxJSXfwk2c3XLSHW');
+                  "
                 ></div>
                 <div>
-                  <p class="text-[#0e1b14] text-base font-medium leading-normal">Crimson Tide</p>
-                  <p class="text-[#509573] text-sm font-normal leading-normal">Thriller, 2021</p>
+                  <p
+                    class="text-base font-medium leading-normal text-[#0e1b14]"
+                  >
+                    Crimson Tide
+                  </p>
+                  <p class="text-sm font-normal leading-normal text-[#509573]">
+                    Thriller, 2021
+                  </p>
                 </div>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBZXaXhL4dysOyj_F1hhjBOTlRTeanqQnO-vURZFqvtIm5Tqt3zMoiTNa7-GTewIrxayVks8TVHwAkriGXANK4Ka-UZ78YOe9qTzCvXTCCEe3RV66HSe6izXe_PZeg5GsNwhhcqWIL-q1ucIhP5qNwIjZ6xy-DeAUEdAV2Xid0TWn8gnnvSNDQ0OZchVLGhNCxL2MVw73sM2TOHd6_eHRFNs4gUWJLMJvSgmFsaQhbET3gqP4f04zsGMWmrCRYiS_Qc3tOmbn35hHqp");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZXaXhL4dysOyj_F1hhjBOTlRTeanqQnO-vURZFqvtIm5Tqt3zMoiTNa7-GTewIrxayVks8TVHwAkriGXANK4Ka-UZ78YOe9qTzCvXTCCEe3RV66HSe6izXe_PZeg5GsNwhhcqWIL-q1ucIhP5qNwIjZ6xy-DeAUEdAV2Xid0TWn8gnnvSNDQ0OZchVLGhNCxL2MVw73sM2TOHd6_eHRFNs4gUWJLMJvSgmFsaQhbET3gqP4f04zsGMWmrCRYiS_Qc3tOmbn35hHqp');
+                  "
                 ></div>
                 <div>
-                  <p class="text-[#0e1b14] text-base font-medium leading-normal">Whispers of the Past</p>
-                  <p class="text-[#509573] text-sm font-normal leading-normal">Mystery, 2024</p>
+                  <p
+                    class="text-base font-medium leading-normal text-[#0e1b14]"
+                  >
+                    Whispers of the Past
+                  </p>
+                  <p class="text-sm font-normal leading-normal text-[#509573]">
+                    Mystery, 2024
+                  </p>
                 </div>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCv20Wf16KVOSLokCfy6TbfUYAYyOt5wDhPoQYJtjeJhSVz08NC9eal9LqCyd4VJLtFedJoJ2gZqQWTjcMgejWeqRKmA4T31m2dANOeodF3DK8tTKVYjH-5DhTBkxdCbj5LCyFXMZGJPCHMSAvqrVoNWGhg0IbdPwLHmPR1PY0r68HRvgf268C_t-AYdHU8vggOs-UpEyDUrhkG6lrDlC32vSSdW_q9BGmcTj7GJIcBouh6bZliN0Lfw0YEOUqeTRiBJ63kZF8kow9J");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCv20Wf16KVOSLokCfy6TbfUYAYyOt5wDhPoQYJtjeJhSVz08NC9eal9LqCyd4VJLtFedJoJ2gZqQWTjcMgejWeqRKmA4T31m2dANOeodF3DK8tTKVYjH-5DhTBkxdCbj5LCyFXMZGJPCHMSAvqrVoNWGhg0IbdPwLHmPR1PY0r68HRvgf268C_t-AYdHU8vggOs-UpEyDUrhkG6lrDlC32vSSdW_q9BGmcTj7GJIcBouh6bZliN0Lfw0YEOUqeTRiBJ63kZF8kow9J');
+                  "
                 ></div>
                 <div>
-                  <p class="text-[#0e1b14] text-base font-medium leading-normal">The Silent Symphony</p>
-                  <p class="text-[#509573] text-sm font-normal leading-normal">Romance, 2023</p>
+                  <p
+                    class="text-base font-medium leading-normal text-[#0e1b14]"
+                  >
+                    The Silent Symphony
+                  </p>
+                  <p class="text-sm font-normal leading-normal text-[#509573]">
+                    Romance, 2023
+                  </p>
                 </div>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuApT-ETj1NMgpAgm5fcIpuJ2cYqLLFj9dULQ9Z3tHzj74Qe1iyMpN4y83ERcSmcKD61eERUNzarKErV1ey9u6ZXiCdgF-458x_ZDjeGrh8oVghLZDXe1fM2xTXxIbhL_MxNnH5RrHi52sgqGQS6KYGCUfROAZRL2cO2UN-Sc8M3yvhZZtwOtoesgnnMv4X0iJnAaYGKU0VXgyLyYsF-1OebOeEtpxDLDcMFOC0YqKM1jnBPKqVQfNxGN-WVwNCn17TN1GaHHgjFHhQe");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuApT-ETj1NMgpAgm5fcIpuJ2cYqLLFj9dULQ9Z3tHzj74Qe1iyMpN4y83ERcSmcKD61eERUNzarKErV1ey9u6ZXiCdgF-458x_ZDjeGrh8oVghLZDXe1fM2xTXxIbhL_MxNnH5RrHi52sgqGQS6KYGCUfROAZRL2cO2UN-Sc8M3yvhZZtwOtoesgnnMv4X0iJnAaYGKU0VXgyLyYsF-1OebOeEtpxDLDcMFOC0YqKM1jnBPKqVQfNxGN-WVwNCn17TN1GaHHgjFHhQe');
+                  "
                 ></div>
                 <div>
-                  <p class="text-[#0e1b14] text-base font-medium leading-normal">Lost Horizon</p>
-                  <p class="text-[#509573] text-sm font-normal leading-normal">Adventure, 2022</p>
+                  <p
+                    class="text-base font-medium leading-normal text-[#0e1b14]"
+                  >
+                    Lost Horizon
+                  </p>
+                  <p class="text-sm font-normal leading-normal text-[#509573]">
+                    Adventure, 2022
+                  </p>
                 </div>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCd2rD_FWLpjT9oPwq_GVhxPVnUTpyjSPGIrIflk7thRpQIT206BIsaNEDCuelFOe7476_r4sKBXLcIb2PTke8fxOATEK7XRH2Nvqh54Su4ZU1sZo5mj64lCrNjxHH7dBVDtY4LypwJ9nE6EftlY-RcnZeneGIFRFWesTC0u-DOQM0LBtvuUrL9_Vibc4O-FPTufTS15R8naYsDp10jUn5x9koUTevWfD5cGa-tRe7j4mAY33DAhaz6eLrXyyFBwo1dr-9jSHGyzYEf");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCd2rD_FWLpjT9oPwq_GVhxPVnUTpyjSPGIrIflk7thRpQIT206BIsaNEDCuelFOe7476_r4sKBXLcIb2PTke8fxOATEK7XRH2Nvqh54Su4ZU1sZo5mj64lCrNjxHH7dBVDtY4LypwJ9nE6EftlY-RcnZeneGIFRFWesTC0u-DOQM0LBtvuUrL9_Vibc4O-FPTufTS15R8naYsDp10jUn5x9koUTevWfD5cGa-tRe7j4mAY33DAhaz6eLrXyyFBwo1dr-9jSHGyzYEf');
+                  "
                 ></div>
                 <div>
-                  <p class="text-[#0e1b14] text-base font-medium leading-normal">Emerald Enigma</p>
-                  <p class="text-[#509573] text-sm font-normal leading-normal">Fantasy, 2023</p>
+                  <p
+                    class="text-base font-medium leading-normal text-[#0e1b14]"
+                  >
+                    Emerald Enigma
+                  </p>
+                  <p class="text-sm font-normal leading-normal text-[#509573]">
+                    Fantasy, 2023
+                  </p>
                 </div>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCqEFWBKpRIq_nO8TfqyOyJ35ILxvcXl4hDVlqaTK3aSSVNL_TG9C_w46gnbNBBoJOKITPOi4obUUb5jlhpgnpHoxewkIzTDK_-pAdn-_o8a1D5ekCV6igvBubPQQLfLsZOjXFiF72lyG6eBJEIL8Kci4UOviGiEUF1tMot5QZsoJKmBNzGgNHF9x6nlBNsAqpFriCiw0qaxXQLuNkiqRFszMuyvcLavK_gDRF7-kS8O0d1Db0hUHyzUOvHCC6TtaXb6I6J1jBwtBg9");'
+                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCqEFWBKpRIq_nO8TfqyOyJ35ILxvcXl4hDVlqaTK3aSSVNL_TG9C_w46gnbNBBoJOKITPOi4obUUb5jlhpgnpHoxewkIzTDK_-pAdn-_o8a1D5ekCV6igvBubPQQLfLsZOjXFiF72lyG6eBJEIL8Kci4UOviGiEUF1tMot5QZsoJKmBNzGgNHF9x6nlBNsAqpFriCiw0qaxXQLuNkiqRFszMuyvcLavK_gDRF7-kS8O0d1Db0hUHyzUOvHCC6TtaXb6I6J1jBwtBg9');
+                  "
                 ></div>
                 <div>
-                  <p class="text-[#0e1b14] text-base font-medium leading-normal">Midnight Bloom</p>
-                  <p class="text-[#509573] text-sm font-normal leading-normal">Horror, 2024</p>
+                  <p
+                    class="text-base font-medium leading-normal text-[#0e1b14]"
+                  >
+                    Midnight Bloom
+                  </p>
+                  <p class="text-sm font-normal leading-normal text-[#509573]">
+                    Horror, 2024
+                  </p>
                 </div>
               </div>
             </div>

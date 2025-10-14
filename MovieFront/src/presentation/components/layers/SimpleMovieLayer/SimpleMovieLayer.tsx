@@ -86,8 +86,16 @@ const SimpleMovieLayer: React.FC<SimpleMovieLayerProps> = ({
   showNewBadge = false,
   newBadgeType = 'new',
   imageHoverEffect = true,
-  titleHoverEffect = { enabled: true, hoverColor: 'red', transitionDuration: '200ms' },
-  subtitleHoverEffect = { enabled: true, hoverColor: 'red', transitionDuration: '200ms' },
+  titleHoverEffect = {
+    enabled: true,
+    hoverColor: 'red',
+    transitionDuration: '200ms',
+  },
+  subtitleHoverEffect = {
+    enabled: true,
+    hoverColor: 'red',
+    transitionDuration: '200ms',
+  },
 }) => {
   // 评分颜色映射 - 使用组件变体Token系统
   const getRatingTextColor = () => {
@@ -104,7 +112,7 @@ const SimpleMovieLayer: React.FC<SimpleMovieLayerProps> = ({
   }
 
   return (
-    <div className={`group space-y-3 ${className}`}>
+    <div className={`space-y-3 group ${className}`}>
       {/* 图片卡片区域 - 独立的阴影卡片 */}
       <div className="relative aspect-[2/3] overflow-hidden rounded-lg shadow-md">
         <ImageLayer
@@ -117,10 +125,12 @@ const SimpleMovieLayer: React.FC<SimpleMovieLayerProps> = ({
         />
 
         {/* 底部渐变遮罩 - 使用统一的渐变Token系统 */}
-        <div className={cn(
-          'pointer-events-none absolute inset-x-0 bottom-0 h-1/3',
-          getOverlayGradient('medium') // 对应原来的 from-black/50 via-black/20 to-transparent
-        )} />
+        <div
+          className={cn(
+            'pointer-events-none absolute inset-x-0 bottom-0 h-1/3',
+            getOverlayGradient('medium') // 对应原来的 from-black/50 via-black/20 to-transparent
+          )}
+        />
 
         {/* 顶部标签层 */}
         <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
@@ -182,11 +192,13 @@ const SimpleMovieLayer: React.FC<SimpleMovieLayerProps> = ({
         />
 
         {/* 类型 */}
-        <p className={cn(
-          'text-xs text-gray-500 dark:text-gray-400 transition-colors',
-          subtitleHoverEffect?.enabled && 'duration-[200ms]',
-          subtitleHoverEffect?.enabled && 'group-hover:text-red-500'
-        )}>
+        <p
+          className={cn(
+            'text-xs text-gray-500 transition-colors dark:text-gray-400',
+            subtitleHoverEffect?.enabled && 'duration-[200ms]',
+            subtitleHoverEffect?.enabled && 'group-hover:text-red-500'
+          )}
+        >
           {movie.type}
         </p>
       </div>

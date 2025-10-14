@@ -9,6 +9,7 @@
  * @version 3.0.0
  */
 
+import { TextLink } from '@components/atoms'
 import MovieListItem from '@components/domains/movie/MovieList/MovieListItem'
 import MovieListLayout from '@components/domains/movie/MovieList/MovieListLayout'
 import type {
@@ -84,12 +85,9 @@ const MovieList: React.FC<MovieListProps> = ({
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-2xl font-bold">{title}</h2>
             {showMoreLink && (
-              <a
-                href={moreLinkUrl}
-                className="text-primary transition-colors hover:underline"
-              >
+              <TextLink href={moreLinkUrl} variant="primary" size="sm">
                 {moreLinkText}
-              </a>
+              </TextLink>
             )}
           </div>
         )}
@@ -107,12 +105,9 @@ const MovieList: React.FC<MovieListProps> = ({
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-2xl font-bold">{title}</h2>
           {showMoreLink && (
-            <a
-              href={moreLinkUrl}
-              className="text-primary transition-colors hover:underline"
-            >
+            <TextLink href={moreLinkUrl} variant="primary" size="sm">
               {moreLinkText}
-            </a>
+            </TextLink>
           )}
         </div>
       )}

@@ -1,67 +1,93 @@
-<!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Special Collections</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<script>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Special Collections</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script>
       tailwind.config = {
-        darkMode: "class",
+        darkMode: 'class',
         theme: {
           extend: {
             colors: {
-              primary: "#6ee7b7",
-              "background-light": "#f3f4f6", // A light gray
-              "background-dark": "#1f2937", // A dark gray
-              "text-light": "#111827", // Almost black for light mode
-              "text-dark": "#f9fafb", // Almost white for dark mode
-              "card-light": "#ffffff",
-              "card-dark": "#374151"
+              primary: '#6ee7b7',
+              'background-light': '#f3f4f6', // A light gray
+              'background-dark': '#1f2937', // A dark gray
+              'text-light': '#111827', // Almost black for light mode
+              'text-dark': '#f9fafb', // Almost white for dark mode
+              'card-light': '#ffffff',
+              'card-dark': '#374151',
             },
             fontFamily: {
-              sans: ["Inter", "sans-serif"],
+              sans: ['Inter', 'sans-serif'],
             },
             borderRadius: {
-              DEFAULT: "0.75rem",
+              DEFAULT: '0.75rem',
             },
           },
         },
-      };
+      }
     </script>
-</head>
-<body class="bg-background-light dark:bg-background-dark font-sans">
-<div class="container mx-auto p-8">
-<div class="flex justify-between items-center mb-6">
-<h1 class="text-3xl font-bold text-text-light dark:text-text-dark">Special Collections</h1>
-<a class="text-primary hover:underline" href="#">More &gt;</a>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-<div class="relative rounded-lg overflow-hidden group">
-<img alt="A robot looking out over a mountainous landscape on an alien planet" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT3J9Ey84jFujZ93ROXY3nHlO4-USrQD2h5BSjKtjGp2dKOLK_17EyEDNmh8Lcqv9Z-t7m9zzFtCxqwtOhiQDxylYOUQG0WNbsRG-fYuDpQn9dcw3dc8HL1gC-2L3S34whAED-rf8USt2lCiWGt8kT_wbeilO2Kh-8AEMEu98W6OABRuLnrSwUlodlI8pHD16E__u0N3Ih1l0FKJjHrGkeMpcXP-YqBGnlQFMbVQb5KoRA3ry3MNPVNqx6eUUVTHsUyUZdeVbxbcLw"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
-<div class="absolute bottom-0 left-0 p-6">
-<h2 class="text-2xl font-bold text-white">Sci-Fi Universe</h2>
-<p class="text-gray-200 mt-1">Explore galaxies far, far away.</p>
-</div>
-</div>
-<div class="relative rounded-lg overflow-hidden group">
-<img alt="Two silhouetted figures stand on a hill against a dramatic sky" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWKSZQ_us37snuom2o7e01Q9GEvfatIPw2ywHqBHoy_Se18sDX3FkL_TSWFwzpve6ka6u2I5tBEmNWJqf93Yl15-zc7QFndxl4dXMXU3gANpOBIAGdXkeNRVqze_M1O6rlmxOk_U1lLkTG268jDOryA-2o3KBngsWRExO5iA8j6HkPx4OKkA_UqLrPgOfMD7fcMeR2QAYs285XZNEBg82zVtgfLOy-0PRYAG-fiILtlI1V3NdGJ6HLDsxGdUoRnm4ut3DTQSH3bFa0"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
-<div class="absolute bottom-0 left-0 p-6">
-<h2 class="text-2xl font-bold text-white">Mind-Bending Thrillers</h2>
-<p class="text-gray-200 mt-1">Twists you won't see coming.</p>
-</div>
-</div>
-<div class="relative rounded-lg overflow-hidden group">
-<img alt="An abstract image of a mountainous landscape with a faint circle in the sky" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4jVLMRSQrfUa9IibBunRnbXwP77cTTI9F-pu_XqdXxUSoNvgntfZRpHtqy0TDN0UA81tlOeQlcmjSi9-o0tHcB7GtOA6aqn6dP-Vu1vqUqQhdPHBTF_DqhZUlk9HdBsJWDJb8v-bNeht87Rbfl0S23wq70fRL16Hd68NK45erjGhoozwdxBSP5YYygj7pzWcCG3SvACjFVNWGF9-Nq3uRZyDXQ5667avyZTq8mnzm6Z-IR-7cId3Z2elF2-111BJx-GGtFjd3PmCK"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
-<div class="absolute bottom-0 left-0 p-6">
-<h2 class="text-2xl font-bold text-white">Award Winners</h2>
-<p class="text-gray-200 mt-1">Critically acclaimed masterpieces.</p>
-</div>
-</div>
-</div>
-</div>
-
-</body></html>
+  </head>
+  <body class="bg-background-light font-sans dark:bg-background-dark">
+    <div class="container mx-auto p-8">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-text-light dark:text-text-dark text-3xl font-bold">
+          Special Collections
+        </h1>
+        <a class="text-primary hover:underline" href="#">More &gt;</a>
+      </div>
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div class="relative overflow-hidden rounded-lg group">
+          <img
+            alt="A robot looking out over a mountainous landscape on an alien planet"
+            class="h-full w-full transform object-cover transition-transform duration-300 group-hover:scale-105"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT3J9Ey84jFujZ93ROXY3nHlO4-USrQD2h5BSjKtjGp2dKOLK_17EyEDNmh8Lcqv9Z-t7m9zzFtCxqwtOhiQDxylYOUQG0WNbsRG-fYuDpQn9dcw3dc8HL1gC-2L3S34whAED-rf8USt2lCiWGt8kT_wbeilO2Kh-8AEMEu98W6OABRuLnrSwUlodlI8pHD16E__u0N3Ih1l0FKJjHrGkeMpcXP-YqBGnlQFMbVQb5KoRA3ry3MNPVNqx6eUUVTHsUyUZdeVbxbcLw"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"
+          ></div>
+          <div class="absolute bottom-0 left-0 p-6">
+            <h2 class="text-2xl font-bold text-white">Sci-Fi Universe</h2>
+            <p class="mt-1 text-gray-200">Explore galaxies far, far away.</p>
+          </div>
+        </div>
+        <div class="relative overflow-hidden rounded-lg group">
+          <img
+            alt="Two silhouetted figures stand on a hill against a dramatic sky"
+            class="h-full w-full transform object-cover transition-transform duration-300 group-hover:scale-105"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWKSZQ_us37snuom2o7e01Q9GEvfatIPw2ywHqBHoy_Se18sDX3FkL_TSWFwzpve6ka6u2I5tBEmNWJqf93Yl15-zc7QFndxl4dXMXU3gANpOBIAGdXkeNRVqze_M1O6rlmxOk_U1lLkTG268jDOryA-2o3KBngsWRExO5iA8j6HkPx4OKkA_UqLrPgOfMD7fcMeR2QAYs285XZNEBg82zVtgfLOy-0PRYAG-fiILtlI1V3NdGJ6HLDsxGdUoRnm4ut3DTQSH3bFa0"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"
+          ></div>
+          <div class="absolute bottom-0 left-0 p-6">
+            <h2 class="text-2xl font-bold text-white">
+              Mind-Bending Thrillers
+            </h2>
+            <p class="mt-1 text-gray-200">Twists you won't see coming.</p>
+          </div>
+        </div>
+        <div class="relative overflow-hidden rounded-lg group">
+          <img
+            alt="An abstract image of a mountainous landscape with a faint circle in the sky"
+            class="h-full w-full transform object-cover transition-transform duration-300 group-hover:scale-105"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4jVLMRSQrfUa9IibBunRnbXwP77cTTI9F-pu_XqdXxUSoNvgntfZRpHtqy0TDN0UA81tlOeQlcmjSi9-o0tHcB7GtOA6aqn6dP-Vu1vqUqQhdPHBTF_DqhZUlk9HdBsJWDJb8v-bNeht87Rbfl0S23wq70fRL16Hd68NK45erjGhoozwdxBSP5YYygj7pzWcCG3SvACjFVNWGF9-Nq3uRZyDXQ5667avyZTq8mnzm6Z-IR-7cId3Z2elF2-111BJx-GGtFjd3PmCK"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"
+          ></div>
+          <div class="absolute bottom-0 left-0 p-6">
+            <h2 class="text-2xl font-bold text-white">Award Winners</h2>
+            <p class="mt-1 text-gray-200">Critically acclaimed masterpieces.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

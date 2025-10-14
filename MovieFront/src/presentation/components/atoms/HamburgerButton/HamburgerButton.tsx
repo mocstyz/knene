@@ -58,14 +58,7 @@ export const HamburgerButton: React.FC<HamburgerButtonProps> = ({
   return (
     <button
       type="button"
-      className={`
-        ${sizeClasses[size]}
-        inline-flex items-center justify-center
-        transition-all duration-200 ease-in-out
-        focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2
-        disabled:cursor-not-allowed disabled:opacity-50
-        ${className}
-      `}
+      className={` ${sizeClasses[size]} inline-flex items-center justify-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className} `}
       onClick={onClick}
       disabled={disabled}
       aria-label={ariaLabel}
@@ -76,10 +69,7 @@ export const HamburgerButton: React.FC<HamburgerButtonProps> = ({
       <Icon
         name={isOpen ? 'close' : 'menu'}
         size={iconSizes[size]}
-        className={`
-          transition-transform duration-200 ease-in-out
-          ${isOpen ? 'rotate-90' : 'rotate-0'}
-        `}
+        className={`transition-transform duration-200 ease-in-out ${isOpen ? 'rotate-90' : 'rotate-0'} `}
       />
     </button>
   )

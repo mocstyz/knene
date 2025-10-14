@@ -92,7 +92,7 @@ export const gradientVariants = {
      * 玻璃效果 - 用于毛玻璃背景效果
      */
     glass: 'bg-gradient-to-br from-white/10 via-white/5 to-transparent',
-  }
+  },
 } as const
 
 // ============================================================================
@@ -103,28 +103,28 @@ export const gradientVariants = {
  * 渐变遮罩强度类型
  */
 export type GradientOverlayIntensity =
-  | 'subtle'    // 轻微遮罩
-  | 'medium'    // 中等遮罩
-  | 'strong'    // 强烈遮罩
-  | 'intense'   // 密集遮罩
-  | 'heavy'     // 重度遮罩
+  | 'subtle' // 轻微遮罩
+  | 'medium' // 中等遮罩
+  | 'strong' // 强烈遮罩
+  | 'intense' // 密集遮罩
+  | 'heavy' // 重度遮罩
 
 /**
  * 特殊效果渐变类型
  */
 export type GradientSpecialVariant =
-  | 'primary'   // 主题色渐变
-  | 'success'   // 成功状态渐变
-  | 'warning'   // 警告状态渐变
-  | 'info'      // 信息状态渐变
+  | 'primary' // 主题色渐变
+  | 'success' // 成功状态渐变
+  | 'warning' // 警告状态渐变
+  | 'info' // 信息状态渐变
 
 /**
  * 背景渐变类型
  */
 export type GradientBackgroundVariant =
-  | 'light'     // 轻量背景
-  | 'dark'      // 深色背景
-  | 'glass'     // 玻璃效果
+  | 'light' // 轻量背景
+  | 'dark' // 深色背景
+  | 'glass' // 玻璃效果
 
 /**
  * 渐变类型联合类型
@@ -160,7 +160,9 @@ export const getGradientClass = (
     case 'special':
       return gradientVariants.special[variant as GradientSpecialVariant] || ''
     case 'background':
-      return gradientVariants.background[variant as GradientBackgroundVariant] || ''
+      return (
+        gradientVariants.background[variant as GradientBackgroundVariant] || ''
+      )
     default:
       return ''
   }
@@ -171,6 +173,8 @@ export const getGradientClass = (
  * @param intensity 渐变强度
  * @returns CSS类名字符串
  */
-export const getOverlayGradient = (intensity: GradientOverlayIntensity): string => {
+export const getOverlayGradient = (
+  intensity: GradientOverlayIntensity
+): string => {
   return gradientVariants.overlay[intensity] || gradientVariants.overlay.medium
 }

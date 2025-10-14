@@ -14,12 +14,21 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   </head>
   <body>
-    <div class="relative flex h-auto min-h-screen w-full flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
+    <div
+      class="group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-[#f8fbfa]"
+      style="font-family: Manrope, 'Noto Sans', sans-serif"
+    >
       <div class="layout-container flex h-full grow flex-col">
-        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3">
+        <header
+          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3"
+        >
           <div class="flex items-center gap-4 text-[#0e1b14]">
             <div class="size-4">
-              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                viewBox="0 0 48 48"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <g clip-path="url(#clip0_6_330)">
                   <path
                     fill-rule="evenodd"
@@ -29,24 +38,57 @@
                   ></path>
                 </g>
                 <defs>
-                  <clipPath id="clip0_6_330"><rect width="48" height="48" fill="white"></rect></clipPath>
+                  <clipPath id="clip0_6_330">
+                    <rect width="48" height="48" fill="white"></rect>
+                  </clipPath>
                 </defs>
               </svg>
             </div>
-            <h2 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em]">StreamHub Admin</h2>
+            <h2
+              class="text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
+            >
+              StreamHub Admin
+            </h2>
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Dashboard</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Users</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Content</a>
-              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Settings</a>
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Dashboard</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Users</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Content</a
+              >
+              <a
+                class="text-sm font-medium leading-normal text-[#0e1b14]"
+                href="#"
+                >Settings</a
+              >
             </div>
             <button
-              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#e8f3ed] text-[#0e1b14] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+              class="flex h-10 min-w-0 max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-[#e8f3ed] px-2.5 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
             >
-              <div class="text-[#0e1b14]" data-icon="Bell" data-size="20px" data-weight="regular">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <div
+                class="text-[#0e1b14]"
+                data-icon="Bell"
+                data-size="20px"
+                data-weight="regular"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20px"
+                  height="20px"
+                  fill="currentColor"
+                  viewBox="0 0 256 256"
+                >
                   <path
                     d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"
                   ></path>
@@ -54,134 +96,237 @@
               </div>
             </button>
             <div
-              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC0IQibDwsXPVAbqBQ8rMfZamW24gmxK9f1wjhYV7czeDb6MJm0GffpKWE-DC_CCiEg3AMjI49HVIJ3vIgTKFYONabUBOyYSDYXx2rG20ZpN1XINQLIT9uKq96jLO20zI37gOZHBPVbB1jo2_ETRB5XT4o4JWXP6qs0r3dn-ITQryxgn8US9EVr45W7isI6WJyg_Ti_rxREWZxpFlrVJVgyD1OflO_UgHEpGGN8A6Y_u2DJ7Zxw3vUnUsjFTcReV5R-PRTnFbz_hBHS");'
+              class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat"
+              style="
+                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC0IQibDwsXPVAbqBQ8rMfZamW24gmxK9f1wjhYV7czeDb6MJm0GffpKWE-DC_CCiEg3AMjI49HVIJ3vIgTKFYONabUBOyYSDYXx2rG20ZpN1XINQLIT9uKq96jLO20zI37gOZHBPVbB1jo2_ETRB5XT4o4JWXP6qs0r3dn-ITQryxgn8US9EVr45W7isI6WJyg_Ti_rxREWZxpFlrVJVgyD1OflO_UgHEpGGN8A6Y_u2DJ7Zxw3vUnUsjFTcReV5R-PRTnFbz_hBHS');
+              "
             ></div>
           </div>
         </header>
-        <div class="px-40 flex flex-1 justify-center py-5">
-          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+        <div class="flex flex-1 justify-center px-40 py-5">
+          <div
+            class="layout-content-container flex max-w-[960px] flex-1 flex-col"
+          >
             <div class="flex flex-wrap justify-between gap-3 p-4">
               <div class="flex min-w-72 flex-col gap-3">
-                <p class="text-[#0e1b14] tracking-light text-[32px] font-bold leading-tight">Dashboard Overview</p>
-                <p class="text-[#509573] text-sm font-normal leading-normal">Welcome back, Sarah! Here's a snapshot of your system's current status.</p>
+                <p
+                  class="tracking-light text-[32px] font-bold leading-tight text-[#0e1b14]"
+                >
+                  Dashboard Overview
+                </p>
+                <p class="text-sm font-normal leading-normal text-[#509573]">
+                  Welcome back, Sarah! Here's a snapshot of your system's
+                  current status.
+                </p>
               </div>
             </div>
             <div class="flex flex-wrap gap-4 p-4">
-              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#e8f3ed]">
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Total Users</p>
-                <p class="text-[#0e1b14] tracking-light text-2xl font-bold leading-tight">12,345</p>
-                <p class="text-[#07882c] text-base font-medium leading-normal">+5%</p>
+              <div
+                class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg bg-[#e8f3ed] p-6"
+              >
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Total Users
+                </p>
+                <p
+                  class="tracking-light text-2xl font-bold leading-tight text-[#0e1b14]"
+                >
+                  12,345
+                </p>
+                <p class="text-base font-medium leading-normal text-[#07882c]">
+                  +5%
+                </p>
               </div>
-              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#e8f3ed]">
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">Content Moderation Queue</p>
-                <p class="text-[#0e1b14] tracking-light text-2xl font-bold leading-tight">27</p>
-                <p class="text-[#e72a08] text-base font-medium leading-normal">-10%</p>
+              <div
+                class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg bg-[#e8f3ed] p-6"
+              >
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  Content Moderation Queue
+                </p>
+                <p
+                  class="tracking-light text-2xl font-bold leading-tight text-[#0e1b14]"
+                >
+                  27
+                </p>
+                <p class="text-base font-medium leading-normal text-[#e72a08]">
+                  -10%
+                </p>
               </div>
-              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#e8f3ed]">
-                <p class="text-[#0e1b14] text-base font-medium leading-normal">System Uptime</p>
-                <p class="text-[#0e1b14] tracking-light text-2xl font-bold leading-tight">99.9%</p>
-                <p class="text-[#07882c] text-base font-medium leading-normal">+0.1%</p>
+              <div
+                class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg bg-[#e8f3ed] p-6"
+              >
+                <p class="text-base font-medium leading-normal text-[#0e1b14]">
+                  System Uptime
+                </p>
+                <p
+                  class="tracking-light text-2xl font-bold leading-tight text-[#0e1b14]"
+                >
+                  99.9%
+                </p>
+                <p class="text-base font-medium leading-normal text-[#07882c]">
+                  +0.1%
+                </p>
               </div>
             </div>
-            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Recent Activities</h2>
-            <div class="px-4 py-3 @container">
-              <div class="flex overflow-hidden rounded-lg border border-[#d1e6db] bg-[#f8fbfa]">
+            <h2
+              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
+            >
+              Recent Activities
+            </h2>
+            <div class="@container px-4 py-3">
+              <div
+                class="flex overflow-hidden rounded-lg border border-[#d1e6db] bg-[#f8fbfa]"
+              >
                 <table class="flex-1">
                   <thead>
                     <tr class="bg-[#f8fbfa]">
-                      <th class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 px-4 py-3 text-left text-[#0e1b14] w-[400px] text-sm font-medium leading-normal">
+                      <th
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 w-[400px] px-4 py-3 text-left text-sm font-medium leading-normal text-[#0e1b14]"
+                      >
                         Activity
                       </th>
-                      <th class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 px-4 py-3 text-left text-[#0e1b14] w-[400px] text-sm font-medium leading-normal">User</th>
-                      <th class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 px-4 py-3 text-left text-[#0e1b14] w-[400px] text-sm font-medium leading-normal">
+                      <th
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 w-[400px] px-4 py-3 text-left text-sm font-medium leading-normal text-[#0e1b14]"
+                      >
+                        User
+                      </th>
+                      <th
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 w-[400px] px-4 py-3 text-left text-sm font-medium leading-normal text-[#0e1b14]"
+                      >
                         Timestamp
                       </th>
-                      <th class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 px-4 py-3 text-left text-[#0e1b14] w-60 text-sm font-medium leading-normal">Status</th>
+                      <th
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 w-60 px-4 py-3 text-left text-sm font-medium leading-normal text-[#0e1b14]"
+                      >
+                        Status
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr class="border-t border-t-[#d1e6db]">
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 h-[72px] px-4 py-2 w-[400px] text-[#509573] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#509573]"
+                      >
                         User registration
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 h-[72px] px-4 py-2 w-[400px] text-[#0e1b14] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#0e1b14]"
+                      >
                         Emily Carter
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 h-[72px] px-4 py-2 w-[400px] text-[#509573] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#509573]"
+                      >
                         2024-03-15 10:23 AM
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal"
+                      >
                         <button
-                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-medium leading-normal w-full"
+                          class="flex h-8 w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-medium leading-normal text-[#0e1b14]"
                         >
                           <span class="truncate">Completed</span>
                         </button>
                       </td>
                     </tr>
                     <tr class="border-t border-t-[#d1e6db]">
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 h-[72px] px-4 py-2 w-[400px] text-[#509573] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#509573]"
+                      >
                         Content upload
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 h-[72px] px-4 py-2 w-[400px] text-[#0e1b14] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#0e1b14]"
+                      >
                         David Lee
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 h-[72px] px-4 py-2 w-[400px] text-[#509573] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#509573]"
+                      >
                         2024-03-15 09:15 AM
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal"
+                      >
                         <button
-                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-medium leading-normal w-full"
+                          class="flex h-8 w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-medium leading-normal text-[#0e1b14]"
                         >
                           <span class="truncate">Completed</span>
                         </button>
                       </td>
                     </tr>
                     <tr class="border-t border-t-[#d1e6db]">
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 h-[72px] px-4 py-2 w-[400px] text-[#509573] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#509573]"
+                      >
                         Moderation review
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 h-[72px] px-4 py-2 w-[400px] text-[#0e1b14] text-sm font-normal leading-normal">Admin</td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 h-[72px] px-4 py-2 w-[400px] text-[#509573] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#0e1b14]"
+                      >
+                        Admin
+                      </td>
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#509573]"
+                      >
                         2024-03-14 04:58 PM
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal"
+                      >
                         <button
-                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-medium leading-normal w-full"
+                          class="flex h-8 w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-medium leading-normal text-[#0e1b14]"
                         >
                           <span class="truncate">Completed</span>
                         </button>
                       </td>
                     </tr>
                     <tr class="border-t border-t-[#d1e6db]">
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 h-[72px] px-4 py-2 w-[400px] text-[#509573] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#509573]"
+                      >
                         System maintenance
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 h-[72px] px-4 py-2 w-[400px] text-[#0e1b14] text-sm font-normal leading-normal">System</td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 h-[72px] px-4 py-2 w-[400px] text-[#509573] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#0e1b14]"
+                      >
+                        System
+                      </td>
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#509573]"
+                      >
                         2024-03-14 02:00 AM
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal"
+                      >
                         <button
-                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-medium leading-normal w-full"
+                          class="flex h-8 w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-medium leading-normal text-[#0e1b14]"
                         >
                           <span class="truncate">Completed</span>
                         </button>
                       </td>
                     </tr>
                     <tr class="border-t border-t-[#d1e6db]">
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 h-[72px] px-4 py-2 w-[400px] text-[#509573] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#509573]"
+                      >
                         User profile update
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 h-[72px] px-4 py-2 w-[400px] text-[#0e1b14] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#0e1b14]"
+                      >
                         Olivia Chen
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 h-[72px] px-4 py-2 w-[400px] text-[#509573] text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#509573]"
+                      >
                         2024-03-13 11:30 PM
                       </td>
-                      <td class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                      <td
+                        class="table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal"
+                      >
                         <button
-                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-medium leading-normal w-full"
+                          class="flex h-8 w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-medium leading-normal text-[#0e1b14]"
                         >
                           <span class="truncate">Completed</span>
                         </button>
@@ -191,23 +336,57 @@
                 </table>
               </div>
               <style>
-                          @container(max-width:120px){.table-a78fca94-d754-40ac-9656-c634cf6826de-column-120{display: none;}}
-                @container(max-width:240px){.table-a78fca94-d754-40ac-9656-c634cf6826de-column-240{display: none;}}
-                @container(max-width:360px){.table-a78fca94-d754-40ac-9656-c634cf6826de-column-360{display: none;}}
-                @container(max-width:480px){.table-a78fca94-d754-40ac-9656-c634cf6826de-column-480{display: none;}}
+                @container (max-width:120px) {
+                  .table-a78fca94-d754-40ac-9656-c634cf6826de-column-120 {
+                    display: none;
+                  }
+                }
+                @container (max-width:240px) {
+                  .table-a78fca94-d754-40ac-9656-c634cf6826de-column-240 {
+                    display: none;
+                  }
+                }
+                @container (max-width:360px) {
+                  .table-a78fca94-d754-40ac-9656-c634cf6826de-column-360 {
+                    display: none;
+                  }
+                }
+                @container (max-width:480px) {
+                  .table-a78fca94-d754-40ac-9656-c634cf6826de-column-480 {
+                    display: none;
+                  }
+                }
               </style>
             </div>
           </div>
         </div>
         <footer class="flex justify-center">
           <div class="flex max-w-[960px] flex-1 flex-col">
-            <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
-              <div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
-                <a class="text-[#509573] text-base font-normal leading-normal min-w-40" href="#">Terms of Service</a>
-                <a class="text-[#509573] text-base font-normal leading-normal min-w-40" href="#">Privacy Policy</a>
-                <a class="text-[#509573] text-base font-normal leading-normal min-w-40" href="#">Contact Us</a>
+            <footer
+              class="@container flex flex-col gap-6 px-5 py-10 text-center"
+            >
+              <div
+                class="@[480px]:flex-row @[480px]:justify-around flex flex-wrap items-center justify-center gap-6"
+              >
+                <a
+                  class="min-w-40 text-base font-normal leading-normal text-[#509573]"
+                  href="#"
+                  >Terms of Service</a
+                >
+                <a
+                  class="min-w-40 text-base font-normal leading-normal text-[#509573]"
+                  href="#"
+                  >Privacy Policy</a
+                >
+                <a
+                  class="min-w-40 text-base font-normal leading-normal text-[#509573]"
+                  href="#"
+                  >Contact Us</a
+                >
               </div>
-              <p class="text-[#509573] text-base font-normal leading-normal">@2024 StreamHub. All rights reserved.</p>
+              <p class="text-base font-normal leading-normal text-[#509573]">
+                @2024 StreamHub. All rights reserved.
+              </p>
             </footer>
           </div>
         </footer>

@@ -73,7 +73,7 @@ const TopicCard: React.FC<TopicCardProps> = ({
   return (
     <div
       className={cn(
-        'group relative cursor-pointer overflow-hidden rounded-lg shadow-md',
+        'relative cursor-pointer overflow-hidden rounded-lg shadow-md group',
         getAspectRatioClass(),
         hoverEffect &&
           'transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]',
@@ -130,7 +130,7 @@ const TopicCard: React.FC<TopicCardProps> = ({
         hoverEffect={{
           enabled: true,
           hoverColor: 'red',
-          transitionDuration: '200ms'
+          transitionDuration: '200ms',
         }}
       />
     </div>

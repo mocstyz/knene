@@ -15,25 +15,36 @@
   </head>
   <body>
     <div
-      class="relative flex h-auto min-h-screen w-full flex-col bg-[#fcf8f8] group/design-root overflow-x-hidden"
-      style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'
+      class="group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-[#fcf8f8]"
+      style="font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif"
     >
       <div class="layout-container flex h-full grow flex-col">
-        <div class="px-40 flex flex-1 justify-center py-5">
-          <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
-            <h1 class="text-[#1b0e0e] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 text-center pb-3 pt-5">Confirm Delete</h1>
-            <p class="text-[#1b0e0e] text-base font-normal leading-normal pb-3 pt-1 px-4 text-center">
-              Are you sure you want to permanently delete this message? This action cannot be undone.
+        <div class="flex flex-1 justify-center px-40 py-5">
+          <div
+            class="layout-content-container flex w-[512px] max-w-[512px] max-w-[960px] flex-1 flex-col py-5"
+          >
+            <h1
+              class="px-4 pb-3 pt-5 text-center text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#1b0e0e]"
+            >
+              Confirm Delete
+            </h1>
+            <p
+              class="px-4 pb-3 pt-1 text-center text-base font-normal leading-normal text-[#1b0e0e]"
+            >
+              Are you sure you want to permanently delete this message? This
+              action cannot be undone.
             </p>
             <div class="flex justify-center">
-              <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 max-w-[480px] justify-center">
+              <div
+                class="flex max-w-[480px] flex-1 flex-wrap justify-center gap-3 px-4 py-3"
+              >
                 <button
-                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e61919] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em] grow"
+                  class="flex h-10 min-w-[84px] max-w-[480px] grow cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e61919] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#fcf8f8]"
                 >
                   <span class="truncate">Delete</span>
                 </button>
                 <button
-                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#f3e7e7] text-[#1b0e0e] text-sm font-bold leading-normal tracking-[0.015em] grow"
+                  class="flex h-10 min-w-[84px] max-w-[480px] grow cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#f3e7e7] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#1b0e0e]"
                 >
                   <span class="truncate">Cancel</span>
                 </button>

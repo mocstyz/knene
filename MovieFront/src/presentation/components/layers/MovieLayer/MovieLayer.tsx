@@ -155,7 +155,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
 
   // 默认和特色变体的处理
   return (
-    <div className="group space-y-3">
+    <div className="space-y-3 group">
       {/* 图片卡片区域 - 独立的阴影卡片 */}
       <div className="relative aspect-[2/3] overflow-hidden rounded-lg shadow-md">
         <ImageLayer
@@ -168,10 +168,12 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
         />
 
         {/* 底部渐变遮罩 - 使用统一的渐变Token系统 */}
-        <div className={cn(
-          'pointer-events-none absolute inset-x-0 bottom-0 h-1/3',
-          getOverlayGradient('medium') // 对应原来的 from-black/50 via-black/20 to-transparent
-        )} />
+        <div
+          className={cn(
+            'pointer-events-none absolute inset-x-0 bottom-0 h-1/3',
+            getOverlayGradient('medium') // 对应原来的 from-black/50 via-black/20 to-transparent
+          )}
+        />
 
         {/* 标签层 */}
         <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">

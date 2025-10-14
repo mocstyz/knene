@@ -1,4 +1,5 @@
-import { MovieList, type SimpleMovieItem } from '@components/domains'
+import { MovieList } from '@components/domains'
+import type { BaseMovieItem } from '@types-movie/movie.types'
 import React from 'react'
 
 export interface MovieGridProps {
@@ -20,14 +21,15 @@ const MovieGrid: React.FC<MovieGridProps> = ({
   showMoreLink = true,
   className,
 }) => {
-  // 转换MovieGrid的movie格式到SimpleMovieItem格式
-  const convertedMovies: SimpleMovieItem[] = movies.map((movie, index) => ({
+  // 转换MovieGrid的movie格式到BaseMovieItem格式
+  const convertedMovies: BaseMovieItem[] = movies.map((movie, index) => ({
     id: movie.title + index,
     title: movie.title,
     type: movie.type,
     rating: movie.rating,
     imageUrl: movie.imageUrl,
-    ratingColor: movie.ratingColor,
+    ratingColor: movie.ratingColor || 'default',
+    quality: undefined,
   }))
 
   return (

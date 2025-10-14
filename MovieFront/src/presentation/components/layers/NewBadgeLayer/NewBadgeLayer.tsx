@@ -90,7 +90,9 @@ const NewBadgeLayer: React.FC<NewBadgeLayerProps> = ({
     badgeLayerVariants.base,
     badgeLayerVariants.position[position],
     badgeLayerVariants.size[size],
-    badgeLayerVariants.variant.new[_variant || 'default' as keyof typeof badgeLayerVariants.variant.new], // 使用Token系统替代硬编码
+    badgeLayerVariants.variant.new[
+      _variant || ('default' as keyof typeof badgeLayerVariants.variant.new)
+    ], // 使用Token系统替代硬编码
     // 动画效果
     animated && animationType === 'pulse' && 'animate-pulse',
     animated && animationType === 'bounce' && 'animate-bounce',

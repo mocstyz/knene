@@ -1,152 +1,250 @@
-<!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Registration Process</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-<script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            primary: "#34D399", // A vibrant green
-            "background-light": "#F9FAFB", // A very light gray
-            "background-dark": "#111827", // A dark blue-gray
-            "text-light": "#1F2937",
-            "text-dark": "#F9FAFB",
-            "border-light": "#E5E7EB",
-            "border-dark": "#374151"
-          },
-          fontFamily: {
-            display: ["Inter", "sans-serif"],
-          },
-          borderRadius: {
-            DEFAULT: "0.5rem",
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Registration Process</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: '#34D399', // A vibrant green
+              'background-light': '#F9FAFB', // A very light gray
+              'background-dark': '#111827', // A dark blue-gray
+              'text-light': '#1F2937',
+              'text-dark': '#F9FAFB',
+              'border-light': '#E5E7EB',
+              'border-dark': '#374151',
+            },
+            fontFamily: {
+              display: ['Inter', 'sans-serif'],
+            },
+            borderRadius: {
+              DEFAULT: '0.5rem',
+            },
           },
         },
-      },
-    };
-  </script>
-<style>
-    .step {
-      display: none;
-    }
-    .step.active {
-      display: block;
-    }
-  </style>
-</head>
-<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
-<div class="flex flex-col min-h-screen">
-<header class="p-4 sm:p-6">
-<div class="flex items-center">
-<span class="material-icons text-primary" style="font-size: 28px;">cloud_queue</span>
-<span class="ml-2 text-xl font-bold">CloudCanvas</span>
-</div>
-</header>
-<main class="flex-grow flex items-center justify-center p-4">
-<div class="w-full max-w-md mx-auto">
-<div class="step active" id="step1">
-<div class="text-center mb-8">
-<h1 class="text-3xl font-bold mb-2">Create your account</h1>
-<p class="text-gray-500 dark:text-gray-400">Let's get started with your email.</p>
-</div>
-<form class="space-y-6" onsubmit="goToStep(2); return false;">
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="email">Email address</label>
-<div class="mt-1">
-<input autocomplete="email" class="appearance-none block w-full px-3 py-2 border border-border-light dark:border-border-dark rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm bg-background-light dark:bg-background-dark" id="email" name="email" required="" type="email"/>
-</div>
-</div>
-<div>
-<button class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="submit">
-                                Send Verification Code
-                            </button>
-</div>
-</form>
-<div class="mt-6 text-center">
-<p class="text-sm text-gray-500 dark:text-gray-400">
-              Already have an account?
-              <a class="font-medium text-primary hover:text-opacity-80" href="#">Back to Login</a>
-</p>
-</div>
-</div>
-<div class="step" id="step2">
-<div class="text-center mb-8">
-<h1 class="text-3xl font-bold mb-2">Check your email</h1>
-<p class="text-gray-500 dark:text-gray-400">We've sent a verification code to your email address.</p>
-</div>
-<form class="space-y-6" onsubmit="goToStep(3); return false;">
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="code">Verification Code</label>
-<div class="mt-1">
-<input class="appearance-none block w-full px-3 py-2 border border-border-light dark:border-border-dark rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm bg-background-light dark:bg-background-dark" id="code" name="code" required="" type="text"/>
-</div>
-</div>
-<div>
-<button class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="submit">
-                                Verify Code
-                            </button>
-</div>
-<div class="text-center">
-<button class="text-sm font-medium text-primary hover:text-opacity-80" onclick="goToStep(1)" type="button">Back</button>
-</div>
-</form>
-</div>
-<div class="step" id="step3">
-<div class="text-center mb-8">
-<h1 class="text-3xl font-bold mb-2">Set up your profile</h1>
-<p class="text-gray-500 dark:text-gray-400">Almost there! Just a few more details.</p>
-</div>
-<form class="space-y-6" onsubmit="goToStep(4); return false;">
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="username">Username</label>
-<div class="mt-1">
-<input autocomplete="username" class="appearance-none block w-full px-3 py-2 border border-border-light dark:border-border-dark rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm bg-background-light dark:bg-background-dark" id="username" name="username" required="" type="text"/>
-</div>
-</div>
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="password">Password</label>
-<div class="mt-1">
-<input autocomplete="new-password" class="appearance-none block w-full px-3 py-2 border border-border-light dark:border-border-dark rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm bg-background-light dark:bg-background-dark" id="password" name="password" required="" type="password"/>
-</div>
-</div>
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="confirm-password">Confirm Password</label>
-<div class="mt-1">
-<input autocomplete="new-password" class="appearance-none block w-full px-3 py-2 border border-border-light dark:border-border-dark rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm bg-background-light dark:bg-background-dark" id="confirm-password" name="confirm-password" required="" type="password"/>
-</div>
-</div>
-<div>
-<button class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="submit">
-                                Create Account
-                            </button>
-</div>
-</form>
-</div>
-<div class="step text-center" id="step4">
-<div class="mb-6">
-<span class="material-icons text-primary" style="font-size: 64px;">check_circle_outline</span>
-</div>
-<h1 class="text-3xl font-bold mb-2">Account created</h1>
-<p class="text-gray-500 dark:text-gray-400 mb-6">Your account has been successfully created. You can now start exploring and using our services.</p>
-<a class="inline-block py-2 px-6 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" href="#">
-                        Go to dashboard
-                    </a>
-</div>
-</div>
-</main>
-</div>
-<script>
-    function goToStep(stepNumber) {
-      document.querySelectorAll('.step').forEach(step => {
-        step.classList.remove('active');
-      });
-      document.getElementById(`step${stepNumber}`).classList.add('active');
-    }
-  </script>
-
-</body></html>
+      }
+    </script>
+    <style>
+      .step {
+        display: none;
+      }
+      .step.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body
+    class="text-text-light dark:text-text-dark bg-background-light font-display dark:bg-background-dark"
+  >
+    <div class="flex min-h-screen flex-col">
+      <header class="p-4 sm:p-6">
+        <div class="flex items-center">
+          <span class="material-icons text-primary" style="font-size: 28px"
+            >cloud_queue</span
+          >
+          <span class="ml-2 text-xl font-bold">CloudCanvas</span>
+        </div>
+      </header>
+      <main class="flex flex-grow items-center justify-center p-4">
+        <div class="mx-auto w-full max-w-md">
+          <div class="step active" id="step1">
+            <div class="mb-8 text-center">
+              <h1 class="mb-2 text-3xl font-bold">Create your account</h1>
+              <p class="text-gray-500 dark:text-gray-400">
+                Let's get started with your email.
+              </p>
+            </div>
+            <form class="space-y-6" onsubmit="goToStep(2); return false;">
+              <div>
+                <label
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  for="email"
+                  >Email address</label
+                >
+                <div class="mt-1">
+                  <input
+                    autocomplete="email"
+                    class="border-border-light dark:border-border-dark block w-full appearance-none rounded-md border bg-background-light px-3 py-2 placeholder-gray-400 shadow-sm focus:border-primary focus:outline-none focus:ring-primary dark:bg-background-dark dark:placeholder-gray-500 sm:text-sm"
+                    id="email"
+                    name="email"
+                    required=""
+                    type="email"
+                  />
+                </div>
+              </div>
+              <div>
+                <button
+                  class="flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  type="submit"
+                >
+                  Send Verification Code
+                </button>
+              </div>
+            </form>
+            <div class="mt-6 text-center">
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                Already have an account?
+                <a
+                  class="font-medium text-primary hover:text-opacity-80"
+                  href="#"
+                  >Back to Login</a
+                >
+              </p>
+            </div>
+          </div>
+          <div class="step" id="step2">
+            <div class="mb-8 text-center">
+              <h1 class="mb-2 text-3xl font-bold">Check your email</h1>
+              <p class="text-gray-500 dark:text-gray-400">
+                We've sent a verification code to your email address.
+              </p>
+            </div>
+            <form class="space-y-6" onsubmit="goToStep(3); return false;">
+              <div>
+                <label
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  for="code"
+                  >Verification Code</label
+                >
+                <div class="mt-1">
+                  <input
+                    class="border-border-light dark:border-border-dark block w-full appearance-none rounded-md border bg-background-light px-3 py-2 placeholder-gray-400 shadow-sm focus:border-primary focus:outline-none focus:ring-primary dark:bg-background-dark dark:placeholder-gray-500 sm:text-sm"
+                    id="code"
+                    name="code"
+                    required=""
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div>
+                <button
+                  class="flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  type="submit"
+                >
+                  Verify Code
+                </button>
+              </div>
+              <div class="text-center">
+                <button
+                  class="text-sm font-medium text-primary hover:text-opacity-80"
+                  onclick="goToStep(1)"
+                  type="button"
+                >
+                  Back
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="step" id="step3">
+            <div class="mb-8 text-center">
+              <h1 class="mb-2 text-3xl font-bold">Set up your profile</h1>
+              <p class="text-gray-500 dark:text-gray-400">
+                Almost there! Just a few more details.
+              </p>
+            </div>
+            <form class="space-y-6" onsubmit="goToStep(4); return false;">
+              <div>
+                <label
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  for="username"
+                  >Username</label
+                >
+                <div class="mt-1">
+                  <input
+                    autocomplete="username"
+                    class="border-border-light dark:border-border-dark block w-full appearance-none rounded-md border bg-background-light px-3 py-2 placeholder-gray-400 shadow-sm focus:border-primary focus:outline-none focus:ring-primary dark:bg-background-dark dark:placeholder-gray-500 sm:text-sm"
+                    id="username"
+                    name="username"
+                    required=""
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  for="password"
+                  >Password</label
+                >
+                <div class="mt-1">
+                  <input
+                    autocomplete="new-password"
+                    class="border-border-light dark:border-border-dark block w-full appearance-none rounded-md border bg-background-light px-3 py-2 placeholder-gray-400 shadow-sm focus:border-primary focus:outline-none focus:ring-primary dark:bg-background-dark dark:placeholder-gray-500 sm:text-sm"
+                    id="password"
+                    name="password"
+                    required=""
+                    type="password"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  for="confirm-password"
+                  >Confirm Password</label
+                >
+                <div class="mt-1">
+                  <input
+                    autocomplete="new-password"
+                    class="border-border-light dark:border-border-dark block w-full appearance-none rounded-md border bg-background-light px-3 py-2 placeholder-gray-400 shadow-sm focus:border-primary focus:outline-none focus:ring-primary dark:bg-background-dark dark:placeholder-gray-500 sm:text-sm"
+                    id="confirm-password"
+                    name="confirm-password"
+                    required=""
+                    type="password"
+                  />
+                </div>
+              </div>
+              <div>
+                <button
+                  class="flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  type="submit"
+                >
+                  Create Account
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="step text-center" id="step4">
+            <div class="mb-6">
+              <span class="material-icons text-primary" style="font-size: 64px"
+                >check_circle_outline</span
+              >
+            </div>
+            <h1 class="mb-2 text-3xl font-bold">Account created</h1>
+            <p class="mb-6 text-gray-500 dark:text-gray-400">
+              Your account has been successfully created. You can now start
+              exploring and using our services.
+            </p>
+            <a
+              class="inline-block rounded-md border border-transparent bg-primary px-6 py-2 text-sm font-medium text-white shadow-sm hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              href="#"
+            >
+              Go to dashboard
+            </a>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script>
+      function goToStep(stepNumber) {
+        document.querySelectorAll('.step').forEach(step => {
+          step.classList.remove('active')
+        })
+        document.getElementById(`step${stepNumber}`).classList.add('active')
+      }
+    </script>
+  </body>
+</html>

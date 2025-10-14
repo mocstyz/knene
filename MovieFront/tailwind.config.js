@@ -30,7 +30,7 @@ export default {
     extend: {
       // 自定义断点 - 添加1920px断点
       screens: {
-        'xxl': '1920px',
+        xxl: '1920px',
       },
       // 注意：主要颜色由Radix UI Themes提供 (accent-1 to accent-12, gray-1 to gray-12)
       // 此处仅保留必要的业务特定扩展
@@ -270,25 +270,25 @@ export default {
         },
         // Group hover效果 - 使用!important强制应用
         '.group:hover .group-hover\\:text-red-500': {
-          'color': '#ef4444 !important',
+          color: '#ef4444 !important',
           'transition-property': 'color',
           'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
           'transition-duration': '200ms',
         },
         '.group:hover .group-hover\\:text-primary': {
-          'color': '#6ee7b7 !important',
+          color: '#6ee7b7 !important',
           'transition-property': 'color',
           'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
           'transition-duration': '200ms',
         },
         '.group:hover .group-hover\\:text-blue-500': {
-          'color': '#3b82f6 !important',
+          color: '#3b82f6 !important',
           'transition-property': 'color',
           'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
           'transition-duration': '200ms',
         },
         '.group:hover .group-hover\\:text-green-500': {
-          'color': '#22c55e !important',
+          color: '#22c55e !important',
           'transition-property': 'color',
           'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
           'transition-duration': '200ms',

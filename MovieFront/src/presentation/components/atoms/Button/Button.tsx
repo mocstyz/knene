@@ -21,7 +21,6 @@ export interface ButtonProps
   iconPosition?: 'left' | 'right'
   fullWidth?: boolean
   children?: React.ReactNode
-  asChild?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -36,7 +35,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       fullWidth = false,
       disabled,
       children,
-      asChild = false,
       ...props
     },
     ref

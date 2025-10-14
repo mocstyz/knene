@@ -1,197 +1,282 @@
-<!DOCTYPE html>
-<html lang="zh-CN"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Premium Plans</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-<style type="text/tailwindcss">
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
-        :root {
-            --brand-color: #87e8c0;
-            --background-light: #f9fafb;
-            --background-dark: #111827;
-            --surface-dark: #1f2937;
-            --text-light: #1f2937;
-            --text-dark: #f9fafb;
-            --text-muted-light: #6b7280;
-            --text-muted-dark: #9ca3af;
-        }
-        body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background-color: var(--background-light);
-            color: var(--text-light);
-        }
-        .dark body {
-            background-color: var(--background-dark);
-            color: var(--text-dark);
-        }
-        .plan-card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .plan-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 25px 50px -12px rgba(135, 232, 192, 0.25);
-        }
-        .bg-brand {
-            background-color: var(--brand-color);
-        }
-        .text-brand {
-            color: var(--brand-color);
-        }
-        .border-brand {
-            border-color: var(--brand-color);
-        }
-        .ring-brand {
-           --tw-ring-color: var(--brand-color);
-        }
-        .shadow-brand {
-            box-shadow: 0 10px 15px -3px var(--brand-color), 0 4px 6px -4px var(--brand-color);
-        }
-        .bg-gradient-brand {
-            background-image: linear-gradient(to right, var(--brand-color), #6ee7b7);
-        }
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Premium Plans</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <style type="text/tailwindcss">
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+      :root {
+        --brand-color: #87e8c0;
+        --background-light: #f9fafb;
+        --background-dark: #111827;
+        --surface-dark: #1f2937;
+        --text-light: #1f2937;
+        --text-dark: #f9fafb;
+        --text-muted-light: #6b7280;
+        --text-muted-dark: #9ca3af;
+      }
+      body {
+        font-family: 'Noto Sans SC', sans-serif;
+        background-color: var(--background-light);
+        color: var(--text-light);
+      }
+      .dark body {
+        background-color: var(--background-dark);
+        color: var(--text-dark);
+      }
+      .plan-card {
+        transition:
+          transform 0.3s ease-in-out,
+          box-shadow 0.3s ease-in-out;
+      }
+      .plan-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 25px 50px -12px rgba(135, 232, 192, 0.25);
+      }
+      .bg-brand {
+        background-color: var(--brand-color);
+      }
+      .text-brand {
+        color: var(--brand-color);
+      }
+      .border-brand {
+        border-color: var(--brand-color);
+      }
+      .ring-brand {
+        --tw-ring-color: var(--brand-color);
+      }
+      .shadow-brand {
+        box-shadow:
+          0 10px 15px -3px var(--brand-color),
+          0 4px 6px -4px var(--brand-color);
+      }
+      .bg-gradient-brand {
+        background-image: linear-gradient(
+          to right,
+          var(--brand-color),
+          #6ee7b7
+        );
+      }
     </style>
-<script>
-        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark')
-        }
+    <script>
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      if (
+        localStorage.getItem('color-theme') === 'dark' ||
+        (!('color-theme' in localStorage) &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
     </script>
-</head>
-<body class="antialiased">
-<div class="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
-<div class="max-w-7xl mx-auto">
-<header class="text-center mb-16">
-<h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-text-light dark:text-text-dark">
-                尊享 <span class="text-brand">Premium</span> 会员计划
-            </h1>
-<p class="mt-4 max-w-2xl mx-auto text-lg text-text-muted-light dark:text-text-muted-dark">
-                立即升级，开启无与伦比的电影下载体验。我们为您精心设计了三款会员计划，总有一款能满足您的专属需求。
-            </p>
-</header>
-<main class="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12">
-<div class="plan-card bg-white dark:bg-surface-dark rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 flex flex-col">
-<div class="p-8 flex-grow">
-<h3 class="text-2xl font-bold">入门版</h3>
-<p class="mt-2 text-text-muted-light dark:text-text-muted-dark">为尝鲜的你准备</p>
-<div class="mt-8 flex items-end">
-<span class="text-5xl font-black tracking-tight">¥18</span>
-<span class="ml-2 text-xl font-medium text-text-muted-light dark:text-text-muted-dark">/月</span>
-</div>
-</div>
-<div class="px-8 py-6 bg-gray-50 dark:bg-gray-800/50 flex-grow">
-<ul class="space-y-4 text-text-light dark:text-text-dark">
-<li class="flex items-center">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>1080p 高清画质下载</span>
-</li>
-<li class="flex items-center">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>每日 5 次下载额度</span>
-</li>
-<li class="flex items-center">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>标准下载通道</span>
-</li>
-<li class="flex items-center">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>基础社区访问</span>
-</li>
-</ul>
-</div>
-<div class="p-8">
-<button class="w-full bg-gray-200 dark:bg-gray-700 text-text-light dark:text-text-dark font-bold py-4 px-6 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-300">
-                        选择入门版
-                    </button>
-</div>
-</div>
-<div class="plan-card bg-white dark:bg-surface-dark rounded-2xl shadow-2xl border-2 border-brand relative flex flex-col scale-105">
-<div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2">
-<div class="bg-brand text-gray-900 text-sm font-bold tracking-wider uppercase px-4 py-1.5 rounded-full">
-                        最受欢迎
-                    </div>
-</div>
-<div class="p-8 flex-grow">
-<h3 class="text-3xl font-black text-brand">专业版</h3>
-<p class="mt-2 text-text-muted-light dark:text-text-muted-dark">影迷发烧友的最佳选择</p>
-<div class="mt-8 flex items-end">
-<span class="text-5xl font-black tracking-tight">¥48</span>
-<span class="ml-2 text-xl font-medium text-text-muted-light dark:text-text-muted-dark">/月</span>
-</div>
-</div>
-<div class="px-8 py-6 bg-gray-50 dark:bg-gray-800/50 flex-grow">
-<ul class="space-y-4 text-text-light dark:text-text-dark">
-<li class="flex items-center font-semibold">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>4K &amp; 蓝光原盘画质</span>
-</li>
-<li class="flex items-center font-semibold">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>无限次下载</span>
-</li>
-<li class="flex items-center font-semibold">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>全球高速下载节点</span>
-</li>
-<li class="flex items-center font-semibold">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>热门资源抢先看</span>
-</li>
-<li class="flex items-center font-semibold">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>优先技术支持</span>
-</li>
-</ul>
-</div>
-<div class="p-8">
-<button class="w-full bg-brand text-gray-900 font-bold py-4 px-6 rounded-xl shadow-lg shadow-brand/50 hover:opacity-90 transition-all duration-300">
-                        升级专业版
-                    </button>
-</div>
-</div>
-<div class="plan-card bg-white dark:bg-surface-dark rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 flex flex-col">
-<div class="p-8 flex-grow">
-<h3 class="text-2xl font-bold">典藏版</h3>
-<p class="mt-2 text-text-muted-light dark:text-text-muted-dark">为终极收藏家打造</p>
-<div class="mt-8 flex items-end">
-<span class="text-5xl font-black tracking-tight">¥98</span>
-<span class="ml-2 text-xl font-medium text-text-muted-light dark:text-text-muted-dark">/月</span>
-</div>
-</div>
-<div class="px-8 py-6 bg-gray-50 dark:bg-gray-800/50 flex-grow">
-<ul class="space-y-4 text-text-light dark:text-text-dark">
-<li class="flex items-center">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>包含专业版所有权益</span>
-</li>
-<li class="flex items-center">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>独家未压缩 REMUX 资源</span>
-</li>
-<li class="flex items-center">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>1TB 专属加密云盘</span>
-</li>
-<li class="flex items-center">
-<span class="material-icons text-brand mr-3">check_circle</span>
-<span>一对一专属客服</span>
-</li>
-</ul>
-</div>
-<div class="p-8">
-<button class="w-full bg-gray-200 dark:bg-gray-700 text-text-light dark:text-text-dark font-bold py-4 px-6 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-300">
-                        选择典藏版
-                    </button>
-</div>
-</div>
-</main>
-<footer class="mt-20 text-center text-text-muted-light dark:text-text-muted-dark">
-<p>在选择上遇到困难？ <a class="font-semibold text-brand hover:underline" href="#">联系我们</a> 获取帮助。</p>
-</footer>
-</div>
-</div>
-
-</body></html>
+  </head>
+  <body class="antialiased">
+    <div class="min-h-screen px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <header class="mb-16 text-center">
+          <h1
+            class="text-text-light dark:text-text-dark text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl"
+          >
+            尊享 <span class="text-brand">Premium</span> 会员计划
+          </h1>
+          <p
+            class="text-text-muted-light dark:text-text-muted-dark mx-auto mt-4 max-w-2xl text-lg"
+          >
+            立即升级，开启无与伦比的电影下载体验。我们为您精心设计了三款会员计划，总有一款能满足您的专属需求。
+          </p>
+        </header>
+        <main class="grid grid-cols-1 gap-8 lg:grid-cols-3 xl:gap-12">
+          <div
+            class="plan-card dark:bg-surface-dark flex flex-col rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-gray-700"
+          >
+            <div class="flex-grow p-8">
+              <h3 class="text-2xl font-bold">入门版</h3>
+              <p class="text-text-muted-light dark:text-text-muted-dark mt-2">
+                为尝鲜的你准备
+              </p>
+              <div class="mt-8 flex items-end">
+                <span class="text-5xl font-black tracking-tight">¥18</span>
+                <span
+                  class="text-text-muted-light dark:text-text-muted-dark ml-2 text-xl font-medium"
+                  >/月</span
+                >
+              </div>
+            </div>
+            <div class="flex-grow bg-gray-50 px-8 py-6 dark:bg-gray-800/50">
+              <ul class="text-text-light dark:text-text-dark space-y-4">
+                <li class="flex items-center">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>1080p 高清画质下载</span>
+                </li>
+                <li class="flex items-center">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>每日 5 次下载额度</span>
+                </li>
+                <li class="flex items-center">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>标准下载通道</span>
+                </li>
+                <li class="flex items-center">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>基础社区访问</span>
+                </li>
+              </ul>
+            </div>
+            <div class="p-8">
+              <button
+                class="text-text-light dark:text-text-dark w-full rounded-xl bg-gray-200 px-6 py-4 font-bold transition-colors duration-300 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+              >
+                选择入门版
+              </button>
+            </div>
+          </div>
+          <div
+            class="plan-card dark:bg-surface-dark border-brand relative flex scale-105 flex-col rounded-2xl border-2 bg-white shadow-2xl"
+          >
+            <div
+              class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2"
+            >
+              <div
+                class="bg-brand rounded-full px-4 py-1.5 text-sm font-bold uppercase tracking-wider text-gray-900"
+              >
+                最受欢迎
+              </div>
+            </div>
+            <div class="flex-grow p-8">
+              <h3 class="text-brand text-3xl font-black">专业版</h3>
+              <p class="text-text-muted-light dark:text-text-muted-dark mt-2">
+                影迷发烧友的最佳选择
+              </p>
+              <div class="mt-8 flex items-end">
+                <span class="text-5xl font-black tracking-tight">¥48</span>
+                <span
+                  class="text-text-muted-light dark:text-text-muted-dark ml-2 text-xl font-medium"
+                  >/月</span
+                >
+              </div>
+            </div>
+            <div class="flex-grow bg-gray-50 px-8 py-6 dark:bg-gray-800/50">
+              <ul class="text-text-light dark:text-text-dark space-y-4">
+                <li class="flex items-center font-semibold">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>4K &amp; 蓝光原盘画质</span>
+                </li>
+                <li class="flex items-center font-semibold">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>无限次下载</span>
+                </li>
+                <li class="flex items-center font-semibold">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>全球高速下载节点</span>
+                </li>
+                <li class="flex items-center font-semibold">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>热门资源抢先看</span>
+                </li>
+                <li class="flex items-center font-semibold">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>优先技术支持</span>
+                </li>
+              </ul>
+            </div>
+            <div class="p-8">
+              <button
+                class="bg-brand shadow-brand/50 w-full rounded-xl px-6 py-4 font-bold text-gray-900 shadow-lg transition-all duration-300 hover:opacity-90"
+              >
+                升级专业版
+              </button>
+            </div>
+          </div>
+          <div
+            class="plan-card dark:bg-surface-dark flex flex-col rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-gray-700"
+          >
+            <div class="flex-grow p-8">
+              <h3 class="text-2xl font-bold">典藏版</h3>
+              <p class="text-text-muted-light dark:text-text-muted-dark mt-2">
+                为终极收藏家打造
+              </p>
+              <div class="mt-8 flex items-end">
+                <span class="text-5xl font-black tracking-tight">¥98</span>
+                <span
+                  class="text-text-muted-light dark:text-text-muted-dark ml-2 text-xl font-medium"
+                  >/月</span
+                >
+              </div>
+            </div>
+            <div class="flex-grow bg-gray-50 px-8 py-6 dark:bg-gray-800/50">
+              <ul class="text-text-light dark:text-text-dark space-y-4">
+                <li class="flex items-center">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>包含专业版所有权益</span>
+                </li>
+                <li class="flex items-center">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>独家未压缩 REMUX 资源</span>
+                </li>
+                <li class="flex items-center">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>1TB 专属加密云盘</span>
+                </li>
+                <li class="flex items-center">
+                  <span class="material-icons text-brand mr-3"
+                    >check_circle</span
+                  >
+                  <span>一对一专属客服</span>
+                </li>
+              </ul>
+            </div>
+            <div class="p-8">
+              <button
+                class="text-text-light dark:text-text-dark w-full rounded-xl bg-gray-200 px-6 py-4 font-bold transition-colors duration-300 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+              >
+                选择典藏版
+              </button>
+            </div>
+          </div>
+        </main>
+        <footer
+          class="text-text-muted-light dark:text-text-muted-dark mt-20 text-center"
+        >
+          <p>
+            在选择上遇到困难？
+            <a class="text-brand font-semibold hover:underline" href="#"
+              >联系我们</a
+            >
+            获取帮助。
+          </p>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
