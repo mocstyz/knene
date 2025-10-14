@@ -8,14 +8,14 @@
  * @version 1.0.0
  */
 
-import React from 'react'
-import { cn } from '@utils/cn'
 import { TextLink } from '@components/atoms'
 import { MovieList } from '@components/domains'
 import type {
   TopicItem as BaseTopicItem,
   BaseMovieItem,
 } from '@types-movie/movie.types'
+import { cn } from '@utils/cn'
+import React from 'react'
 
 /**
  * 专题项目接口 - 扩展基础接口
