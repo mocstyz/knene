@@ -18,6 +18,8 @@ import {
   TitleLayer,
   VipBadgeLayer,
 } from '@components/layers'
+import { getOverlayGradient } from '@tokens/design-system'
+import { cn } from '@utils/cn'
 import React from 'react'
 
 /**
@@ -165,8 +167,11 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
           fallbackType="gradient"
         />
 
-        {/* 底部渐变遮罩 */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+        {/* 底部渐变遮罩 - 使用统一的渐变Token系统 */}
+        <div className={cn(
+          'pointer-events-none absolute inset-x-0 bottom-0 h-1/3',
+          getOverlayGradient('medium') // 对应原来的 from-black/50 via-black/20 to-transparent
+        )} />
 
         {/* 标签层 */}
         <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">

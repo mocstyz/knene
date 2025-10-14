@@ -12,6 +12,9 @@ export * from './layout-variants'
 // 标签层组件变体
 export * from './badge-layer-variants'
 
+// 渐变变体配置
+export * from './gradient-variants'
+
 // 类型重新导出，保持向后兼容
 export type {
   ButtonVariant,
@@ -43,3 +46,11 @@ export type {
   BadgeLayerType,
   BadgeLayerRatingColor,
 } from './badge-layer-variants'
+
+export type {
+  GradientOverlayIntensity,
+  GradientSpecialVariant,
+  GradientBackgroundVariant,
+  GradientVariant,
+  GradientCategory,
+} from './gradient-variants'

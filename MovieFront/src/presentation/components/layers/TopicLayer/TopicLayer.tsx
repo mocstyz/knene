@@ -9,6 +9,7 @@
  */
 
 import { TitleLayer } from '@components/layers'
+import { getOverlayGradient, type GradientOverlayIntensity } from '@tokens/design-system'
 import { cn } from '@utils/cn'
 import React from 'react'
 
@@ -31,7 +32,7 @@ export interface TopicLayerProps {
   /** 是否显示渐变遮罩 */
   showGradient?: boolean
   /** 渐变强度 */
-  gradientIntensity?: 'light' | 'medium' | 'strong'
+  gradientIntensity?: GradientOverlayIntensity | 'light' | 'medium' | 'strong'
   /** 点击事件处理 */
   onClick?: (id: string) => void
   /** hover效果配置 */
@@ -55,7 +56,7 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
   className,
   contentPosition = 'bottom-left',
   showGradient = true,
-  gradientIntensity = 'medium',
+  gradientIntensity = 'strong',
   onClick,
   hoverEffect,
 }) => {
@@ -67,12 +68,26 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
     center: 'absolute inset-0 flex items-center justify-center p-6 text-center',
   }
 
-  // 渐变遮罩样式映射
-  const gradientClasses = {
-    light: 'bg-gradient-to-t from-black/40 via-black/10 to-transparent',
-    medium: 'bg-gradient-to-t from-black/60 via-black/20 to-transparent',
-    strong: 'bg-gradient-to-t from-black/80 via-black/40 to-transparent',
+  // 映射原有的渐变强度到新的Token系统
+  const mapGradientIntensity = (intensity: GradientOverlayIntensity | 'light' | 'medium' | 'strong'): GradientOverlayIntensity => {
+    switch (intensity) {
+      case 'light':
+        return 'subtle'   // 对应原来的 from-black/40 via-black/10 to-transparent
+      case 'strong':
+        return 'heavy'    // 对应原来的 from-black/80 via-black/40 to-transparent
+      case 'medium':
+        return 'strong'   // 对应原来的 from-black/60 via-black/20 to-transparent
+      case 'subtle':
+      case 'intense':
+      case 'heavy':
+        return intensity  // 已经是新格式的，直接返回
+      default:
+        return 'strong'   // 默认使用中等强度
+    }
   }
+
+  // 获取映射后的渐变强度
+  const mappedIntensity = mapGradientIntensity(gradientIntensity)
 
   // 标题宽度限制样式
   const titleWidthClasses = {
@@ -89,10 +104,10 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
 
   return (
     <>
-      {/* 渐变遮罩 */}
+      {/* 渐变遮罩 - 使用统一的渐变Token系统 */}
       {showGradient && (
         <div
-          className={cn('absolute inset-0', gradientClasses[gradientIntensity])}
+          className={cn('absolute inset-0', getOverlayGradient(mappedIntensity))}
         />
       )}
 
