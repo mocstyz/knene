@@ -1,249 +1,159 @@
-<!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>完成您的购买</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"
-    />
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              primary: '#87e8c0',
-              'background-light': '#f8f9fa',
-              'background-dark': '#121212',
-              'surface-dark': '#1e1e1e',
-              'text-light': '#111827',
-              'text-dark': '#f9fafb',
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>完成您的购买</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#87e8c0",
+                        "background-light": "#f8f9fa",
+                        "background-dark": "#121212",
+                        "surface-dark": "#1e1e1e",
+                        "text-light": "#111827",
+                        "text-dark": "#f9fafb",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'primary': '0 10px 30px -10px rgba(135, 232, 192, 0.4)',
+                    }
+                },
             },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
-            boxShadow: {
-              primary: '0 10px 30px -10px rgba(135, 232, 192, 0.4)',
-            },
-          },
-        },
-      }
+        };
     </script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
-      body {
-        font-family: 'Inter', sans-serif;
-      }
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
     </style>
-  </head>
-  <body
-    class="text-text-light dark:text-text-dark bg-background-light antialiased dark:bg-background-dark"
-  >
-    <div
-      class="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8"
-    >
-      <div class="mx-auto w-full max-w-4xl">
-        <div class="mb-12 text-center">
-          <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">
-            <span
-              class="bg-gradient-to-r from-primary to-green-400 bg-clip-text text-transparent"
-              >安全</span
-            >
-            支付
-          </h1>
-          <p
-            class="mx-auto mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-400"
-          >
-            仅差一步，即可解锁无限精彩。请确认您的订单并完成支付。
-          </p>
-        </div>
-        <div class="grid grid-cols-1 gap-8 lg:grid-cols-5">
-          <div
-            class="dark:bg-surface-dark rounded-xl border border-gray-200 bg-white p-8 shadow-lg dark:border-gray-700 lg:col-span-3"
-          >
-            <h2 class="mb-6 text-2xl font-bold">选择支付方式</h2>
-            <div class="space-y-4">
-              <div
-                class="flex cursor-pointer items-center justify-between rounded-lg border border-primary bg-primary/10 p-4"
-              >
-                <div class="flex items-center space-x-4">
-                  <span class="material-symbols-outlined text-3xl text-primary"
-                    >credit_card</span
-                  >
-                  <div>
-                    <p class="font-semibold">信用卡 / 借记卡</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">
-                      Visa, Mastercard, American Express
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased">
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+<div class="max-w-4xl w-full mx-auto">
+<div class="text-center mb-12">
+<h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight">
+<span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-green-400">安全</span> 支付
+                </h1>
+<p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400">
+                    仅差一步，即可解锁无限精彩。请确认您的订单并完成支付。
+                </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+<div class="lg:col-span-3 bg-white dark:bg-surface-dark rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
+<h2 class="text-2xl font-bold mb-6">选择支付方式</h2>
+<div class="space-y-4">
+<div class="border border-primary rounded-lg p-4 flex items-center justify-between cursor-pointer bg-primary/10">
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-primary text-3xl">credit_card</span>
+<div>
+<p class="font-semibold">信用卡 / 借记卡</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Visa, Mastercard, American Express</p>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border-2 border-primary bg-primary"></div>
+</div>
+<div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4 flex items-center justify-between cursor-pointer hover:border-primary transition-colors">
+<div class="flex items-center space-x-4">
+<img alt="PayPal" class="h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqggwRNM5RbvyERoOgVYHGNKHpWyvMYcHD-HxFYk4iQBnFeBjZ8WWLY_M9WU3JogMegYf2izF-35econjLu85NeF1tVd8W_avKAJIj86Q-aeNXYA-yhniZx_881xv_B_Vk7ErxxZsCixmKJlboYJDrkuZD1zqFqrWovoZhC050_eQOpAFr4CsxPgFGgbSYAbsloWeQydYu1U3ZzxoDDjiEuaUzVmpEBR-q0c-9MUc_N4EDS_lX0WxXX9g410TQKqFf-JDG-RA6Rbs"/>
+<div>
+<p class="font-semibold">PayPal</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">通过 PayPal 账户安全支付</p>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border-2 border-gray-400 dark:border-gray-500"></div>
+</div>
+<div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4 flex items-center justify-between cursor-pointer hover:border-primary transition-colors">
+<div class="flex items-center space-x-4">
+<img alt="Alipay" class="h-8 -ml-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvrpovCeJJ74vS6ArpJ46JC31eq0N9dOqE4l84YwkonjbDwBkzuWs8TyGUE51WA3Vjao4Evz-KJzVh--3kJGwxmiLqtOCXQIPoC-GC3YhlP2-7ItZ6osFXpnqgoHXW_p3o7XhyIccYzmaaIPWWUjQ9U86v_sus4HPkksHxnEzpIvo-k5D1VGKvkzPyEhbKLJBIqqOe5WHaCLH-CYOoNZmt_-V8N3FlFXLtqYV6RW9iKkJOrw2B1DUTka9vr8kyFtTvtlWTWCfrn4c"/>
+<div>
+<p class="font-semibold">支付宝</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">使用支付宝扫码或应用内支付</p>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border-2 border-gray-400 dark:border-gray-500"></div>
+</div>
+<div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4 flex items-center justify-between cursor-pointer hover:border-primary transition-colors">
+<div class="flex items-center space-x-4">
+<img alt="WeChat Pay" class="h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-s8u1dAqqh-E0UZx0sYeYCVqnbCj0iNNQ7FAiqAxcZ_WpH0lN7_nuLzlt-8md-kP5XuOxMM-b8K0rMfBNPp5K8XbD4ab3xh1OGo8TTHFfofysGCqdewCg-GB6xqtlp7FZ8jSrq0V-3O6yphL14wopQ0-CUU5dns3k-ym7ZZjvBR_gBO43icx4PkGhZ4KXno5pOPTLO66-xZcmdAI6TLj2bFgAyqNrW6NgqxNEvpYxQrtvbcZAY6V_x-DtC2rKF5R1Agoj2EOR5l8"/>
+<div>
+<p class="font-semibold">微信支付</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">使用微信扫码或应用内支付</p>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border-2 border-gray-400 dark:border-gray-500"></div>
+</div>
+</div>
+<div class="mt-8">
+<button class="w-full bg-primary text-gray-900 font-bold py-4 px-6 rounded-lg hover:opacity-90 shadow-primary transition-all text-lg flex items-center justify-center space-x-2">
+<span>确认支付 $19.00</span>
+<span class="material-icons">arrow_forward</span>
+</button>
+</div>
+<p class="mt-4 text-xs text-gray-500 dark:text-gray-400 text-center">
+<span class="material-icons text-sm align-middle">lock</span>
+                        您的支付信息已通过 SSL 加密保护。点击按钮即表示您同意我们的 <a class="underline hover:text-primary" href="#">服务条款</a>。
                     </p>
-                  </div>
-                </div>
-                <div
-                  class="h-5 w-5 rounded-full border-2 border-primary bg-primary"
-                ></div>
-              </div>
-              <div
-                class="flex cursor-pointer items-center justify-between rounded-lg border border-gray-300 p-4 transition-colors hover:border-primary dark:border-gray-600"
-              >
-                <div class="flex items-center space-x-4">
-                  <img
-                    alt="PayPal"
-                    class="h-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqggwRNM5RbvyERoOgVYHGNKHpWyvMYcHD-HxFYk4iQBnFeBjZ8WWLY_M9WU3JogMegYf2izF-35econjLu85NeF1tVd8W_avKAJIj86Q-aeNXYA-yhniZx_881xv_B_Vk7ErxxZsCixmKJlboYJDrkuZD1zqFqrWovoZhC050_eQOpAFr4CsxPgFGgbSYAbsloWeQydYu1U3ZzxoDDjiEuaUzVmpEBR-q0c-9MUc_N4EDS_lX0WxXX9g410TQKqFf-JDG-RA6Rbs"
-                  />
-                  <div>
-                    <p class="font-semibold">PayPal</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">
-                      通过 PayPal 账户安全支付
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="h-5 w-5 rounded-full border-2 border-gray-400 dark:border-gray-500"
-                ></div>
-              </div>
-              <div
-                class="flex cursor-pointer items-center justify-between rounded-lg border border-gray-300 p-4 transition-colors hover:border-primary dark:border-gray-600"
-              >
-                <div class="flex items-center space-x-4">
-                  <img
-                    alt="Alipay"
-                    class="-ml-1 h-8"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvrpovCeJJ74vS6ArpJ46JC31eq0N9dOqE4l84YwkonjbDwBkzuWs8TyGUE51WA3Vjao4Evz-KJzVh--3kJGwxmiLqtOCXQIPoC-GC3YhlP2-7ItZ6osFXpnqgoHXW_p3o7XhyIccYzmaaIPWWUjQ9U86v_sus4HPkksHxnEzpIvo-k5D1VGKvkzPyEhbKLJBIqqOe5WHaCLH-CYOoNZmt_-V8N3FlFXLtqYV6RW9iKkJOrw2B1DUTka9vr8kyFtTvtlWTWCfrn4c"
-                  />
-                  <div>
-                    <p class="font-semibold">支付宝</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">
-                      使用支付宝扫码或应用内支付
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="h-5 w-5 rounded-full border-2 border-gray-400 dark:border-gray-500"
-                ></div>
-              </div>
-              <div
-                class="flex cursor-pointer items-center justify-between rounded-lg border border-gray-300 p-4 transition-colors hover:border-primary dark:border-gray-600"
-              >
-                <div class="flex items-center space-x-4">
-                  <img
-                    alt="WeChat Pay"
-                    class="h-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-s8u1dAqqh-E0UZx0sYeYCVqnbCj0iNNQ7FAiqAxcZ_WpH0lN7_nuLzlt-8md-kP5XuOxMM-b8K0rMfBNPp5K8XbD4ab3xh1OGo8TTHFfofysGCqdewCg-GB6xqtlp7FZ8jSrq0V-3O6yphL14wopQ0-CUU5dns3k-ym7ZZjvBR_gBO43icx4PkGhZ4KXno5pOPTLO66-xZcmdAI6TLj2bFgAyqNrW6NgqxNEvpYxQrtvbcZAY6V_x-DtC2rKF5R1Agoj2EOR5l8"
-                  />
-                  <div>
-                    <p class="font-semibold">微信支付</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">
-                      使用微信扫码或应用内支付
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="h-5 w-5 rounded-full border-2 border-gray-400 dark:border-gray-500"
-                ></div>
-              </div>
-            </div>
-            <div class="mt-8">
-              <button
-                class="flex w-full items-center justify-center space-x-2 rounded-lg bg-primary px-6 py-4 text-lg font-bold text-gray-900 shadow-primary transition-all hover:opacity-90"
-              >
-                <span>确认支付 $19.00</span>
-                <span class="material-icons">arrow_forward</span>
-              </button>
-            </div>
-            <p
-              class="mt-4 text-center text-xs text-gray-500 dark:text-gray-400"
-            >
-              <span class="material-icons align-middle text-sm">lock</span>
-              您的支付信息已通过 SSL 加密保护。点击按钮即表示您同意我们的
-              <a class="underline hover:text-primary" href="#">服务条款</a>。
-            </p>
-          </div>
-          <div
-            class="dark:bg-surface-dark rounded-xl border-2 border-primary bg-white p-8 shadow-lg lg:col-span-2"
-          >
-            <h2 class="mb-6 text-2xl font-bold text-primary">订单摘要</h2>
-            <div class="space-y-4">
-              <div class="flex items-center justify-between">
-                <span class="text-gray-600 dark:text-gray-300">所选计划</span>
-                <span class="font-semibold text-primary">专业版</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-600 dark:text-gray-300">计费周期</span>
-                <span class="font-semibold">按月</span>
-              </div>
-              <div
-                class="my-4 border-t border-gray-200 dark:border-gray-700"
-              ></div>
-              <ul class="space-y-3 text-sm">
-                <li class="flex items-center space-x-3">
-                  <span class="material-icons text-base text-primary"
-                    >check_circle</span
-                  >
-                  <span class="text-gray-700 dark:text-gray-300"
-                    >无限制 4K &amp; 蓝光资源</span
-                  >
-                </li>
-                <li class="flex items-center space-x-3">
-                  <span class="material-icons text-base text-primary"
-                    >check_circle</span
-                  >
-                  <span class="text-gray-700 dark:text-gray-300"
-                    >无下载次数限制</span
-                  >
-                </li>
-                <li class="flex items-center space-x-3">
-                  <span class="material-icons text-base text-primary"
-                    >check_circle</span
-                  >
-                  <span class="text-gray-700 dark:text-gray-300"
-                    >高速下载通道</span
-                  >
-                </li>
-                <li class="flex items-center space-x-3">
-                  <span class="material-icons text-base text-primary"
-                    >check_circle</span
-                  >
-                  <span class="text-gray-700 dark:text-gray-300"
-                    >提前获取热门资源</span
-                  >
-                </li>
-              </ul>
-              <div
-                class="my-4 border-t border-gray-200 dark:border-gray-700"
-              ></div>
-              <div class="flex items-center justify-between text-lg">
-                <span class="text-gray-600 dark:text-gray-300">小计</span>
-                <span class="font-semibold">$19.00</span>
-              </div>
-              <div class="flex items-center justify-between text-lg">
-                <span class="text-gray-600 dark:text-gray-300">税费</span>
-                <span class="font-semibold">$0.00</span>
-              </div>
-              <div
-                class="my-4 border-t-2 border-dashed border-gray-300 dark:border-gray-600"
-              ></div>
-              <div class="flex items-center justify-between text-2xl font-bold">
-                <span class="text-gray-800 dark:text-gray-100">总计</span>
-                <span class="text-primary">$19.00</span>
-              </div>
-            </div>
-            <div class="mt-6 text-center">
-              <a
-                class="text-sm font-medium text-primary hover:underline"
-                href="#"
-                >更改计划</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
+</div>
+<div class="lg:col-span-2 bg-white dark:bg-surface-dark rounded-xl shadow-lg p-8 border-2 border-primary">
+<h2 class="text-2xl font-bold mb-6 text-primary">订单摘要</h2>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-gray-600 dark:text-gray-300">所选计划</span>
+<span class="font-semibold text-primary">专业版</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-gray-600 dark:text-gray-300">计费周期</span>
+<span class="font-semibold">按月</span>
+</div>
+<div class="border-t border-gray-200 dark:border-gray-700 my-4"></div>
+<ul class="space-y-3 text-sm">
+<li class="flex items-center space-x-3">
+<span class="material-icons text-primary text-base">check_circle</span>
+<span class="text-gray-700 dark:text-gray-300">无限制 4K &amp; 蓝光资源</span>
+</li>
+<li class="flex items-center space-x-3">
+<span class="material-icons text-primary text-base">check_circle</span>
+<span class="text-gray-700 dark:text-gray-300">无下载次数限制</span>
+</li>
+<li class="flex items-center space-x-3">
+<span class="material-icons text-primary text-base">check_circle</span>
+<span class="text-gray-700 dark:text-gray-300">高速下载通道</span>
+</li>
+<li class="flex items-center space-x-3">
+<span class="material-icons text-primary text-base">check_circle</span>
+<span class="text-gray-700 dark:text-gray-300">提前获取热门资源</span>
+</li>
+</ul>
+<div class="border-t border-gray-200 dark:border-gray-700 my-4"></div>
+<div class="flex justify-between items-center text-lg">
+<span class="text-gray-600 dark:text-gray-300">小计</span>
+<span class="font-semibold">$19.00</span>
+</div>
+<div class="flex justify-between items-center text-lg">
+<span class="text-gray-600 dark:text-gray-300">税费</span>
+<span class="font-semibold">$0.00</span>
+</div>
+<div class="border-t-2 border-dashed border-gray-300 dark:border-gray-600 my-4"></div>
+<div class="flex justify-between items-center text-2xl font-bold">
+<span class="text-gray-800 dark:text-gray-100">总计</span>
+<span class="text-primary">$19.00</span>
+</div>
+</div>
+<div class="mt-6 text-center">
+<a class="text-sm font-medium text-primary hover:underline" href="#">更改计划</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

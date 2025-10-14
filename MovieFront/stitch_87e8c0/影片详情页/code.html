@@ -15,74 +15,37 @@
   </head>
   <body>
     <div
-      class="group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-[#f8fbfa]"
-      style="font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif"
+      class="relative flex h-auto min-h-screen w-full flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden"
+      style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'
     >
       <div class="layout-container flex h-full grow flex-col">
-        <header
-          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3"
-        >
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3">
           <div class="flex items-center gap-8">
             <div class="flex items-center gap-4 text-[#0e1b14]">
               <div class="size-4">
-                <svg
-                  viewBox="0 0 48 48"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z"
-                    fill="currentColor"
-                  ></path>
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor"></path>
                 </svg>
               </div>
-              <h2
-                class="text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-              >
-                Streamr
-              </h2>
+              <h2 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em]">Streamr</h2>
             </div>
             <div class="flex items-center gap-9">
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Home</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Movies</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >TV Shows</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >My List</a
-              >
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Home</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Movies</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">TV Shows</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">My List</a>
             </div>
           </div>
           <div class="flex flex-1 justify-end gap-8">
-            <label class="flex !h-10 min-w-40 max-w-64 flex-col">
-              <div class="flex h-full w-full flex-1 items-stretch rounded-lg">
+            <label class="flex flex-col min-w-40 !h-10 max-w-64">
+              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
                 <div
-                  class="flex items-center justify-center rounded-l-lg border-r-0 border-none bg-[#e8f3ed] pl-4 text-[#509573]"
+                  class="text-[#509573] flex border-none bg-[#e8f3ed] items-center justify-center pl-4 rounded-l-lg border-r-0"
                   data-icon="MagnifyingGlass"
                   data-size="24px"
                   data-weight="regular"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24px"
-                    height="24px"
-                    fill="currentColor"
-                    viewBox="0 0 256 256"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                     <path
                       d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
                     ></path>
@@ -90,27 +53,16 @@
                 </div>
                 <input
                   placeholder="Search"
-                  class="form-input flex h-full w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none border-l-0 border-none bg-[#e8f3ed] px-4 pl-2 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-full placeholder:text-[#509573] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
                   value=""
                 />
               </div>
             </label>
             <button
-              class="flex h-10 min-w-0 max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-[#e8f3ed] px-2.5 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#e8f3ed] text-[#0e1b14] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
             >
-              <div
-                class="text-[#0e1b14]"
-                data-icon="Bell"
-                data-size="20px"
-                data-weight="regular"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20px"
-                  height="20px"
-                  fill="currentColor"
-                  viewBox="0 0 256 256"
-                >
+              <div class="text-[#0e1b14]" data-icon="Bell" data-size="20px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
                   <path
                     d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"
                   ></path>
@@ -118,674 +70,289 @@
               </div>
             </button>
             <div
-              class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat"
-              style="
-                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqywFLrfdvLlkFkWC6gXji_FX8ilE0EcUVOMEFRqy4Lx7V9xbWVnR-CdEQDL5LeVlekUodCVQv9FgqlezYw0oaii95qsI4Yl09PuJfsL1UyK6jf2Okv5Ie1ecZNGQL8R5PQwAF2Ut95bIUpIlcgijKqEQWVIhRVFy4qh0hrZXeCpRM4Cda4oKRYd3x5OUwGjAOWPgbPlKQBft7gwjtUYzTH8v8hAV5cER0PTyZMzyUFRCEuOiN_p2dEZEzPoK9g7GptZG0FKVJUTIs');
-              "
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAqywFLrfdvLlkFkWC6gXji_FX8ilE0EcUVOMEFRqy4Lx7V9xbWVnR-CdEQDL5LeVlekUodCVQv9FgqlezYw0oaii95qsI4Yl09PuJfsL1UyK6jf2Okv5Ie1ecZNGQL8R5PQwAF2Ut95bIUpIlcgijKqEQWVIhRVFy4qh0hrZXeCpRM4Cda4oKRYd3x5OUwGjAOWPgbPlKQBft7gwjtUYzTH8v8hAV5cER0PTyZMzyUFRCEuOiN_p2dEZEzPoK9g7GptZG0FKVJUTIs");'
             ></div>
           </div>
         </header>
-        <div class="flex flex-1 justify-center px-40 py-5">
-          <div
-            class="layout-content-container flex max-w-[960px] flex-1 flex-col"
-          >
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
             <div class="@container">
               <div class="@[480px]:px-4 @[480px]:py-3">
                 <div
-                  class="@[480px]:rounded-lg flex min-h-80 flex-col justify-end overflow-hidden bg-[#f8fbfa] bg-cover bg-center"
-                  style="
-                    background-image:
-                      linear-gradient(
-                        0deg,
-                        rgba(0, 0, 0, 0.4) 0%,
-                        rgba(0, 0, 0, 0) 25%
-                      ),
-                      url('https://lh3.googleusercontent.com/aida-public/AB6AXuCw-hlv0JemVQj9QB5RqzgRYTvY30acLm-L1f1X3GWks2uIr5jhoUQOkTLDEn9PwonZ9YM-rKm9y4BLjEgrOpnITna7a53-Ko_SVaBpRiF-SPW_0aCyp40bm4vS3PF743cyu-dPD8h49YFRsmv-O4YpTzct0pCh9qRX-uZNItMW9XrQYDfSysNLMB7w6T3D-RH3fVudYYPMvBPiTPPJWXwfhikDYYm4dr42xhg49xQGJP93F5-xOyXHFmmICIipqc4oboopeM2rT3Qo');
-                  "
+                  class="bg-cover bg-center flex flex-col justify-end overflow-hidden bg-[#f8fbfa] @[480px]:rounded-lg min-h-80"
+                  style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 25%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCw-hlv0JemVQj9QB5RqzgRYTvY30acLm-L1f1X3GWks2uIr5jhoUQOkTLDEn9PwonZ9YM-rKm9y4BLjEgrOpnITna7a53-Ko_SVaBpRiF-SPW_0aCyp40bm4vS3PF743cyu-dPD8h49YFRsmv-O4YpTzct0pCh9qRX-uZNItMW9XrQYDfSysNLMB7w6T3D-RH3fVudYYPMvBPiTPPJWXwfhikDYYm4dr42xhg49xQGJP93F5-xOyXHFmmICIipqc4oboopeM2rT3Qo");'
                 >
-                  <div class="flex p-4">
-                    <p
-                      class="tracking-light text-[28px] font-bold leading-tight text-white"
-                    >
-                      Uncut Gems (2019)
-                    </p>
-                  </div>
+                  <div class="flex p-4"><p class="text-white tracking-light text-[28px] font-bold leading-tight">Uncut Gems (2019)</p></div>
                 </div>
               </div>
             </div>
-            <p
-              class="px-4 pb-3 pt-1 text-sm font-normal leading-normal text-[#509573]"
-            >
-              2019 · Crime, Drama, Thriller · 2h 15m
+            <p class="text-[#509573] text-sm font-normal leading-normal pb-3 pt-1 px-4">2019 · Crime, Drama, Thriller · 2h 15m</p>
+            <p class="text-[#0e1b14] text-base font-normal leading-normal pb-3 pt-1 px-4">
+              A charismatic New York City jeweler always on the lookout for the next big score makes a series of high-stakes bets that could lead to the windfall of a lifetime.
+              Howard Ratner must perform a precarious high-wire act, balancing business, family, and encroaching adversaries on all sides, in his relentless pursuit of the ultimate
+              win.
             </p>
-            <p
-              class="px-4 pb-3 pt-1 text-base font-normal leading-normal text-[#0e1b14]"
-            >
-              A charismatic New York City jeweler always on the lookout for the
-              next big score makes a series of high-stakes bets that could lead
-              to the windfall of a lifetime. Howard Ratner must perform a
-              precarious high-wire act, balancing business, family, and
-              encroaching adversaries on all sides, in his relentless pursuit of
-              the ultimate win.
-            </p>
-            <h2
-              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              Cast
-            </h2>
-            <div
-              class="[&amp;::-webkit-scrollbar]:hidden flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none]"
-            >
-              <div class="flex items-stretch gap-8 p-4">
-                <div
-                  class="flex h-full min-w-32 flex-1 flex-col gap-4 rounded-lg pt-4 text-center"
-                >
+            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Cast</h2>
+            <div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
+              <div class="flex items-stretch p-4 gap-8">
+                <div class="flex h-full flex-1 flex-col gap-4 text-center rounded-lg min-w-32 pt-4">
                   <div
-                    class="flex aspect-square w-full flex-col self-center rounded-full bg-cover bg-center bg-no-repeat"
-                    style="
-                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAaizZYOpLvRvvqlth7jGGD4LtCn55s6w1gzAIuF2qtV3x2Cs4bKfEs7GmTsbuWAmCj5qql4faF1jWuPVVM_9Q2M-TwxsXGzSq3-fJjomberqskTkgt3PAos112No1f-52HJs4eR_SOo-xLLIg7xhURYAjyJzbOC-xr2DRsPMUJRDKU-Puhj8XCiXe4sKAedW9EP2u2hDeKCF-QCLb4abpaGY4luoLRhBZ-DDnKPICkeZIR_Gkjc1HRHn3XkQMka707Dt8beXQgy0aF');
-                    "
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-full flex flex-col self-center w-full"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAaizZYOpLvRvvqlth7jGGD4LtCn55s6w1gzAIuF2qtV3x2Cs4bKfEs7GmTsbuWAmCj5qql4faF1jWuPVVM_9Q2M-TwxsXGzSq3-fJjomberqskTkgt3PAos112No1f-52HJs4eR_SOo-xLLIg7xhURYAjyJzbOC-xr2DRsPMUJRDKU-Puhj8XCiXe4sKAedW9EP2u2hDeKCF-QCLb4abpaGY4luoLRhBZ-DDnKPICkeZIR_Gkjc1HRHn3XkQMka707Dt8beXQgy0aF");'
                   ></div>
-                  <p
-                    class="text-base font-medium leading-normal text-[#0e1b14]"
-                  >
-                    Adam Sandler
-                  </p>
+                  <p class="text-[#0e1b14] text-base font-medium leading-normal">Adam Sandler</p>
                 </div>
-                <div
-                  class="flex h-full min-w-32 flex-1 flex-col gap-4 rounded-lg pt-4 text-center"
-                >
+                <div class="flex h-full flex-1 flex-col gap-4 text-center rounded-lg min-w-32 pt-4">
                   <div
-                    class="flex aspect-square w-full flex-col self-center rounded-full bg-cover bg-center bg-no-repeat"
-                    style="
-                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCbteXH2LNW4Oply91YHeLNrcCYxoBEt32jb7nFVEXv2B2n-O51tS0S9RQD5CzqLXFtO-b_OHZoYsX1PnEpMLPVM43d1CUTEvIRuLvMG_Mi5xqmbAa7FHN2PuZMf64A70ZmF_tKABe9A-rKPKiPnEJmPQU1szD4LKXvH3-Y-R7kRIxIDk1Lth9mmlStnjhVgXHl3Q87lOTOxGqJGWmkEMFar9jy9S7HIYQ1FTF5LhisPcyxZTUw7I4C9Uiryj9YHa2QftqzkK2Wyv9U');
-                    "
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-full flex flex-col self-center w-full"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCbteXH2LNW4Oply91YHeLNrcCYxoBEt32jb7nFVEXv2B2n-O51tS0S9RQD5CzqLXFtO-b_OHZoYsX1PnEpMLPVM43d1CUTEvIRuLvMG_Mi5xqmbAa7FHN2PuZMf64A70ZmF_tKABe9A-rKPKiPnEJmPQU1szD4LKXvH3-Y-R7kRIxIDk1Lth9mmlStnjhVgXHl3Q87lOTOxGqJGWmkEMFar9jy9S7HIYQ1FTF5LhisPcyxZTUw7I4C9Uiryj9YHa2QftqzkK2Wyv9U");'
                   ></div>
-                  <p
-                    class="text-base font-medium leading-normal text-[#0e1b14]"
-                  >
-                    Kevin Garnett
-                  </p>
+                  <p class="text-[#0e1b14] text-base font-medium leading-normal">Kevin Garnett</p>
                 </div>
-                <div
-                  class="flex h-full min-w-32 flex-1 flex-col gap-4 rounded-lg pt-4 text-center"
-                >
+                <div class="flex h-full flex-1 flex-col gap-4 text-center rounded-lg min-w-32 pt-4">
                   <div
-                    class="flex aspect-square w-full flex-col self-center rounded-full bg-cover bg-center bg-no-repeat"
-                    style="
-                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDbQozvdIE1b8ZFt1z45-X1qDIALYyNe0Wef1o-f45pl5MLh4oJkKxdUvsWWvumxhpeHfIo8vn_70c3_9-IgjLh1AJMtl3z72YDBx8sMEhjKOpUQa1puifn-NmKoXpxkVYIu-N4Ru2oT7uOdpjmB_KaYAtsooiI3f91uO-yPxnY3TIw6K0f4hQGCDJhu6N24MBeTwIYCAFDhg5_j1tjqxWDqsheA6LmXkzUNmZ4_b_PZCLH6xw-nEK1u3Y6K3e1ocCjO0nSH0-YOjzd');
-                    "
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-full flex flex-col self-center w-full"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDbQozvdIE1b8ZFt1z45-X1qDIALYyNe0Wef1o-f45pl5MLh4oJkKxdUvsWWvumxhpeHfIo8vn_70c3_9-IgjLh1AJMtl3z72YDBx8sMEhjKOpUQa1puifn-NmKoXpxkVYIu-N4Ru2oT7uOdpjmB_KaYAtsooiI3f91uO-yPxnY3TIw6K0f4hQGCDJhu6N24MBeTwIYCAFDhg5_j1tjqxWDqsheA6LmXkzUNmZ4_b_PZCLH6xw-nEK1u3Y6K3e1ocCjO0nSH0-YOjzd");'
                   ></div>
-                  <p
-                    class="text-base font-medium leading-normal text-[#0e1b14]"
-                  >
-                    Lakeith Stanfield
-                  </p>
+                  <p class="text-[#0e1b14] text-base font-medium leading-normal">Lakeith Stanfield</p>
                 </div>
-                <div
-                  class="flex h-full min-w-32 flex-1 flex-col gap-4 rounded-lg pt-4 text-center"
-                >
+                <div class="flex h-full flex-1 flex-col gap-4 text-center rounded-lg min-w-32 pt-4">
                   <div
-                    class="flex aspect-square w-full flex-col self-center rounded-full bg-cover bg-center bg-no-repeat"
-                    style="
-                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCEH1q1QJ58ba1CQS9hTocMLWT5_k_ndOMjiairkYEGo2N7qOrhmWaKCcNWveQWiT0xhs9SFUgpreP6SEQGF3-MTWyAI7Bc6TdvXt9uP03sYYFH7wekq_HWlZI3kWbP56x1Aqk-8heFKC-H0xlxPqnhHllL6P4rYz2dzVkF3U83cwMDWNyZdY-7FfYrIaO-kLrUtYizQzhM4kKp2KoVI7DKBMFB9nI1oc2qKVcKwclnLDiBRpphHAvhDQ1YEij1qPXoQMwiF-D0fdld');
-                    "
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-full flex flex-col self-center w-full"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCEH1q1QJ58ba1CQS9hTocMLWT5_k_ndOMjiairkYEGo2N7qOrhmWaKCcNWveQWiT0xhs9SFUgpreP6SEQGF3-MTWyAI7Bc6TdvXt9uP03sYYFH7wekq_HWlZI3kWbP56x1Aqk-8heFKC-H0xlxPqnhHllL6P4rYz2dzVkF3U83cwMDWNyZdY-7FfYrIaO-kLrUtYizQzhM4kKp2KoVI7DKBMFB9nI1oc2qKVcKwclnLDiBRpphHAvhDQ1YEij1qPXoQMwiF-D0fdld");'
                   ></div>
-                  <p
-                    class="text-base font-medium leading-normal text-[#0e1b14]"
-                  >
-                    Julia Fox
-                  </p>
+                  <p class="text-[#0e1b14] text-base font-medium leading-normal">Julia Fox</p>
                 </div>
-                <div
-                  class="flex h-full min-w-32 flex-1 flex-col gap-4 rounded-lg pt-4 text-center"
-                >
+                <div class="flex h-full flex-1 flex-col gap-4 text-center rounded-lg min-w-32 pt-4">
                   <div
-                    class="flex aspect-square w-full flex-col self-center rounded-full bg-cover bg-center bg-no-repeat"
-                    style="
-                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAfU1jE_MofdhZlRrmlh-1OxlqcLrXqAaIBbQeYKD4fFkrIF_nOMhAm15M_8BspGTj1xmPzxQARGw87l5JTsfEtSyrkOSBm91TnufBLINeC5eoHCbaV3OvsQdkN8hYW0kj20OyCMZGGc40F41amE2R9Er2dF20WFhfKw3ueyrsgwGmT_RJNuCERa1_w5sSxGuajsVP_rf4TjVBgXv1FlQrls9uUFUjNgeCCGuKw5ttemMHZdmRNWD_HzfncYCjqhgCLq_zJUD-VZ8VA');
-                    "
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-full flex flex-col self-center w-full"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAfU1jE_MofdhZlRrmlh-1OxlqcLrXqAaIBbQeYKD4fFkrIF_nOMhAm15M_8BspGTj1xmPzxQARGw87l5JTsfEtSyrkOSBm91TnufBLINeC5eoHCbaV3OvsQdkN8hYW0kj20OyCMZGGc40F41amE2R9Er2dF20WFhfKw3ueyrsgwGmT_RJNuCERa1_w5sSxGuajsVP_rf4TjVBgXv1FlQrls9uUFUjNgeCCGuKw5ttemMHZdmRNWD_HzfncYCjqhgCLq_zJUD-VZ8VA");'
                   ></div>
-                  <p
-                    class="text-base font-medium leading-normal text-[#0e1b14]"
-                  >
-                    Idina Menzel
-                  </p>
+                  <p class="text-[#0e1b14] text-base font-medium leading-normal">Idina Menzel</p>
                 </div>
               </div>
             </div>
-            <h2
-              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              OVERVIEW
-            </h2>
-            <div class="grid grid-cols-[20%_1fr] gap-x-6 p-4">
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Uncut Gems (2019) Criterion (1080p BluRay x265 SDR DDP Atmos
-                  7.1 English - DarQ HONE)
-                </p>
-                <p
-                  class="text-sm font-normal leading-normal text-[#0e1b14]"
-                ></p>
+            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">OVERVIEW</h2>
+            <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Uncut Gems (2019) Criterion (1080p BluRay x265 SDR DDP Atmos 7.1 English - DarQ HONE)</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal"></p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Movie 1080p ENCODE 8.73 GiB ℵ200
-                </p>
-                <p
-                  class="text-sm font-normal leading-normal text-[#0e1b14]"
-                ></p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Movie 1080p ENCODE 8.73 GiB ℵ200</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal"></p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Uploaded By 16 hours ago
-                </p>
-                <p
-                  class="text-sm font-normal leading-normal text-[#0e1b14]"
-                ></p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Uploaded By 16 hours ago</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal"></p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  27 0 24
-                </p>
-                <p
-                  class="text-sm font-normal leading-normal text-[#0e1b14]"
-                ></p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">27 0 24</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal"></p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Info Hash
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  3471d6216bafc946bb536ce470a311acf7c7634f
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Info Hash</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">3471d6216bafc946bb536ce470a311acf7c7634f</p>
               </div>
             </div>
-            <h2
-              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              MEDIAINFO
-            </h2>
-            <h3
-              class="px-4 pb-2 pt-4 text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              FILE NAME
-            </h3>
-            <p
-              class="px-4 pb-3 pt-1 text-base font-normal leading-normal text-[#0e1b14]"
-            >
-              Uncut Gems (2019) Criterion (1080p BluRay x265 SDR DDP Atmos 7.1
-              English - DarQ HONE).mkv
+            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">MEDIAINFO</h2>
+            <h3 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">FILE NAME</h3>
+            <p class="text-[#0e1b14] text-base font-normal leading-normal pb-3 pt-1 px-4">
+              Uncut Gems (2019) Criterion (1080p BluRay x265 SDR DDP Atmos 7.1 English - DarQ HONE).mkv
             </p>
-            <h3
-              class="px-4 pb-2 pt-4 text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              GENERAL
-            </h3>
-            <div class="grid grid-cols-[20%_1fr] gap-x-6 p-4">
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Format
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  Matroska
-                </p>
+            <h3 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">GENERAL</h3>
+            <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Format</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">Matroska</p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Duration
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  2h 15m
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Duration</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">2h 15m</p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Bit Rate
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  5000 kbps
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Bit Rate</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">5000 kbps</p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Size
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  8.73 GiB
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Size</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">8.73 GiB</p>
               </div>
             </div>
-            <h3
-              class="px-4 pb-2 pt-4 text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              VIDEO
-            </h3>
-            <div class="grid grid-cols-[20%_1fr] gap-x-6 p-4">
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Format
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  x265
-                </p>
+            <h3 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">VIDEO</h3>
+            <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Format</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">x265</p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Resolution
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  1920x1080
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Resolution</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">1920x1080</p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Aspect Ratio
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  16:9
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Aspect Ratio</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">16:9</p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Frame Rate
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  24 fps
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Frame Rate</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">24 fps</p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Bit Rate
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  4000 kbps
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Bit Rate</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">4000 kbps</p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  HDR Format
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  SDR
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">HDR Format</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">SDR</p>
               </div>
             </div>
-            <h3
-              class="px-4 pb-2 pt-4 text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              AUDIO
-            </h3>
-            <div class="grid grid-cols-[20%_1fr] gap-x-6 p-4">
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Format
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  DDP Atmos
-                </p>
+            <h3 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">AUDIO</h3>
+            <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Format</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">DDP Atmos</p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Language
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  English
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Language</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">English</p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Channels
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  7.1
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Channels</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">7.1</p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Bitrate
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  768 kbps
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Bitrate</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">768 kbps</p>
               </div>
-              <div
-                class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Title
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  English 7.1
-                </p>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1e6db] py-5">
+                <p class="text-[#509573] text-sm font-normal leading-normal">Title</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">English 7.1</p>
               </div>
             </div>
-            <h3
-              class="px-4 pb-2 pt-4 text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              SUBTITLES
-            </h3>
-            <p
-              class="px-4 pb-3 pt-1 text-base font-normal leading-normal text-[#0e1b14]"
-            >
-              English, Spanish, French, German, Italian, Portuguese, Chinese,
-              Japanese, Korean, Arabic
+            <h3 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">SUBTITLES</h3>
+            <p class="text-[#0e1b14] text-base font-normal leading-normal pb-3 pt-1 px-4">
+              English, Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Arabic
             </p>
-            <h2
-              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              SETTINGS
-            </h2>
-            <p
-              class="px-4 pb-3 pt-1 text-base font-normal leading-normal text-[#0e1b14]"
-            >
-              Technical code or advanced configuration details for playback or
-              specific software.
-            </p>
-            <h2
-              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              DESCRIPTION
-            </h2>
-            <p
-              class="px-4 pb-3 pt-1 text-base font-normal leading-normal text-[#0e1b14]"
-            >
-              --- MOVIE --- Uncut Gems (2019)
-            </p>
+            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">SETTINGS</h2>
+            <p class="text-[#0e1b14] text-base font-normal leading-normal pb-3 pt-1 px-4">Technical code or advanced configuration details for playback or specific software.</p>
+            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">DESCRIPTION</h2>
+            <p class="text-[#0e1b14] text-base font-normal leading-normal pb-3 pt-1 px-4">--- MOVIE --- Uncut Gems (2019)</p>
             <div class="flex justify-stretch">
-              <div class="flex flex-1 flex-wrap justify-start gap-3 px-4 py-3">
+              <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-start">
                 <button
-                  class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-bold leading-normal tracking-[0.015em]"
                 >
                   <span class="truncate">TMDB</span>
                 </button>
                 <button
-                  class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-bold leading-normal tracking-[0.015em]"
                 >
                   <span class="truncate">IMDb</span>
                 </button>
               </div>
             </div>
-            <h3
-              class="px-4 pb-2 pt-4 text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              --- SCREENS --- COMPARISONS
-            </h3>
-            <div
-              class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4"
-            >
+            <h3 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">--- SCREENS --- COMPARISONS</h3>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDPjI2VBmhUIukSZOfp3ws21ntMX9UIrQjCy3veNIrAr7fKM-O6u9bNEJQElHHZHfZX6xGTJz24V7md4t5NWDNP9OvTJQJ1cZlzYHDigVz3ZpUyXK1rxC9MWl3YFsWdkncCurHu23s0KjiIK972q5K4HrAy9gHP27T66G0yTJQeP4r_3sSXSRoG7c93sBBfo3J0p-R7GKERII6uW5w0iXCA94ud6oWvNiyaJRen3Osk2XKke_u5M-u1a95fNMyoYpZF-9WRhmUx3oni');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDPjI2VBmhUIukSZOfp3ws21ntMX9UIrQjCy3veNIrAr7fKM-O6u9bNEJQElHHZHfZX6xGTJz24V7md4t5NWDNP9OvTJQJ1cZlzYHDigVz3ZpUyXK1rxC9MWl3YFsWdkncCurHu23s0KjiIK972q5K4HrAy9gHP27T66G0yTJQeP4r_3sSXSRoG7c93sBBfo3J0p-R7GKERII6uW5w0iXCA94ud6oWvNiyaJRen3Osk2XKke_u5M-u1a95fNMyoYpZF-9WRhmUx3oni");'
                 ></div>
               </div>
             </div>
-            <h2
-              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              ATTRIBUTES
-            </h2>
-            <div class="grid grid-cols-2 p-4">
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  SOURCE
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  BluRay
-                </p>
+            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">ATTRIBUTES</h2>
+            <div class="p-4 grid grid-cols-2">
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">SOURCE</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">BluRay</p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  FILE SIZE
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  8.73 GiB
-                </p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">FILE SIZE</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">8.73 GiB</p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  RESOLUTION
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  1080p
-                </p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">RESOLUTION</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">1080p</p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  GENERAL
-                </p>
-                <p
-                  class="text-sm font-normal leading-normal text-[#0e1b14]"
-                ></p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">GENERAL</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal"></p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  FILE NAME
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  Uncut Gems (2019) Criterion (1080p BluRay x265 SDR DDP Atmos
-                  7.1 English - DarQ HONE).mkv
-                </p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">FILE NAME</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">Uncut Gems (2019) Criterion (1080p BluRay x265 SDR DDP Atmos 7.1 English - DarQ HONE).mkv</p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  FILE SIZE
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  8.73 GiB
-                </p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">FILE SIZE</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">8.73 GiB</p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  DURATION
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  2h 15m
-                </p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">DURATION</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">2h 15m</p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  CHAPTERS
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  Yes
-                </p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">CHAPTERS</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">Yes</p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  VIDEO
-                </p>
-                <p
-                  class="text-sm font-normal leading-normal text-[#0e1b14]"
-                ></p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">VIDEO</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal"></p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  LIBRARY NAME
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  x265
-                </p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">LIBRARY NAME</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">x265</p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  BITRATE
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  4000 kbps
-                </p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">BITRATE</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">4000 kbps</p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  RESOLUTION
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  1920x1080
-                </p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">RESOLUTION</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">1920x1080</p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  AUDIO 1
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  English DDP Atmos 7.1
-                </p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">AUDIO 1</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">English DDP Atmos 7.1</p>
               </div>
-              <div
-                class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  AUDIO 2
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  None
-                </p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pl-2">
+                <p class="text-[#509573] text-sm font-normal leading-normal">AUDIO 2</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">None</p>
               </div>
-              <div
-                class="col-span-2 flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2 pr-[50%]"
-              >
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  SUBTITLES
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#0e1b14]">
-                  English, Spanish, French, German, Italian, Portuguese,
-                  Chinese, Japanese, Korean, Arabic
-                </p>
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#d1e6db] py-4 pr-2 col-span-2 pr-[50%]">
+                <p class="text-[#509573] text-sm font-normal leading-normal">SUBTITLES</p>
+                <p class="text-[#0e1b14] text-sm font-normal leading-normal">English, Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Arabic</p>
               </div>
             </div>
-            <h2
-              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              TIPS &amp; COMMENTS
-            </h2>
-            <h3
-              class="px-4 pb-2 pt-4 text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              --- NOTES ---
-            </h3>
-            <h3
-              class="px-4 pb-2 pt-4 text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              TIPS
-            </h3>
-            <p
-              class="px-4 pb-3 pt-1 text-base font-normal leading-normal text-[#0e1b14]"
-            >
-              Quick Tip Amounts: ℵ0 in total, ℵ0 from you
-            </p>
-            <h3
-              class="px-4 pb-2 pt-4 text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              Comments
-            </h3>
-            <p
-              class="px-4 pb-3 pt-1 text-base font-normal leading-normal text-[#0e1b14]"
-            >
-              No Comments Yet !
-            </p>
+            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">TIPS &amp; COMMENTS</h2>
+            <h3 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">--- NOTES ---</h3>
+            <h3 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">TIPS</h3>
+            <p class="text-[#0e1b14] text-base font-normal leading-normal pb-3 pt-1 px-4">Quick Tip Amounts: ℵ0 in total, ℵ0 from you</p>
+            <h3 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Comments</h3>
+            <p class="text-[#0e1b14] text-base font-normal leading-normal pb-3 pt-1 px-4">No Comments Yet !</p>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
+              <label class="flex flex-col min-w-40 flex-1">
                 <textarea
                   placeholder="Type ':' for emoji BBCode is allowed"
-                  class="form-input flex min-h-36 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#d1e6db] bg-[#f8fbfa] p-[15px] text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-[#d1e6db] focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border border-[#d1e6db] bg-[#f8fbfa] focus:border-[#d1e6db] min-h-36 placeholder:text-[#509573] p-[15px] text-base font-normal leading-normal"
                 ></textarea>
               </label>
             </div>
             <div class="flex flex-wrap gap-3 p-4">
               <label
-                class="relative flex h-11 cursor-pointer items-center justify-center rounded-lg border border-[#d1e6db] px-4 text-sm font-medium leading-normal text-[#0e1b14] has-[:checked]:border-[3px] has-[:checked]:border-[#63e9a6] has-[:checked]:px-3.5"
+                class="text-sm font-medium leading-normal flex items-center justify-center rounded-lg border border-[#d1e6db] px-4 h-11 text-[#0e1b14] has-[:checked]:border-[3px] has-[:checked]:px-3.5 has-[:checked]:border-[#63e9a6] relative cursor-pointer"
               >
                 Yes
-                <input
-                  type="radio"
-                  class="invisible absolute"
-                  name="8c702ea5-0288-47fe-8aa5-ca597aba9bbc"
-                />
+                <input type="radio" class="invisible absolute" name="8c702ea5-0288-47fe-8aa5-ca597aba9bbc" />
               </label>
               <label
-                class="relative flex h-11 cursor-pointer items-center justify-center rounded-lg border border-[#d1e6db] px-4 text-sm font-medium leading-normal text-[#0e1b14] has-[:checked]:border-[3px] has-[:checked]:border-[#63e9a6] has-[:checked]:px-3.5"
+                class="text-sm font-medium leading-normal flex items-center justify-center rounded-lg border border-[#d1e6db] px-4 h-11 text-[#0e1b14] has-[:checked]:border-[3px] has-[:checked]:px-3.5 has-[:checked]:border-[#63e9a6] relative cursor-pointer"
               >
                 No
-                <input
-                  type="radio"
-                  class="invisible absolute"
-                  name="8c702ea5-0288-47fe-8aa5-ca597aba9bbc"
-                />
+                <input type="radio" class="invisible absolute" name="8c702ea5-0288-47fe-8aa5-ca597aba9bbc" />
               </label>
             </div>
-            <p
-              class="px-4 pb-3 pt-1 text-sm font-normal leading-normal text-[#509573]"
-            >
-              Anonymous Comment
-            </p>
+            <p class="text-[#509573] text-sm font-normal leading-normal pb-3 pt-1 px-4">Anonymous Comment</p>
           </div>
         </div>
       </div>

@@ -14,80 +14,36 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   </head>
   <body>
-    <div
-      class="group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-[#f8fbfa]"
-      style="font-family: Inter, 'Noto Sans', sans-serif"
-    >
+    <div class="relative flex h-auto min-h-screen w-full flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
       <div class="layout-container flex h-full grow flex-col">
-        <header
-          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3"
-        >
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3">
           <div class="flex items-center gap-8">
             <div class="flex items-center gap-4 text-[#0e1b14]">
               <div class="size-4">
-                <svg
-                  viewBox="0 0 48 48"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z"
-                    fill="currentColor"
-                  ></path>
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor"></path>
                 </svg>
               </div>
-              <h2
-                class="text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-              >
-                Streamr
-              </h2>
+              <h2 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em]">Streamr</h2>
             </div>
             <div class="flex items-center gap-9">
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Home</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Series</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Movies</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >New &amp; Notable</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >My List</a
-              >
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Home</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Series</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Movies</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">New &amp; Notable</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">My List</a>
             </div>
           </div>
           <div class="flex flex-1 justify-end gap-8">
-            <label class="flex !h-10 min-w-40 max-w-64 flex-col">
-              <div class="flex h-full w-full flex-1 items-stretch rounded-lg">
+            <label class="flex flex-col min-w-40 !h-10 max-w-64">
+              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
                 <div
-                  class="flex items-center justify-center rounded-l-lg border-r-0 border-none bg-[#e8f3ed] pl-4 text-[#509573]"
+                  class="text-[#509573] flex border-none bg-[#e8f3ed] items-center justify-center pl-4 rounded-l-lg border-r-0"
                   data-icon="MagnifyingGlass"
                   data-size="24px"
                   data-weight="regular"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24px"
-                    height="24px"
-                    fill="currentColor"
-                    viewBox="0 0 256 256"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                     <path
                       d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
                     ></path>
@@ -95,179 +51,97 @@
                 </div>
                 <input
                   placeholder="Search"
-                  class="form-input flex h-full w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none border-l-0 border-none bg-[#e8f3ed] px-4 pl-2 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-full placeholder:text-[#509573] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
                   value=""
                 />
               </div>
             </label>
             <div
-              class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat"
-              style="
-                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAx0T7psBGIJCSzFUC74Hd2O_KBs8IypwsUPCnHdEaSvVLYRHli6WTPei_O4LXtUGchaghJ3qknsJhAqWURIoMZ8oqwtj32zjvudJ-2u8Jo5IjBvtvZUOv0XGsb4AtseDFpSolEb4mhNnw_mg-SW227fHOD3V8m4IesrR83u7biCRi3Gwk2tdzSuaSqbcNe_dAJfmRu51Quo32olY4mrefKHqSsWq-5qgz7RrjDkqtY_6XKnL2BHJxSPjpf90LinBZ18xKOarCyuOgB');
-              "
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAx0T7psBGIJCSzFUC74Hd2O_KBs8IypwsUPCnHdEaSvVLYRHli6WTPei_O4LXtUGchaghJ3qknsJhAqWURIoMZ8oqwtj32zjvudJ-2u8Jo5IjBvtvZUOv0XGsb4AtseDFpSolEb4mhNnw_mg-SW227fHOD3V8m4IesrR83u7biCRi3Gwk2tdzSuaSqbcNe_dAJfmRu51Quo32olY4mrefKHqSsWq-5qgz7RrjDkqtY_6XKnL2BHJxSPjpf90LinBZ18xKOarCyuOgB");'
             ></div>
           </div>
         </header>
-        <div class="flex flex-1 justify-center px-40 py-5">
-          <div
-            class="layout-content-container flex max-w-[960px] flex-1 flex-col"
-          >
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
             <div class="flex flex-wrap justify-between gap-3 p-4">
-              <p
-                class="tracking-light min-w-72 text-[32px] font-bold leading-tight text-[#0e1b14]"
-              >
-                The Avengers Collection
-              </p>
+              <p class="text-[#0e1b14] tracking-light text-[32px] font-bold leading-tight min-w-72">The Avengers Collection</p>
             </div>
-            <div
-              class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4"
-            >
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA5UGb_ULALi5L2ZBW8L4o2lRIN_9gLZPbF1XFraec2D589sK3D9OCv_Xrp8knzVOe3szph8_li5QrhGHXyz3WYqyfEqrLfH5xXT-s99ASXjIa26ZLQrhoZyPeyFZcebJaLp_J864oAG0efmBmnB0tGdhBIlBirL8Q87R7xqyXoTxuepNpe3zyump29DTwAhy1KPUpc__2fQ_iO721XjhxWLhwwy21QsRRfEOesCLEv2P6mu22SPu1ANFTWRKte3rVFw31LAemoxAkQ');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA5UGb_ULALi5L2ZBW8L4o2lRIN_9gLZPbF1XFraec2D589sK3D9OCv_Xrp8knzVOe3szph8_li5QrhGHXyz3WYqyfEqrLfH5xXT-s99ASXjIa26ZLQrhoZyPeyFZcebJaLp_J864oAG0efmBmnB0tGdhBIlBirL8Q87R7xqyXoTxuepNpe3zyump29DTwAhy1KPUpc__2fQ_iO721XjhxWLhwwy21QsRRfEOesCLEv2P6mu22SPu1ANFTWRKte3rVFw31LAemoxAkQ");'
                 ></div>
-                <p class="text-base font-medium leading-normal text-[#0e1b14]">
-                  The Avengers
-                </p>
+                <p class="text-[#0e1b14] text-base font-medium leading-normal">The Avengers</p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB4JcFhUju5PNTFy0laV-PM68y-VF7nwZ5vF3n23Ody4T9TmizhOEIDxPo-ZiEPVP2_5FGkoT01y0bbdOXt53VQhimF6bPkZwSkqOFMR51AYhDWW9ba6D498LzBXpFlmKMea1p9YnskeHPwspmE8dlL4E8Py5ohN4DjbdkpHUMQMTKI6wKzEt7iTjxzpp8cuImcIVD1ie3pFY4-aFG3JWi5-u-x8I6lsYJQTDkDsQrYgqcPg24mAHIqSPzDdbRDzZWydd_fF85Tei7E');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB4JcFhUju5PNTFy0laV-PM68y-VF7nwZ5vF3n23Ody4T9TmizhOEIDxPo-ZiEPVP2_5FGkoT01y0bbdOXt53VQhimF6bPkZwSkqOFMR51AYhDWW9ba6D498LzBXpFlmKMea1p9YnskeHPwspmE8dlL4E8Py5ohN4DjbdkpHUMQMTKI6wKzEt7iTjxzpp8cuImcIVD1ie3pFY4-aFG3JWi5-u-x8I6lsYJQTDkDsQrYgqcPg24mAHIqSPzDdbRDzZWydd_fF85Tei7E");'
                 ></div>
-                <p class="text-base font-medium leading-normal text-[#0e1b14]">
-                  Avengers: Age of Ultron
-                </p>
+                <p class="text-[#0e1b14] text-base font-medium leading-normal">Avengers: Age of Ultron</p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCm1VwG--5c99tGn77hkX-bltIFUlPivvPgfDzCMA6aGSJWdmQuD5blcI9zPD1obSgXQFnDigs61r46-UeGvuHgTFm4uYLiUVxLzIfEx-x0yGlpCHJZkcfyYRpodSnUcc3K1pv3PeJVBFiPnTSLHWqK_3TvD8WI5PiAOzCGD4XmzQWzUD7lUvQE77QuALOaQoXA5j42VC4VGoRW2ndo-5dVQ1c1kkZBfAgtCyXONEhO390M-0TxqKzaeFZnR15LK1QBKbcaMIO2BBJv');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCm1VwG--5c99tGn77hkX-bltIFUlPivvPgfDzCMA6aGSJWdmQuD5blcI9zPD1obSgXQFnDigs61r46-UeGvuHgTFm4uYLiUVxLzIfEx-x0yGlpCHJZkcfyYRpodSnUcc3K1pv3PeJVBFiPnTSLHWqK_3TvD8WI5PiAOzCGD4XmzQWzUD7lUvQE77QuALOaQoXA5j42VC4VGoRW2ndo-5dVQ1c1kkZBfAgtCyXONEhO390M-0TxqKzaeFZnR15LK1QBKbcaMIO2BBJv");'
                 ></div>
-                <p class="text-base font-medium leading-normal text-[#0e1b14]">
-                  Avengers: Infinity War
-                </p>
+                <p class="text-[#0e1b14] text-base font-medium leading-normal">Avengers: Infinity War</p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC_XrNisqUJXSOK05yUlZ0MmyeUO0CHNFjTfs88mKXCOXXPOGP2S-BdEyZIvumevGhKDRUH1IOs4wY3CtKMxljxIaUyvkHm-YfKLvXlCdpnaDnI8ecoCRRSAlcQl-rVSaFYPTBulMw8ZWO2CUEsnSYZd2gsJ9psj1VUaKmcxpRAIIwKr6qsYpTTYcHBNgNX_9qJkC7cys4DEYtX7IRuXIt83k-lIt1to1u-AV7q9pikYWnXRXR0Mdg2eUQ6kkUhVuSY9NvLCasU1fBM');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC_XrNisqUJXSOK05yUlZ0MmyeUO0CHNFjTfs88mKXCOXXPOGP2S-BdEyZIvumevGhKDRUH1IOs4wY3CtKMxljxIaUyvkHm-YfKLvXlCdpnaDnI8ecoCRRSAlcQl-rVSaFYPTBulMw8ZWO2CUEsnSYZd2gsJ9psj1VUaKmcxpRAIIwKr6qsYpTTYcHBNgNX_9qJkC7cys4DEYtX7IRuXIt83k-lIt1to1u-AV7q9pikYWnXRXR0Mdg2eUQ6kkUhVuSY9NvLCasU1fBM");'
                 ></div>
-                <p class="text-base font-medium leading-normal text-[#0e1b14]">
-                  Avengers: Endgame
-                </p>
+                <p class="text-[#0e1b14] text-base font-medium leading-normal">Avengers: Endgame</p>
               </div>
             </div>
-            <div
-              class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4"
-            >
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCiSn-9MRqGmck6Vz33Vgr4sRdOA8pkXfXQR-aw_CE3GBZEyXvF1arxcBvzuACZGd3Zka58pwAVuo8QTkHq8e-XibCPBILoQLsHcBWRLH2UbOgEEk9LKVUwvb1_Cd826m0hGmFskA64DxpbvFWtAASKW-RWC07oGQqEgg63M1D3ADcgcj6yc0EY6fiLaEOnqI8pL8pEEujenRWTRPO_ijSJSqgzhDzDYgH-ZU84vakkVU1rAxS4vv3l7cn8CpQyaO4GS4ZcsHJbh5kK');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCiSn-9MRqGmck6Vz33Vgr4sRdOA8pkXfXQR-aw_CE3GBZEyXvF1arxcBvzuACZGd3Zka58pwAVuo8QTkHq8e-XibCPBILoQLsHcBWRLH2UbOgEEk9LKVUwvb1_Cd826m0hGmFskA64DxpbvFWtAASKW-RWC07oGQqEgg63M1D3ADcgcj6yc0EY6fiLaEOnqI8pL8pEEujenRWTRPO_ijSJSqgzhDzDYgH-ZU84vakkVU1rAxS4vv3l7cn8CpQyaO4GS4ZcsHJbh5kK");'
                 ></div>
-                <p class="text-base font-medium leading-normal text-[#0e1b14]">
-                  Captain America: The First Avenger
-                </p>
+                <p class="text-[#0e1b14] text-base font-medium leading-normal">Captain America: The First Avenger</p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBmHSmDW-QDY9P28ljUguMfs_mwFb17-29cmaD-WadkTkUOTTa-99nsriHQze2GQ9roN251rJbrjzXLytxnm8yvsH2O3QsF3deJu3nMVqIONp5opUIu7dUuIstZBvX-qMJ6ilMpZ4atLLemV4e4cyg5gVJGev1g5zGBuzPVoLvFLSIYyive8k2fFCsjBCXcEpTDiEi9u7f673JR-RtA4YmoYFo-0Vk7me-PRPrM5UWY_RLMdm90PLFjn0s170QBTHA_S3aRt9YjrVdj');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBmHSmDW-QDY9P28ljUguMfs_mwFb17-29cmaD-WadkTkUOTTa-99nsriHQze2GQ9roN251rJbrjzXLytxnm8yvsH2O3QsF3deJu3nMVqIONp5opUIu7dUuIstZBvX-qMJ6ilMpZ4atLLemV4e4cyg5gVJGev1g5zGBuzPVoLvFLSIYyive8k2fFCsjBCXcEpTDiEi9u7f673JR-RtA4YmoYFo-0Vk7me-PRPrM5UWY_RLMdm90PLFjn0s170QBTHA_S3aRt9YjrVdj");'
                 ></div>
-                <p class="text-base font-medium leading-normal text-[#0e1b14]">
-                  Captain America: The Winter Soldier
-                </p>
+                <p class="text-[#0e1b14] text-base font-medium leading-normal">Captain America: The Winter Soldier</p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBi343oi3pEGrPJGfAqY7eWqGlovur2wGtEbrWsQHQfyofFwnU59SvZKmCvn7d3kE7LekOC97-zOxzvC1LXQ6ptaff3Vu9PTJo03wGW3oj6wsJCllQRnW8sC-ELxuNreOuRTO5fryIItgfmmF2U6mBFcupulEfR2dm1dOap8PIwgpez_Qy4RazeW4zFXkfiUGcBHTkYEXZudQqiV3z_N_7Ph249I5fVx5OhrN65PpsTXhVka6X104IglBi8VA3x88xhBfNmyF5Z3IVX');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBi343oi3pEGrPJGfAqY7eWqGlovur2wGtEbrWsQHQfyofFwnU59SvZKmCvn7d3kE7LekOC97-zOxzvC1LXQ6ptaff3Vu9PTJo03wGW3oj6wsJCllQRnW8sC-ELxuNreOuRTO5fryIItgfmmF2U6mBFcupulEfR2dm1dOap8PIwgpez_Qy4RazeW4zFXkfiUGcBHTkYEXZudQqiV3z_N_7Ph249I5fVx5OhrN65PpsTXhVka6X104IglBi8VA3x88xhBfNmyF5Z3IVX");'
                 ></div>
-                <p class="text-base font-medium leading-normal text-[#0e1b14]">
-                  Captain America: Civil War
-                </p>
+                <p class="text-[#0e1b14] text-base font-medium leading-normal">Captain America: Civil War</p>
               </div>
               <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="aspect-[3/4] w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBOEUvQtFVePtCzLsy7qGC_J3qhVJacq-EgBXisL6UVmWfrLmv6hV3r4vqDdwZWkR6xt1N-b54FZWDEQyEiULehIz5DJzCiAk2vuIjrOoJ1w9Avhw-GHitjdTUXyJ86jl0w25LeUVeT9HZHoE2F3ZVcH2wLsw7W1oCwyCd-unNyBpHYjFOeOxwLO3STeLbuMaUxEHmEueojLEHCED9lPT-MLys6ksdgGvPFMkWYw4hbCphBWeefTemvK_1fyWKTLq-eF8iZTVFs4ChN');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBOEUvQtFVePtCzLsy7qGC_J3qhVJacq-EgBXisL6UVmWfrLmv6hV3r4vqDdwZWkR6xt1N-b54FZWDEQyEiULehIz5DJzCiAk2vuIjrOoJ1w9Avhw-GHitjdTUXyJ86jl0w25LeUVeT9HZHoE2F3ZVcH2wLsw7W1oCwyCd-unNyBpHYjFOeOxwLO3STeLbuMaUxEHmEueojLEHCED9lPT-MLys6ksdgGvPFMkWYw4hbCphBWeefTemvK_1fyWKTLq-eF8iZTVFs4ChN");'
                 ></div>
-                <p class="text-base font-medium leading-normal text-[#0e1b14]">
-                  Thor
-                </p>
+                <p class="text-[#0e1b14] text-base font-medium leading-normal">Thor</p>
               </div>
             </div>
             <div class="flex items-center justify-center p-4">
               <a href="#" class="flex size-10 items-center justify-center">
-                <div
-                  class="text-[#0e1b14]"
-                  data-icon="CaretLeft"
-                  data-size="18px"
-                  data-weight="regular"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18px"
-                    height="18px"
-                    fill="currentColor"
-                    viewBox="0 0 256 256"
-                  >
-                    <path
-                      d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"
-                    ></path>
+                <div class="text-[#0e1b14]" data-icon="CaretLeft" data-size="18px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
                   </svg>
                 </div>
               </a>
-              <a
-                class="flex size-10 items-center justify-center rounded-full bg-[#e8f3ed] text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
-                href="#"
-                >1</a
-              >
-              <a
-                class="flex size-10 items-center justify-center rounded-full text-sm font-normal leading-normal text-[#0e1b14]"
-                href="#"
-                >2</a
-              >
-              <a
-                class="flex size-10 items-center justify-center rounded-full text-sm font-normal leading-normal text-[#0e1b14]"
-                href="#"
-                >3</a
-              >
+              <a class="text-sm font-bold leading-normal tracking-[0.015em] flex size-10 items-center justify-center text-[#0e1b14] rounded-full bg-[#e8f3ed]" href="#">1</a>
+              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-[#0e1b14] rounded-full" href="#">2</a>
+              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-[#0e1b14] rounded-full" href="#">3</a>
               <a href="#" class="flex size-10 items-center justify-center">
-                <div
-                  class="text-[#0e1b14]"
-                  data-icon="CaretRight"
-                  data-size="18px"
-                  data-weight="regular"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18px"
-                    height="18px"
-                    fill="currentColor"
-                    viewBox="0 0 256 256"
-                  >
-                    <path
-                      d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"
-                    ></path>
+                <div class="text-[#0e1b14]" data-icon="CaretRight" data-size="18px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
                   </svg>
                 </div>
               </a>

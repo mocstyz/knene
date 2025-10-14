@@ -15,79 +15,38 @@
   </head>
   <body>
     <div
-      class="group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-[#f9fbfa]"
-      style="font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif"
+      class="relative flex h-auto min-h-screen w-full flex-col bg-[#f9fbfa] group/design-root overflow-x-hidden"
+      style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'
     >
       <div class="layout-container flex h-full grow flex-col">
-        <header
-          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e9f2ed] px-10 py-3"
-        >
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e9f2ed] px-10 py-3">
           <div class="flex items-center gap-8">
             <div class="flex items-center gap-4 text-[#0f1a14]">
               <div class="size-4">
-                <svg
-                  viewBox="0 0 48 48"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z"
-                    fill="currentColor"
-                  ></path>
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor"></path>
                 </svg>
               </div>
-              <h2
-                class="text-lg font-bold leading-tight tracking-[-0.015em] text-[#0f1a14]"
-              >
-                Streamr
-              </h2>
+              <h2 class="text-[#0f1a14] text-lg font-bold leading-tight tracking-[-0.015em]">Streamr</h2>
             </div>
             <div class="flex items-center gap-9">
-              <a
-                class="text-sm font-medium leading-normal text-[#0f1a14]"
-                href="#"
-                >Home</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0f1a14]"
-                href="#"
-                >Movies</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0f1a14]"
-                href="#"
-                >TV Shows</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0f1a14]"
-                href="#"
-                >Requests</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0f1a14]"
-                href="#"
-                >Community</a
-              >
+              <a class="text-[#0f1a14] text-sm font-medium leading-normal" href="#">Home</a>
+              <a class="text-[#0f1a14] text-sm font-medium leading-normal" href="#">Movies</a>
+              <a class="text-[#0f1a14] text-sm font-medium leading-normal" href="#">TV Shows</a>
+              <a class="text-[#0f1a14] text-sm font-medium leading-normal" href="#">Requests</a>
+              <a class="text-[#0f1a14] text-sm font-medium leading-normal" href="#">Community</a>
             </div>
           </div>
           <div class="flex flex-1 justify-end gap-8">
-            <label class="flex !h-10 min-w-40 max-w-64 flex-col">
-              <div class="flex h-full w-full flex-1 items-stretch rounded-lg">
+            <label class="flex flex-col min-w-40 !h-10 max-w-64">
+              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
                 <div
-                  class="flex items-center justify-center rounded-l-lg border-r-0 border-none bg-[#e9f2ed] pl-4 text-[#559173]"
+                  class="text-[#559173] flex border-none bg-[#e9f2ed] items-center justify-center pl-4 rounded-l-lg border-r-0"
                   data-icon="MagnifyingGlass"
                   data-size="24px"
                   data-weight="regular"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24px"
-                    height="24px"
-                    fill="currentColor"
-                    viewBox="0 0 256 256"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                     <path
                       d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
                     ></path>
@@ -95,27 +54,16 @@
                 </div>
                 <input
                   placeholder="Search"
-                  class="form-input flex h-full w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none border-l-0 border-none bg-[#e9f2ed] px-4 pl-2 text-base font-normal leading-normal text-[#0f1a14] placeholder:text-[#559173] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0f1a14] focus:outline-0 focus:ring-0 border-none bg-[#e9f2ed] focus:border-none h-full placeholder:text-[#559173] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
                   value=""
                 />
               </div>
             </label>
             <button
-              class="flex h-10 min-w-0 max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-[#e9f2ed] px-2.5 text-sm font-bold leading-normal tracking-[0.015em] text-[#0f1a14]"
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#e9f2ed] text-[#0f1a14] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
             >
-              <div
-                class="text-[#0f1a14]"
-                data-icon="Bell"
-                data-size="20px"
-                data-weight="regular"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20px"
-                  height="20px"
-                  fill="currentColor"
-                  viewBox="0 0 256 256"
-                >
+              <div class="text-[#0f1a14]" data-icon="Bell" data-size="20px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
                   <path
                     d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"
                   ></path>
@@ -123,109 +71,69 @@
               </div>
             </button>
             <div
-              class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat"
-              style="
-                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBGuH2qSjzxobW92Wfb9Oj8eweKFDGZkHwNN1NXbm-cYicZssP9zm5KZ8CJy7iOCyQE-8uNUk_TMC9toctD6piZ_eQspahbnHFvVqQscs-mx3ZLmeG1sBcXPJKB1qkJ8GYxiWUWEKZd-E-x4rw0CnIhYqkbw3zBJNY6tdRVVodvSf4mlOYIdNlZAt7nl5omTq07fa-qEDqKu7z849yDPsXeYsNNB9SmH2GuFN9z_KWP-_0Z3xT9DgYM_t5MIdpDUSMx9ZvgmjHnpVLY');
-              "
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBGuH2qSjzxobW92Wfb9Oj8eweKFDGZkHwNN1NXbm-cYicZssP9zm5KZ8CJy7iOCyQE-8uNUk_TMC9toctD6piZ_eQspahbnHFvVqQscs-mx3ZLmeG1sBcXPJKB1qkJ8GYxiWUWEKZd-E-x4rw0CnIhYqkbw3zBJNY6tdRVVodvSf4mlOYIdNlZAt7nl5omTq07fa-qEDqKu7z849yDPsXeYsNNB9SmH2GuFN9z_KWP-_0Z3xT9DgYM_t5MIdpDUSMx9ZvgmjHnpVLY");'
             ></div>
           </div>
         </header>
-        <div class="flex flex-1 justify-center px-40 py-5">
-          <div
-            class="layout-content-container flex max-w-[960px] flex-1 flex-col"
-          >
-            <div class="flex flex-wrap justify-between gap-3 p-4">
-              <p
-                class="tracking-light min-w-72 text-[32px] font-bold leading-tight text-[#0f1a14]"
-              >
-                My Requests
-              </p>
-            </div>
-            <div class="@container px-4 py-3">
-              <div
-                class="flex overflow-hidden rounded-lg border border-[#d2e5db] bg-[#f9fbfa]"
-              >
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-[#0f1a14] tracking-light text-[32px] font-bold leading-tight min-w-72">My Requests</p></div>
+            <div class="px-4 py-3 @container">
+              <div class="flex overflow-hidden rounded-lg border border-[#d2e5db] bg-[#f9fbfa]">
                 <table class="flex-1">
                   <thead>
                     <tr class="bg-[#f9fbfa]">
-                      <th
-                        class="table-e546fca7-893a-4946-959e-fb5f50763514-column-120 w-[400px] px-4 py-3 text-left text-sm font-medium leading-normal text-[#0f1a14]"
-                      >
-                        Title
-                      </th>
-                      <th
-                        class="table-e546fca7-893a-4946-959e-fb5f50763514-column-240 w-60 px-4 py-3 text-left text-sm font-medium leading-normal text-[#0f1a14]"
-                      >
-                        Status
-                      </th>
-                      <th
-                        class="table-e546fca7-893a-4946-959e-fb5f50763514-column-360 w-60 px-4 py-3 text-left text-sm font-medium leading-normal text-[#0f1a14] text-[#559173]"
-                      >
+                      <th class="table-e546fca7-893a-4946-959e-fb5f50763514-column-120 px-4 py-3 text-left text-[#0f1a14] w-[400px] text-sm font-medium leading-normal">Title</th>
+                      <th class="table-e546fca7-893a-4946-959e-fb5f50763514-column-240 px-4 py-3 text-left text-[#0f1a14] w-60 text-sm font-medium leading-normal">Status</th>
+                      <th class="table-e546fca7-893a-4946-959e-fb5f50763514-column-360 px-4 py-3 text-left text-[#0f1a14] w-60 text-[#559173] text-sm font-medium leading-normal">
                         Actions
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr class="border-t border-t-[#d2e5db]">
-                      <td
-                        class="table-e546fca7-893a-4946-959e-fb5f50763514-column-120 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#0f1a14]"
-                      >
+                      <td class="table-e546fca7-893a-4946-959e-fb5f50763514-column-120 h-[72px] px-4 py-2 w-[400px] text-[#0f1a14] text-sm font-normal leading-normal">
                         The Lost City
                       </td>
-                      <td
-                        class="table-e546fca7-893a-4946-959e-fb5f50763514-column-240 h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal"
-                      >
+                      <td class="table-e546fca7-893a-4946-959e-fb5f50763514-column-240 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
                         <button
-                          class="flex h-8 w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e9f2ed] px-4 text-sm font-medium leading-normal text-[#0f1a14]"
+                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e9f2ed] text-[#0f1a14] text-sm font-medium leading-normal w-full"
                         >
                           <span class="truncate">Requested</span>
                         </button>
                       </td>
-                      <td
-                        class="table-e546fca7-893a-4946-959e-fb5f50763514-column-360 h-[72px] w-60 px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em] text-[#559173]"
-                      >
+                      <td class="table-e546fca7-893a-4946-959e-fb5f50763514-column-360 h-[72px] px-4 py-2 w-60 text-[#559173] text-sm font-bold leading-normal tracking-[0.015em]">
                         Edit | Delete
                       </td>
                     </tr>
                     <tr class="border-t border-t-[#d2e5db]">
-                      <td
-                        class="table-e546fca7-893a-4946-959e-fb5f50763514-column-120 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#0f1a14]"
-                      >
+                      <td class="table-e546fca7-893a-4946-959e-fb5f50763514-column-120 h-[72px] px-4 py-2 w-[400px] text-[#0f1a14] text-sm font-normal leading-normal">
                         The Secret Garden
                       </td>
-                      <td
-                        class="table-e546fca7-893a-4946-959e-fb5f50763514-column-240 h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal"
-                      >
+                      <td class="table-e546fca7-893a-4946-959e-fb5f50763514-column-240 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
                         <button
-                          class="flex h-8 w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e9f2ed] px-4 text-sm font-medium leading-normal text-[#0f1a14]"
+                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e9f2ed] text-[#0f1a14] text-sm font-medium leading-normal w-full"
                         >
                           <span class="truncate">Available</span>
                         </button>
                       </td>
-                      <td
-                        class="table-e546fca7-893a-4946-959e-fb5f50763514-column-360 h-[72px] w-60 px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em] text-[#559173]"
-                      >
+                      <td class="table-e546fca7-893a-4946-959e-fb5f50763514-column-360 h-[72px] px-4 py-2 w-60 text-[#559173] text-sm font-bold leading-normal tracking-[0.015em]">
                         Edit | Delete
                       </td>
                     </tr>
                     <tr class="border-t border-t-[#d2e5db]">
-                      <td
-                        class="table-e546fca7-893a-4946-959e-fb5f50763514-column-120 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#0f1a14]"
-                      >
+                      <td class="table-e546fca7-893a-4946-959e-fb5f50763514-column-120 h-[72px] px-4 py-2 w-[400px] text-[#0f1a14] text-sm font-normal leading-normal">
                         The Enchanted Forest
                       </td>
-                      <td
-                        class="table-e546fca7-893a-4946-959e-fb5f50763514-column-240 h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal"
-                      >
+                      <td class="table-e546fca7-893a-4946-959e-fb5f50763514-column-240 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
                         <button
-                          class="flex h-8 w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e9f2ed] px-4 text-sm font-medium leading-normal text-[#0f1a14]"
+                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e9f2ed] text-[#0f1a14] text-sm font-medium leading-normal w-full"
                         >
                           <span class="truncate">In Progress</span>
                         </button>
                       </td>
-                      <td
-                        class="table-e546fca7-893a-4946-959e-fb5f50763514-column-360 h-[72px] w-60 px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em] text-[#559173]"
-                      >
+                      <td class="table-e546fca7-893a-4946-959e-fb5f50763514-column-360 h-[72px] px-4 py-2 w-60 text-[#559173] text-sm font-bold leading-normal tracking-[0.015em]">
                         Edit | Delete
                       </td>
                     </tr>
@@ -233,21 +141,9 @@
                 </table>
               </div>
               <style>
-                @container (max-width:120px) {
-                  .table-e546fca7-893a-4946-959e-fb5f50763514-column-120 {
-                    display: none;
-                  }
-                }
-                @container (max-width:240px) {
-                  .table-e546fca7-893a-4946-959e-fb5f50763514-column-240 {
-                    display: none;
-                  }
-                }
-                @container (max-width:360px) {
-                  .table-e546fca7-893a-4946-959e-fb5f50763514-column-360 {
-                    display: none;
-                  }
-                }
+                          @container(max-width:120px){.table-e546fca7-893a-4946-959e-fb5f50763514-column-120{display: none;}}
+                @container(max-width:240px){.table-e546fca7-893a-4946-959e-fb5f50763514-column-240{display: none;}}
+                @container(max-width:360px){.table-e546fca7-893a-4946-959e-fb5f50763514-column-360{display: none;}}
               </style>
             </div>
           </div>

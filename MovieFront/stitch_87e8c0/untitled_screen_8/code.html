@@ -1,164 +1,105 @@
-<!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>支付成功</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"
-    />
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              primary: '#87e8c0',
-              'background-light': '#f8f9fa',
-              'background-dark': '#121212',
-              'surface-dark': '#1e1e1e',
-              'text-light': '#111827',
-              'text-dark': '#f9fafb',
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>支付成功</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#87e8c0",
+                        "background-light": "#f8f9fa",
+                        "background-dark": "#121212",
+                        "surface-dark": "#1e1e1e",
+                        "text-light": "#111827",
+                        "text-dark": "#f9fafb",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'primary': '0 10px 30px -10px rgba(135, 232, 192, 0.4)',
+                    }
+                },
             },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
-            boxShadow: {
-              primary: '0 10px 30px -10px rgba(135, 232, 192, 0.4)',
-            },
-          },
-        },
-      }
+        };
     </script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-      .icon-success-wrapper {
-        transform: scale(0);
-        animation: pop-in 0.5s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)
-          forwards;
-      }
-      @keyframes pop-in {
-        to {
-          transform: scale(1);
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
         }
-      }
+        .icon-success-wrapper {
+            transform: scale(0);
+            animation: pop-in 0.5s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes pop-in {
+            to {
+                transform: scale(1);
+            }
+        }
     </style>
-  </head>
-  <body
-    class="text-text-light dark:text-text-dark bg-background-light antialiased dark:bg-background-dark"
-  >
-    <div
-      class="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8"
-    >
-      <div class="mx-auto w-full max-w-2xl">
-        <div
-          class="dark:bg-surface-dark rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-lg dark:border-gray-700 md:p-12"
-        >
-          <div class="relative mb-8 inline-flex items-center justify-center">
-            <div
-              class="absolute h-24 w-24 animate-ping rounded-full bg-primary/20"
-            ></div>
-            <div class="icon-success-wrapper rounded-full bg-primary/20 p-4">
-              <div class="rounded-full bg-primary p-5 shadow-primary">
-                <span class="material-symbols-outlined text-5xl text-gray-900"
-                  >check</span
-                >
-              </div>
-            </div>
-          </div>
-          <h1 class="mb-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            <span
-              class="bg-gradient-to-r from-primary to-green-400 bg-clip-text text-transparent"
-              >支付成功!</span
-            >
-          </h1>
-          <p
-            class="mx-auto mt-4 max-w-xl text-lg text-gray-600 dark:text-gray-400"
-          >
-            感谢您的订阅！您的账户现已升级至
-            <span class="font-semibold text-primary">专业版</span>。欢迎来到
-            Premium 世界，畅享无限精彩内容。
-          </p>
-          <div
-            class="mt-10 rounded-lg border border-gray-200 bg-gray-100 p-6 dark:border-gray-700 dark:bg-background-dark"
-          >
-            <h3 class="mb-4 text-xl font-bold">后续步骤</h3>
-            <div
-              class="space-y-4 md:flex md:items-center md:justify-center md:space-x-4 md:space-y-0"
-            >
-              <button
-                class="flex w-full items-center justify-center space-x-2 rounded-lg bg-primary px-6 py-3 text-base font-bold text-gray-900 shadow-primary transition-all hover:opacity-90 md:w-auto"
-              >
-                <span class="material-icons">download_for_offline</span>
-                <span>开始下载</span>
-              </button>
-              <a
-                class="inline-block flex w-full items-center justify-center space-x-2 rounded-lg border border-gray-300 bg-transparent px-6 py-3 font-semibold text-gray-800 transition-colors hover:bg-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 md:w-auto"
-                href="#"
-              >
-                <span class="material-icons">person</span>
-                <span>前往个人中心</span>
-              </a>
-            </div>
-          </div>
-          <div
-            class="mt-8 rounded-2xl border border-primary/20 bg-primary/10 p-6 dark:border-primary/30 dark:bg-primary/20"
-          >
-            <div class="md:flex md:items-center md:space-x-6">
-              <div class="mb-4 flex flex-shrink-0 justify-center md:mb-0">
-                <span class="material-symbols-outlined text-6xl text-primary"
-                  >devices</span
-                >
-              </div>
-              <div class="text-center md:text-left">
-                <h3
-                  class="mb-2 text-xl font-bold text-gray-900 dark:text-white"
-                >
-                  下载专属APP，体验更佳
-                </h3>
-                <p class="mb-4 text-gray-600 dark:text-gray-300">
-                  在您的所有设备上无缝同步您的 Premium
-                  权益。随时随地，想看就看。
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased">
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+<div class="max-w-2xl w-full mx-auto">
+<div class="bg-white dark:bg-surface-dark rounded-2xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700 text-center">
+<div class="relative inline-flex justify-center items-center mb-8">
+<div class="absolute w-24 h-24 bg-primary/20 rounded-full animate-ping"></div>
+<div class="icon-success-wrapper bg-primary/20 p-4 rounded-full">
+<div class="bg-primary p-5 rounded-full shadow-primary">
+<span class="material-symbols-outlined text-gray-900 text-5xl">check</span>
+</div>
+</div>
+</div>
+<h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+<span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-green-400">支付成功!</span>
+</h1>
+<p class="mt-4 max-w-xl mx-auto text-lg text-gray-600 dark:text-gray-400">
+                    感谢您的订阅！您的账户现已升级至 <span class="font-semibold text-primary">专业版</span>。欢迎来到 Premium 世界，畅享无限精彩内容。
                 </p>
-                <div
-                  class="flex flex-col items-center justify-center gap-4 sm:flex-row md:justify-start"
-                >
-                  <a
-                    class="flex w-full items-center justify-center space-x-2 rounded-lg bg-primary px-6 py-3 font-bold text-gray-900 shadow-primary transition-all hover:opacity-90 sm:w-auto"
-                    href="#"
-                  >
-                    <span class="material-symbols-outlined">smartphone</span>
-                    <span>下载APP</span>
-                  </a>
-                  <a
-                    class="text-sm font-medium text-primary hover:underline"
-                    href="#"
-                    >了解更多</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mt-8 text-sm text-gray-500 dark:text-gray-400">
-            <p>一封包含您的订单详情和发票的邮件已发送至您的注册邮箱。</p>
-            <p class="mt-1">
-              如果您有任何疑问，请随时
-              <a class="font-medium text-primary hover:underline" href="#"
-                >联系我们的客服</a
-              >。
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
+<div class="mt-10 bg-gray-100 dark:bg-background-dark p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+<h3 class="text-xl font-bold mb-4">后续步骤</h3>
+<div class="space-y-4 md:space-y-0 md:flex md:items-center md:justify-center md:space-x-4">
+<button class="w-full md:w-auto bg-primary text-gray-900 font-bold py-3 px-6 rounded-lg hover:opacity-90 shadow-primary transition-all text-base flex items-center justify-center space-x-2">
+<span class="material-icons">download_for_offline</span>
+<span>开始下载</span>
+</button>
+<a class="w-full md:w-auto inline-block bg-transparent dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-semibold py-3 px-6 border border-gray-300 dark:border-gray-600 rounded-lg transition-colors flex items-center justify-center space-x-2" href="#">
+<span class="material-icons">person</span>
+<span>前往个人中心</span>
+</a>
+</div>
+</div>
+<div class="mt-8 bg-primary/10 dark:bg-primary/20 p-6 rounded-2xl border border-primary/20 dark:border-primary/30">
+<div class="md:flex md:items-center md:space-x-6">
+<div class="flex-shrink-0 flex justify-center mb-4 md:mb-0">
+<span class="material-symbols-outlined text-primary text-6xl">devices</span>
+</div>
+<div class="text-center md:text-left">
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">下载专属APP，体验更佳</h3>
+<p class="text-gray-600 dark:text-gray-300 mb-4">在您的所有设备上无缝同步您的 Premium 权益。随时随地，想看就看。</p>
+<div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+<a class="w-full sm:w-auto bg-primary text-gray-900 font-bold py-3 px-6 rounded-lg hover:opacity-90 shadow-primary transition-all flex items-center justify-center space-x-2" href="#">
+<span class="material-symbols-outlined">smartphone</span>
+<span>下载APP</span>
+</a>
+<a class="text-sm font-medium text-primary hover:underline" href="#">了解更多</a>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 text-sm text-gray-500 dark:text-gray-400">
+<p>一封包含您的订单详情和发票的邮件已发送至您的注册邮箱。</p>
+<p class="mt-1">如果您有任何疑问，请随时 <a class="font-medium text-primary hover:underline" href="#">联系我们的客服</a>。</p>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

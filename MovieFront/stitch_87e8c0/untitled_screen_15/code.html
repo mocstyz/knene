@@ -1,243 +1,155 @@
-<!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>新闻公告</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"
-    />
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              primary: '#87e8c0',
-              'background-light': '#f8f9fa',
-              'background-dark': '#1a1a1a',
-              'surface-light': '#ffffff',
-              'surface-dark': '#2c2c2c',
-              'text-light': '#111827',
-              'text-dark': '#f9fafb',
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>新闻公告</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#87e8c0",
+                        "background-light": "#f8f9fa",
+                        "background-dark": "#1a1a1a",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#2c2c2c",
+                        "text-light": "#111827",
+                        "text-dark": "#f9fafb",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'primary': '0 10px 30px -10px rgba(135, 232, 192, 0.4)',
+                        'card': '0 8px 32px rgba(0, 0, 0, 0.05)',
+                        'card-dark': '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    }
+                },
             },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
-            boxShadow: {
-              primary: '0 10px 30px -10px rgba(135, 232, 192, 0.4)',
-              card: '0 8px 32px rgba(0, 0, 0, 0.05)',
-              'card-dark': '0 8px 32px rgba(0, 0, 0, 0.1)',
-            },
-          },
-        },
-      }
+        };
     </script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-      .pagination-link.active {
-        background-color: #87e8c0;
-        color: #111827;
-        font-weight: bold;
-        box-shadow: 0 4px 14px rgba(135, 232, 192, 0.4);
-      }
-      .pagination-link:not(.active):hover {
-        background-color: #f0fdf4;
-      }
-      .dark .pagination-link:not(.active):hover {
-        background-color: #374151;
-      }
-      .dark .pagination-link.active {
-        background-color: #87e8c0;
-        color: #111827;
-      }
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .pagination-link.active {
+            background-color: #87e8c0;
+            color: #111827;
+            font-weight: bold;
+            box-shadow: 0 4px 14px rgba(135, 232, 192, 0.4);
+        }
+        .pagination-link:not(.active):hover {
+            background-color: #f0fdf4;
+        }
+        .dark .pagination-link:not(.active):hover {
+            background-color: #374151;
+        }
+        .dark .pagination-link.active {
+             background-color: #87e8c0;
+            color: #111827;
+        }
     </style>
-  </head>
-  <body
-    class="text-text-light dark:text-text-dark bg-background-light antialiased dark:bg-background-dark"
-  >
-    <div class="min-h-screen px-4 py-12 sm:px-6 lg:px-8">
-      <div class="mx-auto w-full max-w-4xl">
-        <header class="mb-12 text-center">
-          <h1 class="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
-            <span
-              class="bg-gradient-to-r from-primary to-green-400 bg-clip-text text-transparent"
-              >新闻与公告</span
-            >
-          </h1>
-          <p
-            class="mx-auto mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-400"
-          >
-            获取最新的网站更新、功能发布和重要通知。
-          </p>
-        </header>
-        <div class="space-y-8">
-          <div
-            class="bg-surface-light dark:bg-surface-dark shadow-card dark:shadow-card-dark rounded-2xl border border-transparent p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg dark:hover:shadow-primary/20 sm:p-8"
-          >
-            <div
-              class="flex flex-col sm:flex-row sm:items-start sm:justify-between"
-            >
-              <div class="flex-grow">
-                <h2 class="mb-2 text-2xl font-bold">
-                  <a class="transition-colors hover:text-primary" href="#"
-                    >网站V3.0版本重大更新公告</a
-                  >
-                </h2>
-                <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">
-                  2023年10月26日
-                </p>
-                <p class="leading-relaxed text-gray-600 dark:text-gray-300">
-                  我们很高兴地宣布网站V3.0版本正式上线！本次更新带来了全新的UI设计、更快的下载速度以及期待已久的移动端APP支持。我们致力于为您提供极致的观影和下载体验。
-                </p>
-              </div>
-              <a
-                class="mt-4 inline-flex flex-shrink-0 items-center justify-center rounded-md border border-transparent bg-primary px-5 py-2 text-base font-medium text-gray-900 shadow-primary hover:opacity-90 sm:ml-6 sm:mt-0"
-                href="#"
-              >
-                阅读全文
-              </a>
-            </div>
-          </div>
-          <div
-            class="bg-surface-light dark:bg-surface-dark shadow-card dark:shadow-card-dark rounded-2xl border border-transparent p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg dark:hover:shadow-primary/20 sm:p-8"
-          >
-            <div
-              class="flex flex-col sm:flex-row sm:items-start sm:justify-between"
-            >
-              <div class="flex-grow">
-                <h2 class="mb-2 text-2xl font-bold">
-                  <a class="transition-colors hover:text-primary" href="#"
-                    >关于近期服务器维护的通知</a
-                  >
-                </h2>
-                <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">
-                  2023年10月15日
-                </p>
-                <p class="leading-relaxed text-gray-600 dark:text-gray-300">
-                  为了提升服务质量，我们将于本周末对服务器进行例行维护。届时部分服务可能会出现短暂中断。感谢您的理解与支持。
-                </p>
-              </div>
-              <a
-                class="mt-4 inline-flex flex-shrink-0 items-center justify-center rounded-md border border-transparent bg-primary px-5 py-2 text-base font-medium text-gray-900 shadow-primary hover:opacity-90 sm:ml-6 sm:mt-0"
-                href="#"
-              >
-                阅读全文
-              </a>
-            </div>
-          </div>
-          <div
-            class="bg-surface-light dark:bg-surface-dark shadow-card dark:shadow-card-dark rounded-2xl border border-transparent p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg dark:hover:shadow-primary/20 sm:p-8"
-          >
-            <div
-              class="flex flex-col sm:flex-row sm:items-start sm:justify-between"
-            >
-              <div class="flex-grow">
-                <h2 class="mb-2 text-2xl font-bold">
-                  <a class="transition-colors hover:text-primary" href="#"
-                    >新增4K电影专区，享受极致画质</a
-                  >
-                </h2>
-                <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">
-                  2023年9月28日
-                </p>
-                <p class="leading-relaxed text-gray-600 dark:text-gray-300">
-                  好消息！我们新增了4K电影资源专区，所有Premium会员均可畅享。立即前往体验前所未有的超高清视觉盛宴。
-                </p>
-              </div>
-              <a
-                class="mt-4 inline-flex flex-shrink-0 items-center justify-center rounded-md border border-transparent bg-primary px-5 py-2 text-base font-medium text-gray-900 shadow-primary hover:opacity-90 sm:ml-6 sm:mt-0"
-                href="#"
-              >
-                阅读全文
-              </a>
-            </div>
-          </div>
-          <div
-            class="bg-surface-light dark:bg-surface-dark shadow-card dark:shadow-card-dark rounded-2xl border border-transparent p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg dark:hover:shadow-primary/20 sm:p-8"
-          >
-            <div
-              class="flex flex-col sm:flex-row sm:items-start sm:justify-between"
-            >
-              <div class="flex-grow">
-                <h2 class="mb-2 text-2xl font-bold">
-                  <a class="transition-colors hover:text-primary" href="#"
-                    >隐私政策更新说明</a
-                  >
-                </h2>
-                <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">
-                  2023年9月1日
-                </p>
-                <p class="leading-relaxed text-gray-600 dark:text-gray-300">
-                  我们更新了隐私政策以更好地保护您的个人信息。本次更新符合最新的数据保护法规，请您抽空阅读。
-                </p>
-              </div>
-              <a
-                class="mt-4 inline-flex flex-shrink-0 items-center justify-center rounded-md border border-transparent bg-primary px-5 py-2 text-base font-medium text-gray-900 shadow-primary hover:opacity-90 sm:ml-6 sm:mt-0"
-                href="#"
-              >
-                阅读全文
-              </a>
-            </div>
-          </div>
-        </div>
-        <nav
-          aria-label="Pagination"
-          class="mt-12 flex items-center justify-center"
-        >
-          <div
-            class="dark:bg-surface-dark flex items-center space-x-2 rounded-xl bg-white p-2 shadow-md"
-          >
-            <a
-              class="pagination-link inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 dark:text-gray-400"
-              href="#"
-            >
-              <span class="sr-only">Previous</span>
-              <span class="material-symbols-outlined">chevron_left</span>
-            </a>
-            <a
-              class="pagination-link active inline-flex h-10 w-10 items-center justify-center rounded-lg"
-              href="#"
-              >1</a
-            >
-            <a
-              class="pagination-link inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300"
-              href="#"
-              >2</a
-            >
-            <a
-              class="pagination-link inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300"
-              href="#"
-              >3</a
-            >
-            <span
-              class="inline-flex h-10 w-10 items-center justify-center text-gray-500 dark:text-gray-400"
-              >...</span
-            >
-            <a
-              class="pagination-link inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300"
-              href="#"
-              >8</a
-            >
-            <a
-              class="pagination-link inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 dark:text-gray-400"
-              href="#"
-            >
-              <span class="sr-only">Next</span>
-              <span class="material-symbols-outlined">chevron_right</span>
-            </a>
-          </div>
-        </nav>
-      </div>
-    </div>
-  </body>
-</html>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased">
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+<div class="max-w-4xl w-full mx-auto">
+<header class="text-center mb-12">
+<h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">
+<span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-green-400">新闻与公告</span>
+</h1>
+<p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400">
+                获取最新的网站更新、功能发布和重要通知。
+            </p>
+</header>
+<div class="space-y-8">
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-card dark:shadow-card-dark p-6 sm:p-8 transition-all duration-300 hover:shadow-lg dark:hover:shadow-primary/20 border border-transparent hover:border-primary/50">
+<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between">
+<div class="flex-grow">
+<h2 class="text-2xl font-bold mb-2">
+<a class="hover:text-primary transition-colors" href="#">网站V3.0版本重大更新公告</a>
+</h2>
+<p class="text-gray-500 dark:text-gray-400 text-sm mb-4">2023年10月26日</p>
+<p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            我们很高兴地宣布网站V3.0版本正式上线！本次更新带来了全新的UI设计、更快的下载速度以及期待已久的移动端APP支持。我们致力于为您提供极致的观影和下载体验。
+                        </p>
+</div>
+<a class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 inline-flex items-center justify-center px-5 py-2 border border-transparent text-base font-medium rounded-md text-gray-900 bg-primary hover:opacity-90 shadow-primary" href="#">
+                        阅读全文
+                    </a>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-card dark:shadow-card-dark p-6 sm:p-8 transition-all duration-300 hover:shadow-lg dark:hover:shadow-primary/20 border border-transparent hover:border-primary/50">
+<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between">
+<div class="flex-grow">
+<h2 class="text-2xl font-bold mb-2">
+<a class="hover:text-primary transition-colors" href="#">关于近期服务器维护的通知</a>
+</h2>
+<p class="text-gray-500 dark:text-gray-400 text-sm mb-4">2023年10月15日</p>
+<p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                           为了提升服务质量，我们将于本周末对服务器进行例行维护。届时部分服务可能会出现短暂中断。感谢您的理解与支持。
+                        </p>
+</div>
+<a class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 inline-flex items-center justify-center px-5 py-2 border border-transparent text-base font-medium rounded-md text-gray-900 bg-primary hover:opacity-90 shadow-primary" href="#">
+                        阅读全文
+                    </a>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-card dark:shadow-card-dark p-6 sm:p-8 transition-all duration-300 hover:shadow-lg dark:hover:shadow-primary/20 border border-transparent hover:border-primary/50">
+<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between">
+<div class="flex-grow">
+<h2 class="text-2xl font-bold mb-2">
+<a class="hover:text-primary transition-colors" href="#">新增4K电影专区，享受极致画质</a>
+</h2>
+<p class="text-gray-500 dark:text-gray-400 text-sm mb-4">2023年9月28日</p>
+<p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            好消息！我们新增了4K电影资源专区，所有Premium会员均可畅享。立即前往体验前所未有的超高清视觉盛宴。
+                        </p>
+</div>
+<a class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 inline-flex items-center justify-center px-5 py-2 border border-transparent text-base font-medium rounded-md text-gray-900 bg-primary hover:opacity-90 shadow-primary" href="#">
+                        阅读全文
+                    </a>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-card dark:shadow-card-dark p-6 sm:p-8 transition-all duration-300 hover:shadow-lg dark:hover:shadow-primary/20 border border-transparent hover:border-primary/50">
+<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between">
+<div class="flex-grow">
+<h2 class="text-2xl font-bold mb-2">
+<a class="hover:text-primary transition-colors" href="#">隐私政策更新说明</a>
+</h2>
+<p class="text-gray-500 dark:text-gray-400 text-sm mb-4">2023年9月1日</p>
+<p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            我们更新了隐私政策以更好地保护您的个人信息。本次更新符合最新的数据保护法规，请您抽空阅读。
+                        </p>
+</div>
+<a class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 inline-flex items-center justify-center px-5 py-2 border border-transparent text-base font-medium rounded-md text-gray-900 bg-primary hover:opacity-90 shadow-primary" href="#">
+                        阅读全文
+                    </a>
+</div>
+</div>
+</div>
+<nav aria-label="Pagination" class="mt-12 flex items-center justify-center">
+<div class="flex items-center space-x-2 bg-white dark:bg-surface-dark p-2 rounded-xl shadow-md">
+<a class="pagination-link inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-500 dark:text-gray-400" href="#">
+<span class="sr-only">Previous</span>
+<span class="material-symbols-outlined">chevron_left</span>
+</a>
+<a class="pagination-link active inline-flex items-center justify-center w-10 h-10 rounded-lg" href="#">1</a>
+<a class="pagination-link inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-600 dark:text-gray-300" href="#">2</a>
+<a class="pagination-link inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-600 dark:text-gray-300" href="#">3</a>
+<span class="inline-flex items-center justify-center w-10 h-10 text-gray-500 dark:text-gray-400">...</span>
+<a class="pagination-link inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-600 dark:text-gray-300" href="#">8</a>
+<a class="pagination-link inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-500 dark:text-gray-400" href="#">
+<span class="sr-only">Next</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</a>
+</div>
+</nav>
+</div>
+</div>
+
+</body></html>

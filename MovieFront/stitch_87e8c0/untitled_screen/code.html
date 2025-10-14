@@ -1,795 +1,222 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Movie Requests</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              primary: '#87e8c0',
-              'background-light': '#f8fafc',
-              'background-dark': '#1e293b',
-              'card-light': '#ffffff',
-              'card-dark': '#334155',
-              'text-light': '#0f172a',
-              'text-dark': '#f8fafc',
-              'text-secondary-light': '#64748b',
-              'text-secondary-dark': '#94a3b8',
-            },
-            fontFamily: {
-              display: ['Inter', 'sans-serif'],
-            },
-            borderRadius: {
-              DEFAULT: '0.5rem',
-            },
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Movie Requests</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#87e8c0",
+            "background-light": "#f8fafc",
+            "background-dark": "#1e293b",
+            "card-light": "#ffffff",
+            "card-dark": "#334155",
+            "text-light": "#0f172a",
+            "text-dark": "#f8fafc",
+            "text-secondary-light": "#64748b",
+            "text-secondary-dark": "#94a3b8",
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem",
           },
         },
-      }
-    </script>
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-    </style>
-  </head>
-  <body
-    class="text-text-light dark:text-text-dark bg-background-light transition-colors duration-300 dark:bg-background-dark"
-  >
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
-      <div class="mb-6 flex flex-col items-center justify-between sm:flex-row">
-        <h1 class="mb-4 text-2xl font-bold sm:mb-0">
-          Found <span class="text-primary">65198</span> requests
-        </h1>
-        <button
-          class="flex items-center gap-2 rounded-lg bg-primary px-6 py-2 font-semibold text-slate-800 shadow-md transition-all duration-300 hover:bg-opacity-90"
-        >
-          <span class="material-icons">add</span>
-          New Request
-        </button>
-      </div>
-      <div
-        class="bg-card-light dark:bg-card-dark overflow-hidden rounded-xl shadow-md"
-      >
-        <div class="overflow-x-auto">
-          <table class="w-full text-left">
-            <thead class="bg-gray-100 dark:bg-slate-700">
-              <tr>
-                <th
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm font-semibold uppercase tracking-wider"
-                >
-                  Category
-                </th>
-                <th
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm font-semibold uppercase tracking-wider"
-                >
-                  Request Name
-                </th>
-                <th
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right text-sm font-semibold uppercase tracking-wider"
-                >
-                  Bounty
-                </th>
-                <th
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm font-semibold uppercase tracking-wider"
-                >
-                  Requester
-                </th>
-                <th
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm font-semibold uppercase tracking-wider"
-                >
-                  Added
-                </th>
-                <th
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm font-semibold uppercase tracking-wider"
-                >
-                  Status
-                </th>
-                <th
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm font-semibold uppercase tracking-wider"
-                >
-                  Filler
-                </th>
-                <th
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm font-semibold uppercase tracking-wider"
-                >
-                  Fill Date
-                </th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200 dark:divide-slate-600">
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtFT4fImzaSMF0iqpQhn39cKqJWprP6BtUPri1t55vx530iVR-lgZDQA8Y6HE0KWmo7SegK7Gkz3L48ZH3sXsaqBYQ-7AV7sMicW-EP7Jv68unQzjFeMBXwYAcU3g6LigyAd0pQRXFQLCpCwpRGciYV4rdQ-uV0DHZwaZ7YtZIMnGa_0JJ3S9mmCzsUd3czvDWigZdCKvgWzSQN0NJpTRtaJTOuL-cIcjhvLq-VmaTHpHakQbJLaILTL1nhs12bLYojEh1dSP_-tfY"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  Flavours of Romania - Season 3
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  1000
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  stingermd
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-30<br />08:21:00
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq3U4TEenMJKkQQ-Olfy7pqinErQarY91qhWX6JbLNa62AxM2LjfNqb4b78KZhUY1Kj07Kk424Wyj-_unQIIkkSMXl2jIgJOZJ6y84bm9afU6Um2qXrrydFgvl2uE3A0gRU2HPZ9xgJPZz06xvcjAjVGwC2D7J4XNLz0GOA2CguykNnfohvMFOY8OLdjtqs1PP5ISwNCGpBRSjDOPFjUHB9WJ1vWYSflaGbKz-CMT0R8BtEp9wcfytGnyzZ6bSDi-N301XtUWFIIAv"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  Date with an Angel (1987) Complete Full US Blu-ray Kino Lorber
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  2000
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  kevin4
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2024-12-25<br />14:40:01
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDyIOCMBNXf2kmv9JHSidUyleIyWBL3_zmwqv3mEJKOdhnjPddDsFlqzFlIXztL5uuCNeN9Sae0PU--gpbIwNvpEsyOo8R2ME6GiSDocr0nx5xyRgLb9h21gsqBHL8kiPp-xtuQuzFEh6EEl1JJfY-TCDszLs5UJTNgpAYx-B1lzhjP0VKi8EnxQhOVrrySstuGOYqxeleO7zvELp-4aqNRf9Zl1NSplPETPdr-XClEMV_o_ndghEP0LyOGPk3fKrAq304rm673pQi"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  Court of Gold S01 2025 2160p NF WEB-DL DDP5 1 Atmos DV HDR H
-                  265-HHWEB
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  700
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  mocult
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-30<br />05:58:12
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7QL0aZa9Y5q3kwwxTH_yX8vNk4Fo62k4gLFKDEPxaa4NxlNYemrMjBTvxJueqnQjP_Aesj98lc1CQgo38avIuSS5v-8mSN6c7WsOslh7vyklicHsCdwPqKwPjnky-M7rCVr5iPTvsslkREdiHk_QckWbh9V1d2BcPPZE2mr3cd5eEkweGg5yKAM9VkYla3YKcKiSRNpDGagXtBTJX4VkcsErifWat1CseCaCsIL7hTDNDDDEdjGNHqVf3STEZLaWbPFf4-qM7ppRB"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  Bondi Vet S01-S08
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  7846
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  dogzbolox
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-01<br />18:25:11
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWWT3kOcVyQQNfHXeHFlG3kGlr4FNKcyq3PFi5TRtyHIFyNQ_Ayc1mPw_orJTtXkwxh7vJKZY079P538iqo3YUgkjleLFF2UjoR1UdZhxiErUza9r0iP3uQCM4amGqnNqOL4RcbJLIPsx9nC4RpoJOXnU0Ovgk7i0vphZljLENP3_l2kgS681dXWpFELaghVWwpyeNu8Df1A8j8Cn5Xq000Eaw2yo82DdQqUqfQuP_ohlscY_aaNkygXnfjIxUBupEOpsRIK1cNs6i"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  Alice In Borderland S03 2160P WEB-DL
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  1600
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  snoop404
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-30<br />05:15:53
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXmaQC3IXZv-8VHTsua9_gTx2gsQVgGoTdDy9WBFbDz8qoud6z_h0vPaVHHoSRvvb4zErnlMEG7C19W5Baioy8CgOFak-XJyf-Gnis-VgbXA7CxWkiYZDDTo5ALw4rdtFbV3wxPmn3FyImNmVT0g9rg3e0wNWfmRAWuXWF1ALVsqwrTSWvJs0tlr_oiFCj5jEx0p2sps7nLSkmNI1lHJQDI0s23DAigS8G8Eu5b6SIQbrgUkFZr65O9Rc0zvvqkq-nQeGMz0qVM9dN"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  The Beast with Five Fingers
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  3025
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  ifidontwhowill
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-30<br />04:55:22
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-blue-200 px-2 py-1 text-xs font-semibold text-blue-800"
-                    >Approved</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  Anonymous
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-30<br />06:26:16
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRI67UCnZ-4_7wEYmBLz7RCqOrIjS1qGXPfPjJX2CiLG9U83teSWzpFZ7nxZWkuP2-VP51aGprEvf9BJLTOwrTNHM-KmfDhjsw3BG9ldh76lLsBt-KzRtf_2auPT2IojkDjUaZKVfhZZ97ZyCPN2zM0_Wkbkp6b0Y_rnGwCg6JGKJZ-syXURHh4xtt8_eG5ZQOnyK9EIqmcV3HBofpOM_qGXE1Du58A6h1NLUrlGDDVmeXnk_OJasht9a-hVMk_sqXKiomjZpqxV3l"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  Star.Trek.Strange.New.Worlds.s03.720p.HEVC.x265-MeGusta
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  1000
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  smoothsilver
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-30<br />03:58:09
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5r6SpOcEBEMDbCeU4M7BA9edrUALkxUq8Rb_d1eLrbf7UlFwUUxJ3WIA3iupT_qzRDCbJzE32MHk0BBgN3EXf4GlA168R8Ty6MAEIOyOxk1Wi_c7pA8hg0k9kiOyj2RImmABwZnBG4Rx5UogB6WkT_aSRCea9PMQj-2DX70gZZHydhmzpMizfYVK-RZNELOVp80a2LbXmSa5V5Ie-BAlTCvlrQbVomaM_UCSXYC9ryRW2Ef48ert-ez1d1yLEktIgvPXP5BwMwwsk"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  Inside West Coast Customs S07 2017
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  1200
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  nicesocks
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-30<br />03:12:23
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKfaMBhJ_qND6jpZxNPX1CFPmFdu687BT9WRdPdgssHh1ES-UZmwRR_Xif6QKOe2q2KvHgSBpmYOiFCaP_uHbLnLmwF5o4191VvD43yE8_618lap7h1UF-Z8NGU-E4ahC6URLUlzBQuYztXOyafAbsqzhySVpG-ODp4dfvKvyFC77sQ_S9G0kz4R5rblrieV2i0xF8ml8E_o04BPNq8QCuldR62gqJmUCV5g1i9ltvSQNmlu-DsvVilvlrZabjo-d-IGuP8DdsLtSS"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  Rennie 2025 x265
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  1500
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  buzzzz2138
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-30<br />02:10:34
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkXPBNtEwBiGthxagiS3yeidbdQ3cXge-6acDgPwZ6w2A3DkprFlozegVwmsJrLDWzon48BZLeOCo-xrRK8NQbVh3mf0_JtJbijGopKU_o901pNlMEvBV9RFbywxRs8yDgCWMZ1XRzLYw5Srn0Uzi_g0sZMFyEhRPqZAH_V5jvzyt8k6iiOuB-xCYZkIXJJI_xEIXDC9M3TjNLCn9YK5U0xTD5_KMSzTCHN9FBrN1JhVRKbnqAeSxOUyt7VOP7YkI04xHy0d96bcI8"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  A Song For Imogene
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  4100
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  hookerstyle
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-30<br />01:39:03
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-cspxYRQXH3ehrI5Ny6WvpZ562z9kcXvI1kRHSkNBIAdle6eXrkDJbuAtNRp6JqcXNaPsU9L0eqt4PsbOGJaxG52EFK2dV907bhWlD5HpfWDvtwgh3FRUDgIhaRGjmrhlFrya2dXtRMY6_K7czRgabpzheSafth-jjb20No81EpAp5Oxy29MnJg8vOJQ8T_n3SlgHx8XHFaQ-IF_757MUdxj61hro_QpkyRZQZH4ADu_0GSYs0aP_GabX9tT9pWPtYgZ6QmryE9qw"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  The Naked Woodworker
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  700
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  R4ckh4m
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-30<br />01:12:57
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDimLMjUIm0WOVo0EckoOF-Cbeh0iAqKw0YlJxGe-Ar-rrOJy7IdNsKq16GOXWFhuVXLtdYMkx709ZRZBebcYJmTf8VVMLyBn5DdfiGqNNnNUmvcN1veHVJ_5k4efX8PRa3H29EnICeslDmBQ78cvbWHXpKaDhqXUmuzzkrpa7ByMp-Ys-Vq62WQyRITxwkP0Pt5-FPV6QWJgnf36CqwpwqMoibPB24-qVr9wVARQcd3bNnsC2SKrojxg0wsaHPeASciFBx-kE4rprt"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  Big Shark 2023
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  20700
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  Natesel
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-01-04<br />13:12:31
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFG4IIYeXHrjI97tweuQJAaGhogI-dq5P9I4oXA4w59ft68J2nhyuxMsm7t1MZJVoueBOLNzv1Cf-2k4vwwcXm3AEfeQPUV0VRdZ2dX5BrZBm_v0oE8ntgOLCbqBaVnO9RQdvmpvd2acNrfGTA5xF_c_rCpHG6l26lTvIBN7AUS3u0c23y0egUGMrMCkFnVg-2B0G5TOwLJLrMxXHNAFAj3J35MoMaeQIQt3Sz2Rq8Z_A9Qc3aVHfoQ-e2zzXCaaRDrFFxi3ahExM0"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  The Amusement Park 1975 1080p Blu-ray AVC DTS-HD MA 2 0-Liber8
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  1111
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  egdolphin
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-29<br />22:50:34
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBWfe3BbEzZnIAFNEtvGCmMbouU9POve2v6Bf2Cwcr5Irk-XdyCu602lUX9X5ehCLWYU0wuU_c_fhprh7HWhPutvyLSJFltSfMibHoahPr2vgtA3KtdNQEvbhbIN5hOkzF3Z9j_lytg165l5oMPucIhAzdDq--WtBlbNdgLzmhP3nCXTdRhpX4_wIUYAicqVcIysnYQEWPyXemX8c9wxFawlAFXJT6Dh4NrB9VL4ZbrwAQeJ8xz97w0xsho6uvgkTt3wscJ34WGHqk"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  Bakuon
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  3333
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  marrz
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-08-27<br />23:24:23
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-blue-200 px-2 py-1 text-xs font-semibold text-blue-800"
-                    >Approved</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  Fr33dom
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-30<br />01:21:24
-                </td>
-              </tr>
-              <tr
-                class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-800"
-              >
-                <td class="p-4">
-                  <img
-                    alt="Movie category icon"
-                    class="h-6 w-6"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmc3WY0QpuYng9O7HH_GAaAB9v_iJyXjZPK9iT8-rV48Kytup5ulzPECmgDpkHWvAaMyzDG8UeITDlOHcwWC3DkMz4ec0GEADJjfHoU52M60OMZwi4-kQw95MvLa5IjHQT3pfq_HX3f4nDiZmfvHTgAjtcVCrTH3k-Z-FiE5UytVD1mgbmF9BFP7JH3Y0yRktZk_awqY4CGyOf6sLlO6XKOkTFRnJWaDXuvWtYjwoReokwF6bJQEnjOXn0ZOpkMRorRAZaWIwxPtzj"
-                  />
-                </td>
-                <td class="text-text-light dark:text-text-dark p-4 font-medium">
-                  The Knife
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-right"
-                >
-                  600
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  Nonamefril
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4 text-sm"
-                >
-                  2025-09-29<br />22:19:45
-                </td>
-                <td class="p-4">
-                  <span
-                    class="rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-800"
-                    >New</span
-                  >
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-                <td
-                  class="text-text-secondary-light dark:text-text-secondary-dark p-4"
-                >
-                  -
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
+      },
+    };
+  </script>
+<style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark transition-colors duration-300">
+<div class="container mx-auto p-4 sm:p-6 lg:p-8">
+<div class="flex flex-col sm:flex-row justify-between items-center mb-6">
+<h1 class="text-2xl font-bold mb-4 sm:mb-0">Found <span class="text-primary">65198</span> requests</h1>
+<button class="bg-primary text-slate-800 font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-opacity-90 transition-all duration-300 flex items-center gap-2">
+<span class="material-icons">add</span>
+        New Request
+      </button>
+</div>
+<div class="bg-card-light dark:bg-card-dark rounded-xl shadow-md overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-gray-100 dark:bg-slate-700">
+<tr>
+<th class="p-4 font-semibold text-sm text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider">Category</th>
+<th class="p-4 font-semibold text-sm text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider">Request Name</th>
+<th class="p-4 font-semibold text-sm text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider text-right">Bounty</th>
+<th class="p-4 font-semibold text-sm text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider">Requester</th>
+<th class="p-4 font-semibold text-sm text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider">Added</th>
+<th class="p-4 font-semibold text-sm text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider">Status</th>
+<th class="p-4 font-semibold text-sm text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider">Filler</th>
+<th class="p-4 font-semibold text-sm text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider">Fill Date</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 dark:divide-slate-600">
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtFT4fImzaSMF0iqpQhn39cKqJWprP6BtUPri1t55vx530iVR-lgZDQA8Y6HE0KWmo7SegK7Gkz3L48ZH3sXsaqBYQ-7AV7sMicW-EP7Jv68unQzjFeMBXwYAcU3g6LigyAd0pQRXFQLCpCwpRGciYV4rdQ-uV0DHZwaZ7YtZIMnGa_0JJ3S9mmCzsUd3czvDWigZdCKvgWzSQN0NJpTRtaJTOuL-cIcjhvLq-VmaTHpHakQbJLaILTL1nhs12bLYojEh1dSP_-tfY"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">Flavours of Romania - Season 3</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">1000</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">stingermd</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-30<br/>08:21:00</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq3U4TEenMJKkQQ-Olfy7pqinErQarY91qhWX6JbLNa62AxM2LjfNqb4b78KZhUY1Kj07Kk424Wyj-_unQIIkkSMXl2jIgJOZJ6y84bm9afU6Um2qXrrydFgvl2uE3A0gRU2HPZ9xgJPZz06xvcjAjVGwC2D7J4XNLz0GOA2CguykNnfohvMFOY8OLdjtqs1PP5ISwNCGpBRSjDOPFjUHB9WJ1vWYSflaGbKz-CMT0R8BtEp9wcfytGnyzZ6bSDi-N301XtUWFIIAv"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">Date with an Angel (1987) Complete Full US Blu-ray Kino Lorber</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">2000</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">kevin4</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2024-12-25<br/>14:40:01</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDyIOCMBNXf2kmv9JHSidUyleIyWBL3_zmwqv3mEJKOdhnjPddDsFlqzFlIXztL5uuCNeN9Sae0PU--gpbIwNvpEsyOo8R2ME6GiSDocr0nx5xyRgLb9h21gsqBHL8kiPp-xtuQuzFEh6EEl1JJfY-TCDszLs5UJTNgpAYx-B1lzhjP0VKi8EnxQhOVrrySstuGOYqxeleO7zvELp-4aqNRf9Zl1NSplPETPdr-XClEMV_o_ndghEP0LyOGPk3fKrAq304rm673pQi"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">Court of Gold S01 2025 2160p NF WEB-DL DDP5 1 Atmos DV HDR H 265-HHWEB</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">700</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">mocult</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-30<br/>05:58:12</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7QL0aZa9Y5q3kwwxTH_yX8vNk4Fo62k4gLFKDEPxaa4NxlNYemrMjBTvxJueqnQjP_Aesj98lc1CQgo38avIuSS5v-8mSN6c7WsOslh7vyklicHsCdwPqKwPjnky-M7rCVr5iPTvsslkREdiHk_QckWbh9V1d2BcPPZE2mr3cd5eEkweGg5yKAM9VkYla3YKcKiSRNpDGagXtBTJX4VkcsErifWat1CseCaCsIL7hTDNDDDEdjGNHqVf3STEZLaWbPFf4-qM7ppRB"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">Bondi Vet S01-S08</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">7846</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">dogzbolox</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-01<br/>18:25:11</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWWT3kOcVyQQNfHXeHFlG3kGlr4FNKcyq3PFi5TRtyHIFyNQ_Ayc1mPw_orJTtXkwxh7vJKZY079P538iqo3YUgkjleLFF2UjoR1UdZhxiErUza9r0iP3uQCM4amGqnNqOL4RcbJLIPsx9nC4RpoJOXnU0Ovgk7i0vphZljLENP3_l2kgS681dXWpFELaghVWwpyeNu8Df1A8j8Cn5Xq000Eaw2yo82DdQqUqfQuP_ohlscY_aaNkygXnfjIxUBupEOpsRIK1cNs6i"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">Alice In Borderland S03 2160P WEB-DL</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">1600</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">snoop404</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-30<br/>05:15:53</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXmaQC3IXZv-8VHTsua9_gTx2gsQVgGoTdDy9WBFbDz8qoud6z_h0vPaVHHoSRvvb4zErnlMEG7C19W5Baioy8CgOFak-XJyf-Gnis-VgbXA7CxWkiYZDDTo5ALw4rdtFbV3wxPmn3FyImNmVT0g9rg3e0wNWfmRAWuXWF1ALVsqwrTSWvJs0tlr_oiFCj5jEx0p2sps7nLSkmNI1lHJQDI0s23DAigS8G8Eu5b6SIQbrgUkFZr65O9Rc0zvvqkq-nQeGMz0qVM9dN"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">The Beast with Five Fingers</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">3025</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">ifidontwhowill</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-30<br/>04:55:22</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">Approved</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">Anonymous</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-30<br/>06:26:16</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRI67UCnZ-4_7wEYmBLz7RCqOrIjS1qGXPfPjJX2CiLG9U83teSWzpFZ7nxZWkuP2-VP51aGprEvf9BJLTOwrTNHM-KmfDhjsw3BG9ldh76lLsBt-KzRtf_2auPT2IojkDjUaZKVfhZZ97ZyCPN2zM0_Wkbkp6b0Y_rnGwCg6JGKJZ-syXURHh4xtt8_eG5ZQOnyK9EIqmcV3HBofpOM_qGXE1Du58A6h1NLUrlGDDVmeXnk_OJasht9a-hVMk_sqXKiomjZpqxV3l"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">Star.Trek.Strange.New.Worlds.s03.720p.HEVC.x265-MeGusta</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">1000</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">smoothsilver</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-30<br/>03:58:09</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5r6SpOcEBEMDbCeU4M7BA9edrUALkxUq8Rb_d1eLrbf7UlFwUUxJ3WIA3iupT_qzRDCbJzE32MHk0BBgN3EXf4GlA168R8Ty6MAEIOyOxk1Wi_c7pA8hg0k9kiOyj2RImmABwZnBG4Rx5UogB6WkT_aSRCea9PMQj-2DX70gZZHydhmzpMizfYVK-RZNELOVp80a2LbXmSa5V5Ie-BAlTCvlrQbVomaM_UCSXYC9ryRW2Ef48ert-ez1d1yLEktIgvPXP5BwMwwsk"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">Inside West Coast Customs S07 2017</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">1200</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">nicesocks</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-30<br/>03:12:23</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKfaMBhJ_qND6jpZxNPX1CFPmFdu687BT9WRdPdgssHh1ES-UZmwRR_Xif6QKOe2q2KvHgSBpmYOiFCaP_uHbLnLmwF5o4191VvD43yE8_618lap7h1UF-Z8NGU-E4ahC6URLUlzBQuYztXOyafAbsqzhySVpG-ODp4dfvKvyFC77sQ_S9G0kz4R5rblrieV2i0xF8ml8E_o04BPNq8QCuldR62gqJmUCV5g1i9ltvSQNmlu-DsvVilvlrZabjo-d-IGuP8DdsLtSS"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">Rennie 2025 x265</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">1500</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">buzzzz2138</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-30<br/>02:10:34</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkXPBNtEwBiGthxagiS3yeidbdQ3cXge-6acDgPwZ6w2A3DkprFlozegVwmsJrLDWzon48BZLeOCo-xrRK8NQbVh3mf0_JtJbijGopKU_o901pNlMEvBV9RFbywxRs8yDgCWMZ1XRzLYw5Srn0Uzi_g0sZMFyEhRPqZAH_V5jvzyt8k6iiOuB-xCYZkIXJJI_xEIXDC9M3TjNLCn9YK5U0xTD5_KMSzTCHN9FBrN1JhVRKbnqAeSxOUyt7VOP7YkI04xHy0d96bcI8"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">A Song For Imogene</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">4100</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">hookerstyle</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-30<br/>01:39:03</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-cspxYRQXH3ehrI5Ny6WvpZ562z9kcXvI1kRHSkNBIAdle6eXrkDJbuAtNRp6JqcXNaPsU9L0eqt4PsbOGJaxG52EFK2dV907bhWlD5HpfWDvtwgh3FRUDgIhaRGjmrhlFrya2dXtRMY6_K7czRgabpzheSafth-jjb20No81EpAp5Oxy29MnJg8vOJQ8T_n3SlgHx8XHFaQ-IF_757MUdxj61hro_QpkyRZQZH4ADu_0GSYs0aP_GabX9tT9pWPtYgZ6QmryE9qw"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">The Naked Woodworker</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">700</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">R4ckh4m</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-30<br/>01:12:57</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDimLMjUIm0WOVo0EckoOF-Cbeh0iAqKw0YlJxGe-Ar-rrOJy7IdNsKq16GOXWFhuVXLtdYMkx709ZRZBebcYJmTf8VVMLyBn5DdfiGqNNnNUmvcN1veHVJ_5k4efX8PRa3H29EnICeslDmBQ78cvbWHXpKaDhqXUmuzzkrpa7ByMp-Ys-Vq62WQyRITxwkP0Pt5-FPV6QWJgnf36CqwpwqMoibPB24-qVr9wVARQcd3bNnsC2SKrojxg0wsaHPeASciFBx-kE4rprt"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">Big Shark 2023</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">20700</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">Natesel</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-01-04<br/>13:12:31</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFG4IIYeXHrjI97tweuQJAaGhogI-dq5P9I4oXA4w59ft68J2nhyuxMsm7t1MZJVoueBOLNzv1Cf-2k4vwwcXm3AEfeQPUV0VRdZ2dX5BrZBm_v0oE8ntgOLCbqBaVnO9RQdvmpvd2acNrfGTA5xF_c_rCpHG6l26lTvIBN7AUS3u0c23y0egUGMrMCkFnVg-2B0G5TOwLJLrMxXHNAFAj3J35MoMaeQIQt3Sz2Rq8Z_A9Qc3aVHfoQ-e2zzXCaaRDrFFxi3ahExM0"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">The Amusement Park 1975 1080p Blu-ray AVC DTS-HD MA 2 0-Liber8</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">1111</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">egdolphin</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-29<br/>22:50:34</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBWfe3BbEzZnIAFNEtvGCmMbouU9POve2v6Bf2Cwcr5Irk-XdyCu602lUX9X5ehCLWYU0wuU_c_fhprh7HWhPutvyLSJFltSfMibHoahPr2vgtA3KtdNQEvbhbIN5hOkzF3Z9j_lytg165l5oMPucIhAzdDq--WtBlbNdgLzmhP3nCXTdRhpX4_wIUYAicqVcIysnYQEWPyXemX8c9wxFawlAFXJT6Dh4NrB9VL4ZbrwAQeJ8xz97w0xsho6uvgkTt3wscJ34WGHqk"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">Bakuon</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">3333</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">marrz</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-08-27<br/>23:24:23</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">Approved</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">Fr33dom</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-30<br/>01:21:24</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors duration-200">
+<td class="p-4"><img alt="Movie category icon" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmc3WY0QpuYng9O7HH_GAaAB9v_iJyXjZPK9iT8-rV48Kytup5ulzPECmgDpkHWvAaMyzDG8UeITDlOHcwWC3DkMz4ec0GEADJjfHoU52M60OMZwi4-kQw95MvLa5IjHQT3pfq_HX3f4nDiZmfvHTgAjtcVCrTH3k-Z-FiE5UytVD1mgbmF9BFP7JH3Y0yRktZk_awqY4CGyOf6sLlO6XKOkTFRnJWaDXuvWtYjwoReokwF6bJQEnjOXn0ZOpkMRorRAZaWIwxPtzj"/></td>
+<td class="p-4 font-medium text-text-light dark:text-text-dark">The Knife</td>
+<td class="p-4 text-right text-text-secondary-light dark:text-text-secondary-dark">600</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">Nonamefril</td>
+<td class="p-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">2025-09-29<br/>22:19:45</td>
+<td class="p-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">New</span></td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+<td class="p-4 text-text-secondary-light dark:text-text-secondary-dark">-</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+</body></html>

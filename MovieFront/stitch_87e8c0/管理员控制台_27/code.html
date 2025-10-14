@@ -14,189 +14,86 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   </head>
   <body>
-    <div
-      class="group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-[#f8fbfa]"
-      style="font-family: Manrope, 'Noto Sans', sans-serif"
-    >
+    <div class="relative flex h-auto min-h-screen w-full flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
       <div class="layout-container flex h-full grow flex-col">
-        <div class="flex flex-1 justify-center gap-1 px-6 py-5">
-          <div class="layout-content-container flex w-80 flex-col">
-            <div
-              class="flex h-full min-h-[700px] flex-col justify-between bg-[#f8fbfa] p-4"
-            >
+        <div class="gap-1 px-6 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col w-80">
+            <div class="flex h-full min-h-[700px] flex-col justify-between bg-[#f8fbfa] p-4">
               <div class="flex flex-col gap-4">
-                <h1 class="text-base font-medium leading-normal text-[#0e1b14]">
-                  Admin Panel
-                </h1>
+                <h1 class="text-[#0e1b14] text-base font-medium leading-normal">Admin Panel</h1>
                 <div class="flex flex-col gap-2">
-                  <div
-                    class="flex items-center gap-3 rounded-lg bg-[#e8f3ed] px-3 py-2"
-                  >
-                    <div
-                      class="text-[#0e1b14]"
-                      data-icon="House"
-                      data-size="24px"
-                      data-weight="fill"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24px"
-                        height="24px"
-                        fill="currentColor"
-                        viewBox="0 0 256 256"
-                      >
+                  <div class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#e8f3ed]">
+                    <div class="text-[#0e1b14]" data-icon="House" data-size="24px" data-weight="fill">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                         <path
                           d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"
                         ></path>
                       </svg>
                     </div>
-                    <p
-                      class="text-sm font-medium leading-normal text-[#0e1b14]"
-                    >
-                      Dashboard
-                    </p>
+                    <p class="text-[#0e1b14] text-sm font-medium leading-normal">Dashboard</p>
                   </div>
                   <div class="flex items-center gap-3 px-3 py-2">
-                    <div
-                      class="text-[#0e1b14]"
-                      data-icon="FilmReel"
-                      data-size="24px"
-                      data-weight="regular"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24px"
-                        height="24px"
-                        fill="currentColor"
-                        viewBox="0 0 256 256"
-                      >
+                    <div class="text-[#0e1b14]" data-icon="FilmReel" data-size="24px" data-weight="regular">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                         <path
                           d="M224,216H183.36A103.95,103.95,0,1,0,128,232h96a8,8,0,0,0,0-16ZM40,128a88,88,0,1,1,88,88A88.1,88.1,0,0,1,40,128Zm88-24a24,24,0,1,0-24-24A24,24,0,0,0,128,104Zm0-32a8,8,0,1,1-8,8A8,8,0,0,1,128,72Zm24,104a24,24,0,1,0-24,24A24,24,0,0,0,152,176Zm-32,0a8,8,0,1,1,8,8A8,8,0,0,1,120,176Zm56-24a24,24,0,1,0-24-24A24,24,0,0,0,176,152Zm0-32a8,8,0,1,1-8,8A8,8,0,0,1,176,120ZM80,104a24,24,0,1,0,24,24A24,24,0,0,0,80,104Zm0,32a8,8,0,1,1,8-8A8,8,0,0,1,80,136Z"
                         ></path>
                       </svg>
                     </div>
-                    <p
-                      class="text-sm font-medium leading-normal text-[#0e1b14]"
-                    >
-                      Movies
-                    </p>
+                    <p class="text-[#0e1b14] text-sm font-medium leading-normal">Movies</p>
                   </div>
                   <div class="flex items-center gap-3 px-3 py-2">
-                    <div
-                      class="text-[#0e1b14]"
-                      data-icon="Megaphone"
-                      data-size="24px"
-                      data-weight="regular"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24px"
-                        height="24px"
-                        fill="currentColor"
-                        viewBox="0 0 256 256"
-                      >
+                    <div class="text-[#0e1b14]" data-icon="Megaphone" data-size="24px" data-weight="regular">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                         <path
                           d="M240,120a48.05,48.05,0,0,0-48-48H152.2c-2.91-.17-53.62-3.74-101.91-44.24A16,16,0,0,0,24,40V200a16,16,0,0,0,26.29,12.25c37.77-31.68,77-40.76,93.71-43.3v31.72A16,16,0,0,0,151.12,214l11,7.33A16,16,0,0,0,186.5,212l11.77-44.36A48.07,48.07,0,0,0,240,120ZM40,199.93V40h0c42.81,35.91,86.63,45,104,47.24v65.48C126.65,155,82.84,164.07,40,199.93Zm131,8,0,.11-11-7.33V168h21.6ZM192,152H160V88h32a32,32,0,1,1,0,64Z"
                         ></path>
                       </svg>
                     </div>
-                    <p
-                      class="text-sm font-medium leading-normal text-[#0e1b14]"
-                    >
-                      Requests
-                    </p>
+                    <p class="text-[#0e1b14] text-sm font-medium leading-normal">Requests</p>
                   </div>
                   <div class="flex items-center gap-3 px-3 py-2">
-                    <div
-                      class="text-[#0e1b14]"
-                      data-icon="Flag"
-                      data-size="24px"
-                      data-weight="regular"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24px"
-                        height="24px"
-                        fill="currentColor"
-                        viewBox="0 0 256 256"
-                      >
+                    <div class="text-[#0e1b14]" data-icon="Flag" data-size="24px" data-weight="regular">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                         <path
                           d="M34.76,42A8,8,0,0,0,32,48V216a8,8,0,0,0,16,0V171.77c26.79-21.16,49.87-9.75,76.45,3.41,16.4,8.11,34.06,16.85,53,16.85,13.93,0,28.54-4.75,43.82-18a8,8,0,0,0,2.76-6V48A8,8,0,0,0,210.76,42c-28,24.23-51.72,12.49-79.21-1.12C103.07,26.76,70.78,10.79,34.76,42ZM208,164.25c-26.79,21.16-49.87,9.74-76.45-3.41-25-12.35-52.81-26.13-83.55-8.4V51.79c26.79-21.16,49.87-9.75,76.45,3.4,25,12.35,52.82,26.13,83.55,8.4Z"
                         ></path>
                       </svg>
                     </div>
-                    <p
-                      class="text-sm font-medium leading-normal text-[#0e1b14]"
-                    >
-                      Reports
-                    </p>
+                    <p class="text-[#0e1b14] text-sm font-medium leading-normal">Reports</p>
                   </div>
                   <div class="flex items-center gap-3 px-3 py-2">
-                    <div
-                      class="text-[#0e1b14]"
-                      data-icon="Gear"
-                      data-size="24px"
-                      data-weight="regular"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24px"
-                        height="24px"
-                        fill="currentColor"
-                        viewBox="0 0 256 256"
-                      >
+                    <div class="text-[#0e1b14]" data-icon="Gear" data-size="24px" data-weight="regular">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                         <path
                           d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"
                         ></path>
                       </svg>
                     </div>
-                    <p
-                      class="text-sm font-medium leading-normal text-[#0e1b14]"
-                    >
-                      Settings
-                    </p>
+                    <p class="text-[#0e1b14] text-sm font-medium leading-normal">Settings</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div
-            class="layout-content-container flex max-w-[960px] flex-1 flex-col"
-          >
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
             <div class="flex flex-wrap justify-between gap-3 p-4">
               <div class="flex min-w-72 flex-col gap-3">
-                <p
-                  class="tracking-light text-[32px] font-bold leading-tight text-[#0e1b14]"
-                >
-                  Asset Management
-                </p>
-                <p class="text-sm font-normal leading-normal text-[#509573]">
-                  Manage images, videos, and other media assets used across the
-                  website.
-                </p>
+                <p class="text-[#0e1b14] tracking-light text-[32px] font-bold leading-tight">Asset Management</p>
+                <p class="text-[#509573] text-sm font-normal leading-normal">Manage images, videos, and other media assets used across the website.</p>
               </div>
             </div>
-            <h2
-              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              Media Library
-            </h2>
+            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Media Library</h2>
             <div class="px-4 py-3">
-              <label class="flex h-12 w-full min-w-40 flex-col">
-                <div class="flex h-full w-full flex-1 items-stretch rounded-lg">
+              <label class="flex flex-col min-w-40 h-12 w-full">
+                <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
                   <div
-                    class="flex items-center justify-center rounded-l-lg border-r-0 border-none bg-[#e8f3ed] pl-4 text-[#509573]"
+                    class="text-[#509573] flex border-none bg-[#e8f3ed] items-center justify-center pl-4 rounded-l-lg border-r-0"
                     data-icon="MagnifyingGlass"
                     data-size="24px"
                     data-weight="regular"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24px"
-                      height="24px"
-                      fill="currentColor"
-                      viewBox="0 0 256 256"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                       <path
                         d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
                       ></path>
@@ -204,227 +101,130 @@
                   </div>
                   <input
                     placeholder="Search assets"
-                    class="form-input flex h-full w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none border-l-0 border-none bg-[#e8f3ed] px-4 pl-2 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-full placeholder:text-[#509573] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
                     value=""
                   />
                 </div>
               </label>
             </div>
             <div class="pb-3">
-              <div class="flex gap-8 border-b border-[#d1e6db] px-4">
-                <a
-                  class="flex flex-col items-center justify-center border-b-[3px] border-b-[#63e9a6] pb-[13px] pt-4 text-[#0e1b14]"
-                  href="#"
-                >
-                  <p
-                    class="text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
-                  >
-                    All Assets
-                  </p>
+              <div class="flex border-b border-[#d1e6db] px-4 gap-8">
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-[#63e9a6] text-[#0e1b14] pb-[13px] pt-4" href="#">
+                  <p class="text-[#0e1b14] text-sm font-bold leading-normal tracking-[0.015em]">All Assets</p>
                 </a>
-                <a
-                  class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent pb-[13px] pt-4 text-[#509573]"
-                  href="#"
-                >
-                  <p
-                    class="text-sm font-bold leading-normal tracking-[0.015em] text-[#509573]"
-                  >
-                    Images
-                  </p>
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#509573] pb-[13px] pt-4" href="#">
+                  <p class="text-[#509573] text-sm font-bold leading-normal tracking-[0.015em]">Images</p>
                 </a>
-                <a
-                  class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent pb-[13px] pt-4 text-[#509573]"
-                  href="#"
-                >
-                  <p
-                    class="text-sm font-bold leading-normal tracking-[0.015em] text-[#509573]"
-                  >
-                    Videos
-                  </p>
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#509573] pb-[13px] pt-4" href="#">
+                  <p class="text-[#509573] text-sm font-bold leading-normal tracking-[0.015em]">Videos</p>
                 </a>
               </div>
             </div>
-            <div
-              class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4"
-            >
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBTDT7WZot_UZsA2cgS1SrdUlQ3pTSIb0PiarpeebmXY4FFz5btfsQX0lUtRAn1vvlvN9tQGonkUbJBtw6_L1FAHySrpCBDSckKpveIK3PPz_5Cf345w23IJBV2w5vTIleQCIdboaGFBgsoP3rx70vsLSoRl1eXltybDK4o93g-pZpKhNS7S5EdJ3sdRlmSbc_LgooW-PCWN_FMDNio3QJW4CEffV72uXspEFXlWPaiPjyE6Ef7b2Nh6TTSZPLslymDhdNYbx1MUYjC');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBTDT7WZot_UZsA2cgS1SrdUlQ3pTSIb0PiarpeebmXY4FFz5btfsQX0lUtRAn1vvlvN9tQGonkUbJBtw6_L1FAHySrpCBDSckKpveIK3PPz_5Cf345w23IJBV2w5vTIleQCIdboaGFBgsoP3rx70vsLSoRl1eXltybDK4o93g-pZpKhNS7S5EdJ3sdRlmSbc_LgooW-PCWN_FMDNio3QJW4CEffV72uXspEFXlWPaiPjyE6Ef7b2Nh6TTSZPLslymDhdNYbx1MUYjC");'
                 ></div>
               </div>
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuClH-ExHfrvi9Rb284vRb_RMdN3Yam7ptImTiBRWABzqbS4iawebraaDBvvz2jKYZO73ZX2TQTtBd8Erd0-mDUmTZFAIhfxDA2mikxxbM3MwjY2x2T58aovj2f_Q6rQ0AzQEEtwyhZ-UQcu1cBwryZR_f4aZHYFW_IljETBix3dCuxNgfxl8Y3M94s7LFjT39Ff4qT8oFk89hjf1W1anaeqkG6ZMxjF-Pp7JZXRYRGhOhIgnm4aaBUvMfSgtnxjmvrw8viw_2o7xYt8');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuClH-ExHfrvi9Rb284vRb_RMdN3Yam7ptImTiBRWABzqbS4iawebraaDBvvz2jKYZO73ZX2TQTtBd8Erd0-mDUmTZFAIhfxDA2mikxxbM3MwjY2x2T58aovj2f_Q6rQ0AzQEEtwyhZ-UQcu1cBwryZR_f4aZHYFW_IljETBix3dCuxNgfxl8Y3M94s7LFjT39Ff4qT8oFk89hjf1W1anaeqkG6ZMxjF-Pp7JZXRYRGhOhIgnm4aaBUvMfSgtnxjmvrw8viw_2o7xYt8");'
                 ></div>
               </div>
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD_Xo2tzs31JLb-IZPBLacQACnXHd7N3FNxPyykgpnFPL41pIcV_Auz494UiUEcNjf1JNz8z3kB0Go0q7cVlhce1gz_vIepXHonSICn170doUnh-69myCulyapZsm806MMIogabMkrBq1c_6QThaWbZnm9g7YpERvu42XNQ_EGCc0q7VzKL4GoTXFORoIHMfZ5WSSgayaxpCl17U8Q5olylTZvW5QqYHbEAcEN2aNNGKbjJBG2lVx9Fghw6QbbT8KhtHR40MbYjPLks');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD_Xo2tzs31JLb-IZPBLacQACnXHd7N3FNxPyykgpnFPL41pIcV_Auz494UiUEcNjf1JNz8z3kB0Go0q7cVlhce1gz_vIepXHonSICn170doUnh-69myCulyapZsm806MMIogabMkrBq1c_6QThaWbZnm9g7YpERvu42XNQ_EGCc0q7VzKL4GoTXFORoIHMfZ5WSSgayaxpCl17U8Q5olylTZvW5QqYHbEAcEN2aNNGKbjJBG2lVx9Fghw6QbbT8KhtHR40MbYjPLks");'
                 ></div>
               </div>
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBpZHH88GDWVe40S3ghnTUZiWTExtQSHi79s7RUujYFiKPw81dXSplIJWsJg3dSfDrXAaN3ByEssHB-GPRfCpK1FN0HqOrro6EMnEvvgMUmuy_3Nqo-LS2KYFwFGHTPZLXqOLb4LImYRtXSyuGYyfb0808kddd2BdH60jB_2MZ4_i00pnCvYkEhmZfmvxg1TpHXAzNYUvBW4qnY3GB8csMR_BJ9-Xg7IQY92bppztg1Jd2aJUybCHi2R2L0weTNRZ9bSJdPNLjOcpJs');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBpZHH88GDWVe40S3ghnTUZiWTExtQSHi79s7RUujYFiKPw81dXSplIJWsJg3dSfDrXAaN3ByEssHB-GPRfCpK1FN0HqOrro6EMnEvvgMUmuy_3Nqo-LS2KYFwFGHTPZLXqOLb4LImYRtXSyuGYyfb0808kddd2BdH60jB_2MZ4_i00pnCvYkEhmZfmvxg1TpHXAzNYUvBW4qnY3GB8csMR_BJ9-Xg7IQY92bppztg1Jd2aJUybCHi2R2L0weTNRZ9bSJdPNLjOcpJs");'
                 ></div>
               </div>
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDOrPXlqVZl25W8adKp5y6YWLwXn7f658JwlQf2--SO6BXMh0OHK1a3HShFSnCCD3LVFL-Ld--uYvCcCfYJu7cJ9TvIyyPQaawBQv2bRbOCXZdsuFyLdt4Oh1Zwbx6s1kucFfyskiBA_mBspBCw_IyiXoes3ztZK2z3Baj_GRk9a1ezkkJBmqle4XG1SiludMk9mXSXWNenmGM_XQ2EjUWAcTpCYhstS2MIgRSdGdIBDDyUwhVsvWSKC5oNcsKiEm0CFUJpFEeHGPqG');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDOrPXlqVZl25W8adKp5y6YWLwXn7f658JwlQf2--SO6BXMh0OHK1a3HShFSnCCD3LVFL-Ld--uYvCcCfYJu7cJ9TvIyyPQaawBQv2bRbOCXZdsuFyLdt4Oh1Zwbx6s1kucFfyskiBA_mBspBCw_IyiXoes3ztZK2z3Baj_GRk9a1ezkkJBmqle4XG1SiludMk9mXSXWNenmGM_XQ2EjUWAcTpCYhstS2MIgRSdGdIBDDyUwhVsvWSKC5oNcsKiEm0CFUJpFEeHGPqG");'
                 ></div>
               </div>
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBdDBrL_ID-GpHHdjgRV8hU3u7FLQcA4uO-mr0YXaaa7KATZyVijDThKB5-fmaK73PVyTw-of0JY0a0zIIyDfB2J2qvsBYeEB3kv0U3-0HUGO4OJNsUT7qqQjdPElzymfoISriimryb7v-45RsqVtEH-D6-m6hwrrkUejeK2fmoJAXKawZ9LbL-hsKmlcInekOIoW24iDWPdIBIKtZpuOBNXY7PVLolqd_LDS8DxL4bqzKc7IqXHVQmEKaWbzHDjgYRP8xSF35TeXZW');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBdDBrL_ID-GpHHdjgRV8hU3u7FLQcA4uO-mr0YXaaa7KATZyVijDThKB5-fmaK73PVyTw-of0JY0a0zIIyDfB2J2qvsBYeEB3kv0U3-0HUGO4OJNsUT7qqQjdPElzymfoISriimryb7v-45RsqVtEH-D6-m6hwrrkUejeK2fmoJAXKawZ9LbL-hsKmlcInekOIoW24iDWPdIBIKtZpuOBNXY7PVLolqd_LDS8DxL4bqzKc7IqXHVQmEKaWbzHDjgYRP8xSF35TeXZW");'
                 ></div>
               </div>
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAwx-oXjdjFw-ZKqIC3TBhi8i9WO3fYI3q_QZcCp5EoRseaLvnb1byjK_PiPRI5Wei8NnqutNH-Dd-XC7ZTDb4lsJjQOa5Utr-wWiOMjmJvG3Z9rWVZyDfYrWyNgBn7PoiQKlv0227hVj7Simah6qxES-on6HQwilJQTEu7H5BSTLlzPmHBZdrcVwxjNaW3fWC5-QavBBhAa-qsWX_p8izg4-HaUR1SN0ZITlc_WOxwGzZhydq7uLciXLZasG-DFuhqP-gRHnEv5hCb');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAwx-oXjdjFw-ZKqIC3TBhi8i9WO3fYI3q_QZcCp5EoRseaLvnb1byjK_PiPRI5Wei8NnqutNH-Dd-XC7ZTDb4lsJjQOa5Utr-wWiOMjmJvG3Z9rWVZyDfYrWyNgBn7PoiQKlv0227hVj7Simah6qxES-on6HQwilJQTEu7H5BSTLlzPmHBZdrcVwxjNaW3fWC5-QavBBhAa-qsWX_p8izg4-HaUR1SN0ZITlc_WOxwGzZhydq7uLciXLZasG-DFuhqP-gRHnEv5hCb");'
                 ></div>
               </div>
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD5DnVHprLr-HXmgTFtqQB8VCf3Nj8y8XzwA9ma_txsTxIUDta0p3CLKYPEzIgT8B1SWHdxwct8OCa-V5KTkcCoBNwP_e-0RXklYEGP2EZy0oHWE_uVZDBIm8E_JCSeLIY7m2NtbF57QEZmzCu2duzVVUYK2uqFhOBOoI7_GPVOVhsvSMc-y5dBgRHNtoV8Ca6HKW8m8YI38G43ECH2W5FN1bfLobaSpBivbSSszF5iAPE4MvrAgwdDAgXXD59kjZpgL1GncziMf6U5');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD5DnVHprLr-HXmgTFtqQB8VCf3Nj8y8XzwA9ma_txsTxIUDta0p3CLKYPEzIgT8B1SWHdxwct8OCa-V5KTkcCoBNwP_e-0RXklYEGP2EZy0oHWE_uVZDBIm8E_JCSeLIY7m2NtbF57QEZmzCu2duzVVUYK2uqFhOBOoI7_GPVOVhsvSMc-y5dBgRHNtoV8Ca6HKW8m8YI38G43ECH2W5FN1bfLobaSpBivbSSszF5iAPE4MvrAgwdDAgXXD59kjZpgL1GncziMf6U5");'
                 ></div>
               </div>
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDxzNDO2xMfEcHRbapMyxxrXvr8aDlStsD28HXL3ixauw_gOFYqqbbqFLOsmg6UBCVIgCESn_i1U_LDVTqSPZlgiSMI6MP3jwT6ST-Pg876M838qlTw39TXo2hmgjs1KkUmgwqihgFrFfuYGKJGP2QCd_weWx8DWfuLXQmj6ftIFX5ywohaCqQuYIJJXY78yNR9C7aTKOGan6ttTOgxodEk5lnk6uYjRqMGGEARMwZPhrFLD-MiAbU5TqNp8VEG9vwLf2KrJjyFde8o');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDxzNDO2xMfEcHRbapMyxxrXvr8aDlStsD28HXL3ixauw_gOFYqqbbqFLOsmg6UBCVIgCESn_i1U_LDVTqSPZlgiSMI6MP3jwT6ST-Pg876M838qlTw39TXo2hmgjs1KkUmgwqihgFrFfuYGKJGP2QCd_weWx8DWfuLXQmj6ftIFX5ywohaCqQuYIJJXY78yNR9C7aTKOGan6ttTOgxodEk5lnk6uYjRqMGGEARMwZPhrFLD-MiAbU5TqNp8VEG9vwLf2KrJjyFde8o");'
                 ></div>
               </div>
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAO6bPtTPHcz0v2vqHBanGIYvqE2Ozh7Lnz-k_tQy0qd0DxKFEZfn-O-a29FoO5ccHSw7L9bVFXo89NwIYeZExBRdbOzeprMCI2lFFtfNsZQifGbwdxzrLG-J42PnPzguefHhBKJmM4sYCaQ-kk8Wv5tfHcxmFz7rADhqSF9TISJt5NObEOlDu-6s27fQ4V-bQrHbWmjC7ryvvzhfzJ44fh-g1-1uqEcrLC9fwpgGKMfMHTMsEsVNIjFpAjaYR2s6L3lMewOpIJQyCs');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAO6bPtTPHcz0v2vqHBanGIYvqE2Ozh7Lnz-k_tQy0qd0DxKFEZfn-O-a29FoO5ccHSw7L9bVFXo89NwIYeZExBRdbOzeprMCI2lFFtfNsZQifGbwdxzrLG-J42PnPzguefHhBKJmM4sYCaQ-kk8Wv5tfHcxmFz7rADhqSF9TISJt5NObEOlDu-6s27fQ4V-bQrHbWmjC7ryvvzhfzJ44fh-g1-1uqEcrLC9fwpgGKMfMHTMsEsVNIjFpAjaYR2s6L3lMewOpIJQyCs");'
                 ></div>
               </div>
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBxOb5ECwY_KEmLOFS2QgLKpIup2Ri2d-Mdgfxgztb6zx2XQ_1hdfBroq29IouAu3XlQNh5N_fKpPKmvMAzI0asrWVBhpVnigLrbNum9JuvETEJJzojYUoh5WBShe4vxvbS6izClp3rU7hu5-mGv0dHkAmoOuhO5bbc5ZYsUuz7zdaSnNJXUmpm9U9Tox189X0-C2YuqCXG03A7fl6dKDGRXJwaJKtIsXdjSvuxwo3rYpC4OKPcpbovrFr0gZnMVlJtGhhmFjnZg6-f');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBxOb5ECwY_KEmLOFS2QgLKpIup2Ri2d-Mdgfxgztb6zx2XQ_1hdfBroq29IouAu3XlQNh5N_fKpPKmvMAzI0asrWVBhpVnigLrbNum9JuvETEJJzojYUoh5WBShe4vxvbS6izClp3rU7hu5-mGv0dHkAmoOuhO5bbc5ZYsUuz7zdaSnNJXUmpm9U9Tox189X0-C2YuqCXG03A7fl6dKDGRXJwaJKtIsXdjSvuxwo3rYpC4OKPcpbovrFr0gZnMVlJtGhhmFjnZg6-f");'
                 ></div>
               </div>
               <div class="flex flex-col gap-3">
                 <div
-                  class="aspect-square w-full rounded-lg bg-cover bg-center bg-no-repeat"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDac4JbrMumjmuNDbTekio2r3I3ZETPO-dNp8nRM1eMTa-9G3N1EhvTLiGqZRxJaUs903NXi9R_bZIW5vAkeNfVnnc6DoS9jJ_blLWFAeh0ZNuM4EIb6Ha2TlA1BWRoB4OwOnSxpXD0m7dQPdyqNXlQqFans5GR-YKMR8KtOJpVzNBa4NeT3xz_QfGKp3e2cVNK82-s2KAK3cFtp22dPjYSl_uUTNteO_MO1Byuq1U0bFt8O_5mAfou2xutlR15L_PQbyso2UyZ7QW9');
-                  "
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDac4JbrMumjmuNDbTekio2r3I3ZETPO-dNp8nRM1eMTa-9G3N1EhvTLiGqZRxJaUs903NXi9R_bZIW5vAkeNfVnnc6DoS9jJ_blLWFAeh0ZNuM4EIb6Ha2TlA1BWRoB4OwOnSxpXD0m7dQPdyqNXlQqFans5GR-YKMR8KtOJpVzNBa4NeT3xz_QfGKp3e2cVNK82-s2KAK3cFtp22dPjYSl_uUTNteO_MO1Byuq1U0bFt8O_5mAfou2xutlR15L_PQbyso2UyZ7QW9");'
                 ></div>
               </div>
             </div>
             <div class="flex items-center justify-center p-4">
               <a href="#" class="flex size-10 items-center justify-center">
-                <div
-                  class="text-[#0e1b14]"
-                  data-icon="CaretLeft"
-                  data-size="18px"
-                  data-weight="regular"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18px"
-                    height="18px"
-                    fill="currentColor"
-                    viewBox="0 0 256 256"
-                  >
-                    <path
-                      d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"
-                    ></path>
+                <div class="text-[#0e1b14]" data-icon="CaretLeft" data-size="18px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
                   </svg>
                 </div>
               </a>
-              <a
-                class="flex size-10 items-center justify-center rounded-full bg-[#e8f3ed] text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
-                href="#"
-                >1</a
-              >
-              <a
-                class="flex size-10 items-center justify-center rounded-full text-sm font-normal leading-normal text-[#0e1b14]"
-                href="#"
-                >2</a
-              >
-              <a
-                class="flex size-10 items-center justify-center rounded-full text-sm font-normal leading-normal text-[#0e1b14]"
-                href="#"
-                >3</a
-              >
-              <a
-                class="flex size-10 items-center justify-center rounded-full text-sm font-normal leading-normal text-[#0e1b14]"
-                href="#"
-                >4</a
-              >
-              <a
-                class="flex size-10 items-center justify-center rounded-full text-sm font-normal leading-normal text-[#0e1b14]"
-                href="#"
-                >5</a
-              >
+              <a class="text-sm font-bold leading-normal tracking-[0.015em] flex size-10 items-center justify-center text-[#0e1b14] rounded-full bg-[#e8f3ed]" href="#">1</a>
+              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-[#0e1b14] rounded-full" href="#">2</a>
+              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-[#0e1b14] rounded-full" href="#">3</a>
+              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-[#0e1b14] rounded-full" href="#">4</a>
+              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-[#0e1b14] rounded-full" href="#">5</a>
               <a href="#" class="flex size-10 items-center justify-center">
-                <div
-                  class="text-[#0e1b14]"
-                  data-icon="CaretRight"
-                  data-size="18px"
-                  data-weight="regular"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18px"
-                    height="18px"
-                    fill="currentColor"
-                    viewBox="0 0 256 256"
-                  >
-                    <path
-                      d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"
-                    ></path>
+                <div class="text-[#0e1b14]" data-icon="CaretRight" data-size="18px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
                   </svg>
                 </div>
               </a>
             </div>
-            <h2
-              class="px-4 pb-3 pt-5 text-[22px] font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              Actions
-            </h2>
+            <h2 class="text-[#0e1b14] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Actions</h2>
             <div class="flex justify-stretch">
-              <div class="flex flex-1 flex-wrap justify-start gap-3 px-4 py-3">
+              <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-start">
                 <button
-                  class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#63e9a6] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#63e9a6] text-[#0e1b14] text-sm font-bold leading-normal tracking-[0.015em]"
                 >
                   <span class="truncate">Upload New Asset</span>
                 </button>
                 <button
-                  class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-bold leading-normal tracking-[0.015em]"
                 >
                   <span class="truncate">Create New Folder</span>
                 </button>

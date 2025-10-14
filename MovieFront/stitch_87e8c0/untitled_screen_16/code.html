@@ -1,278 +1,178 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Premium Plans</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"
-    />
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              primary: '#87e8c0',
-              'background-light': '#f8f9fa',
-              'background-dark': '#1a1a1a',
-              'card-dark': '#242424',
-            },
-            fontFamily: {
-              display: ["'Inter', sans-serif"],
-            },
-            borderRadius: {
-              DEFAULT: '0.75rem',
-            },
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Premium Plans</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#87e8c0",
+            "background-light": "#f8f9fa",
+            "background-dark": "#1a1a1a",
+            "card-dark": "#242424",
+          },
+          fontFamily: {
+            display: ["'Inter', sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.75rem",
           },
         },
-      }
-    </script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-    </style>
-  </head>
-  <body
-    class="bg-background-light text-gray-800 dark:bg-background-dark dark:text-gray-200"
-  >
-    <div class="relative min-h-screen">
-      <div
-        class="absolute inset-0 bg-cover bg-center opacity-10 dark:opacity-5"
-        style="
-          background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDP3o5Q-52SV0tovTECoSdtE_jQ8MjAmKif6rwUE4hai4CvfNMgSVn3dLhY_6PvnLLb_4-UppvdXWdSjJYtjcacMJ9ojPhwaTNLtD3Muvp6hb848s8xncIEGtcstNhfLXq1sDX3BXHeA1aqsl0Kf3gB3pePZW9qkqA0IZ0c9Y8rLBsgMPz3xHNb69MaPnCmJEcmTFuy99OrAxWJEImCyOAV79BuaMkxgSGFmkn__PHiuuS_nGTxTvaT8P7cRfLSA-6X0ytu76LaBak');
-        "
-      ></div>
-      <div
-        class="absolute inset-0 bg-gradient-to-t from-background-light via-transparent dark:from-background-dark"
-      ></div>
-      <div class="container relative mx-auto px-4 py-16 lg:py-24">
-        <div class="mb-12 text-center">
-          <h1
-            class="mb-4 text-4xl font-extrabold text-gray-900 dark:text-white md:text-5xl"
-          >
-            升级您的 Premium 体验
-          </h1>
-          <p class="mx-auto max-w-3xl text-lg text-gray-600 dark:text-gray-400">
-            解锁独家功能，享受无与伦比的下载速度和更高质量的资源。选择最适合您的计划。
-          </p>
-        </div>
-        <div class="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-3">
-          <div
-            class="dark:bg-card-dark flex flex-col rounded-xl border border-gray-200 bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:border-gray-700"
-          >
-            <div class="p-8">
-              <h3 class="text-2xl font-bold text-gray-900 dark:text-white">
-                Premium 入门版
-              </h3>
-              <p class="mt-2 text-gray-500 dark:text-gray-400">
-                适合偶尔下载的用户
-              </p>
-              <div class="mt-6">
-                <span
-                  class="text-5xl font-extrabold text-gray-900 dark:text-white"
-                  >$5</span
-                >
-                <span
-                  class="text-lg font-medium text-gray-500 dark:text-gray-400"
-                  >/月</span
-                >
-              </div>
-            </div>
-            <div
-              class="flex-grow rounded-b-xl bg-gray-50 p-8 dark:bg-background-dark"
-            >
-              <ul class="space-y-4 text-gray-700 dark:text-gray-300">
-                <li class="flex items-center">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>标准下载速度</span>
-                </li>
-                <li class="flex items-center">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>最高 1080p 分辨率</span>
-                </li>
-                <li class="flex items-center">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>每月 20 次下载</span>
-                </li>
-                <li class="flex items-center">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>基础技术支持</span>
-                </li>
-                <li class="flex items-center text-gray-400 dark:text-gray-600">
-                  <span class="material-symbols-outlined mr-3">cancel</span>
-                  <span>无广告体验</span>
-                </li>
-                <li class="flex items-center text-gray-400 dark:text-gray-600">
-                  <span class="material-symbols-outlined mr-3">cancel</span>
-                  <span>提前获取资源</span>
-                </li>
-              </ul>
-              <button
-                class="mt-8 w-full rounded-lg bg-gray-200 px-6 py-3 font-semibold text-gray-800 transition duration-300 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
-              >
-                选择入门版
-              </button>
-            </div>
-          </div>
-          <div
-            class="relative flex scale-105 flex-col overflow-hidden rounded-xl border-2 border-primary bg-primary shadow-2xl transition-shadow duration-300 hover:shadow-primary/50 dark:bg-primary/95"
-          >
-            <div
-              class="absolute right-0 top-0 m-4 rounded-full bg-white/20 px-3 py-1 text-sm font-bold text-white backdrop-blur-sm"
-            >
-              最受欢迎
-            </div>
-            <div class="p-8 text-gray-900">
-              <h3 class="text-2xl font-bold">Premium 标准版</h3>
-              <p class="mt-2 opacity-80">为影迷打造的最佳选择</p>
-              <div class="mt-6">
-                <span class="text-5xl font-extrabold">$10</span>
-                <span class="text-lg font-medium opacity-90">/月</span>
-              </div>
-            </div>
-            <div
-              class="dark:bg-card-dark/80 flex-grow rounded-b-xl bg-white/80 p-8 backdrop-blur-sm"
-            >
-              <ul class="space-y-4 text-gray-800 dark:text-gray-200">
-                <li class="flex items-center font-medium">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>高速下载通道</span>
-                </li>
-                <li class="flex items-center font-medium">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>最高 4K HDR 分辨率</span>
-                </li>
-                <li class="flex items-center font-medium">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>无限次下载</span>
-                </li>
-                <li class="flex items-center font-medium">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>优先技术支持</span>
-                </li>
-                <li class="flex items-center font-medium">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>无广告体验</span>
-                </li>
-                <li class="flex items-center text-gray-500 dark:text-gray-400">
-                  <span class="material-symbols-outlined mr-3">cancel</span>
-                  <span>提前获取资源</span>
-                </li>
-              </ul>
-              <button
-                class="mt-8 w-full rounded-lg bg-primary px-6 py-3 font-semibold text-gray-900 shadow-lg transition duration-300 hover:opacity-90 hover:shadow-primary/40"
-              >
-                选择标准版
-              </button>
-            </div>
-          </div>
-          <div
-            class="dark:bg-card-dark flex flex-col rounded-xl border border-gray-200 bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:border-gray-700"
-          >
-            <div class="p-8">
-              <h3 class="text-2xl font-bold text-gray-900 dark:text-white">
-                Premium 尊享版
-              </h3>
-              <p class="mt-2 text-gray-500 dark:text-gray-400">
-                为发烧友准备的终极方案
-              </p>
-              <div class="mt-6">
-                <span
-                  class="text-5xl font-extrabold text-gray-900 dark:text-white"
-                  >$20</span
-                >
-                <span
-                  class="text-lg font-medium text-gray-500 dark:text-gray-400"
-                  >/月</span
-                >
-              </div>
-            </div>
-            <div
-              class="flex-grow rounded-b-xl bg-gray-50 p-8 dark:bg-background-dark"
-            >
-              <ul class="space-y-4 text-gray-700 dark:text-gray-300">
-                <li class="flex items-center">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>极速全球下载节点</span>
-                </li>
-                <li class="flex items-center">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>无损蓝光原盘质量</span>
-                </li>
-                <li class="flex items-center">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>无限次下载</span>
-                </li>
-                <li class="flex items-center">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>24/7 专属客服</span>
-                </li>
-                <li class="flex items-center">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>无广告体验</span>
-                </li>
-                <li class="flex items-center">
-                  <span class="material-symbols-outlined mr-3 text-primary"
-                    >check_circle</span
-                  >
-                  <span>提前 7 天获取资源</span>
-                </li>
-              </ul>
-              <button
-                class="mt-8 w-full rounded-lg bg-gray-200 px-6 py-3 font-semibold text-gray-800 transition duration-300 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
-              >
-                选择尊享版
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="mt-16 text-center">
-          <p class="text-gray-600 dark:text-gray-400">
-            所有计划均可随时取消。如有任何问题，请<a
-              class="font-medium text-primary hover:underline"
-              href="#"
-              >联系我们</a
-            >。
-          </p>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
+      },
+    };
+  </script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200">
+<div class="relative min-h-screen">
+<div class="absolute inset-0 bg-cover bg-center opacity-10 dark:opacity-5" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDP3o5Q-52SV0tovTECoSdtE_jQ8MjAmKif6rwUE4hai4CvfNMgSVn3dLhY_6PvnLLb_4-UppvdXWdSjJYtjcacMJ9ojPhwaTNLtD3Muvp6hb848s8xncIEGtcstNhfLXq1sDX3BXHeA1aqsl0Kf3gB3pePZW9qkqA0IZ0c9Y8rLBsgMPz3xHNb69MaPnCmJEcmTFuy99OrAxWJEImCyOAV79BuaMkxgSGFmkn__PHiuuS_nGTxTvaT8P7cRfLSA-6X0ytu76LaBak');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-light via-transparent dark:from-background-dark"></div>
+<div class="relative container mx-auto px-4 py-16 lg:py-24">
+<div class="text-center mb-12">
+<h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4">升级您的 Premium 体验</h1>
+<p class="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">解锁独家功能，享受无与伦比的下载速度和更高质量的资源。选择最适合您的计划。</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+<div class="bg-white dark:bg-card-dark rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col border border-gray-200 dark:border-gray-700">
+<div class="p-8">
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white">Premium 入门版</h3>
+<p class="text-gray-500 dark:text-gray-400 mt-2">适合偶尔下载的用户</p>
+<div class="mt-6">
+<span class="text-5xl font-extrabold text-gray-900 dark:text-white">$5</span>
+<span class="text-lg font-medium text-gray-500 dark:text-gray-400">/月</span>
+</div>
+</div>
+<div class="p-8 flex-grow bg-gray-50 dark:bg-background-dark rounded-b-xl">
+<ul class="space-y-4 text-gray-700 dark:text-gray-300">
+<li class="flex items-center">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>标准下载速度</span>
+</li>
+<li class="flex items-center">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>最高 1080p 分辨率</span>
+</li>
+<li class="flex items-center">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>每月 20 次下载</span>
+</li>
+<li class="flex items-center">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>基础技术支持</span>
+</li>
+<li class="flex items-center text-gray-400 dark:text-gray-600">
+<span class="material-symbols-outlined mr-3">cancel</span>
+<span>无广告体验</span>
+</li>
+<li class="flex items-center text-gray-400 dark:text-gray-600">
+<span class="material-symbols-outlined mr-3">cancel</span>
+<span>提前获取资源</span>
+</li>
+</ul>
+<button class="w-full mt-8 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300">
+              选择入门版
+            </button>
+</div>
+</div>
+<div class="bg-primary dark:bg-primary/95 rounded-xl shadow-2xl hover:shadow-primary/50 transition-shadow duration-300 flex flex-col relative overflow-hidden scale-105 border-2 border-primary">
+<div class="absolute top-0 right-0 m-4 bg-white/20 text-white px-3 py-1 text-sm font-bold rounded-full backdrop-blur-sm">最受欢迎</div>
+<div class="p-8 text-gray-900">
+<h3 class="text-2xl font-bold">Premium 标准版</h3>
+<p class="opacity-80 mt-2">为影迷打造的最佳选择</p>
+<div class="mt-6">
+<span class="text-5xl font-extrabold">$10</span>
+<span class="text-lg font-medium opacity-90">/月</span>
+</div>
+</div>
+<div class="p-8 flex-grow bg-white/80 dark:bg-card-dark/80 backdrop-blur-sm rounded-b-xl">
+<ul class="space-y-4 text-gray-800 dark:text-gray-200">
+<li class="flex items-center font-medium">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>高速下载通道</span>
+</li>
+<li class="flex items-center font-medium">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>最高 4K HDR 分辨率</span>
+</li>
+<li class="flex items-center font-medium">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>无限次下载</span>
+</li>
+<li class="flex items-center font-medium">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>优先技术支持</span>
+</li>
+<li class="flex items-center font-medium">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>无广告体验</span>
+</li>
+<li class="flex items-center text-gray-500 dark:text-gray-400">
+<span class="material-symbols-outlined mr-3">cancel</span>
+<span>提前获取资源</span>
+</li>
+</ul>
+<button class="w-full mt-8 bg-primary text-gray-900 py-3 px-6 rounded-lg font-semibold hover:opacity-90 transition duration-300 shadow-lg hover:shadow-primary/40">
+              选择标准版
+            </button>
+</div>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col border border-gray-200 dark:border-gray-700">
+<div class="p-8">
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white">Premium 尊享版</h3>
+<p class="text-gray-500 dark:text-gray-400 mt-2">为发烧友准备的终极方案</p>
+<div class="mt-6">
+<span class="text-5xl font-extrabold text-gray-900 dark:text-white">$20</span>
+<span class="text-lg font-medium text-gray-500 dark:text-gray-400">/月</span>
+</div>
+</div>
+<div class="p-8 flex-grow bg-gray-50 dark:bg-background-dark rounded-b-xl">
+<ul class="space-y-4 text-gray-700 dark:text-gray-300">
+<li class="flex items-center">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>极速全球下载节点</span>
+</li>
+<li class="flex items-center">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>无损蓝光原盘质量</span>
+</li>
+<li class="flex items-center">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>无限次下载</span>
+</li>
+<li class="flex items-center">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>24/7 专属客服</span>
+</li>
+<li class="flex items-center">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>无广告体验</span>
+</li>
+<li class="flex items-center">
+<span class="material-symbols-outlined text-primary mr-3">check_circle</span>
+<span>提前 7 天获取资源</span>
+</li>
+</ul>
+<button class="w-full mt-8 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300">
+              选择尊享版
+            </button>
+</div>
+</div>
+</div>
+<div class="text-center mt-16">
+<p class="text-gray-600 dark:text-gray-400">所有计划均可随时取消。如有任何问题，请<a class="text-primary hover:underline font-medium" href="#">联系我们</a>。</p>
+</div>
+</div>
+</div>
+
+</body></html>

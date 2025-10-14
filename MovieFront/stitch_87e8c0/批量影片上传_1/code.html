@@ -15,23 +15,14 @@
   </head>
   <body>
     <div
-      class="group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-[#f8fbfa]"
-      style="
-        --select-button-svg: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724px%27 height=%2724px%27 fill=%27rgb(80,149,115)%27 viewBox=%270 0 256 256%27%3e%3cpath d=%27M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z%27%3e%3c/path%3e%3c/svg%3e');
-        font-family: Manrope, 'Noto Sans', sans-serif;
-      "
+      class="relative flex h-auto min-h-screen w-full flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden"
+      style="--select-button-svg: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724px%27 height=%2724px%27 fill=%27rgb(80,149,115)%27 viewBox=%270 0 256 256%27%3e%3cpath d=%27M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z%27%3e%3c/path%3e%3c/svg%3e'); font-family: Manrope, &quot;Noto Sans&quot;, sans-serif;"
     >
       <div class="layout-container flex h-full grow flex-col">
-        <header
-          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3"
-        >
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3">
           <div class="flex items-center gap-4 text-[#0e1b14]">
             <div class="size-4">
-              <svg
-                viewBox="0 0 48 48"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   fill-rule="evenodd"
                   clip-rule="evenodd"
@@ -40,274 +31,142 @@
                 ></path>
               </svg>
             </div>
-            <h2
-              class="text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              CineStream
-            </h2>
+            <h2 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em]">CineStream</h2>
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Home</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Movies</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Series</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Genres</a
-              >
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Home</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Movies</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Series</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Genres</a>
             </div>
             <button
-              class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-bold leading-normal tracking-[0.015em]"
             >
               <span class="truncate">Upload</span>
             </button>
             <div
-              class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat"
-              style="
-                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDUu0W1QJDSu02pDdDIFrwA_1IWZwEzYc8_VJE74T8HGbMWx9_n0pjXj3Ejb9SUVc3KDXjenR2ercAwRkKN2GTZGEOmNeJxnhb2Keo4Iq_9AktZXvcy0ZFs1ZXBICxHdoWhDrTG3wvXYBs9JZJvh1YwwDslveMD-Uw4ty07yMOk4fhEBABOYUCzjYPbkaxrTkBS0uizbLIBR-iNLNdbjjcAJ1DgAaTauLxZopAHZTnFbDU7ZsnXFrNLCisJ07nAjOd7wqeea8iLlRHd');
-              "
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDUu0W1QJDSu02pDdDIFrwA_1IWZwEzYc8_VJE74T8HGbMWx9_n0pjXj3Ejb9SUVc3KDXjenR2ercAwRkKN2GTZGEOmNeJxnhb2Keo4Iq_9AktZXvcy0ZFs1ZXBICxHdoWhDrTG3wvXYBs9JZJvh1YwwDslveMD-Uw4ty07yMOk4fhEBABOYUCzjYPbkaxrTkBS0uizbLIBR-iNLNdbjjcAJ1DgAaTauLxZopAHZTnFbDU7ZsnXFrNLCisJ07nAjOd7wqeea8iLlRHd");'
             ></div>
           </div>
         </header>
-        <div class="flex flex-1 justify-center px-40 py-5">
-          <div
-            class="layout-content-container flex max-w-[960px] flex-1 flex-col"
-          >
-            <div class="flex flex-wrap justify-between gap-3 p-4">
-              <p
-                class="tracking-light min-w-72 text-[32px] font-bold leading-tight text-[#0e1b14]"
-              >
-                Bulk Movie Upload
-              </p>
-            </div>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-[#0e1b14] tracking-light text-[32px] font-bold leading-tight min-w-72">Bulk Movie Upload</p></div>
             <div class="flex flex-col p-4">
-              <div
-                class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-[#d1e6db] px-6 py-14"
-              >
+              <div class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-[#d1e6db] px-6 py-14">
                 <div class="flex max-w-[480px] flex-col items-center gap-2">
-                  <p
-                    class="max-w-[480px] text-center text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-                  >
-                    Drag and drop files here
-                  </p>
-                  <p
-                    class="max-w-[480px] text-center text-sm font-normal leading-normal text-[#0e1b14]"
-                  >
-                    Or click to select files from your computer
-                  </p>
+                  <p class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em] max-w-[480px] text-center">Drag and drop files here</p>
+                  <p class="text-[#0e1b14] text-sm font-normal leading-normal max-w-[480px] text-center">Or click to select files from your computer</p>
                 </div>
                 <button
-                  class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-bold leading-normal tracking-[0.015em]"
                 >
                   <span class="truncate">Select Files</span>
                 </button>
               </div>
             </div>
-            <h3
-              class="px-4 pb-2 pt-4 text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              Upload Progress
-            </h3>
-            <div class="@container px-4 py-3">
-              <div
-                class="flex overflow-hidden rounded-lg border border-[#d1e6db] bg-[#f8fbfa]"
-              >
+            <h3 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Upload Progress</h3>
+            <div class="px-4 py-3 @container">
+              <div class="flex overflow-hidden rounded-lg border border-[#d1e6db] bg-[#f8fbfa]">
                 <table class="flex-1">
                   <thead>
                     <tr class="bg-[#f8fbfa]">
-                      <th
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-120 w-[400px] px-4 py-3 text-left text-sm font-medium leading-normal text-[#0e1b14]"
-                      >
+                      <th class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-120 px-4 py-3 text-left text-[#0e1b14] w-[400px] text-sm font-medium leading-normal">
                         File Name
                       </th>
-                      <th
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-240 w-60 px-4 py-3 text-left text-sm font-medium leading-normal text-[#0e1b14]"
-                      >
-                        Status
-                      </th>
-                      <th
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-360 w-[400px] px-4 py-3 text-left text-sm font-medium leading-normal text-[#0e1b14]"
-                      >
+                      <th class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-240 px-4 py-3 text-left text-[#0e1b14] w-60 text-sm font-medium leading-normal">Status</th>
+                      <th class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-360 px-4 py-3 text-left text-[#0e1b14] w-[400px] text-sm font-medium leading-normal">
                         Progress
                       </th>
-                      <th
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-480 w-60 px-4 py-3 text-left text-sm font-medium leading-normal text-[#0e1b14] text-[#509573]"
-                      >
+                      <th class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-480 px-4 py-3 text-left text-[#0e1b14] w-60 text-[#509573] text-sm font-medium leading-normal">
                         Actions
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr class="border-t border-t-[#d1e6db]">
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-120 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#0e1b14]"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-120 h-[72px] px-4 py-2 w-[400px] text-[#0e1b14] text-sm font-normal leading-normal">
                         Movie1.mp4
                       </td>
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-240 h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-240 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
                         <button
-                          class="flex h-8 w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-medium leading-normal text-[#0e1b14]"
+                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-medium leading-normal w-full"
                         >
                           <span class="truncate">Uploading</span>
                         </button>
                       </td>
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-360 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-360 h-[72px] px-4 py-2 w-[400px] text-sm font-normal leading-normal">
                         <div class="flex items-center gap-3">
-                          <div
-                            class="w-[88px] overflow-hidden rounded-sm bg-[#d1e6db]"
-                          >
-                            <div
-                              class="h-1 rounded-full bg-[#63e9a6]"
-                              style="width: 56.8182%"
-                            ></div>
-                          </div>
-                          <p
-                            class="text-sm font-medium leading-normal text-[#0e1b14]"
-                          >
-                            50
-                          </p>
+                          <div class="w-[88px] overflow-hidden rounded-sm bg-[#d1e6db]"><div class="h-1 rounded-full bg-[#63e9a6]" style="width: 56.8182%;"></div></div>
+                          <p class="text-[#0e1b14] text-sm font-medium leading-normal">50</p>
                         </div>
                       </td>
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-480 h-[72px] w-60 px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em] text-[#509573]"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-480 h-[72px] px-4 py-2 w-60 text-[#509573] text-sm font-bold leading-normal tracking-[0.015em]">
                         Cancel
                       </td>
                     </tr>
                     <tr class="border-t border-t-[#d1e6db]">
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-120 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#0e1b14]"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-120 h-[72px] px-4 py-2 w-[400px] text-[#0e1b14] text-sm font-normal leading-normal">
                         Movie2.mkv
                       </td>
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-240 h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-240 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
                         <button
-                          class="flex h-8 w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-medium leading-normal text-[#0e1b14]"
+                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-medium leading-normal w-full"
                         >
                           <span class="truncate">Queued</span>
                         </button>
                       </td>
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-360 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-360 h-[72px] px-4 py-2 w-[400px] text-sm font-normal leading-normal">
                         <div class="flex items-center gap-3">
-                          <div
-                            class="w-[88px] overflow-hidden rounded-sm bg-[#d1e6db]"
-                          >
-                            <div
-                              class="h-1 rounded-full bg-[#63e9a6]"
-                              style="width: 0%"
-                            ></div>
-                          </div>
-                          <p
-                            class="text-sm font-medium leading-normal text-[#0e1b14]"
-                          >
-                            0
-                          </p>
+                          <div class="w-[88px] overflow-hidden rounded-sm bg-[#d1e6db]"><div class="h-1 rounded-full bg-[#63e9a6]" style="width: 0%;"></div></div>
+                          <p class="text-[#0e1b14] text-sm font-medium leading-normal">0</p>
                         </div>
                       </td>
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-480 h-[72px] w-60 px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em] text-[#509573]"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-480 h-[72px] px-4 py-2 w-60 text-[#509573] text-sm font-bold leading-normal tracking-[0.015em]">
                         Cancel
                       </td>
                     </tr>
                     <tr class="border-t border-t-[#d1e6db]">
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-120 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#0e1b14]"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-120 h-[72px] px-4 py-2 w-[400px] text-[#0e1b14] text-sm font-normal leading-normal">
                         Movie3.avi
                       </td>
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-240 h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-240 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
                         <button
-                          class="flex h-8 w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-medium leading-normal text-[#0e1b14]"
+                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-medium leading-normal w-full"
                         >
                           <span class="truncate">Completed</span>
                         </button>
                       </td>
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-360 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-360 h-[72px] px-4 py-2 w-[400px] text-sm font-normal leading-normal">
                         <div class="flex items-center gap-3">
-                          <div
-                            class="w-[88px] overflow-hidden rounded-sm bg-[#d1e6db]"
-                          >
-                            <div
-                              class="h-1 rounded-full bg-[#63e9a6]"
-                              style="width: 100%"
-                            ></div>
-                          </div>
-                          <p
-                            class="text-sm font-medium leading-normal text-[#0e1b14]"
-                          >
-                            100
-                          </p>
+                          <div class="w-[88px] overflow-hidden rounded-sm bg-[#d1e6db]"><div class="h-1 rounded-full bg-[#63e9a6]" style="width: 100%;"></div></div>
+                          <p class="text-[#0e1b14] text-sm font-medium leading-normal">100</p>
                         </div>
                       </td>
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-480 h-[72px] w-60 px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em] text-[#509573]"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-480 h-[72px] px-4 py-2 w-60 text-[#509573] text-sm font-bold leading-normal tracking-[0.015em]">
                         View Details
                       </td>
                     </tr>
                     <tr class="border-t border-t-[#d1e6db]">
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-120 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#0e1b14]"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-120 h-[72px] px-4 py-2 w-[400px] text-[#0e1b14] text-sm font-normal leading-normal">
                         Movie4.mov
                       </td>
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-240 h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-240 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
                         <button
-                          class="flex h-8 w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-medium leading-normal text-[#0e1b14]"
+                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-medium leading-normal w-full"
                         >
                           <span class="truncate">Failed: Corrupted File</span>
                         </button>
                       </td>
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-360 h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-360 h-[72px] px-4 py-2 w-[400px] text-sm font-normal leading-normal">
                         <div class="flex items-center gap-3">
-                          <div
-                            class="w-[88px] overflow-hidden rounded-sm bg-[#d1e6db]"
-                          >
-                            <div
-                              class="h-1 rounded-full bg-[#63e9a6]"
-                              style="width: 0%"
-                            ></div>
-                          </div>
-                          <p
-                            class="text-sm font-medium leading-normal text-[#0e1b14]"
-                          >
-                            0
-                          </p>
+                          <div class="w-[88px] overflow-hidden rounded-sm bg-[#d1e6db]"><div class="h-1 rounded-full bg-[#63e9a6]" style="width: 0%;"></div></div>
+                          <p class="text-[#0e1b14] text-sm font-medium leading-normal">0</p>
                         </div>
                       </td>
-                      <td
-                        class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-480 h-[72px] w-60 px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em] text-[#509573]"
-                      >
+                      <td class="table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-480 h-[72px] px-4 py-2 w-60 text-[#509573] text-sm font-bold leading-normal tracking-[0.015em]">
                         Retry
                       </td>
                     </tr>
@@ -315,42 +174,18 @@
                 </table>
               </div>
               <style>
-                @container (max-width:120px) {
-                  .table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-120 {
-                    display: none;
-                  }
-                }
-                @container (max-width:240px) {
-                  .table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-240 {
-                    display: none;
-                  }
-                }
-                @container (max-width:360px) {
-                  .table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-360 {
-                    display: none;
-                  }
-                }
-                @container (max-width:480px) {
-                  .table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-480 {
-                    display: none;
-                  }
-                }
+                          @container(max-width:120px){.table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-120{display: none;}}
+                @container(max-width:240px){.table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-240{display: none;}}
+                @container(max-width:360px){.table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-360{display: none;}}
+                @container(max-width:480px){.table-76a65b2c-269e-4d8f-b1c0-e7c80a391bf4-column-480{display: none;}}
               </style>
             </div>
-            <h3
-              class="px-4 pb-2 pt-4 text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              Batch Metadata
-            </h3>
+            <h3 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Batch Metadata</h3>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Genre
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Genre</p>
                 <select
-                  class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#d1e6db] bg-[#f8fbfa] bg-[image:--select-button-svg] p-[15px] text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-[#d1e6db] focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border border-[#d1e6db] bg-[#f8fbfa] focus:border-[#d1e6db] h-14 bg-[image:--select-button-svg] placeholder:text-[#509573] p-[15px] text-base font-normal leading-normal"
                 >
                   <option value="one">Select Genre</option>
                   <option value="two">two</option>
@@ -359,14 +194,10 @@
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Status
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Status</p>
                 <select
-                  class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#d1e6db] bg-[#f8fbfa] bg-[image:--select-button-svg] p-[15px] text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-[#d1e6db] focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border border-[#d1e6db] bg-[#f8fbfa] focus:border-[#d1e6db] h-14 bg-[image:--select-button-svg] placeholder:text-[#509573] p-[15px] text-base font-normal leading-normal"
                 >
                   <option value="one">Select Status</option>
                   <option value="two">two</option>
@@ -374,9 +205,9 @@
                 </select>
               </label>
             </div>
-            <div class="flex justify-end px-4 py-3">
+            <div class="flex px-4 py-3 justify-end">
               <button
-                class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#63e9a6] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#63e9a6] text-[#0e1b14] text-sm font-bold leading-normal tracking-[0.015em]"
               >
                 <span class="truncate">Apply to Selected</span>
               </button>

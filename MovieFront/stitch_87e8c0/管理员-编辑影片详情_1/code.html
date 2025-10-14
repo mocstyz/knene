@@ -15,76 +15,31 @@
   </head>
   <body>
     <div
-      class="group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-[#f8fbfa]"
-      style="
-        --select-button-svg: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724px%27 height=%2724px%27 fill=%27rgb(80,149,115)%27 viewBox=%270 0 256 256%27%3e%3cpath d=%27M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z%27%3e%3c/path%3e%3c/svg%3e');
-        font-family: Manrope, 'Noto Sans', sans-serif;
-      "
+      class="relative flex h-auto min-h-screen w-full flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden"
+      style="--select-button-svg: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724px%27 height=%2724px%27 fill=%27rgb(80,149,115)%27 viewBox=%270 0 256 256%27%3e%3cpath d=%27M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z%27%3e%3c/path%3e%3c/svg%3e'); font-family: Manrope, &quot;Noto Sans&quot;, sans-serif;"
     >
       <div class="layout-container flex h-full grow flex-col">
-        <header
-          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3"
-        >
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f3ed] px-10 py-3">
           <div class="flex items-center gap-4 text-[#0e1b14]">
             <div class="size-4">
-              <svg
-                viewBox="0 0 48 48"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z"
-                  fill="currentColor"
-                ></path>
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor"></path>
               </svg>
             </div>
-            <h2
-              class="text-lg font-bold leading-tight tracking-[-0.015em] text-[#0e1b14]"
-            >
-              Streamr
-            </h2>
+            <h2 class="text-[#0e1b14] text-lg font-bold leading-tight tracking-[-0.015em]">Streamr</h2>
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Home</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Movies</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Series</a
-              >
-              <a
-                class="text-sm font-medium leading-normal text-[#0e1b14]"
-                href="#"
-                >Kids</a
-              >
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Home</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Movies</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Series</a>
+              <a class="text-[#0e1b14] text-sm font-medium leading-normal" href="#">Kids</a>
             </div>
             <button
-              class="flex h-10 min-w-0 max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-[#e8f3ed] px-2.5 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#e8f3ed] text-[#0e1b14] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
             >
-              <div
-                class="text-[#0e1b14]"
-                data-icon="Bell"
-                data-size="20px"
-                data-weight="regular"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20px"
-                  height="20px"
-                  fill="currentColor"
-                  viewBox="0 0 256 256"
-                >
+              <div class="text-[#0e1b14]" data-icon="Bell" data-size="20px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
                   <path
                     d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"
                   ></path>
@@ -92,71 +47,41 @@
               </div>
             </button>
             <div
-              class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat"
-              style="
-                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCVjDPB_22nDHQyas3lhLFWouGGjuMArcCmr1uERhiQMHpLNd7LPaIZL2_doirQcn_C4Ny0DoMoNe1lXDch7Mzre9gZ0Td6eZPvJRQLtPVUC6VxrzZi5dqL_6BL-5W2zd7vS1-ewJiAWi-DQI2udHQHd_cbjkK5kNYV9OLVur4zAeClp6zXiRZzpC83lTBM5RXcjUoe1lBmsbAPczgqSYJB46AVAg1ML_UVEIy4TC23cy6rIzaka1k8_gnhuSV_YZMZArCKhyHN_Hq6');
-              "
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCVjDPB_22nDHQyas3lhLFWouGGjuMArcCmr1uERhiQMHpLNd7LPaIZL2_doirQcn_C4Ny0DoMoNe1lXDch7Mzre9gZ0Td6eZPvJRQLtPVUC6VxrzZi5dqL_6BL-5W2zd7vS1-ewJiAWi-DQI2udHQHd_cbjkK5kNYV9OLVur4zAeClp6zXiRZzpC83lTBM5RXcjUoe1lBmsbAPczgqSYJB46AVAg1ML_UVEIy4TC23cy6rIzaka1k8_gnhuSV_YZMZArCKhyHN_Hq6");'
             ></div>
           </div>
         </header>
-        <div class="flex flex-1 justify-center px-40 py-5">
-          <div
-            class="layout-content-container flex max-w-[960px] flex-1 flex-col"
-          >
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
             <div class="flex flex-wrap gap-2 p-4">
-              <a
-                class="text-base font-medium leading-normal text-[#509573]"
-                href="#"
-                >Admin Dashboard</a
-              >
-              <span class="text-base font-medium leading-normal text-[#509573]"
-                >/</span
-              >
-              <span class="text-base font-medium leading-normal text-[#0e1b14]"
-                >Edit Video Details</span
-              >
+              <a class="text-[#509573] text-base font-medium leading-normal" href="#">Admin Dashboard</a>
+              <span class="text-[#509573] text-base font-medium leading-normal">/</span>
+              <span class="text-[#0e1b14] text-base font-medium leading-normal">Edit Video Details</span>
             </div>
-            <div class="flex flex-wrap justify-between gap-3 p-4">
-              <p
-                class="tracking-light min-w-72 text-[32px] font-bold leading-tight text-[#0e1b14]"
-              >
-                Edit Video Details
-              </p>
-            </div>
+            <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-[#0e1b14] tracking-light text-[32px] font-bold leading-tight min-w-72">Edit Video Details</p></div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Title
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Title</p>
                 <input
-                  class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border-none bg-[#e8f3ed] p-4 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-14 placeholder:text-[#509573] p-4 text-base font-normal leading-normal"
                   value=""
                 />
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Description
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Description</p>
                 <textarea
-                  class="form-input flex min-h-36 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border-none bg-[#e8f3ed] p-4 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none min-h-36 placeholder:text-[#509573] p-4 text-base font-normal leading-normal"
                 ></textarea>
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Category
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Category</p>
                 <select
-                  class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border-none bg-[#e8f3ed] bg-[image:--select-button-svg] p-4 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-14 bg-[image:--select-button-svg] placeholder:text-[#509573] p-4 text-base font-normal leading-normal"
                 >
                   <option value="one"></option>
                   <option value="two">two</option>
@@ -165,14 +90,10 @@
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Genre
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Genre</p>
                 <select
-                  class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border-none bg-[#e8f3ed] bg-[image:--select-button-svg] p-4 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-14 bg-[image:--select-button-svg] placeholder:text-[#509573] p-4 text-base font-normal leading-normal"
                 >
                   <option value="one"></option>
                   <option value="two">two</option>
@@ -181,52 +102,36 @@
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Release Date
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Release Date</p>
                 <input
-                  class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border-none bg-[#e8f3ed] p-4 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-14 placeholder:text-[#509573] p-4 text-base font-normal leading-normal"
                   value=""
                 />
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Director
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Director</p>
                 <input
-                  class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border-none bg-[#e8f3ed] p-4 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-14 placeholder:text-[#509573] p-4 text-base font-normal leading-normal"
                   value=""
                 />
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Cast
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Cast</p>
                 <textarea
-                  class="form-input flex min-h-36 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border-none bg-[#e8f3ed] p-4 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none min-h-36 placeholder:text-[#509573] p-4 text-base font-normal leading-normal"
                 ></textarea>
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Resolution
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Resolution</p>
                 <select
-                  class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border-none bg-[#e8f3ed] bg-[image:--select-button-svg] p-4 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-14 bg-[image:--select-button-svg] placeholder:text-[#509573] p-4 text-base font-normal leading-normal"
                 >
                   <option value="one"></option>
                   <option value="two">two</option>
@@ -235,14 +140,10 @@
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Audio Tracks
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Audio Tracks</p>
                 <select
-                  class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border-none bg-[#e8f3ed] bg-[image:--select-button-svg] p-4 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-14 bg-[image:--select-button-svg] placeholder:text-[#509573] p-4 text-base font-normal leading-normal"
                 >
                   <option value="one"></option>
                   <option value="two">two</option>
@@ -251,40 +152,28 @@
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Thumbnail URL
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Thumbnail URL</p>
                 <input
-                  class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border-none bg-[#e8f3ed] p-4 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-14 placeholder:text-[#509573] p-4 text-base font-normal leading-normal"
                   value=""
                 />
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Trailer URL
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Trailer URL</p>
                 <input
-                  class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border-none bg-[#e8f3ed] p-4 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-14 placeholder:text-[#509573] p-4 text-base font-normal leading-normal"
                   value=""
                 />
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex min-w-40 flex-1 flex-col">
-                <p
-                  class="pb-2 text-base font-medium leading-normal text-[#0e1b14]"
-                >
-                  Content Status
-                </p>
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-[#0e1b14] text-base font-medium leading-normal pb-2">Content Status</p>
                 <select
-                  class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border-none bg-[#e8f3ed] bg-[image:--select-button-svg] p-4 text-base font-normal leading-normal text-[#0e1b14] placeholder:text-[#509573] focus:border-none focus:outline-0 focus:ring-0"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b14] focus:outline-0 focus:ring-0 border-none bg-[#e8f3ed] focus:border-none h-14 bg-[image:--select-button-svg] placeholder:text-[#509573] p-4 text-base font-normal leading-normal"
                 >
                   <option value="one"></option>
                   <option value="two">two</option>
@@ -293,14 +182,14 @@
               </label>
             </div>
             <div class="flex justify-stretch">
-              <div class="flex flex-1 flex-wrap justify-end gap-3 px-4 py-3">
+              <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-end">
                 <button
-                  class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#e8f3ed] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e8f3ed] text-[#0e1b14] text-sm font-bold leading-normal tracking-[0.015em]"
                 >
                   <span class="truncate">Cancel</span>
                 </button>
                 <button
-                  class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#63e9a6] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-[#0e1b14]"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#63e9a6] text-[#0e1b14] text-sm font-bold leading-normal tracking-[0.015em]"
                 >
                   <span class="truncate">Save Changes</span>
                 </button>
