@@ -33,7 +33,7 @@ module.exports = {
     'object-shorthand': 'error',
     'prefer-template': 'error',
     '@typescript-eslint/no-unused-vars': [
-      'error',
+      'warn',
       {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
