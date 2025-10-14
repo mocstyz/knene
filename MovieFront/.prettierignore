@@ -1,6 +1,7 @@
 # 忽略设计稿文件
 stitch_*/
 stitch_*
+code.html
 
 # 忽略构建输出
 dist/
