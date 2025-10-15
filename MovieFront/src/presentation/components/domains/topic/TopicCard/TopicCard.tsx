@@ -34,6 +34,8 @@ export interface TopicCardProps {
   aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape'
   /** 是否显示VIP徽章 */
   showVipBadge?: boolean
+  /** 是否显示新片徽章 */
+  showNewBadge?: boolean
   /** 悬停效果 */
   hoverEffect?: boolean
 }
@@ -52,6 +54,7 @@ const TopicCard: React.FC<TopicCardProps> = ({
   className,
   aspectRatio = 'portrait',
   showVipBadge = true,
+  showNewBadge = true,
   hoverEffect = true,
 }) => {
   // 根据宽高比获取对应的CSS类
@@ -94,14 +97,16 @@ const TopicCard: React.FC<TopicCardProps> = ({
       {/* 顶部标签层 - 与MovieLayer保持一致的布局 */}
       <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
         {/* New badge - top-left */}
-        <NewBadgeLayer
-          isNew={topic.isNew ?? true}
-          newType={topic.newType ?? 'new'}
-          position="top-left"
-          size="responsive"
-          variant="default"
-          animated={false}
-        />
+        {showNewBadge && (
+          <NewBadgeLayer
+            isNew={topic.isNew ?? true}
+            newType={topic.newType ?? 'new'}
+            position="top-left"
+            size="responsive"
+            variant="default"
+            animated={false}
+          />
+        )}
         {/* 右侧预留位置，保持布局一致性 */}
         <div className="w-6" />
       </div>

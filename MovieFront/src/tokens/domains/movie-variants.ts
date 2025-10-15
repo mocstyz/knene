@@ -44,10 +44,10 @@ export type MovieCardVariant =
 export type MovieCardSize = 'sm' | 'md' | 'lg' | 'xl'
 
 // ============================================================================
-// MovieItem 组件变体
+// MovieCard 组件变体
 // ============================================================================
 
-export const movieItemVariants = {
+export const movieCardItemVariants = {
   base: 'flex items-center gap-4 p-3 rounded-lg transition-all duration-200',
   variant: {
     default:
@@ -63,8 +63,8 @@ export const movieItemVariants = {
   },
 } as const
 
-export type MovieItemVariant = 'default' | 'simple' | 'detailed' | 'compact'
-export type MovieItemSize = 'sm' | 'md' | 'lg'
+export type MovieCardItemVariant = 'default' | 'simple' | 'detailed' | 'compact'
+export type MovieCardItemSize = 'sm' | 'md' | 'lg'
 
 // ============================================================================
 // MovieGrid 组件变体

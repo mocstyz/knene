@@ -48,10 +48,14 @@ export interface TopSectionProps {
     xl?: number
     xxl?: number
   }
-  /** 是否显示评分 */
-  showRating?: boolean
+  /** 是否显示评分标签 */
+  showRatingBadge?: boolean
   /** 是否显示质量标签 */
-  showQuality?: boolean
+  showQualityBadge?: boolean
+  /** 是否显示VIP标签 */
+  showVipBadge?: boolean
+  /** 是否显示新片标签 */
+  showNewBadge?: boolean
 }
 
 /**
@@ -80,8 +84,10 @@ const TopSection: React.FC<TopSectionProps> = ({
     xl: 5,
     xxl: 6,
   },
-  showRating = true,
-  showQuality = true,
+  showRatingBadge = true,
+  showQualityBadge = true,
+  showVipBadge = true,
+  showNewBadge = true,
 }) => {
   // 容器样式类
   const containerClasses = cn('space-y-4 min-w-[320px]', className)
@@ -111,10 +117,10 @@ const TopSection: React.FC<TopSectionProps> = ({
             : undefined
         }
         cardConfig={{
-          showRatingBadge: showRating,
-          showQualityBadge: showQuality,
-          showVipBadge: true,
-          showNewBadge: true, // 显示新增标签
+          showRatingBadge,
+          showQualityBadge,
+          showVipBadge,
+          showNewBadge,
           // 不硬编码newBadgeType，让组件根据数据中的newType动态显示
         }}
       />

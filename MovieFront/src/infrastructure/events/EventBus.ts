@@ -39,9 +39,7 @@ export class EventBus {
   private options: Required<EventBusOptions>
 
   // 为未来优化保留的字段
-  // @ts-expect-error - 保留字段用于未来优化
   private _isProcessing = false
-  // @ts-expect-error - 保留字段用于未来优化
   private _eventQueue: DomainEvent[] = []
 
   constructor(options: EventBusOptions = {}) {

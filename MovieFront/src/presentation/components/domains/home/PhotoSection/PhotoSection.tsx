@@ -8,11 +8,11 @@
  * @version 1.0.0
  */
 
-import React from 'react'
-import { cn } from '@utils/cn'
 import { TextLink } from '@components/atoms'
 import { MovieList } from '@components/domains'
 import type { PhotoItem as BasePhotoItem } from '@types-movie/movie.types'
+import { cn } from '@utils/cn'
+import React from 'react'
 
 /**
  * 写真项目接口 - 扩展基础接口
@@ -48,8 +48,14 @@ export interface PhotoSectionProps {
     xl?: number
     xxl?: number
   }
-  /** 是否显示评分 */
-  showRating?: boolean
+  /** 是否显示评分标签 */
+  showRatingBadge?: boolean
+  /** 是否显示质量标签 */
+  showQualityBadge?: boolean
+  /** 是否显示VIP标签 */
+  showVipBadge?: boolean
+  /** 是否显示新片标签 */
+  showNewBadge?: boolean
 }
 
 /**
@@ -78,7 +84,10 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({
     xl: 5,
     xxl: 6,
   },
-  showRating = false,
+  showRatingBadge = false,
+  showQualityBadge = true,
+  showVipBadge = true,
+  showNewBadge = true,
 }) => {
   // 容器样式类
   const containerClasses = cn('space-y-4 min-w-[320px]', className)
@@ -108,9 +117,10 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({
             : undefined
         }
         cardConfig={{
-          showRatingBadge: showRating, // 根据参数决定是否显示评分标签
-          showQualityBadge: true, // 显示质量标签（格式类型）
-          showVipBadge: true, // 显示VIP标签
+          showRatingBadge, // 根据参数决定是否显示评分标签
+          showQualityBadge, // 根据参数决定是否显示质量标签（格式类型）
+          showVipBadge, // 根据参数决定是否显示VIP标签
+          showNewBadge, // 根据参数决定是否显示新片标签
           // 不硬编码qualityText，让组件根据数据中的formatType动态显示
         }}
       />

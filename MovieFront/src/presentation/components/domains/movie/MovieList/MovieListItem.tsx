@@ -82,10 +82,12 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
             description: movie.description,
             imageUrl: movie.imageUrl,
             alt: movie.alt,
+            isNew: (movie as any).isNew ?? true,
+            newType: (movie as any).newType ?? 'new',
           }}
           onClick={handleClick}
           aspectRatio="square"
-          showVipBadge={true}
+          showVipBadge={cardConfig?.showVipBadge ?? true}
           hoverEffect={true}
         />
       </div>

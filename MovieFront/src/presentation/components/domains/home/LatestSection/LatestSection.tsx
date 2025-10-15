@@ -8,11 +8,11 @@
  * @version 1.0.0
  */
 
-import React from 'react'
-import { cn } from '@utils/cn'
 import { TextLink } from '@components/atoms'
 import { MovieList } from '@components/domains'
 import type { LatestItem as BaseLatestItem } from '@types-movie/movie.types'
+import { cn } from '@utils/cn'
+import React from 'react'
 
 /**
  * 最新更新项目接口 - 扩展基础接口
@@ -48,10 +48,14 @@ export interface LatestSectionProps {
     xl?: number
     xxl?: number
   }
-  /** 是否显示评分 */
-  showRating?: boolean
+  /** 是否显示评分标签 */
+  showRatingBadge?: boolean
   /** 是否显示质量标签 */
-  showQuality?: boolean
+  showQualityBadge?: boolean
+  /** 是否显示VIP标签 */
+  showVipBadge?: boolean
+  /** 是否显示新片标签 */
+  showNewBadge?: boolean
 }
 
 /**
@@ -80,8 +84,10 @@ const LatestSection: React.FC<LatestSectionProps> = ({
     xl: 5,
     xxl: 6,
   },
-  showRating = true,
-  showQuality = true,
+  showRatingBadge = true,
+  showQualityBadge = true,
+  showVipBadge = true,
+  showNewBadge = true,
 }) => {
   // 容器样式类
   const containerClasses = cn('space-y-4 min-w-[320px]', className)
@@ -111,10 +117,10 @@ const LatestSection: React.FC<LatestSectionProps> = ({
             : undefined
         }
         cardConfig={{
-          showRatingBadge: showRating,
-          showQualityBadge: showQuality,
-          showVipBadge: true,
-          showNewBadge: true,
+          showRatingBadge,
+          showQualityBadge,
+          showVipBadge,
+          showNewBadge,
           // 不硬编码newBadgeType，让组件根据数据中的newType动态显示
         }}
       />

@@ -13,8 +13,8 @@ export * from './download-variants'
 export type {
   MovieCardVariant,
   MovieCardSize,
-  MovieItemVariant,
-  MovieItemSize,
+  MovieCardItemVariant,
+  MovieCardItemSize,
   MovieGridVariant,
   MovieDetailVariant,
   MovieDetailLayout,

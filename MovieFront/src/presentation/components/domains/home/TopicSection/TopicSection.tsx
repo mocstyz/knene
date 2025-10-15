@@ -50,6 +50,10 @@ export interface TopicSectionProps {
     lg?: number
     xl?: number
   }
+  /** 是否显示VIP标签 */
+  showVipBadge?: boolean
+  /** 是否显示新片标签 */
+  showNewBadge?: boolean
 }
 
 /**
@@ -76,6 +80,8 @@ const TopicSection: React.FC<TopicSectionProps> = ({
     lg: 3,
     xl: 3,
   },
+  showVipBadge = true,
+  showNewBadge = true,
 }) => {
   // 容器样式类
   const containerClasses = cn('space-y-4 min-w-[320px]', className)
@@ -124,6 +130,10 @@ const TopicSection: React.FC<TopicSectionProps> = ({
                 } as TopicItem)
             : undefined
         }
+        cardConfig={{
+          showVipBadge, // 根据参数决定是否显示VIP标签
+          showNewBadge, // 根据参数决定是否显示新片标签
+        }}
       />
     </section>
   )
