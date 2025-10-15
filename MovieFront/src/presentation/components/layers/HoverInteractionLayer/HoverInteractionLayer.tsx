@@ -1,124 +1,138 @@
 /**
  * @fileoverview 悬停交互层组件
- * @description 提供统一的悬停交互效果逻辑，遵循DRY原则。
- * 支持多种悬停效果和交互行为，可在各种卡片组件中复用。
- * 专注于按钮交互效果（播放、下载、收藏、分享）。
+ * @description 提供统一的悬停状态管理逻辑，遵循DRY原则。
+ * 作为hover效果的控制器和状态管理器，可配合其他hover层使用。
  *
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
  */
 
-import { Button, Icon } from '@components/atoms'
 import { cn } from '@utils/cn'
-import React from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 
 /**
  * 悬停交互层组件属性接口
  */
 export interface HoverInteractionLayerProps {
-  /** 是否显示播放按钮 */
-  showPlayButton?: boolean
-  /** 是否显示下载按钮 */
-  showDownloadButton?: boolean
-  /** 是否显示收藏按钮 */
-  showFavoriteButton?: boolean
-  /** 是否显示分享按钮 */
-  showShareButton?: boolean
-  /** 是否已收藏 */
-  isFavorited?: boolean
   /** 自定义CSS类名 */
   className?: string
-  /** 悬停变体 */
-  variant?: 'overlay' | 'scale' | 'fade'
-  /** 播放按钮点击回调 */
-  onPlay?: () => void
-  /** 下载按钮点击回调 */
-  onDownload?: () => void
-  /** 收藏按钮点击回调 */
-  onFavorite?: () => void
-  /** 分享按钮点击回调 */
-  onShare?: () => void
-  /** 自定义按钮组 */
-  customButtons?: React.ReactNode
+  /** 子元素 */
+  children?: React.ReactNode
+  /** 是否启用hover状态管理 */
+  enabled?: boolean
+  /** hover延迟时间（毫秒） */
+  delay?: number
+  /** hover进入回调 */
+  onHoverEnter?: () => void
+  /** hover离开回调 */
+  onHoverLeave?: () => void
+  /** 是否启用点击外部关闭 */
+  clickOutsideToClose?: boolean
+  /** 容器样式 */
+  containerClassName?: string
 }
 
 /**
  * 悬停交互层组件
  *
- * 提供统一的悬停交互效果，支持多种按钮组合和样式变体。
+ * 提供统一的hover状态管理功能，支持延迟、回调等高级特性。
  */
 const HoverInteractionLayer: React.FC<HoverInteractionLayerProps> = ({
-  showPlayButton = true,
-  showDownloadButton = true,
-  showFavoriteButton = false,
-  showShareButton = false,
-  isFavorited = false,
   className,
-  variant = 'overlay',
-  onPlay,
-  onDownload,
-  onFavorite,
-  onShare,
-  customButtons,
+  children,
+  enabled = true,
+  delay = 0,
+  onHoverEnter,
+  onHoverLeave,
+  clickOutsideToClose = false,
+  containerClassName,
 }) => {
-  // 变体样式映射
-  const variantClasses = {
-    overlay:
-      'absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 opacity-0 transition-all duration-200 group-hover:bg-opacity-50 group-hover:opacity-100',
-    scale:
-      'absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-105',
-    fade: 'absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100',
-  }
+  const [isHovered, setIsHovered] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  // 清除延迟定时器
+  const clearHoverTimeout = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+  }, [])
+
+  // 处理hover进入
+  const handleMouseEnter = useCallback(() => {
+    if (!enabled) return
+
+    clearHoverTimeout()
+
+    if (delay > 0) {
+      timeoutRef.current = setTimeout(() => {
+        setIsHovered(true)
+        onHoverEnter?.()
+      }, delay)
+    } else {
+      setIsHovered(true)
+      onHoverEnter?.()
+    }
+  }, [enabled, delay, onHoverEnter, clearHoverTimeout])
+
+  // 处理hover离开
+  const handleMouseLeave = useCallback(() => {
+    if (!enabled) return
+
+    clearHoverTimeout()
+    setIsHovered(false)
+    onHoverLeave?.()
+  }, [enabled, onHoverLeave, clearHoverTimeout])
+
+  // 处理点击外部关闭
+  useEffect(() => {
+    if (!clickOutsideToClose || !enabled) return
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsHovered(false)
+        onHoverLeave?.()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [clickOutsideToClose, enabled, onHoverLeave])
+
+  // 清理定时器
+  useEffect(() => {
+    return () => {
+      clearHoverTimeout()
+    }
+  }, [clearHoverTimeout])
 
   // 组合CSS类名
-  const containerClasses = cn(variantClasses[variant], className)
+  const containerClasses = cn(
+    'relative',
+    containerClassName
+  )
 
-  // 默认按钮组
-  const defaultButtons = (
-    <div className="flex gap-2">
-      {showPlayButton && (
-        <Button
-          variant="primary"
-          size="sm"
-          onClick={onPlay}
-          icon={<Icon name="play" />}
-        >
-          播放
-        </Button>
-      )}
-      {showDownloadButton && (
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={onDownload}
-          icon={<Icon name="download" />}
-        >
-          下载
-        </Button>
-      )}
-      {showFavoriteButton && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onFavorite}
-          icon={<Icon name="heart" />}
-          className={isFavorited ? 'text-red-500' : ''}
-        />
-      )}
-      {showShareButton && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onShare}
-          icon={<Icon name="share" />}
-        />
-      )}
-    </div>
+  const wrapperClasses = cn(
+    'hover-interaction-layer',
+    isHovered && 'is-hovered',
+    className
   )
 
   return (
-    <div className={containerClasses}>{customButtons || defaultButtons}</div>
+    <div
+      ref={containerRef}
+      className={containerClasses}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className={wrapperClasses}>
+        {children}
+      </div>
+    </div>
   )
 }
 

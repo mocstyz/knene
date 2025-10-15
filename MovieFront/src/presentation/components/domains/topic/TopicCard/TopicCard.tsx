@@ -8,8 +8,10 @@
  * @version 1.0.0
  */
 
+import { CardHoverLayer } from '@components/layers/CardHoverLayer'
 import { ImageLayer } from '@components/layers/ImageLayer'
 import { NewBadgeLayer } from '@components/layers/NewBadgeLayer'
+import { TextHoverLayer } from '@components/layers/TextHoverLayer'
 import { TopicLayer } from '@components/layers/TopicLayer'
 import { VipBadgeLayer } from '@components/layers/VipBadgeLayer'
 import { cn } from '@utils/cn'
@@ -74,71 +76,73 @@ const TopicCard: React.FC<TopicCardProps> = ({
   }
 
   return (
-    <div
-      className={cn(
-        'relative cursor-pointer overflow-hidden rounded-lg shadow-md group',
-        getAspectRatioClass(),
-        hoverEffect &&
-          'transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]',
-        className
-      )}
-      onClick={onClick}
-    >
-      {/* 图片层 */}
-      <ImageLayer
-        src={topic.imageUrl}
-        alt={topic.alt || topic.title}
-        aspectRatio="custom"
-        objectFit="cover"
-        hoverScale={hoverEffect}
-        fallbackType="gradient"
-      />
-
-      {/* 顶部标签层 - 与MovieLayer保持一致的布局 */}
-      <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
-        {/* New badge - top-left */}
-        {showNewBadge && (
-          <NewBadgeLayer
-            isNew={topic.isNew ?? true}
-            newType={topic.newType ?? 'new'}
-            position="top-left"
-            size="responsive"
-            variant="default"
-            animated={false}
-          />
+    <CardHoverLayer scale="sm" duration="fast">
+      <div
+        className={cn(
+          'relative cursor-pointer overflow-hidden rounded-lg shadow-md group',
+          getAspectRatioClass(),
+          'active:scale-[0.98]',
+          className
         )}
-        {/* 右侧预留位置，保持布局一致性 */}
-        <div className="w-6" />
-      </div>
-
-      {/* 底部标签层 - 与MovieLayer保持一致的布局 */}
-      <div className="absolute bottom-2 left-2 right-2 z-10 flex justify-between">
-        {/* 左侧预留位置，保持布局一致性 */}
-        <div className="w-6" />
-        {/* VIP徽章层 - bottom-right */}
-        {showVipBadge && (
-          <VipBadgeLayer
-            isVip={true}
-            position="bottom-right"
-            variant="default"
-          />
-        )}
-      </div>
-
-      {/* 专题信息层 */}
-      <TopicLayer
-        topic={topic}
         onClick={onClick}
-        contentPosition="bottom-left"
-        showGradient={true}
-        gradientIntensity="medium"
-        hoverEffect={{
-          enabled: true,
-          hoverColor: 'red',
-          transitionDuration: '200ms',
-        }}
-      />
-    </div>
+      >
+        {/* 图片层 */}
+        <ImageLayer
+          src={topic.imageUrl}
+          alt={topic.alt || topic.title}
+          aspectRatio="custom"
+          objectFit="cover"
+          hoverScale={false} // 禁用内部hover，使用CardHoverLayer
+          fallbackType="gradient"
+        />
+
+
+        {/* 顶部标签层 - 与MovieLayer保持一致的布局 */}
+        <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
+          {/* New badge - top-left */}
+          {showNewBadge && (
+            <NewBadgeLayer
+              isNew={topic.isNew ?? true}
+              newType={topic.newType ?? 'new'}
+              position="top-left"
+              size="responsive"
+              variant="default"
+              animated={false}
+            />
+          )}
+          {/* 右侧预留位置，保持布局一致性 */}
+          <div className="w-6" />
+        </div>
+
+        {/* 底部标签层 - 与MovieLayer保持一致的布局 */}
+        <div className="absolute bottom-2 left-2 right-2 z-10 flex justify-between">
+          {/* 左侧预留位置，保持布局一致性 */}
+          <div className="w-6" />
+          {/* VIP徽章层 - bottom-right */}
+          {showVipBadge && (
+            <VipBadgeLayer
+              isVip={true}
+              position="bottom-right"
+              variant="default"
+            />
+          )}
+        </div>
+
+        {/* 专题信息层 */}
+        <TopicLayer
+          topic={topic}
+          onClick={onClick}
+          contentPosition="bottom-left"
+          showGradient={true}
+          gradientIntensity="medium"
+          hoverEffect={{
+            enabled: true, // 启用内部hover
+            hoverColor: 'red',
+            transitionDuration: '200ms',
+          }}
+        />
+      </div>
+    </CardHoverLayer>
   )
 }
 

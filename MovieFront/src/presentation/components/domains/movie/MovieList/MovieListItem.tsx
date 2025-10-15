@@ -11,6 +11,7 @@
 import { MovieCard } from '@components/domains/movie/MovieCard'
 import { TopicCard } from '@components/domains/topic/TopicCard'
 import {
+  CardHoverLayer,
   ImageLayer,
   NewBadgeLayer,
   QualityBadgeLayer,
@@ -19,9 +20,9 @@ import {
   VipBadgeLayer,
 } from '@components/layers'
 import { getOverlayGradient } from '@tokens/design-system'
+import type { BaseMovieItem } from '@types-movie/movie.types'
 import { cn } from '@utils/cn'
 import React from 'react'
-import type { BaseMovieItem } from '@types-movie/movie.types'
 
 /**
  * Movie列表项渲染组件属性接口
@@ -62,7 +63,7 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
   className,
 }) => {
   const itemClasses = cn(
-    variant === 'list' ? '' : 'group space-y-2',
+    variant === 'list' ? '' : 'space-y-2',
     cardVariant === 'topic' && 'aspect-square h-full w-full',
     className
   )
@@ -97,108 +98,110 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
   // 渲染简化卡片 - 使用现有标签组件组合
   if (cardVariant === 'simple') {
     return (
-      <div
-        className={cn(
-          'cursor-pointer space-y-3 group',
-          'transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]',
-          itemClasses
-        )}
-        onClick={handleClick}
-      >
-        {/* 图片卡片区域 */}
-        <div className="relative aspect-[2/3] overflow-hidden rounded-lg shadow-md">
-          <ImageLayer
-            src={movie.imageUrl}
-            alt={movie.alt || `${movie.title} poster`}
-            aspectRatio="custom"
-            objectFit="cover"
-            hoverScale={true}
-            fallbackType="gradient"
-          />
+      <CardHoverLayer scale="md" duration="fast">
+        <div
+          className={cn(
+            'cursor-pointer',
+            'active:scale-[0.98]',
+            itemClasses
+          )}
+          onClick={handleClick}
+        >
+          {/* 图片卡片区域 */}
+          <div className="relative aspect-[2/3] overflow-hidden rounded-lg shadow-md">
+            <ImageLayer
+              src={movie.imageUrl}
+              alt={movie.alt || `${movie.title} poster`}
+              aspectRatio="custom"
+              objectFit="cover"
+              hoverScale={false} // 禁用内部hover，使用CardHoverLayer
+              fallbackType="gradient"
+            />
 
-          {/* 底部渐变遮罩 */}
-          <div
-            className={cn(
-              'pointer-events-none absolute inset-x-0 bottom-0 h-1/3',
-              getOverlayGradient('medium')
-            )}
-          />
+            {/* 底部渐变遮罩 */}
+            <div
+              className={cn(
+                'pointer-events-none absolute inset-x-0 bottom-0 h-1/3',
+                getOverlayGradient('medium')
+              )}
+            />
 
-          {/* 顶部标签层 */}
-          <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
-            {/* 新片标签 - 左上角 */}
-            {cardConfig?.showNewBadge && (
-              <NewBadgeLayer
-                isNew={true}
-                newType={cardConfig?.newBadgeType || (movie as any).newType || 'new'}
-                position="top-left"
-                size="responsive"
-                variant="default"
-                animated={false}
-              />
-            )}
-            {/* 质量标签 - 右上角 */}
-            {cardConfig?.showQualityBadge && (
-              <QualityBadgeLayer
-                quality={
-                  cardConfig?.qualityText ||
-                  (movie as any).formatType ||
-                  movie.quality
-                }
-                position="top-right"
-                displayType="layer"
-                variant="default"
-              />
-            )}
+            {/* 顶部标签层 */}
+            <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
+              {/* 新片标签 - 左上角 */}
+              {cardConfig?.showNewBadge && (
+                <NewBadgeLayer
+                  isNew={true}
+                  newType={cardConfig?.newBadgeType || (movie as any).newType || 'new'}
+                  position="top-left"
+                  size="responsive"
+                  variant="default"
+                  animated={false}
+                />
+              )}
+              {/* 质量标签 - 右上角 */}
+              {cardConfig?.showQualityBadge && (
+                <QualityBadgeLayer
+                  quality={
+                    cardConfig?.qualityText ||
+                    (movie as any).formatType ||
+                    movie.quality
+                  }
+                  position="top-right"
+                  displayType="layer"
+                  variant="default"
+                />
+              )}
+            </div>
+
+            {/* 底部标签层 */}
+            <div className="absolute bottom-2 left-2 right-2 z-10 flex justify-between">
+              {/* 评分标签 - 左下角 */}
+              {cardConfig?.showRatingBadge && (
+                <RatingBadgeLayer
+                  rating={movie.rating}
+                  position="bottom-left"
+                  variant="compact"
+                  showIcon={false}
+                  textColor={movie.ratingColor as any}
+                />
+              )}
+              {/* VIP标签 - 右下角 */}
+              {cardConfig?.showVipBadge && (
+                <VipBadgeLayer
+                  isVip={true}
+                  position="bottom-right"
+                  variant="compact"
+                  text="VIP"
+                />
+              )}
+            </div>
           </div>
 
-          {/* 底部标签层 */}
-          <div className="absolute bottom-2 left-2 right-2 z-10 flex justify-between">
-            {/* 评分标签 - 左下角 */}
-            {cardConfig?.showRatingBadge && (
-              <RatingBadgeLayer
-                rating={movie.rating}
-                position="bottom-left"
-                variant="compact"
-                showIcon={false}
-                textColor={movie.ratingColor as any}
-              />
-            )}
-            {/* VIP标签 - 右下角 */}
-            {cardConfig?.showVipBadge && (
-              <VipBadgeLayer
-                isVip={true}
-                position="bottom-right"
-                variant="compact"
-                text="VIP"
-              />
-            )}
+          {/* 信息区域 - 只显示标题和类型 */}
+          <div className="space-y-1">
+            {/* 标题 */}
+            <TitleLayer
+              title={movie.title}
+              variant="primary"
+              size="sm"
+              maxLines={1}
+              color="primary"
+              weight="semibold"
+              hoverEffect={{
+                enabled: true, // 启用内部hover
+                hoverColor: 'red',
+                transitionDuration: '200ms',
+              }}
+            />
+
+            {/* 类型 */}
+            <p className="text-xs text-gray-500 dark:text-gray-400 transition-colors duration-200 group-hover:text-red-500">
+              {movie.type === 'Collection' ? 'Movie' : movie.type}
+            </p>
           </div>
         </div>
-
-        {/* 信息区域 - 只显示标题和类型 */}
-        <div className="space-y-1">
-          {/* 标题 */}
-          <TitleLayer
-            title={movie.title}
-            variant="primary"
-            size="sm"
-            maxLines={1}
-            color="primary"
-            weight="semibold"
-            hoverEffect={{
-              enabled: true,
-              hoverColor: 'red',
-              transitionDuration: '200ms',
-            }}
-          />
-
-          {/* 类型 */}
-          <p className="text-xs text-gray-500 transition-colors duration-200 group-hover:text-red-500 dark:text-gray-400">
-            {movie.type === 'Collection' ? 'Movie' : movie.type}
-          </p>
-        </div>
-      </div>
+      </CardHoverLayer>
     )
   }
 
