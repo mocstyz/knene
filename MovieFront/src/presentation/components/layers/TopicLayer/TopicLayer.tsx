@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-import { TitleLayer } from '@components/layers'
+import { TextHoverLayer, TitleLayer } from '@components/layers'
 import {
   getOverlayGradient,
   type GradientOverlayIntensity,
@@ -143,16 +143,17 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
         </div>
 
         {topic.description && (
-          <div
+          <TextHoverLayer
+            hoverColor={hoverEffect?.hoverColor || 'red'}
+            duration={hoverEffect?.transitionDuration === '200ms' ? 'fast' : 'normal'}
             className={cn(
-              'mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-gray-200 transition-colors',
-              hoverEffect?.enabled && 'duration-[200ms]',
-              hoverEffect?.enabled && 'group-hover:text-red-500',
+              'mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-gray-200',
               titleWidthClasses[contentPosition]
             )}
+            disabled={!hoverEffect?.enabled}
           >
             {topic.description}
-          </div>
+          </TextHoverLayer>
         )}
       </div>
     </>

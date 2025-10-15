@@ -16,6 +16,7 @@ import {
   NewBadgeLayer,
   QualityBadgeLayer,
   RatingBadgeLayer,
+  TextHoverLayer,
   TitleLayer,
   VipBadgeLayer,
 } from '@components/layers'
@@ -196,9 +197,13 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
             />
 
             {/* 类型 */}
-            <p className="text-xs text-gray-500 dark:text-gray-400 transition-colors duration-200 group-hover:text-red-500">
+            <TextHoverLayer
+              hoverColor="red"
+              duration="fast"
+              className="text-xs text-gray-500 dark:text-gray-400"
+            >
               {movie.type === 'Collection' ? 'Movie' : movie.type}
-            </p>
+            </TextHoverLayer>
           </div>
         </div>
       </CardHoverLayer>

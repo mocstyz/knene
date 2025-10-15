@@ -1,0 +1,21 @@
+ 实际的Hover效果系统状态
+经过代码分析，当前项目使用了多种hover实现方式：
+
+#### 已抽象并使用的Hover组件：
+- **CardHoverLayer** - 卡片缩放hover效果（已在MovieListItem和TopicCard中使用）
+  - 支持`scale`配置：'none' | 'sm' | 'md' | 'lg'
+  - 支持`duration`配置：'fast' | 'normal' | 'slow'
+  - 使用CSS group-hover机制，性能优异
+- **HoverInteractionLayer** - 高级hover状态管理器（功能完整但实际使用较少）
+  - 支持延迟hover、回调函数、点击外部关闭等高级功能
+- **TitleLayer内置hover** - 标题文字hover效果（在MovieListItem中使用）
+  - 通过`hoverEffect`配置启用
+  - 支持多种颜色：'red' | 'primary' | 'blue' | 'green'
+
+#### 需要优化的Hover实现：
+- **TextHoverLayer** - 文本hover效果层（设计不完整，当前未使用）
+  - 目前只返回空div，无法实际包装文本内容
+  - 需要重构为包装器模式才能在搜索结果、收藏列表页面复用
+- **直接CSS类** - 类型文字hover（在MovieListItem中使用）
+  - 当前使用`group-hover:text-red-500`直接实现
+  - 应该抽象到TextHoverLayer中实现复用

@@ -1,11 +1,11 @@
 /**
  * @fileoverview 文本悬停效果层组件
  * @description 提供统一的文本悬停变色效果，遵循DRY原则。
- * 专门处理文本hover变红效果，可在各种文本组件中复用。
+ * 作为包装器组件，可在各种文本组件中复用，配合CardHoverLayer使用。
  *
  * @author mosctz
  * @since 1.0.0
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 import { cn } from '@utils/cn'
@@ -15,6 +15,8 @@ import React from 'react'
  * 文本悬停效果层组件属性接口
  */
 export interface TextHoverLayerProps {
+  /** 子元素 */
+  children: React.ReactNode
   /** 自定义CSS类名 */
   className?: string
   /** hover颜色 */
@@ -23,21 +25,29 @@ export interface TextHoverLayerProps {
   duration?: 'fast' | 'normal' | 'slow'
   /** 是否禁用hover效果 */
   disabled?: boolean
-  /** 目标元素选择器 */
-  target?: 'title' | 'subtitle' | 'category' | 'all'
+  /** 文本元素标签类型 */
+  as?: 'span' | 'p' | 'div'
+  /** 是否启用缩放效果 */
+  enableScale?: boolean
+  /** 缩放比例 */
+  scale?: 'sm' | 'md' | 'lg'
 }
 
 /**
  * 文本悬停效果层组件
  *
- * 提供统一的文本悬停变色功能，支持多种颜色和动画效果。
+ * 提供统一的文本悬停功能，支持变色和缩放效果。
+ * 作为包装器组件，配合CardHoverLayer的group-hover机制使用。
  */
 const TextHoverLayer: React.FC<TextHoverLayerProps> = ({
+  children,
   className,
   hoverColor = 'red',
   duration = 'normal',
   disabled = false,
-  target = 'all',
+  as: Component = 'span',
+  enableScale = false,
+  scale = 'md',
 }) => {
   // hover颜色样式映射 - 完全保持现有的text-red-500效果
   const colorClasses = {
@@ -55,27 +65,31 @@ const TextHoverLayer: React.FC<TextHoverLayerProps> = ({
     slow: 'duration-500',
   }
 
-  // 目标元素选择器
-  const targetClasses = {
-    title: '', // 直接应用到文本元素
-    subtitle: '',
-    category: '',
-    all: 'group-hover:text-red-500', // 默认全部文本
+  // 缩放效果样式映射
+  const scaleClasses = {
+    sm: 'group-hover:scale-105',
+    md: 'group-hover:scale-105',
+    lg: 'group-hover:scale-110',
   }
 
   // 基础过渡效果
-  const baseClasses = 'transition-colors'
+  const baseClasses = 'transition-all inline-block'
 
   // 组合CSS类名
   const hoverClasses = cn(
     baseClasses,
     durationClasses[duration],
-    target !== 'all' ? targetClasses[target] : colorClasses[hoverColor],
+    colorClasses[hoverColor],
+    enableScale && scaleClasses[scale],
     disabled && 'pointer-events-none',
     className
   )
 
-  return <div className={hoverClasses} />
+  return (
+    <Component className={hoverClasses}>
+      {children}
+    </Component>
+  )
 }
 
 export default TextHoverLayer
