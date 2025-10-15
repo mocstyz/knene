@@ -26,7 +26,7 @@ export const gradientVariants = {
 
     /**
      * 中等遮罩 - 最常用的渐变强度，适用于大多数卡片
-     * 对应 MovieLayer 和 SimpleMovieLayer 的渐变效果
+     * 对应 MovieLayer 的渐变效果
      */
     medium: 'bg-gradient-to-t from-black/50 via-black/20 to-transparent', // 对应 MovieLayer
 

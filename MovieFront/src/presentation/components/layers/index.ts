@@ -14,7 +14,6 @@ export { TitleLayer } from './TitleLayer'
 export { MetadataLayer } from './MetadataLayer'
 export { TopicLayer } from './TopicLayer'
 export { MovieLayer } from './MovieLayer'
-export { SimpleMovieLayer } from './SimpleMovieLayer'
 
 // 类型导出
 export type { VipBadgeLayerProps } from './VipBadgeLayer'
@@ -27,4 +26,3 @@ export type { TitleLayerProps } from './TitleLayer'
 export type { MetadataLayerProps } from './MetadataLayer'
 export type { TopicLayerProps } from './TopicLayer'
 export type { MovieLayerProps } from './MovieLayer'
-export type { SimpleMovieLayerProps } from './SimpleMovieLayer'

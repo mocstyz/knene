@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-import { MovieCard, SimpleMovieCard } from '@components/domains/movie/MovieCard'
+import { MovieCard } from '@components/domains/movie/MovieCard'
 import { TopicCard } from '@components/domains/topic/TopicCard'
 import type { BaseMovieItem } from '@types-movie/movie.types'
 import { cn } from '@utils/cn'
@@ -83,20 +83,26 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
     )
   }
 
-  // 渲染简化卡片
+  // 渲染简化卡片 - 使用MovieCard的简化配置
   if (cardVariant === 'simple') {
     return (
       <div className={itemClasses}>
-        <SimpleMovieCard
+        <MovieCard
           movie={{
+            id: movie.id,
             title: movie.title,
-            type: movie.type === 'Collection' ? 'Movie' : movie.type,
-            rating: movie.rating,
             poster: movie.imageUrl,
+            rating: parseFloat(movie.rating) || 0,
             alt: movie.alt,
+            quality: movie.quality,
+            // 简化卡片只显示基本信息
+            year: undefined,
+            duration: undefined,
+            genres: undefined,
+            description: undefined,
           }}
-          ratingColor={movie.ratingColor}
-          onClick={handleClick}
+          variant="default"
+          onPlay={handleClick}
           showRatingBadge={cardConfig?.showRatingBadge ?? true}
           showVipBadge={cardConfig?.showVipBadge ?? true}
           showQualityBadge={cardConfig?.showQualityBadge ?? true}
@@ -109,6 +115,8 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
           newBadgeType={
             cardConfig?.newBadgeType || (movie as any).newType || 'new'
           }
+          ratingColor={movie.ratingColor}
+          hoverEffect={true}
         />
       </div>
     )

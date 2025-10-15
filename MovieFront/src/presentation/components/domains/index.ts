@@ -16,7 +16,6 @@ export { TopicCard as SpecialCollectionCard } from './topic/TopicCard'
 
 // Movie领域
 export { MovieCard } from './movie/MovieCard'
-export { SimpleMovieCard } from './movie/MovieCard'
 export { MovieList } from './movie/MovieList'
 export type { BaseMovieItem } from './movie/MovieList'
 
@@ -35,6 +34,6 @@ export type {
   TopicListProps,
 } from './topic/TopicList'
 
-export type { MovieCardProps, SimpleMovieCardProps } from './movie/MovieCard'
+export type { MovieCardProps } from './movie/MovieCard'
 
 export type { MovieListProps } from './movie/MovieList'

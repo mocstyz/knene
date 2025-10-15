@@ -203,7 +203,6 @@
 ├── domains/                # 领域组件层 - 自包含业务功能
 │   ├── movie/
 │   │   ├── MovieCard/      # 电影卡片组件
-│   │   ├── SimpleMovieCard/ # 简化电影卡片
 │   │   └── MovieList/      # 电影列表
 │   ├── topic/
 │   │   ├── TopicCard/      # 专题卡片
@@ -213,7 +212,6 @@
 │       └── SearchFilters/    # 搜索过滤器
 └── layers/                 # 特化层 - 业务逻辑和内容展示
     ├── MovieLayer/         # 电影内容层(自包含样式)
-    ├── SimpleMovieLayer/   # 简化电影内容层(自包含样式)
     ├── TopicLayer/         # 专题内容层(自包含样式)
     ├── ImageLayer/         # 图片显示层
     ├── TitleLayer/         # 标题显示层

@@ -18,7 +18,7 @@ import {
   TitleLayer,
   VipBadgeLayer,
 } from '@components/layers'
-import { getOverlayGradient } from '@tokens/design-system'
+import { getOverlayGradient, type BadgeLayerRatingColor } from '@tokens/design-system'
 import { cn } from '@utils/cn'
 import React from 'react'
 
@@ -65,6 +65,12 @@ export interface MovieLayerProps {
   showRatingBadge?: boolean
   /** 是否显示新片标签 */
   showNewBadge?: boolean
+  /** 新片类型 */
+  newBadgeType?: 'new' | 'update' | 'today' | 'latest'
+  /** 评分颜色 */
+  ratingColor?: 'purple' | 'red' | 'white' | 'default'
+  /** 质量标签文本 */
+  qualityText?: string
 }
 
 /**
@@ -84,7 +90,23 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
   showQualityBadge = true,
   showRatingBadge = true,
   showNewBadge = true,
+  newBadgeType = 'new',
+  ratingColor = 'default',
+  qualityText,
 }) => {
+  /**
+   * 映射评分颜色到RatingBadgeLayer的textColor
+   */
+  const mapRatingColor = (color?: 'purple' | 'red' | 'white' | 'default'): BadgeLayerRatingColor => {
+    switch (color) {
+      case 'purple': return 'purple'
+      case 'red': return 'red'
+      case 'white': return 'white'
+      case 'default':
+      default: return 'white'
+    }
+  }
+
   // 列表变体的特殊处理
   if (variant === 'list') {
     return (
@@ -181,7 +203,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
           {showNewBadge && (
             <NewBadgeLayer
               isNew={true}
-              newType="new"
+              newType={newBadgeType}
               position="top-left"
               size="responsive"
               variant="default"
@@ -190,9 +212,9 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
           )}
           <div className="flex gap-2">
             {/* Quality badge - top-right */}
-            {showQualityBadge && movie.quality && (
+            {showQualityBadge && (qualityText || movie.quality) && (
               <QualityBadgeLayer
-                quality={movie.quality}
+                quality={qualityText || movie.quality}
                 position="top-right"
                 displayType="layer"
                 variant="default"
@@ -223,6 +245,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
               position="bottom-left"
               variant="default"
               showIcon={false}
+              textColor={mapRatingColor(ratingColor)}
             />
           )}
           {showVipBadge && (

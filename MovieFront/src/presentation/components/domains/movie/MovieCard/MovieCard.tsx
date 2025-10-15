@@ -57,6 +57,12 @@ export interface MovieCardProps {
   showRatingBadge?: boolean
   /** 是否显示新片标签 */
   showNewBadge?: boolean
+  /** 新片类型 */
+  newBadgeType?: 'new' | 'update' | 'today' | 'latest'
+  /** 评分颜色 */
+  ratingColor?: 'purple' | 'red' | 'white' | 'default'
+  /** 质量标签文本 */
+  qualityText?: string
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({
@@ -72,6 +78,9 @@ const MovieCard: React.FC<MovieCardProps> = ({
   showQualityBadge = true,
   showRatingBadge = true,
   showNewBadge = true,
+  newBadgeType = 'new',
+  ratingColor = 'default',
+  qualityText,
 }) => {
   // 根据变体选择不同的组合策略
   const cardContent = (
@@ -87,6 +96,9 @@ const MovieCard: React.FC<MovieCardProps> = ({
       showQualityBadge={showQualityBadge}
       showRatingBadge={showRatingBadge}
       showNewBadge={showNewBadge}
+      newBadgeType={newBadgeType}
+      ratingColor={ratingColor}
+      qualityText={qualityText}
     />
   )
 
