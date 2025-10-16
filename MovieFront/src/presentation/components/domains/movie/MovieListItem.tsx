@@ -9,7 +9,7 @@
  */
 
 import { MovieCard } from '@components/domains/movie/MovieCard'
-import { TopicCard } from '@components/domains/topic/TopicCard'
+import { CollectionCard } from '@components/domains/collections/CollectionCard'
 import {
   CardHoverLayer,
   ImageLayer,
@@ -77,8 +77,8 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
   if (cardVariant === 'topic') {
     return (
       <div className={itemClasses}>
-        <TopicCard
-          topic={{
+        <CollectionCard
+          collection={{
             id: movie.id,
             title: movie.title,
             description: movie.description,
@@ -101,11 +101,7 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
     return (
       <CardHoverLayer scale="md" duration="fast">
         <div
-          className={cn(
-            'cursor-pointer',
-            'active:scale-[0.98]',
-            itemClasses
-          )}
+          className={cn('cursor-pointer', 'active:scale-[0.98]', itemClasses)}
           onClick={handleClick}
         >
           {/* 图片卡片区域 */}
@@ -133,7 +129,9 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
               {cardConfig?.showNewBadge && (
                 <NewBadgeLayer
                   isNew={true}
-                  newType={cardConfig?.newBadgeType || (movie as any).newType || 'new'}
+                  newType={
+                    cardConfig?.newBadgeType || (movie as any).newType || 'new'
+                  }
                   position="top-left"
                   size="responsive"
                   variant="default"
@@ -163,7 +161,6 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
                   rating={movie.rating}
                   position="bottom-left"
                   variant="compact"
-                  showIcon={false}
                   textColor={movie.ratingColor as any}
                 />
               )}
@@ -237,4 +234,5 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
   )
 }
 
+export { MovieListItem }
 export default MovieListItem

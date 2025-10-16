@@ -1,6 +1,6 @@
 /**
- * @fileoverview 专题卡片组件
- * @description 遵循组合式架构：ImageLayer + TopicLayer + VipBadgeLayer
+ * @fileoverview 影片合集卡片组件
+ * @description 遵循组合式架构：ImageLayer + CollectionLayer + VipBadgeLayer
  * 替换原有的SpecialCollectionCard，符合DDD架构规范
  *
  * @author mosctz
@@ -12,14 +12,14 @@ import { CardHoverLayer } from '@components/layers/CardHoverLayer'
 import { ImageLayer } from '@components/layers/ImageLayer'
 import { NewBadgeLayer } from '@components/layers/NewBadgeLayer'
 import { TextHoverLayer } from '@components/layers/TextHoverLayer'
-import { TopicLayer } from '@components/layers/TopicLayer'
+import { CollectionLayer } from '@components/layers/CollectionLayer'
 import { VipBadgeLayer } from '@components/layers/VipBadgeLayer'
 import { cn } from '@utils/cn'
 import React from 'react'
 
-export interface TopicCardProps {
-  /** 专题数据 */
-  topic: {
+export interface CollectionCardProps {
+  /** 影片合集数据 */
+  collection: {
     id: string
     title: string
     description?: string
@@ -43,15 +43,15 @@ export interface TopicCardProps {
 }
 
 /**
- * 专题卡片组件
+ * 影片合集卡片组件
  *
  * 采用组合式架构设计，由以下层次组成：
  * - ImageLayer: 图片显示层
- * - TopicLayer: 专题信息层
+ * - CollectionLayer: 影片合集信息层
  * - VipBadgeLayer: VIP徽章层
  */
-const TopicCard: React.FC<TopicCardProps> = ({
-  topic,
+const CollectionCard: React.FC<CollectionCardProps> = ({
+  collection,
   onClick,
   className,
   aspectRatio = 'portrait',
@@ -88,22 +88,21 @@ const TopicCard: React.FC<TopicCardProps> = ({
       >
         {/* 图片层 */}
         <ImageLayer
-          src={topic.imageUrl}
-          alt={topic.alt || topic.title}
+          src={collection.imageUrl}
+          alt={collection.alt || collection.title}
           aspectRatio="custom"
           objectFit="cover"
           hoverScale={false} // 禁用内部hover，使用CardHoverLayer
           fallbackType="gradient"
         />
 
-
         {/* 顶部标签层 - 与MovieLayer保持一致的布局 */}
         <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
           {/* New badge - top-left */}
           {showNewBadge && (
             <NewBadgeLayer
-              isNew={topic.isNew ?? true}
-              newType={topic.newType ?? 'new'}
+              isNew={collection.isNew ?? true}
+              newType={collection.newType ?? 'new'}
               position="top-left"
               size="responsive"
               variant="default"
@@ -128,9 +127,9 @@ const TopicCard: React.FC<TopicCardProps> = ({
           )}
         </div>
 
-        {/* 专题信息层 */}
-        <TopicLayer
-          topic={topic}
+        {/* 影片合集信息层 */}
+        <CollectionLayer
+          collection={collection}
           onClick={onClick}
           contentPosition="bottom-left"
           showGradient={true}
@@ -146,5 +145,5 @@ const TopicCard: React.FC<TopicCardProps> = ({
   )
 }
 
-export { TopicCard }
-export default TopicCard
+export { CollectionCard }
+export default CollectionCard

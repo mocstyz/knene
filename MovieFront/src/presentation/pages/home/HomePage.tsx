@@ -1,8 +1,8 @@
 import {
-  TopicSection,
+  CollectionSection,
   PhotoSection,
-  LatestSection,
-  TopSection,
+  LatestUpdateSection,
+  HotSection,
 } from '@components/domains'
 import { NavigationHeader, HeroSection } from '@components/organisms'
 import { useHomeData } from '@data/home/homeData'
@@ -14,8 +14,17 @@ const HomePage: React.FC = () => {
   const heroRef = useRef<HTMLElement>(null)
 
   // 使用重构后的数据Hook
-  const { trendingMovies, popularMovies, newReleases, topicsData } =
+  const { trendingMovies, popularMovies, newReleases, collectionsData } =
     useHomeData()
+
+  // 转换数据类型以匹配组件期望
+  const convertedTrendingMovies = trendingMovies.map(movie => ({
+    ...movie,
+    rating: movie.rating ? parseFloat(movie.rating) : undefined,
+    ratingColor: movie.ratingColor === 'purple' ? 'red' :
+                  movie.ratingColor === 'white' ? 'default' :
+                  movie.ratingColor || 'default',
+  }))
 
   // 添加Header动态背景效果，与HTML中的JavaScript逻辑完全一致
   useEffect(() => {
@@ -64,9 +73,9 @@ const HomePage: React.FC = () => {
         <HeroSection ref={heroRef} />
 
         <div className="container mx-auto space-y-12 px-4 py-12 sm:px-6 lg:px-8">
-          {/* 首页专题区块 */}
-          <TopicSection
-            topics={topicsData || []}
+          {/* 首页影片合集区块 */}
+          <CollectionSection
+            collections={collectionsData || []}
             showMoreLink={true}
             moreLinkUrl={ROUTES.SPECIAL.COLLECTIONS}
             moreLinkText="More >"
@@ -74,21 +83,21 @@ const HomePage: React.FC = () => {
 
           {/* 首页写真区块 */}
           <PhotoSection
-            photos={trendingMovies || []}
+            photos={convertedTrendingMovies || []}
             showMoreLink={true}
             moreLinkText="More >"
           />
 
           {/* 首页最近更新区块 */}
-          <LatestSection
+          <LatestUpdateSection
             latestItems={popularMovies || []}
             showMoreLink={true}
             moreLinkText="More >"
           />
 
-          {/* 首页24小时TOP区块 */}
-          <TopSection
-            topItems={newReleases || []}
+          {/* 首页24小时热门区块 */}
+          <HotSection
+            hotItems={newReleases || []}
             showMoreLink={true}
             moreLinkText="More >"
           />

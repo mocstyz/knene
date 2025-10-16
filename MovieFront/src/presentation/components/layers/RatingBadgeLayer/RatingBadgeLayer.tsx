@@ -44,8 +44,6 @@ export interface RatingBadgeLayerProps {
   size?: BadgeLayerSize
   /** 标签变体 */
   variant?: BadgeLayerVariant
-  /** 是否显示星标图标 */
-  showIcon?: boolean
   /** 强制指定文本颜色类型 (覆盖自动计算的评分颜色) */
   textColor?: BadgeLayerRatingColor
   /** 自定义背景色 */
@@ -64,7 +62,6 @@ const RatingBadgeLayer: React.FC<RatingBadgeLayerProps> = ({
   position = 'bottom-left',
   size = 'responsive',
   variant = 'default',
-  showIcon = false,
   textColor,
   backgroundColor,
 }) => {
@@ -97,13 +94,7 @@ const RatingBadgeLayer: React.FC<RatingBadgeLayerProps> = ({
 
   return (
     <div className={badgeClasses}>
-      {showIcon && (
-        <span className="inline-flex items-center gap-1">
-          <span className="text-yellow-400">★</span>
-          {ratingResult.displayText}
-        </span>
-      )}
-      {!showIcon && ratingResult.displayText}
+      {ratingResult.displayText}
     </div>
   )
 }

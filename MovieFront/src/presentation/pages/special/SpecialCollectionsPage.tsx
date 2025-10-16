@@ -3,7 +3,7 @@
  * 展示所有精选专题合集，采用卡片式网格布局
  */
 
-import { TopicList } from '@components/domains'
+import { CollectionList } from '@components/domains'
 import { NavigationHeader } from '@components/organisms'
 import { useImageService } from '@presentation/hooks/image'
 import React, { useState } from 'react'
@@ -134,8 +134,8 @@ const SpecialCollectionsPage: React.FC = () => {
       <NavigationHeader />
 
       <main className="container mx-auto px-4 pb-8 pt-24 sm:px-6 lg:px-8">
-        <TopicList
-          topics={topics}
+        <CollectionList
+          collections={topics}
           title="专题列表"
           pagination={{
             currentPage,
@@ -143,11 +143,12 @@ const SpecialCollectionsPage: React.FC = () => {
             onPageChange: handlePageChange,
             itemsPerPage: ITEMS_PER_PAGE,
           }}
-          onTopicClick={handleTopicClick}
+          onCollectionClick={handleTopicClick}
           variant="grid"
-          hoverEffect={true}
-          showHoverOverlay={true}
-          columns={{ sm: 2, md: 3, lg: 4, xl: 5, '2xl': 6 }}
+          cardConfig={{
+            hoverEffect: true,
+          }}
+          columns={{ xs: 2, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6 }}
         />
       </main>
     </div>

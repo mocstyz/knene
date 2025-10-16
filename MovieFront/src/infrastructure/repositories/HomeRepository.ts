@@ -1,6 +1,6 @@
 /**
  * @fileoverview 首页数据仓储接口
- * @description 定义首页数据的获取规范，支持专题、写真、最新更新、24小时TOP等模块。
+ * @description 定义首页数据的获取规范，支持专题、写真、最新更新、24小时热门等模块。
  * 遵循DDD架构中的仓储模式，抽象数据访问层。
  *
  * @author mosctz
@@ -14,8 +14,16 @@ import type {
   TopicItem,
   PhotoItem,
   LatestItem,
-  TopItem,
+  BaseMovieItem,
 } from '@types-movie/movie.types'
+
+/**
+ * 热门项目接口 - 扩展基础接口
+ */
+export interface HotItem extends BaseMovieItem {
+  /** 排名 */
+  rank?: number
+}
 
 /**
  * 首页数据响应接口
@@ -28,8 +36,8 @@ export interface HomeDataResponse {
   photos: PhotoItem[]
   /** 最新更新数据 */
   latestUpdates: LatestItem[]
-  /** 24小时TOP数据 */
-  topDaily: TopItem[]
+  /** 24小时热门数据 */
+  hotDaily: HotItem[]
 }
 
 /**
@@ -78,11 +86,11 @@ export interface IHomeRepository {
   getLatestUpdates(limit?: number): Promise<LatestItem[]>
 
   /**
-   * 获取24小时TOP数据
+   * 获取24小时热门数据
    * @param limit 数量限制
-   * @returns TOP列表
+   * @returns 热门列表
    */
-  getTopDaily(limit?: number): Promise<TopItem[]>
+  getHotDaily(limit?: number): Promise<HotItem[]>
 }
 
 /**
@@ -126,7 +134,7 @@ export class HomeRepository implements IHomeRepository {
         topics: [],
         photos: [],
         latestUpdates: [],
-        topDaily: [],
+        hotDaily: [],
       }
     }
   }
@@ -210,9 +218,9 @@ export class HomeRepository implements IHomeRepository {
   }
 
   /**
-   * 获取24小时TOP数据
+   * 获取24小时热门数据
    */
-  async getTopDaily(limit = 6): Promise<TopItem[]> {
+  async getHotDaily(limit = 6): Promise<HotItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
       `${MOVIE_ENDPOINTS.TRENDING}/daily`,
@@ -224,13 +232,13 @@ export class HomeRepository implements IHomeRepository {
       const response = await fetch(apiUrl.toString())
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch top daily: ${response.status}`)
+        throw new Error(`Failed to fetch hot daily: ${response.status}`)
       }
 
       const data = await response.json()
-      return this.transformTopDaily(data)
+      return this.transformHotDaily(data)
     } catch (error) {
-      console.error('Error fetching top daily:', error)
+      console.error('Error fetching hot daily:', error)
       return []
     }
   }
@@ -243,7 +251,7 @@ export class HomeRepository implements IHomeRepository {
       topics: this.transformTopics(apiData.topics || []),
       photos: this.transformPhotos(apiData.photos || []),
       latestUpdates: this.transformLatestUpdates(apiData.latestUpdates || []),
-      topDaily: this.transformTopDaily(apiData.topDaily || []),
+      hotDaily: this.transformHotDaily(apiData.hotDaily || []),
     }
   }
 
@@ -273,8 +281,11 @@ export class HomeRepository implements IHomeRepository {
       imageUrl: photo.poster || photo.imageUrl || photo.coverImage,
       ratingColor: this.getRatingColor(photo.rating),
       quality: photo.quality || this.getRandomQuality(),
-      formatType: (photo.formatType as 'JPEG高' | 'PNG' | 'WebP' | 'GIF' | 'BMP') || 'JPEG高',
+      formatType:
+        (photo.formatType as 'JPEG高' | 'PNG' | 'WebP' | 'GIF' | 'BMP') ||
+        'JPEG高',
       alt: photo.alt || `${photo.title || photo.name} poster`,
+      genres: photo.genres || this.getRandomGenres(),
     }))
   }
 
@@ -291,16 +302,19 @@ export class HomeRepository implements IHomeRepository {
       ratingColor: this.getRatingColor(item.rating),
       quality: item.quality || this.getRandomQuality(),
       alt: item.alt || `${item.title || item.name} poster`,
+      genres: item.genres || this.getRandomGenres(),
       isNew: item.isNew || Math.random() > 0.7, // 随机设置新片状态
-      newType: (item.newType as 'new' | 'update' | 'today' | 'latest') || (Math.random() > 0.5 ? 'new' : 'update'),
+      newType:
+        (item.newType as 'new' | 'update' | 'today' | 'latest') ||
+        (Math.random() > 0.5 ? 'new' : 'update'),
     }))
   }
 
   /**
-   * 转换TOP数据 - 直接返回TopItem类型
+   * 转换热门数据 - 直接返回HotItem类型
    */
-  private transformTopDaily(topItems: any[]): TopItem[] {
-    return topItems.map((item, index) => ({
+  private transformHotDaily(hotItems: any[]): HotItem[] {
+    return hotItems.map((item, index) => ({
       id: item.id || item._id,
       title: item.title || item.name,
       type: item.type === 'series' ? 'TV Show' : 'Movie',
@@ -309,6 +323,7 @@ export class HomeRepository implements IHomeRepository {
       ratingColor: this.getRatingColor(item.rating),
       quality: item.quality || this.getRandomQuality(),
       alt: item.alt || `${item.title || item.name} poster`,
+      genres: item.genres || this.getRandomGenres(),
       rank: index + 1, // 设置排名
     }))
   }
@@ -331,5 +346,21 @@ export class HomeRepository implements IHomeRepository {
   private getRandomQuality(): string {
     const qualities = ['4K HDR', 'HD', 'Dolby Vision', 'SD', '4K', 'IMAX']
     return qualities[Math.floor(Math.random() * qualities.length)]
+  }
+
+  /**
+   * 获取随机类型（作为fallback）
+   */
+  private getRandomGenres(): string[] {
+    const allGenres = [
+      '动作', '科幻', '剧情', '喜剧', '惊悚', '恐怖', '爱情', '动画',
+      '冒险', '悬疑', '犯罪', '战争', '历史', '传记', '音乐', '家庭',
+      '西部', '奇幻', '运动', '纪录片'
+    ]
+
+    // 随机选择1-3个类型
+    const numGenres = Math.floor(Math.random() * 3) + 1
+    const shuffled = [...allGenres].sort(() => Math.random() - 0.5)
+    return shuffled.slice(0, numGenres)
   }
 }

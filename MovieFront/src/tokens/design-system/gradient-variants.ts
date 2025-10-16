@@ -19,10 +19,10 @@ export const gradientVariants = {
    */
   overlay: {
     /**
-     * 轻微遮罩 - 用于专题卡片的轻量渐变效果
-     * 对应 TopicLayer.light 的渐变强度
+     * 轻微遮罩 - 用于影片合集卡片的轻量渐变效果
+     * 对应 CollectionLayer.light 的渐变强度
      */
-    subtle: 'bg-gradient-to-t from-black/40 via-black/10 to-transparent', // 对应 TopicLayer.light
+    subtle: 'bg-gradient-to-t from-black/40 via-black/10 to-transparent', // 对应 CollectionLayer.light
 
     /**
      * 中等遮罩 - 最常用的渐变强度，适用于大多数卡片
@@ -32,9 +32,9 @@ export const gradientVariants = {
 
     /**
      * 强烈遮罩 - 用于需要更强对比度的场景
-     * 对应 TopicLayer.medium 的渐变强度，稍微增强以保持一致性
+     * 对应 CollectionLayer.medium 的渐变强度，稍微增强以保持一致性
      */
-    strong: 'bg-gradient-to-t from-black/60 via-black/30 to-transparent', // 对应 TopicLayer.medium
+    strong: 'bg-gradient-to-t from-black/60 via-black/30 to-transparent', // 对应 CollectionLayer.medium
 
     /**
      * 密集遮罩 - 用于导航菜单等需要强力遮罩的场景
@@ -44,9 +44,9 @@ export const gradientVariants = {
 
     /**
      * 重度遮罩 - 用于需要最强对比度的场景
-     * 对应 TopicLayer.strong 的渐变强度
+     * 对应 CollectionLayer.strong 的渐变强度
      */
-    heavy: 'bg-gradient-to-t from-black/80 via-black/40 to-transparent', // 对应 TopicLayer.strong
+    heavy: 'bg-gradient-to-t from-black/80 via-black/40 to-transparent', // 对应 CollectionLayer.strong
   },
 
   /**

@@ -82,9 +82,7 @@ const CardHoverLayer: React.FC<CardHoverLayerProps> = ({
 
   return (
     <div className={hoverClasses}>
-      <div className={childClasses}>
-        {children}
-      </div>
+      <div className={childClasses}>{children}</div>
     </div>
   )
 }

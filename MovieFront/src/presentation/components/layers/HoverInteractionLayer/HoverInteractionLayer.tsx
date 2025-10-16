@@ -91,7 +91,10 @@ const HoverInteractionLayer: React.FC<HoverInteractionLayerProps> = ({
     if (!clickOutsideToClose || !enabled) return
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
         setIsHovered(false)
         onHoverLeave?.()
       }
@@ -111,10 +114,7 @@ const HoverInteractionLayer: React.FC<HoverInteractionLayerProps> = ({
   }, [clearHoverTimeout])
 
   // 组合CSS类名
-  const containerClasses = cn(
-    'relative',
-    containerClassName
-  )
+  const containerClasses = cn('relative', containerClassName)
 
   const wrapperClasses = cn(
     'hover-interaction-layer',
@@ -129,9 +129,7 @@ const HoverInteractionLayer: React.FC<HoverInteractionLayerProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className={wrapperClasses}>
-        {children}
-      </div>
+      <div className={wrapperClasses}>{children}</div>
     </div>
   )
 }

@@ -99,7 +99,10 @@ export interface BaseMovieItem
   extends BaseMediaItem,
     MediaImageItem,
     MediaRatingItem,
-    MediaQualityItem {}
+    MediaQualityItem {
+  /** 电影类型/分类 */
+  genres?: string[]
+}
 
 /**
  * 完整电影项目接口

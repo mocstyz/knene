@@ -1,7 +1,7 @@
 /**
- * @fileoverview 专题层组件
- * @description 提供专题卡片的内容展示逻辑，遵循组合式架构原则。
- * 包含专题标题、描述、渐变背景等专题特有元素，提供完整的专题展示功能。
+ * @fileoverview 影片合集层组件
+ * @description 提供影片合集卡片的内容展示逻辑，遵循组合式架构原则。
+ * 包含影片合集标题、描述、渐变背景等影片合集特有元素，提供完整的影片合集展示功能。
  *
  * @author mosctz
  * @since 1.0.0
@@ -17,11 +17,11 @@ import { cn } from '@utils/cn'
 import React from 'react'
 
 /**
- * 专题层组件属性接口
+ * 影片合集层组件属性接口
  */
-export interface TopicLayerProps {
-  /** 专题数据 */
-  topic: {
+export interface CollectionLayerProps {
+  /** 影片合集数据 */
+  collection: {
     id: string
     title: string
     description?: string
@@ -50,12 +50,12 @@ export interface TopicLayerProps {
 }
 
 /**
- * 专题层组件
+ * 影片合集层组件
  *
- * 提供专题卡片的内容展示功能，包含标题、描述和渐变背景。
+ * 提供影片合集卡片的内容展示功能，包含标题、描述和渐变背景。
  */
-const TopicLayer: React.FC<TopicLayerProps> = ({
-  topic,
+const CollectionLayer: React.FC<CollectionLayerProps> = ({
+  collection,
   className,
   contentPosition = 'bottom-left',
   showGradient = true,
@@ -104,7 +104,7 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
 
   // 处理点击事件
   const handleClick = () => {
-    onClick?.(topic.id)
+    onClick?.(collection.id)
   }
 
   return (
@@ -119,7 +119,7 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
         />
       )}
 
-      {/* 专题内容 */}
+      {/* 影片合集内容 */}
       <div
         className={cn(
           positionClasses[contentPosition],
@@ -129,7 +129,7 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
       >
         <div className={titleWidthClasses[contentPosition]}>
           <TitleLayer
-            title={topic.title}
+            title={collection.title}
             variant="overlay"
             size="2xl"
             maxLines={1}
@@ -142,17 +142,19 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
           />
         </div>
 
-        {topic.description && (
+        {collection.description && (
           <TextHoverLayer
             hoverColor={hoverEffect?.hoverColor || 'red'}
-            duration={hoverEffect?.transitionDuration === '200ms' ? 'fast' : 'normal'}
+            duration={
+              hoverEffect?.transitionDuration === '200ms' ? 'fast' : 'normal'
+            }
             className={cn(
               'mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-gray-200',
               titleWidthClasses[contentPosition]
             )}
             disabled={!hoverEffect?.enabled}
           >
-            {topic.description}
+            {collection.description}
           </TextHoverLayer>
         )}
       </div>
@@ -160,4 +162,4 @@ const TopicLayer: React.FC<TopicLayerProps> = ({
   )
 }
 
-export default TopicLayer
+export default CollectionLayer

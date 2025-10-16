@@ -10,10 +10,10 @@
 
 import { homeApplicationService } from '@application/services/HomeApplicationService'
 import type {
-  TopicItem,
+  CollectionItem,
   PhotoItem,
   LatestItem,
-  TopItem,
+  HotItem,
 } from '@components/domains'
 import { useImageService } from '@presentation/hooks/image'
 import { useState, useEffect } from 'react'
@@ -26,10 +26,10 @@ export interface UseHomeDataReturn {
   trendingMovies: PhotoItem[]
   /** 最新更新数据 */
   popularMovies: LatestItem[]
-  /** 24小时TOP数据 */
-  newReleases: TopItem[]
-  /** 专题数据 */
-  topicsData: TopicItem[]
+  /** 24小时热门数据 */
+  newReleases: HotItem[]
+  /** 影片合集数据 */
+  collectionsData: CollectionItem[]
   /** 加载状态 */
   isLoading: boolean
   /** 错误信息 */
@@ -41,7 +41,7 @@ export interface UseHomeDataReturn {
 /**
  * 首页数据Hook
  *
- * 获取首页所需的各类数据，包括专题、写真、最新更新、24小时TOP等模块。
+ * 获取首页所需的各类数据，包括影片合集、写真、最新更新、24小时TOP等模块。
  * 支持加载状态、错误处理和数据重新获取功能。
  *
  * @returns 首页数据和操作方法
@@ -49,21 +49,26 @@ export interface UseHomeDataReturn {
 export const useHomeData = (): UseHomeDataReturn => {
   const [trendingMovies, setTrendingMovies] = useState<PhotoItem[]>([])
   const [popularMovies, setPopularMovies] = useState<LatestItem[]>([])
-  const [newReleases, setNewReleases] = useState<TopItem[]>([])
-  const [topicsData, setTopicsData] = useState<TopicItem[]>([])
+  const [newReleases, setNewReleases] = useState<HotItem[]>([])
+  const [collectionsData, setCollectionsData] = useState<CollectionItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   // 获取图片服务
-  const { getMoviePoster, getTopicCover } = useImageService()
+  const { getMoviePoster, getCollectionCover } = useImageService()
 
   /**
-   * 优化图片URL - 为专题数据使用合适的图片尺寸
+   * 优化图片URL - 为影片合集数据使用合适的图片尺寸
    */
-  const optimizeTopicImages = (topics: TopicItem[]): TopicItem[] => {
-    return topics.map(topic => ({
-      ...topic,
-      imageUrl: getTopicCover(topic.imageUrl, { width: 600, height: 400 }),
+  const optimizeCollectionImages = (
+    collections: CollectionItem[]
+  ): CollectionItem[] => {
+    return collections.map(collection => ({
+      ...collection,
+      imageUrl: getCollectionCover(collection.imageUrl, {
+        width: 600,
+        height: 400,
+      }),
     }))
   }
 
@@ -88,10 +93,10 @@ export const useHomeData = (): UseHomeDataReturn => {
   }
 
   /**
-   * 优化图片URL - 为TOP数据使用合适的图片尺寸
+   * 优化图片URL - 为热门数据使用合适的图片尺寸
    */
-  const optimizeTopImages = (topItems: TopItem[]): TopItem[] => {
-    return topItems.map(item => ({
+  const optimizeHotImages = (hotItems: HotItem[]): HotItem[] => {
+    return hotItems.map(item => ({
       ...item,
       imageUrl: getMoviePoster(item.imageUrl, { width: 400, height: 600 }),
     }))
@@ -107,18 +112,18 @@ export const useHomeData = (): UseHomeDataReturn => {
       setError(null)
 
       // 并行获取所有模块数据，Repository已返回具体的领域类型
-      const [topics, photos, latestUpdates, topDaily] = await Promise.all([
-        homeApplicationService.getTopics(3),
+      const [collections, photos, latestUpdates, hotDaily] = await Promise.all([
+        homeApplicationService.getCollections(3),
         homeApplicationService.getPhotos(6),
         homeApplicationService.getLatestUpdates(6),
-        homeApplicationService.getTopDaily(6),
+        homeApplicationService.getHotDaily(6),
       ])
 
       // 优化图片URL并更新状态
-      setTopicsData(optimizeTopicImages(topics))
+      setCollectionsData(optimizeCollectionImages(collections))
       setTrendingMovies(optimizePhotoImages(photos))
       setPopularMovies(optimizeLatestImages(latestUpdates))
-      setNewReleases(optimizeTopImages(topDaily))
+      setNewReleases(optimizeHotImages(hotDaily))
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : 'Unknown error occurred'
@@ -145,7 +150,7 @@ export const useHomeData = (): UseHomeDataReturn => {
     trendingMovies,
     popularMovies,
     newReleases,
-    topicsData,
+    collectionsData,
     isLoading,
     error,
     refetch,

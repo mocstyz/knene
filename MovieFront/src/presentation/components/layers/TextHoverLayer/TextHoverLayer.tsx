@@ -85,11 +85,7 @@ const TextHoverLayer: React.FC<TextHoverLayerProps> = ({
     className
   )
 
-  return (
-    <Component className={hoverClasses}>
-      {children}
-    </Component>
-  )
+  return <Component className={hoverClasses}>{children}</Component>
 }
 
 export default TextHoverLayer

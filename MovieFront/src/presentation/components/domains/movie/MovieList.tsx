@@ -10,8 +10,8 @@
  */
 
 import { TextLink } from '@components/atoms'
-import MovieListItem from '@components/domains/movie/MovieList/MovieListItem'
-import MovieListLayout from '@components/domains/movie/MovieList/MovieListLayout'
+import { MovieListItem } from './MovieListItem'
+import { MovieListLayout } from './MovieListLayout'
 import type {
   BaseMovieItem,
   CardConfig,

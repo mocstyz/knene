@@ -132,4 +132,5 @@ const MovieCard: React.FC<MovieCardProps> = ({
   )
 }
 
+export { MovieCard }
 export default MovieCard

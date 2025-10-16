@@ -35,6 +35,14 @@ export interface UseImageServiceReturn {
   getTopicCover: (topicId: string, options?: ImageOptions) => string
 
   /**
+   * 获取合集封面URL
+   * @param collectionId 合集ID
+   * @param options 图片选项
+   * @returns 合集封面URL
+   */
+  getCollectionCover: (collectionId: string, options?: ImageOptions) => string
+
+  /**
    * 获取用户头像URL
    * @param userId 用户ID
    * @param options 图片选项
@@ -116,6 +124,20 @@ export const useImageService = (): UseImageServiceReturn => {
     return imageService.getOptimizedUrl(`topic-${topicId}`, mergedOptions)
   }
 
+  const getCollectionCover = (collectionId: string, options?: ImageOptions): string => {
+    // 合集封面默认配置
+    const defaultOptions: ImageOptions = {
+      width: 600,
+      height: 400,
+      quality: 80,
+      format: 'auto',
+      crop: 'cover',
+    }
+
+    const mergedOptions = { ...defaultOptions, ...options }
+    return imageService.getOptimizedUrl(`collection-${collectionId}`, mergedOptions)
+  }
+
   const getUserAvatar = (userId: string, options?: ImageOptions): string => {
     // 用户头像默认配置
     const defaultOptions: ImageOptions = {
@@ -153,6 +175,7 @@ export const useImageService = (): UseImageServiceReturn => {
   return {
     getMoviePoster,
     getTopicCover,
+    getCollectionCover,
     getUserAvatar,
     getImageUrl,
     getOptimizedUrl,

@@ -81,4 +81,5 @@ const MovieListLayout: React.FC<MovieListLayoutProps> = ({
   return <div className={cn(layoutClasses[variant], className)}>{children}</div>
 }
 
+export { MovieListLayout }
 export default MovieListLayout
