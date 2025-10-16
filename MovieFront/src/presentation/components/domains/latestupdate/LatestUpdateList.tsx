@@ -1,24 +1,40 @@
 /**
  * @fileoverview 最新更新列表组件
- * @description 最新更新专用的列表组件，继承BaseList的通用布局功能，专注于最新更新内容的展示。
- * 遵循组合式架构：BaseSection + LatestList + MovieCard(simple变体)
+ * @description 基于内容渲染器抽象层的最新更新列表组件，支持多种内容类型的混合展示。
+ * 使用MixedContentList实现真正的内容类型无关渲染，支持电影、写真、合集等混合内容。
  *
  * @author mosctz
  * @since 1.0.0
- * @version 1.0.0
+ * @version 2.0.0
  */
 
-import { BaseList, EmptyState } from '@components/domains/shared'
-import { MovieCard } from '@components/domains/movie'
+import { MixedContentList } from '@components/domains/shared'
+import {
+  BaseContentItem,
+  MovieContentItem,
+  PhotoContentItem,
+  CollectionContentItem,
+  RendererConfig,
+  isMovieContentItem,
+  isPhotoContentItem,
+  isCollectionContentItem,
+} from '@components/domains/shared/content-renderers'
 import type { LatestItem as BaseLatestItem } from '@types-movie/movie.types'
 import { cn } from '@utils/cn'
 import React from 'react'
 
 /**
- * 最新更新项目接口 - 扩展基础接口
+ * 扩展的最新更新项目接口
+ * 支持多种内容类型的最新更新项目
  */
 export interface LatestItem extends BaseLatestItem {
+  /** 内容类型 - 用于内容渲染器选择 */
+  contentType?: 'movie' | 'photo' | 'collection'
   /** 最新更新模块特定属性可以在这里扩展 */
+  /** 更新时间 */
+  updatedAt?: string
+  /** 更新类型 */
+  updateType?: 'new' | 'update' | 'episode' | 'version'
 }
 
 /**
@@ -57,15 +73,23 @@ export interface LatestUpdateListProps {
     /** 悬停效果 */
     hoverEffect?: boolean
   }
+  /** 是否启用混合内容模式 */
+  enableMixedContent?: boolean
+  /** 允许的内容类型列表 */
+  allowedContentTypes?: string[]
+  /** 是否显示内容类型标签 */
+  showContentTypeLabels?: boolean
+  /** 调试模式 */
+  debug?: boolean
 }
 
 /**
  * 最新更新列表组件
  *
- * 采用组合式架构设计：
- * - BaseList: 提供通用的列表布局和响应式网格
- * - MovieCard: 提供电影卡片展示，使用simple变体
- * - 专注于最新更新数据的展示逻辑
+ * 采用内容渲染器架构设计：
+ * - MixedContentList: 提供统一的混合内容渲染
+ * - 支持电影、写真、合集等多种内容类型
+ * - 自动选择最佳渲染器进行内容展示
  */
 const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
   latestItems,
@@ -88,44 +112,185 @@ const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
     aspectRatio: 'portrait',
     hoverEffect: true,
   },
+  enableMixedContent = true,
+  allowedContentTypes = ['movie', 'photo', 'collection'],
+  showContentTypeLabels = false,
+  debug = false,
 }) => {
-  // 防御性检查 - 如果latestItems是undefined或空数组，显示空状态
-  if (!latestItems || !Array.isArray(latestItems) || latestItems.length === 0) {
+  // 转换最新更新数据为统一内容项格式
+  const convertToContentItems = (items: LatestItem[]): BaseContentItem[] => {
+    return items.map(item => {
+      // 根据数据特征推断内容类型
+      let contentType: 'movie' | 'photo' | 'collection' = 'movie' // 默认为电影
+
+      if (item.contentType) {
+        contentType = item.contentType
+      } else {
+        // 基于数据特征自动推断内容类型
+        if (item.formatType || isPhotoContentItem(item)) {
+          contentType = 'photo'
+        } else if (item.itemCount || isCollectionContentItem(item)) {
+          contentType = 'collection'
+        } else {
+          contentType = 'movie'
+        }
+      }
+
+      // 构建基础内容项
+      const baseContentItem: BaseContentItem = {
+        id: item.id,
+        title: item.title,
+        contentType,
+        description: item.description,
+        imageUrl: item.imageUrl,
+        alt: item.alt,
+        createdAt: item.updatedAt || new Date().toISOString(),
+      }
+
+      // 根据内容类型添加特定属性
+      if (contentType === 'movie') {
+        const movieItem: MovieContentItem = {
+          ...baseContentItem,
+          contentType: 'movie',
+          year: item.year,
+          rating: item.rating ? parseFloat(item.rating) : undefined,
+          ratingColor: item.ratingColor === 'purple' ? 'red' :
+                       item.ratingColor === 'white' ? 'default' :
+                       item.ratingColor || 'default',
+          quality: item.quality,
+          isNew: item.isNew,
+          newType: item.newType || item.updateType || 'new',
+          isVip: true, // 默认为VIP
+        }
+        return movieItem
+      } else if (contentType === 'photo') {
+        const photoItem: PhotoContentItem = {
+          ...baseContentItem,
+          contentType: 'photo',
+          formatType: item.formatType,
+          rating: item.rating ? parseFloat(item.rating) : undefined,
+          isNew: item.isNew,
+          newType: item.newType || item.updateType || 'new',
+          isVip: true,
+        }
+        return photoItem
+      } else if (contentType === 'collection') {
+        const collectionItem: CollectionContentItem = {
+          ...baseContentItem,
+          contentType: 'collection',
+          collectionDescription: item.description,
+          itemCount: item.itemCount,
+          isNew: item.isNew,
+          newType: item.newType || item.updateType || 'new',
+          isVip: true,
+        }
+        return collectionItem
+      }
+
+      return baseContentItem
+    })
+  }
+
+  // 转换数据
+  const contentItems = convertToContentItems(latestItems || [])
+
+  // 构建渲染器配置
+  const defaultRendererConfig: Partial<RendererConfig> = {
+    hoverEffect: cardConfig.hoverEffect,
+    aspectRatio: cardConfig.aspectRatio,
+    showVipBadge: cardConfig.showVipBadge,
+    showNewBadge: cardConfig.showNewBadge,
+    showQualityBadge: cardConfig.showQualityBadge,
+    showRatingBadge: cardConfig.showRatingBadge,
+  }
+
+  // 内容类型特定的渲染器配置
+  const rendererConfigs: Record<string, Partial<RendererConfig>> = {
+    movie: {
+      ...defaultRendererConfig,
+      extraOptions: {
+        showYear: true,
+        showDuration: true,
+        showGenres: false,
+      },
+    },
+    photo: {
+      ...defaultRendererConfig,
+      showRatingBadge: false, // 写真默认不显示评分
+      extraOptions: {
+        showModel: true,
+        showResolution: true,
+        titleHoverEffect: true,
+      },
+    },
+    collection: {
+      ...defaultRendererConfig,
+      showQualityBadge: false, // 合集默认不显示质量徽章
+      extraOptions: {
+        showItemCount: true,
+        showCreator: true,
+        showTags: false,
+      },
+    },
+  }
+
+  if (debug) {
+    console.log('LatestUpdateList: Debug info:', {
+      originalItems: latestItems?.length || 0,
+      convertedItems: contentItems.length,
+      byContentType: contentItems.reduce((acc, item) => {
+        acc[item.contentType] = (acc[item.contentType] || 0) + 1
+        return acc
+      }, {} as Record<string, number>),
+      enableMixedContent,
+      allowedContentTypes,
+    })
+  }
+
+  // 如果没有启用混合内容模式，回退到传统渲染方式
+  if (!enableMixedContent) {
+    // 这里可以保留原有的MovieCard渲染逻辑作为fallback
+    // 但为了演示新架构，我们仍然使用MixedContentList
     return (
-      <EmptyState
-        message="暂无数据"
+      <MixedContentList
+        items={contentItems}
+        onItemClick={onLatestClick}
         className={className}
-        size="md"
-        variant="center"
+        variant={variant}
+        columns={columns}
+        defaultRendererConfig={defaultRendererConfig}
+        rendererConfigs={rendererConfigs}
+        enableFilter={true}
+        allowedContentTypes={allowedContentTypes}
+        showContentTypeLabels={showContentTypeLabels}
+        debug={debug}
+        emptyState={{
+          message: '暂无最新更新内容',
+          description: '目前没有最新的更新内容，请稍后再来查看',
+        }}
       />
     )
   }
 
+  // 使用混合内容列表渲染
   return (
-    <BaseList
+    <MixedContentList
+      items={contentItems}
+      onItemClick={onLatestClick}
+      className={className}
       variant={variant}
       columns={columns}
-      className={className}
-      gap="md"
-    >
-      {latestItems.map((item: LatestItem) => (
-        <MovieCard
-          key={item.id}
-          movie={{
-            ...item,
-            poster: item.imageUrl,
-            rating: parseFloat(item.rating) || undefined,
-          }}
-          variant="default"
-          showVipBadge={cardConfig.showVipBadge}
-          showNewBadge={cardConfig.showNewBadge}
-          showRatingBadge={cardConfig.showRatingBadge}
-          showQualityBadge={cardConfig.showQualityBadge}
-          hoverEffect={cardConfig.hoverEffect}
-          onPlay={() => onLatestClick?.(item)}
-        />
-      ))}
-    </BaseList>
+      defaultRendererConfig={defaultRendererConfig}
+      rendererConfigs={rendererConfigs}
+      enableFilter={true}
+      allowedContentTypes={allowedContentTypes}
+      showContentTypeLabels={showContentTypeLabels}
+      debug={debug}
+      emptyState={{
+        message: '暂无最新更新内容',
+        description: '目前没有最新的更新内容，请稍后再来查看',
+      }}
+    />
   )
 }
 
