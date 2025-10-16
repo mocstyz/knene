@@ -1,6 +1,6 @@
 import { Avatar, Button, Icon, Badge } from '@components/atoms'
-import { formatDate, formatNumber } from '@utils/formatters'
 import { cn } from '@utils/cn'
+import { formatDate, formatNumber } from '@utils/formatters'
 import React, { useState } from 'react'
 
 export interface User {

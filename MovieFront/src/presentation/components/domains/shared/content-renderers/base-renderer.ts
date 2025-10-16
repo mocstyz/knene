@@ -8,15 +8,15 @@
  * @version 1.0.0
  */
 
-import React from 'react'
-
 import type {
   ContentRenderer,
   BaseContentItem,
   RendererConfig,
   ValidationResult,
   ContentTypeId,
-} from './interfaces'
+} from '@components/domains/shared/content-renderers/interfaces'
+import React from 'react'
+
 
 /**
  * 内容渲染器基础抽象类
@@ -71,7 +71,10 @@ export abstract class BaseContentRenderer implements ContentRenderer {
    * @param config 渲染器配置
    * @returns React组件
    */
-  public render(item: BaseContentItem, config?: RendererConfig): React.ReactElement {
+  public render(
+    item: BaseContentItem,
+    config?: RendererConfig
+  ): React.ReactElement {
     // 验证内容项
     const validation = this.validateItem(item)
     if (!validation.isValid) {
@@ -92,10 +95,7 @@ export abstract class BaseContentRenderer implements ContentRenderer {
     try {
       return this.doRender(processedItem, finalConfig)
     } catch (error) {
-      console.error(
-        `Renderer ${this.name}: Error rendering item:`,
-        error
-      )
+      console.error(`Renderer ${this.name}: Error rendering item:`, error)
       return this.renderErrorItem(processedItem, finalConfig, [String(error)])
     }
   }
@@ -238,7 +238,10 @@ export abstract class BaseContentRenderer implements ContentRenderer {
       },
       React.createElement(
         'div',
-        { className: 'flex flex-col items-center justify-center p-4 text-center' },
+        {
+          className:
+            'flex flex-col items-center justify-center p-4 text-center',
+        },
         React.createElement(
           'div',
           { className: 'mb-2 text-red-500' },
@@ -263,11 +266,12 @@ export abstract class BaseContentRenderer implements ContentRenderer {
           { className: 'mb-1 font-medium text-gray-900 dark:text-gray-100' },
           item.title || 'Unknown Item'
         ),
-        errors.length > 0 && React.createElement(
-          'p',
-          { className: 'text-xs text-red-500' },
-          errors[0]
-        )
+        errors.length > 0 &&
+          React.createElement(
+            'p',
+            { className: 'text-xs text-red-500' },
+            errors[0]
+          )
       )
     )
   }

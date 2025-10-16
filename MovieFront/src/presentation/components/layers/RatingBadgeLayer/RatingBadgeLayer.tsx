@@ -92,11 +92,7 @@ const RatingBadgeLayer: React.FC<RatingBadgeLayerProps> = ({
     className
   )
 
-  return (
-    <div className={badgeClasses}>
-      {ratingResult.displayText}
-    </div>
-  )
+  return <div className={badgeClasses}>{ratingResult.displayText}</div>
 }
 
 export default RatingBadgeLayer

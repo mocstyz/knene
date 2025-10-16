@@ -1,11 +1,12 @@
 /**
  * @fileoverview 写真列表组件
- * @description 写真专用的列表组件，使用BaseList提供布局，PhotoCard提供卡片渲染。
+ * @description 写真专用的列表组件，已重构为使用内容渲染器系统。
+ * 使用BaseList提供布局，内容渲染器提供写真卡片渲染。
  * 遵循自包含组件设计原则，提供完整的写真列表功能。
  *
  * @author mosctz
  * @since 1.0.0
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 import {
@@ -13,8 +14,13 @@ import {
   EmptyState,
   type ResponsiveColumnsConfig,
 } from '@components/domains/shared'
-import PhotoCard from '@components/domains/photo/PhotoCard'
-import type { PhotoItem } from '@components/domains/photo/PhotoCard'
+import {
+  createRendererConfig,
+  type RendererConfig,
+  createPhotoContentItem,
+} from '@components/domains/shared/content-renderers'
+import { contentRendererFactory } from '@components/domains/shared/content-renderers/renderer-factory'
+import type { PhotoItem } from '@types-movie/movie.types'
 import { cn } from '@utils/cn'
 import React from 'react'
 
@@ -54,11 +60,12 @@ export interface PhotoListProps {
 /**
  * 写真列表组件
  *
- * 提供写真的完整列表功能：
+ * 提供写真的完整列表功能，使用内容渲染器系统：
  * - 使用BaseList提供统一布局
- * - 使用PhotoCard提供写真卡片渲染
+ * - 使用PhotoContentRenderer提供写真卡片渲染
  * - 支持响应式列数配置
  * - 自包含的交互和视觉效果
+ * - 使用统一的内容渲染器架构，支持扩展和定制
  */
 const PhotoList: React.FC<PhotoListProps> = ({
   photos,
@@ -95,6 +102,26 @@ const PhotoList: React.FC<PhotoListProps> = ({
     )
   }
 
+  // 获取写真内容渲染器
+  const photoRenderer = contentRendererFactory.getRenderer('photo')
+
+  // 根据配置创建渲染器配置
+  const rendererConfig = createRendererConfig({
+    hoverEffect: cardConfig?.hoverEffect ?? true,
+    showVipBadge: cardConfig?.showVipBadge ?? true,
+    showNewBadge: cardConfig?.showNewBadge ?? true,
+    showQualityBadge: cardConfig?.showQualityBadge ?? true,
+    showRatingBadge: cardConfig?.showRatingBadge ?? false,
+    aspectRatio: cardConfig?.aspectRatio ?? 'portrait',
+    onClick: item => {
+      // Find the original PhotoItem that corresponds to this BaseContentItem
+      const originalPhotoItem = photos.find(photo => photo.id === item.id)
+      if (originalPhotoItem) {
+        onPhotoClick?.(originalPhotoItem)
+      }
+    },
+  })
+
   return (
     <BaseList
       variant={variant}
@@ -102,20 +129,34 @@ const PhotoList: React.FC<PhotoListProps> = ({
       className={className}
       gap="md"
     >
-      {photos.map(photo => (
-        <PhotoCard
-          key={photo.id}
-          photo={photo}
-          onClick={() => onPhotoClick?.(photo)}
-          aspectRatio={cardConfig.aspectRatio}
-          showVipBadge={cardConfig.showVipBadge}
-          showNewBadge={cardConfig.showNewBadge}
-          showQualityBadge={cardConfig.showQualityBadge}
-          showRatingBadge={cardConfig.showRatingBadge}
-          hoverEffect={cardConfig.hoverEffect}
-          titleHoverEffect={cardConfig.titleHoverEffect}
-        />
-      ))}
+      {photos.map(photo => {
+        // 将PhotoItem转换为PhotoContentItem
+        const photoContentItem = createPhotoContentItem({
+          id: photo.id,
+          title: photo.title,
+          imageUrl: photo.imageUrl, // PhotoItem has imageUrl property
+          alt: photo.alt,
+          description: photo.description,
+          isNew: photo.isNew,
+          newType: photo.newType,
+          isVip: true, // Default to true for PhotoItem
+          rating: photo.rating ? parseFloat(photo.rating) : undefined,
+          ratingColor:
+            photo.ratingColor === 'purple' ||
+            photo.ratingColor === 'red' ||
+            photo.ratingColor === 'white'
+              ? 'default'
+              : photo.ratingColor || 'default',
+          formatType: photo.formatType,
+        })
+
+        // 使用内容渲染器渲染写真项目
+        return (
+          <div key={photo.id}>
+            {photoRenderer?.render(photoContentItem, rendererConfig)}
+          </div>
+        )
+      })}
     </BaseList>
   )
 }

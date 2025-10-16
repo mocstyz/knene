@@ -14,8 +14,8 @@ import {
   type HomeDataParams,
   type HotItem,
 } from '@infrastructure/repositories/HomeRepository'
-import { generateRandomRating } from '@utils/formatters'
 import type { TopicItem, PhotoItem, LatestItem } from '@types-movie/movie.types'
+import { generateRandomRating } from '@utils/formatters'
 
 /**
  * 首页应用服务类

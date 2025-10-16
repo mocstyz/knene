@@ -8,15 +8,17 @@
  * @version 1.0.0
  */
 
-import React from 'react'
-import { CollectionLayer } from '@components/layers/CollectionLayer'
-import { BaseContentRenderer } from './base-renderer'
-import { cn } from '@utils/cn'
+
+import { BaseContentRenderer } from '@components/domains/shared/content-renderers/base-renderer'
 import type {
   BaseContentItem,
   RendererConfig,
   ValidationResult,
-} from './interfaces'
+} from '@components/domains/shared/content-renderers/interfaces'
+import { CollectionLayer } from '@components/layers/CollectionLayer'
+import { ImageLayer } from '@components/layers/ImageLayer'
+import { cn } from '@utils/cn'
+import React from 'react'
 
 /**
  * 合集内容项接口
@@ -68,7 +70,7 @@ export interface CollectionContentItem extends BaseContentItem {
  * 使用CollectionLayer组件渲染合集内容
  */
 export class CollectionContentRenderer extends BaseContentRenderer {
-  public readonly contentType: 'collection' = 'collection'
+  public readonly contentType = 'collection' as const
   public readonly name: string = 'CollectionContentRenderer'
   public readonly version: string = '1.0.0'
 
@@ -87,39 +89,42 @@ export class CollectionContentRenderer extends BaseContentRenderer {
     return (
       <div
         className={cn(
-          'collection-content-renderer cursor-pointer group transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]',
+          'collection-content-renderer relative cursor-pointer overflow-hidden rounded-lg transition-transform duration-200 group hover:scale-[1.02] active:scale-[0.98]',
           config.className
         )}
         onClick={this.createClickHandler(collectionItem, config)}
       >
+        {/* 背景图片层 */}
+        <ImageLayer
+          src={collectionItem.imageUrl}
+          alt={collectionItem.alt || collectionItem.title}
+          aspectRatio={config.aspectRatio || 'portrait'}
+          objectFit="cover"
+          hoverScale={config.hoverEffect}
+          className="absolute inset-0"
+        />
+
+        {/* 合集内容覆盖层 */}
         <CollectionLayer
           collection={{
             id: collectionItem.id,
             title: collectionItem.title,
-            description: collectionItem.collectionDescription || collectionItem.description,
+            description:
+              collectionItem.collectionDescription ||
+              collectionItem.description,
             imageUrl: collectionItem.imageUrl,
             alt: collectionItem.alt,
-            itemCount: collectionItem.itemCount,
-            category: collectionItem.category,
-            tags: collectionItem.tags,
-            rating: collectionItem.rating,
-            viewCount: collectionItem.viewCount,
-            isFeatured: collectionItem.isFeatured,
-            isVip: collectionItem.isVip,
-            isNew: collectionItem.isNew,
-            newType: collectionItem.newType,
-            publishDate: collectionItem.publishDate,
-            creator: collectionItem.creator,
           }}
-          variant="default"
-          onPlay={() => config.onClick?.(collectionItem)}
-          showHover={config.hoverEffect}
-          showVipBadge={config.showVipBadge}
-          showNewBadge={config.showNewBadge}
-          showRatingBadge={config.showRatingBadge}
-          showItemCount={config.extraOptions?.showItemCount ?? true}
-          showCreator={config.extraOptions?.showCreator ?? true}
-          showTags={config.extraOptions?.showTags ?? false}
+          className="relative z-10"
+          onClick={() => config.onClick?.(collectionItem)}
+          showGradient={true}
+          gradientIntensity="strong"
+          contentPosition="bottom-left"
+          hoverEffect={{
+            enabled: config.hoverEffect,
+            hoverColor: 'red',
+            transitionDuration: '200ms',
+          }}
         />
       </div>
     )
@@ -136,7 +141,9 @@ export class CollectionContentRenderer extends BaseContentRenderer {
 
     // 合集特定验证
     if (item.contentType !== 'collection') {
-      errors.push(`Invalid content type: expected 'collection', got '${item.contentType}'`)
+      errors.push(
+        `Invalid content type: expected 'collection', got '${item.contentType}'`
+      )
     }
 
     const collectionItem = item as CollectionContentItem
@@ -144,7 +151,9 @@ export class CollectionContentRenderer extends BaseContentRenderer {
     // 检查项目数量是否合理
     if (collectionItem.itemCount !== undefined) {
       if (collectionItem.itemCount <= 0) {
-        errors.push(`Invalid item count: ${collectionItem.itemCount} (must be positive)`)
+        errors.push(
+          `Invalid item count: ${collectionItem.itemCount} (must be positive)`
+        )
       } else if (collectionItem.itemCount > 10000) {
         warnings.push(`Suspicious item count: ${collectionItem.itemCount}`)
       }
@@ -154,7 +163,9 @@ export class CollectionContentRenderer extends BaseContentRenderer {
     if (collectionItem.collectionType) {
       const validTypes = ['movie', 'photo', 'mixed']
       if (!validTypes.includes(collectionItem.collectionType)) {
-        warnings.push(`Unknown collection type: ${collectionItem.collectionType}`)
+        warnings.push(
+          `Unknown collection type: ${collectionItem.collectionType}`
+        )
       }
     }
 
@@ -200,23 +211,9 @@ export class CollectionContentRenderer extends BaseContentRenderer {
   ): BaseContentItem {
     const collectionItem = item as CollectionContentItem
 
-    // 数据标准化和默认值设置
+    // 数据标准化和默认值设置 - 只设置BaseContentItem中存在的属性
     return {
       ...collectionItem,
-      // 确保评分是数字类型
-      rating: collectionItem.rating !== undefined ? Number(collectionItem.rating) : undefined,
-      // 设置默认合集类型
-      collectionType: collectionItem.collectionType || 'mixed',
-      // 设置默认新合集类型
-      newType: collectionItem.newType || 'new',
-      // 确保VIP状态有默认值
-      isVip: collectionItem.isVip ?? true,
-      // 默认不是新合集
-      isNew: collectionItem.isNew ?? true,
-      // 默认不是精选合集
-      isFeatured: collectionItem.isFeatured ?? false,
-      // 确保项目数量有默认值
-      itemCount: collectionItem.itemCount ?? 0,
     }
   }
 
@@ -280,7 +277,7 @@ export class CollectionContentRenderer extends BaseContentRenderer {
     return (
       <div
         className={cn(
-          'relative cursor-pointer overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 aspect-[2/3]',
+          'relative aspect-[2/3] cursor-pointer overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800',
           finalConfig.className
         )}
         onClick={this.createClickHandler(collectionItem, finalConfig)}
@@ -334,7 +331,7 @@ export class CollectionContentRenderer extends BaseContentRenderer {
           {/* 操作按钮 */}
           {finalConfig.onClick && (
             <button
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation()
                 finalConfig.onClick?.(collectionItem)
               }}
@@ -372,7 +369,9 @@ export class CollectionContentRenderer extends BaseContentRenderer {
 /**
  * 检查内容项是否为合集内容项
  */
-export function isCollectionContentItem(item: any): item is CollectionContentItem {
+export function isCollectionContentItem(
+  item: any
+): item is CollectionContentItem {
   return (
     item &&
     typeof item === 'object' &&

@@ -239,7 +239,12 @@ export function inferContentType(item: any): 'movie' | 'photo' | 'collection' {
  * 检查是否为混合内容项
  */
 export function isMixedContentItem(item: any): item is MixedContentItem {
-  return item && typeof item === 'object' && typeof item.id === 'string' && typeof item.title === 'string'
+  return (
+    item &&
+    typeof item === 'object' &&
+    typeof item.id === 'string' &&
+    typeof item.title === 'string'
+  )
 }
 
 /**

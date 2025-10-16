@@ -9,13 +9,13 @@
  */
 
 import { MOVIE_ENDPOINTS } from '@infrastructure/api/endpoints'
-import { generateRandomRating } from '@utils/formatters'
 import type {
   TopicItem,
   PhotoItem,
   LatestItem,
   BaseMovieItem,
 } from '@types-movie/movie.types'
+import { generateRandomRating } from '@utils/formatters'
 
 /**
  * 热门项目接口 - 扩展基础接口
@@ -127,7 +127,11 @@ export class HomeRepository implements IHomeRepository {
       // 后端API数据格式转换
       return this.transformApiResponse(data)
     } catch (error) {
-      console.error('Error fetching home data:', error)
+      if (import.meta.env.DEV) {
+        console.log('Development: API not available, using mock data for home data')
+      } else {
+        console.error('Error fetching home data:', error)
+      }
 
       // 如果API调用失败，返回空数据
       return {
@@ -160,7 +164,11 @@ export class HomeRepository implements IHomeRepository {
       const data = await response.json()
       return this.transformTopics(data)
     } catch (error) {
-      console.error('Error fetching topics:', error)
+      if (import.meta.env.DEV) {
+        console.log('Development: API not available, using mock data for topics')
+      } else {
+        console.error('Error fetching topics:', error)
+      }
       return []
     }
   }
@@ -186,7 +194,11 @@ export class HomeRepository implements IHomeRepository {
       const data = await response.json()
       return this.transformPhotos(data)
     } catch (error) {
-      console.error('Error fetching photos:', error)
+      if (import.meta.env.DEV) {
+        console.log('Development: API not available, using mock data for photos')
+      } else {
+        console.error('Error fetching photos:', error)
+      }
       return []
     }
   }
@@ -212,7 +224,11 @@ export class HomeRepository implements IHomeRepository {
       const data = await response.json()
       return this.transformLatestUpdates(data)
     } catch (error) {
-      console.error('Error fetching latest updates:', error)
+      if (import.meta.env.DEV) {
+        console.log('Development: API not available, using mock data for latest updates')
+      } else {
+        console.error('Error fetching latest updates:', error)
+      }
       return []
     }
   }
@@ -238,7 +254,11 @@ export class HomeRepository implements IHomeRepository {
       const data = await response.json()
       return this.transformHotDaily(data)
     } catch (error) {
-      console.error('Error fetching hot daily:', error)
+      if (import.meta.env.DEV) {
+        console.log('Development: API not available, using mock data for hot daily')
+      } else {
+        console.error('Error fetching hot daily:', error)
+      }
       return []
     }
   }
@@ -353,9 +373,26 @@ export class HomeRepository implements IHomeRepository {
    */
   private getRandomGenres(): string[] {
     const allGenres = [
-      '动作', '科幻', '剧情', '喜剧', '惊悚', '恐怖', '爱情', '动画',
-      '冒险', '悬疑', '犯罪', '战争', '历史', '传记', '音乐', '家庭',
-      '西部', '奇幻', '运动', '纪录片'
+      '动作',
+      '科幻',
+      '剧情',
+      '喜剧',
+      '惊悚',
+      '恐怖',
+      '爱情',
+      '动画',
+      '冒险',
+      '悬疑',
+      '犯罪',
+      '战争',
+      '历史',
+      '传记',
+      '音乐',
+      '家庭',
+      '西部',
+      '奇幻',
+      '运动',
+      '纪录片',
     ]
 
     // 随机选择1-3个类型

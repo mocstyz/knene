@@ -24,6 +24,14 @@ export type {
   RegistrationOptions,
 } from './interfaces'
 
+// 导入内部使用的类型
+import type {
+  BaseContentItem as InternalBaseContentItem,
+  ContentTypeId as InternalContentTypeId,
+  RendererConfig as InternalRendererConfig,
+} from './interfaces'
+import { contentRendererFactory } from './renderer-factory'
+
 export {
   isContentItem,
   isExtendedContentItem,
@@ -91,8 +99,8 @@ export {
  * @returns 完整的渲染器配置
  */
 export const createRendererConfig = (
-  overrides: Partial<RendererConfig> = {}
-): RendererConfig => {
+  overrides: Partial<InternalRendererConfig> = {}
+): InternalRendererConfig => {
   return {
     hoverEffect: true,
     aspectRatio: 'portrait',
@@ -113,8 +121,8 @@ export const createRendererConfig = (
  * @returns 内容项对象
  */
 export const createContentItem = (
-  data: Partial<BaseContentItem>
-): BaseContentItem => {
+  data: Partial<InternalBaseContentItem>
+): InternalBaseContentItem => {
   return {
     id: '',
     title: '',
@@ -129,7 +137,9 @@ export const createContentItem = (
  * @param contentType 内容类型
  * @returns 是否可用
  */
-export const isRendererAvailable = (contentType: ContentTypeId): boolean => {
+export const isRendererAvailable = (
+  contentType: InternalContentTypeId
+): boolean => {
   return contentRendererFactory.isRegistered(contentType)
 }
 
@@ -137,7 +147,7 @@ export const isRendererAvailable = (contentType: ContentTypeId): boolean => {
  * 获取可用的内容类型列表
  * @returns 内容类型列表
  */
-export const getAvailableContentTypes = (): ContentTypeId[] => {
+export const getAvailableContentTypes = (): InternalContentTypeId[] => {
   return contentRendererFactory.getRegisteredContentTypes()
 }
 
@@ -148,8 +158,8 @@ export const getAvailableContentTypes = (): ContentTypeId[] => {
  * @returns React组件或null
  */
 export const renderContentItem = (
-  item: BaseContentItem,
-  config?: RendererConfig
+  item: InternalBaseContentItem,
+  config?: InternalRendererConfig
 ) => {
   const renderer = contentRendererFactory.getBestRenderer(item)
   return renderer ? renderer.render(item, config) : null

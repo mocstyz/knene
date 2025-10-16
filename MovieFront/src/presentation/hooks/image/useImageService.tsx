@@ -124,7 +124,10 @@ export const useImageService = (): UseImageServiceReturn => {
     return imageService.getOptimizedUrl(`topic-${topicId}`, mergedOptions)
   }
 
-  const getCollectionCover = (collectionId: string, options?: ImageOptions): string => {
+  const getCollectionCover = (
+    collectionId: string,
+    options?: ImageOptions
+  ): string => {
     // 合集封面默认配置
     const defaultOptions: ImageOptions = {
       width: 600,
@@ -135,7 +138,10 @@ export const useImageService = (): UseImageServiceReturn => {
     }
 
     const mergedOptions = { ...defaultOptions, ...options }
-    return imageService.getOptimizedUrl(`collection-${collectionId}`, mergedOptions)
+    return imageService.getOptimizedUrl(
+      `collection-${collectionId}`,
+      mergedOptions
+    )
   }
 
   const getUserAvatar = (userId: string, options?: ImageOptions): string => {

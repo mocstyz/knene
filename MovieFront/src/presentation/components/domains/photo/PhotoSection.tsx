@@ -8,8 +8,8 @@
  * @version 2.0.0
  */
 
-import { BaseSection } from '@components/domains/shared'
 import { PhotoList, type PhotoItem } from '@components/domains/photo'
+import { BaseSection } from '@components/domains/shared'
 import { cn } from '@utils/cn'
 import React from 'react'
 

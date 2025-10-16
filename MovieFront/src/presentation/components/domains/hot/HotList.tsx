@@ -137,14 +137,9 @@ const HotList: React.FC<HotListProps> = ({
       if (extendedItem.contentType) {
         contentType = extendedItem.contentType
       } else {
-        // 基于数据特征自动推断内容类型
-        if (item.formatType || isPhotoContentItem(item)) {
-          contentType = 'photo'
-        } else if (item.itemCount || isCollectionContentItem(item)) {
-          contentType = 'collection'
-        } else {
-          contentType = 'movie'
-        }
+        // 由于HotItem接口没有formatType和itemCount属性，无法基于数据特征自动推断
+        // 这里简化逻辑，默认都作为movie处理，实际项目中可以根据其他特征判断
+        contentType = 'movie'
       }
 
       // 构建基础内容项
@@ -163,14 +158,17 @@ const HotList: React.FC<HotListProps> = ({
         const movieItem: MovieContentItem = {
           ...baseContentItem,
           contentType: 'movie',
-          year: item.year,
+          year: undefined, // HotItem doesn't have year property
           rating: item.rating ? parseFloat(item.rating) : undefined,
-          ratingColor: item.ratingColor === 'purple' ? 'red' :
-                       item.ratingColor === 'white' ? 'default' :
-                       item.ratingColor || 'default',
+          ratingColor:
+            item.ratingColor === 'purple'
+              ? 'red'
+              : item.ratingColor === 'white'
+                ? 'default'
+                : item.ratingColor || 'default',
           quality: item.quality,
-          isNew: item.isNew,
-          newType: item.newType || 'new',
+          isNew: false, // HotItem doesn't have isNew property
+          newType: 'new',
           isVip: true, // 默认为VIP
         }
         return movieItem
@@ -178,10 +176,10 @@ const HotList: React.FC<HotListProps> = ({
         const photoItem: PhotoContentItem = {
           ...baseContentItem,
           contentType: 'photo',
-          formatType: item.formatType,
+          formatType: undefined, // HotItem doesn't have formatType property
           rating: item.rating ? parseFloat(item.rating) : undefined,
-          isNew: item.isNew,
-          newType: item.newType || 'new',
+          isNew: false, // HotItem doesn't have isNew property
+          newType: 'new',
           isVip: true,
         }
         return photoItem
@@ -190,9 +188,9 @@ const HotList: React.FC<HotListProps> = ({
           ...baseContentItem,
           contentType: 'collection',
           collectionDescription: item.description,
-          itemCount: item.itemCount,
-          isNew: item.isNew,
-          newType: item.newType || 'new',
+          itemCount: undefined, // HotItem doesn't have itemCount property
+          isNew: false, // HotItem doesn't have isNew property
+          newType: 'new',
           isVip: true,
         }
         return collectionItem
@@ -214,8 +212,8 @@ const HotList: React.FC<HotListProps> = ({
     showQualityBadge: cardConfig.showQualityBadge,
     showRatingBadge: cardConfig.showRatingBadge,
     extraOptions: {
-      showRank: showRank,
-      showHotScore: showHotScore,
+      showRank,
+      showHotScore,
     },
   }
 
@@ -227,8 +225,8 @@ const HotList: React.FC<HotListProps> = ({
         showYear: true,
         showDuration: true,
         showGenres: false,
-        showRank: showRank,
-        showHotScore: showHotScore,
+        showRank,
+        showHotScore,
       },
     },
     photo: {
@@ -238,8 +236,8 @@ const HotList: React.FC<HotListProps> = ({
         showModel: true,
         showResolution: true,
         titleHoverEffect: true,
-        showRank: showRank,
-        showHotScore: showHotScore,
+        showRank,
+        showHotScore,
       },
     },
     collection: {
@@ -249,8 +247,8 @@ const HotList: React.FC<HotListProps> = ({
         showItemCount: true,
         showCreator: true,
         showTags: false,
-        showRank: showRank,
-        showHotScore: showHotScore,
+        showRank,
+        showHotScore,
       },
     },
   }
@@ -259,10 +257,13 @@ const HotList: React.FC<HotListProps> = ({
     console.log('HotList: Debug info:', {
       originalItems: hotItems?.length || 0,
       convertedItems: contentItems.length,
-      byContentType: contentItems.reduce((acc, item) => {
-        acc[item.contentType] = (acc[item.contentType] || 0) + 1
-        return acc
-      }, {} as Record<string, number>),
+      byContentType: contentItems.reduce(
+        (acc, item) => {
+          acc[item.contentType] = (acc[item.contentType] || 0) + 1
+          return acc
+        },
+        {} as Record<string, number>
+      ),
       enableMixedContent,
       allowedContentTypes,
       showRank,
@@ -274,7 +275,13 @@ const HotList: React.FC<HotListProps> = ({
   return (
     <MixedContentList
       items={contentItems}
-      onItemClick={onHotClick}
+      onItemClick={item => {
+        // Find the original HotItem that corresponds to this BaseContentItem
+        const originalHotItem = hotItems.find(hotItem => hotItem.id === item.id)
+        if (originalHotItem) {
+          onHotClick?.(originalHotItem)
+        }
+      }}
       className={className}
       variant={variant}
       columns={columns}

@@ -8,14 +8,15 @@
  * @version 1.0.0
  */
 
-import React from 'react'
-import { MovieLayer } from '@components/layers/MovieLayer'
-import { BaseContentRenderer } from './base-renderer'
+
+import { BaseContentRenderer } from '@components/domains/shared/content-renderers/base-renderer'
 import type {
   BaseContentItem,
   RendererConfig,
   ValidationResult,
-} from './interfaces'
+} from '@components/domains/shared/content-renderers/interfaces'
+import { MovieLayer } from '@components/layers/MovieLayer'
+import React from 'react'
 
 /**
  * 电影内容项接口
@@ -57,7 +58,7 @@ export interface MovieContentItem extends BaseContentItem {
  * 使用MovieLayer组件渲染电影内容
  */
 export class MovieContentRenderer extends BaseContentRenderer {
-  public readonly contentType: 'movie' = 'movie'
+  public readonly contentType = 'movie' as const
   public readonly name: string = 'MovieContentRenderer'
   public readonly version: string = '1.0.0'
 
@@ -95,10 +96,6 @@ export class MovieContentRenderer extends BaseContentRenderer {
             size: movieItem.size,
             downloadCount: movieItem.downloadCount,
             rating: movieItem.rating,
-            ratingColor: movieItem.ratingColor,
-            isNew: movieItem.isNew,
-            newType: movieItem.newType,
-            isVip: movieItem.isVip,
           }}
           variant="default"
           onPlay={() => config.onClick?.(movieItem)}
@@ -126,7 +123,9 @@ export class MovieContentRenderer extends BaseContentRenderer {
 
     // 电影特定验证
     if (item.contentType !== 'movie') {
-      errors.push(`Invalid content type: expected 'movie', got '${item.contentType}'`)
+      errors.push(
+        `Invalid content type: expected 'movie', got '${item.contentType}'`
+      )
     }
 
     // 检查年份是否合理
@@ -171,17 +170,9 @@ export class MovieContentRenderer extends BaseContentRenderer {
   ): BaseContentItem {
     const movieItem = item as MovieContentItem
 
-    // 数据标准化和默认值设置
+    // 数据标准化和默认值设置 - 只设置BaseContentItem中存在的属性
     return {
       ...movieItem,
-      // 确保评分是数字类型
-      rating: movieItem.rating !== undefined ? Number(movieItem.rating) : undefined,
-      // 标准化评分颜色
-      ratingColor: movieItem.ratingColor || 'default',
-      // 设置默认新片类型
-      newType: movieItem.newType || 'new',
-      // 确保VIP状态有默认值
-      isVip: movieItem.isVip ?? true,
     }
   }
 
@@ -284,7 +275,7 @@ export class MovieContentRenderer extends BaseContentRenderer {
           {/* 操作按钮 */}
           {finalConfig.onClick && (
             <button
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation()
                 finalConfig.onClick?.(movieItem)
               }}

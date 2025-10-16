@@ -8,11 +8,11 @@
  * @version 2.0.0
  */
 
-import { BaseSection } from '@components/domains/shared'
 import {
   CollectionList,
   type CollectionItem,
 } from '@components/domains/collections'
+import { BaseSection } from '@components/domains/shared'
 import { cn } from '@utils/cn'
 import React from 'react'
 

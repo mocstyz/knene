@@ -126,14 +126,9 @@ const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
       if (item.contentType) {
         contentType = item.contentType
       } else {
-        // 基于数据特征自动推断内容类型
-        if (item.formatType || isPhotoContentItem(item)) {
-          contentType = 'photo'
-        } else if (item.itemCount || isCollectionContentItem(item)) {
-          contentType = 'collection'
-        } else {
-          contentType = 'movie'
-        }
+        // 由于LatestItem接口没有formatType和itemCount属性，无法基于数据特征自动推断
+        // 这里简化逻辑，默认都作为movie处理，实际项目中可以根据其他特征判断
+        contentType = 'movie'
       }
 
       // 构建基础内容项
@@ -152,14 +147,17 @@ const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
         const movieItem: MovieContentItem = {
           ...baseContentItem,
           contentType: 'movie',
-          year: item.year,
+          year: undefined, // LatestItem doesn't have year property
           rating: item.rating ? parseFloat(item.rating) : undefined,
-          ratingColor: item.ratingColor === 'purple' ? 'red' :
-                       item.ratingColor === 'white' ? 'default' :
-                       item.ratingColor || 'default',
+          ratingColor:
+            item.ratingColor === 'purple'
+              ? 'red'
+              : item.ratingColor === 'white'
+                ? 'default'
+                : item.ratingColor || 'default',
           quality: item.quality,
           isNew: item.isNew,
-          newType: item.newType || item.updateType || 'new',
+          newType: item.newType || 'new', // LatestItem has newType property
           isVip: true, // 默认为VIP
         }
         return movieItem
@@ -167,10 +165,10 @@ const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
         const photoItem: PhotoContentItem = {
           ...baseContentItem,
           contentType: 'photo',
-          formatType: item.formatType,
+          formatType: undefined, // LatestItem doesn't have formatType property
           rating: item.rating ? parseFloat(item.rating) : undefined,
           isNew: item.isNew,
-          newType: item.newType || item.updateType || 'new',
+          newType: item.newType || 'new',
           isVip: true,
         }
         return photoItem
@@ -179,9 +177,9 @@ const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
           ...baseContentItem,
           contentType: 'collection',
           collectionDescription: item.description,
-          itemCount: item.itemCount,
+          itemCount: undefined, // LatestItem doesn't have itemCount property
           isNew: item.isNew,
-          newType: item.newType || item.updateType || 'new',
+          newType: item.newType || 'new',
           isVip: true,
         }
         return collectionItem
@@ -238,10 +236,13 @@ const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
     console.log('LatestUpdateList: Debug info:', {
       originalItems: latestItems?.length || 0,
       convertedItems: contentItems.length,
-      byContentType: contentItems.reduce((acc, item) => {
-        acc[item.contentType] = (acc[item.contentType] || 0) + 1
-        return acc
-      }, {} as Record<string, number>),
+      byContentType: contentItems.reduce(
+        (acc, item) => {
+          acc[item.contentType] = (acc[item.contentType] || 0) + 1
+          return acc
+        },
+        {} as Record<string, number>
+      ),
       enableMixedContent,
       allowedContentTypes,
     })
@@ -254,7 +255,15 @@ const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
     return (
       <MixedContentList
         items={contentItems}
-        onItemClick={onLatestClick}
+        onItemClick={item => {
+          // Find the original LatestItem that corresponds to this BaseContentItem
+          const originalLatestItem = latestItems.find(
+            latestItem => latestItem.id === item.id
+          )
+          if (originalLatestItem) {
+            onLatestClick?.(originalLatestItem)
+          }
+        }}
         className={className}
         variant={variant}
         columns={columns}
@@ -276,7 +285,15 @@ const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
   return (
     <MixedContentList
       items={contentItems}
-      onItemClick={onLatestClick}
+      onItemClick={item => {
+        // Find the original LatestItem that corresponds to this BaseContentItem
+        const originalLatestItem = latestItems.find(
+          latestItem => latestItem.id === item.id
+        )
+        if (originalLatestItem) {
+          onLatestClick?.(originalLatestItem)
+        }
+      }}
       className={className}
       variant={variant}
       columns={columns}

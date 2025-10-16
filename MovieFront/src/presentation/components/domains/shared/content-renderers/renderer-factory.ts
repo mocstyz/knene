@@ -9,6 +9,7 @@
  * @version 1.0.0
  */
 
+import CollectionContentRenderer from '@components/domains/shared/content-renderers/collection-renderer'
 import type {
   ContentRenderer,
   ContentRendererFactory,
@@ -16,7 +17,9 @@ import type {
   ContentTypeId,
   RendererRegistration,
   RegistrationOptions,
-} from './interfaces'
+} from '@components/domains/shared/content-renderers/interfaces'
+import MovieContentRenderer from '@components/domains/shared/content-renderers/movie-renderer'
+import PhotoContentRenderer from '@components/domains/shared/content-renderers/photo-renderer'
 
 /**
  * 内容渲染器工厂实现
@@ -50,7 +53,8 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
    */
   public static getInstance(): DefaultContentRendererFactory {
     if (!DefaultContentRendererFactory.instance) {
-      DefaultContentRendererFactory.instance = new DefaultContentRendererFactory()
+      DefaultContentRendererFactory.instance =
+        new DefaultContentRendererFactory()
     }
     return DefaultContentRendererFactory.instance
   }
@@ -60,7 +64,10 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
    * @param renderer 渲染器实例
    * @param options 注册选项
    */
-  public register(renderer: ContentRenderer, options: RegistrationOptions = {}): void {
+  public register(
+    renderer: ContentRenderer,
+    options: RegistrationOptions = {}
+  ): void {
     const {
       registrar = 'anonymous',
       enabled = true,
@@ -74,7 +81,7 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     if (this.renderers.has(contentType) && !override) {
       throw new Error(
         `Renderer for content type '${contentType}' is already registered. ` +
-        `Use override option to replace it.`
+          `Use override option to replace it.`
       )
     }
 
@@ -96,7 +103,7 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
 
     console.log(
       `Content renderer '${renderer.name}' for type '${contentType}' ` +
-      `registered by ${registrar} (priority: ${priority})`
+        `registered by ${registrar} (priority: ${priority})`
     )
   }
 
@@ -113,7 +120,7 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
 
       console.log(
         `Content renderer '${registration.renderer.name}' ` +
-        `for type '${contentType}' unregistered`
+          `for type '${contentType}' unregistered`
       )
     } else {
       console.warn(
@@ -144,7 +151,7 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
    */
   public getBestRenderer(item: BaseContentItem): ContentRenderer | null {
     // 首先尝试直接匹配内容类型
-    let renderer = this.getRenderer(item.contentType)
+    const renderer = this.getRenderer(item.contentType)
 
     if (renderer && renderer.canRender(item)) {
       return renderer
@@ -159,7 +166,7 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
       if (registration.renderer.canRender(item)) {
         console.warn(
           `Using fallback renderer '${registration.renderer.name}' ` +
-          `for content type '${item.contentType}' (priority: ${registration.priority})`
+            `for content type '${item.contentType}' (priority: ${registration.priority})`
         )
         return registration.renderer
       }
@@ -204,19 +211,20 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
    * @param contentType 内容类型ID
    * @param enabled 是否启用
    */
-  public setRendererEnabled(contentType: ContentTypeId, enabled: boolean): void {
+  public setRendererEnabled(
+    contentType: ContentTypeId,
+    enabled: boolean
+  ): void {
     const registration = this.renderers.get(contentType)
 
     if (registration) {
       registration.enabled = enabled
       console.log(
         `Renderer '${registration.renderer.name}' for type '${contentType}' ` +
-        `${enabled ? 'enabled' : 'disabled'}`
+          `${enabled ? 'enabled' : 'disabled'}`
       )
     } else {
-      console.warn(
-        `No renderer found for content type '${contentType}'`
-      )
+      console.warn(`No renderer found for content type '${contentType}'`)
     }
   }
 
@@ -225,7 +233,9 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
    * @param contentType 内容类型ID
    * @returns 注册信息或null
    */
-  public getRegistrationInfo(contentType: ContentTypeId): RendererRegistration | null {
+  public getRegistrationInfo(
+    contentType: ContentTypeId
+  ): RendererRegistration | null {
     return this.renderers.get(contentType) || null
   }
 
@@ -275,9 +285,29 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
    * 注册系统默认提供的基础渲染器
    */
   private initializeBuiltinRenderers(): void {
-    // 这里会在后续步骤中添加具体的渲染器实现
-    // 暂时只输出初始化日志
     console.log('Initializing built-in content renderers...')
+
+    // 注册内置渲染器
+    this.register(new MovieContentRenderer(), {
+      registrar: 'system',
+      enabled: true,
+      priority: 100,
+      override: false,
+    })
+
+    this.register(new PhotoContentRenderer(), {
+      registrar: 'system',
+      enabled: true,
+      priority: 90,
+      override: false,
+    })
+
+    this.register(new CollectionContentRenderer(), {
+      registrar: 'system',
+      enabled: true,
+      priority: 80,
+      override: false,
+    })
   }
 
   // ============================================================================
@@ -319,16 +349,18 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     console.log('Content Types:', stats.contentTypes)
 
     console.group('Renderer Details')
-    Array.from(this.renderers.entries()).forEach(([contentType, registration]) => {
-      console.log(`${contentType}:`, {
-        name: registration.renderer.name,
-        version: registration.renderer.version,
-        enabled: registration.enabled,
-        priority: registration.priority,
-        registrar: registration.registrar,
-        registeredAt: registration.registeredAt,
-      })
-    })
+    Array.from(this.renderers.entries()).forEach(
+      ([contentType, registration]) => {
+        console.log(`${contentType}:`, {
+          name: registration.renderer.name,
+          version: registration.renderer.version,
+          enabled: registration.enabled,
+          priority: registration.priority,
+          registrar: registration.registrar,
+          registeredAt: registration.registeredAt,
+        })
+      }
+    )
     console.groupEnd()
 
     console.groupEnd()
@@ -355,37 +387,41 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
 
     // 检查内容类型重复
     const contentTypes = this.getRegisteredContentTypes()
-    const duplicateTypes = contentTypes.filter((type, index) =>
-      contentTypes.indexOf(type) !== index
+    const duplicateTypes = contentTypes.filter(
+      (type, index) => contentTypes.indexOf(type) !== index
     )
     if (duplicateTypes.length > 0) {
       errors.push(`Duplicate content types: ${duplicateTypes.join(', ')}`)
     }
 
     // 检查渲染器完整性
-    Array.from(this.renderers.entries()).forEach(([contentType, registration]) => {
-      const renderer = registration.renderer
+    Array.from(this.renderers.entries()).forEach(
+      ([contentType, registration]) => {
+        const renderer = registration.renderer
 
-      if (!renderer.contentType) {
-        errors.push(`Renderer for ${contentType} missing contentType property`)
-      }
+        if (!renderer.contentType) {
+          errors.push(
+            `Renderer for ${contentType} missing contentType property`
+          )
+        }
 
-      if (!renderer.name) {
-        warnings.push(`Renderer for ${contentType} missing name property`)
-      }
+        if (!renderer.name) {
+          warnings.push(`Renderer for ${contentType} missing name property`)
+        }
 
-      if (!renderer.version) {
-        warnings.push(`Renderer for ${contentType} missing version property`)
-      }
+        if (!renderer.version) {
+          warnings.push(`Renderer for ${contentType} missing version property`)
+        }
 
-      if (typeof renderer.canRender !== 'function') {
-        errors.push(`Renderer for ${contentType} missing canRender method`)
-      }
+        if (typeof renderer.canRender !== 'function') {
+          errors.push(`Renderer for ${contentType} missing canRender method`)
+        }
 
-      if (typeof renderer.render !== 'function') {
-        errors.push(`Renderer for ${contentType} missing render method`)
+        if (typeof renderer.render !== 'function') {
+          errors.push(`Renderer for ${contentType} missing render method`)
+        }
       }
-    })
+    )
 
     return {
       isValid: errors.length === 0,
@@ -399,7 +435,8 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
  * 导出工厂单例实例
  * 使用此实例进行所有渲染器操作
  */
-export const contentRendererFactory = DefaultContentRendererFactory.getInstance()
+export const contentRendererFactory =
+  DefaultContentRendererFactory.getInstance()
 
 /**
  * 导出工厂类（用于测试或特殊场景）

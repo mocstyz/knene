@@ -8,7 +8,13 @@
  * @version 1.0.0
  */
 
-import React from 'react'
+
+import { BaseContentRenderer } from '@components/domains/shared/content-renderers/base-renderer'
+import type {
+  BaseContentItem,
+  RendererConfig,
+  ValidationResult,
+} from '@components/domains/shared/content-renderers/interfaces'
 import { CardHoverLayer } from '@components/layers/CardHoverLayer'
 import { ImageLayer } from '@components/layers/ImageLayer'
 import { NewBadgeLayer } from '@components/layers/NewBadgeLayer'
@@ -16,13 +22,8 @@ import { QualityBadgeLayer } from '@components/layers/QualityBadgeLayer'
 import { TextHoverLayer } from '@components/layers/TextHoverLayer'
 import { TitleLayer } from '@components/layers/TitleLayer'
 import { VipBadgeLayer } from '@components/layers/VipBadgeLayer'
-import { BaseContentRenderer } from './base-renderer'
 import { cn } from '@utils/cn'
-import type {
-  BaseContentItem,
-  RendererConfig,
-  ValidationResult,
-} from './interfaces'
+import React from 'react'
 
 /**
  * 写真内容项接口
@@ -54,7 +55,14 @@ export interface PhotoContentItem extends BaseContentItem {
   /** 评分 */
   rating?: number
   /** 评分颜色 */
-  ratingColor?: 'default' | 'green' | 'blue' | 'cyan' | 'yellow' | 'orange' | 'red'
+  ratingColor?:
+    | 'default'
+    | 'green'
+    | 'blue'
+    | 'cyan'
+    | 'yellow'
+    | 'orange'
+    | 'red'
   /** 是否为新内容 */
   isNew?: boolean
   /** 新片类型 */
@@ -70,7 +78,7 @@ export interface PhotoContentItem extends BaseContentItem {
  * 使用Layer组件组合渲染写真内容
  */
 export class PhotoContentRenderer extends BaseContentRenderer {
-  public readonly contentType: 'photo' = 'photo'
+  public readonly contentType = 'photo' as const
   public readonly name: string = 'PhotoContentRenderer'
   public readonly version: string = '1.0.0'
 
@@ -87,7 +95,9 @@ export class PhotoContentRenderer extends BaseContentRenderer {
     const photoItem = item as PhotoContentItem
 
     // 获取宽高比对应的CSS类
-    const aspectRatioClass = this.getAspectRatioClass(config.aspectRatio || 'portrait')
+    const aspectRatioClass = this.getAspectRatioClass(
+      config.aspectRatio || 'portrait'
+    )
 
     return (
       <CardHoverLayer scale="sm" duration="fast">
@@ -156,7 +166,11 @@ export class PhotoContentRenderer extends BaseContentRenderer {
 
           {/* 标题信息层 */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
-            <TextHoverLayer hoverColor="red" duration="fast" enableScale={false}>
+            <TextHoverLayer
+              hoverColor="red"
+              duration="fast"
+              enableScale={false}
+            >
               <TitleLayer
                 title={photoItem.title}
                 variant="overlay"
@@ -176,9 +190,7 @@ export class PhotoContentRenderer extends BaseContentRenderer {
             {/* 额外信息显示 */}
             {config.extraOptions?.showMetadata && (
               <div className="mt-2 text-xs text-white/80">
-                {photoItem.model && (
-                  <div>模特: {photoItem.model}</div>
-                )}
+                {photoItem.model && <div>模特: {photoItem.model}</div>}
                 {photoItem.resolution && (
                   <div>分辨率: {photoItem.resolution}</div>
                 )}
@@ -210,7 +222,9 @@ export class PhotoContentRenderer extends BaseContentRenderer {
 
     // 写真特定验证
     if (item.contentType !== 'photo') {
-      errors.push(`Invalid content type: expected 'photo', got '${item.contentType}'`)
+      errors.push(
+        `Invalid content type: expected 'photo', got '${item.contentType}'`
+      )
     }
 
     const photoItem = item as PhotoContentItem
@@ -232,7 +246,15 @@ export class PhotoContentRenderer extends BaseContentRenderer {
 
     // 检查评分颜色
     if (photoItem.ratingColor) {
-      const validColors = ['default', 'green', 'blue', 'cyan', 'yellow', 'orange', 'red']
+      const validColors = [
+        'default',
+        'green',
+        'blue',
+        'cyan',
+        'yellow',
+        'orange',
+        'red',
+      ]
       if (!validColors.includes(photoItem.ratingColor)) {
         warnings.push(`Unknown rating color: ${photoItem.ratingColor}`)
       }
@@ -265,21 +287,9 @@ export class PhotoContentRenderer extends BaseContentRenderer {
   ): BaseContentItem {
     const photoItem = item as PhotoContentItem
 
-    // 数据标准化和默认值设置
+    // 数据标准化和默认值设置 - 只设置BaseContentItem中存在的属性
     return {
       ...photoItem,
-      // 确保评分是数字类型
-      rating: photoItem.rating !== undefined ? Number(photoItem.rating) : undefined,
-      // 标准化评分颜色
-      ratingColor: photoItem.ratingColor || 'default',
-      // 设置默认新片类型
-      newType: photoItem.newType || 'new',
-      // 确保VIP状态有默认值
-      isVip: photoItem.isVip ?? true,
-      // 默认不是新内容
-      isNew: photoItem.isNew ?? true,
-      // 默认不是成人内容
-      isAdult: photoItem.isAdult ?? false,
     }
   }
 
@@ -337,7 +347,9 @@ export class PhotoContentRenderer extends BaseContentRenderer {
   ): React.ReactElement {
     const photoItem = item as PhotoContentItem
     const finalConfig = this.mergeConfig(config)
-    const aspectRatioClass = this.getAspectRatioClass(finalConfig.aspectRatio || 'portrait')
+    const aspectRatioClass = this.getAspectRatioClass(
+      finalConfig.aspectRatio || 'portrait'
+    )
 
     return (
       <div
@@ -390,7 +402,7 @@ export class PhotoContentRenderer extends BaseContentRenderer {
           {/* 操作按钮 */}
           {finalConfig.onClick && (
             <button
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation()
                 finalConfig.onClick?.(photoItem)
               }}

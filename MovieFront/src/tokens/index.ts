@@ -45,9 +45,6 @@ export {
 
 // 便捷导出：常用业务组件变体
 export {
-  movieCardVariants,
-  movieCardItemVariants,
-  movieGridVariants,
   movieDetailVariants,
   ratingVariants,
   heroVariants,

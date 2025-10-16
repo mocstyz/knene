@@ -20,10 +20,13 @@ const HomePage: React.FC = () => {
   // 转换数据类型以匹配组件期望
   const convertedTrendingMovies = trendingMovies.map(movie => ({
     ...movie,
-    rating: movie.rating ? parseFloat(movie.rating) : undefined,
-    ratingColor: movie.ratingColor === 'purple' ? 'red' :
-                  movie.ratingColor === 'white' ? 'default' :
-                  movie.ratingColor || 'default',
+    rating: movie.rating || '0.0',
+    ratingColor:
+      movie.ratingColor === 'purple'
+        ? 'red'
+        : movie.ratingColor === 'white'
+          ? 'default'
+          : movie.ratingColor || 'default',
   }))
 
   // 添加Header动态背景效果，与HTML中的JavaScript逻辑完全一致

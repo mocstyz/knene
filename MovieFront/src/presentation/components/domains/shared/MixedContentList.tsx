@@ -8,17 +8,17 @@
  * @version 1.0.0
  */
 
-import React, { useEffect, useState, useMemo } from 'react'
-import { BaseList, EmptyState } from './index'
+
+import { BaseList, EmptyState } from '@components/domains/shared'
 import {
   BaseContentItem,
   RendererConfig,
-  ContentRenderer,
-  contentRendererFactory,
   ensureRenderersInitialized,
   isContentItem,
-} from './content-renderers'
+} from '@components/domains/shared/content-renderers'
+import { contentRendererFactory } from '@components/domains/shared/content-renderers/renderer-factory'
 import { cn } from '@utils/cn'
+import React, { useEffect, useState, useMemo } from 'react'
 
 // ============================================================================
 // 接口定义
@@ -69,10 +69,6 @@ export interface MixedContentListProps {
   emptyState?: {
     message?: string
     description?: string
-    action?: {
-      text: string
-      onClick: () => void
-    }
   }
   /** 调试模式 */
   debug?: boolean
@@ -184,7 +180,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
       return []
     }
 
-    let filteredItems = items.filter(item => {
+    const filteredItems = items.filter(item => {
       // 验证内容项
       if (!isContentItem(item)) {
         console.warn('MixedContentList: Invalid content item:', item)
@@ -203,10 +199,13 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
       console.log('MixedContentList: Processed items:', {
         original: items.length,
         filtered: filteredItems.length,
-        byContentType: filteredItems.reduce((acc, item) => {
-          acc[item.contentType] = (acc[item.contentType] || 0) + 1
-          return acc
-        }, {} as Record<string, number>),
+        byContentType: filteredItems.reduce(
+          (acc, item) => {
+            acc[item.contentType] = (acc[item.contentType] || 0) + 1
+            return acc
+          },
+          {} as Record<string, number>
+        ),
       })
     }
 
@@ -221,7 +220,9 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     const stats = { ...renderState.rendererStats }
 
     processedItems.forEach(item => {
-      const hasRenderer = contentRendererFactory.isRegistered(item.contentType as any)
+      const hasRenderer = contentRendererFactory.isRegistered(
+        item.contentType as any
+      )
 
       if (!hasRenderer) {
         missingTypes.add(item.contentType)
@@ -230,7 +231,8 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
       }
 
       stats.total++
-      stats.byContentType[item.contentType] = (stats.byContentType[item.contentType] || 0) + 1
+      stats.byContentType[item.contentType] =
+        (stats.byContentType[item.contentType] || 0) + 1
     })
 
     stats.failed = missingTypes.size
@@ -269,15 +271,27 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
 
     if (!renderer) {
       if (debug) {
-        console.warn(`MixedContentList: No renderer found for content type: ${item.contentType}`)
+        console.warn(
+          `MixedContentList: No renderer found for content type: ${item.contentType}`
+        )
       }
 
       return (
         <div className="flex h-full w-full items-center justify-center rounded-lg bg-gray-100 p-4 text-center dark:bg-gray-800">
           <div>
             <div className="mb-2 text-gray-500">
-              <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="h-8 w-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
             <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -301,16 +315,24 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
         <div className="flex h-full w-full items-center justify-center rounded-lg bg-red-50 p-4 text-center dark:bg-red-900/20">
           <div>
             <div className="mb-2 text-red-500">
-              <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="h-8 w-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
             <h3 className="text-sm font-medium text-red-900 dark:text-red-100">
               渲染错误
             </h3>
-            <p className="mt-1 text-xs text-red-500">
-              {item.title}
-            </p>
+            <p className="mt-1 text-xs text-red-500">{item.title}</p>
           </div>
         </div>
       )
@@ -361,8 +383,18 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
       <div className="flex items-center justify-center p-8">
         <div className="text-center">
           <div className="mb-4 text-red-500">
-            <svg className="h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              className="h-12 w-12"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
           </div>
           <h3 className="mb-2 text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -390,8 +422,18 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
       <div className="flex items-center justify-center p-8">
         <div className="text-center">
           <div className="mb-4 text-orange-500">
-            <svg className="h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            <svg
+              className="h-12 w-12"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+              />
             </svg>
           </div>
           <h3 className="mb-2 text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -411,7 +453,6 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
       <EmptyState
         message={emptyState?.message || '暂无内容'}
         description={emptyState?.description}
-        action={emptyState?.action}
         className={className}
         size="lg"
         variant="center"
@@ -431,21 +472,19 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
           <div>失败渲染: {renderState.rendererStats.failed}</div>
           <div>缺失渲染器: {renderState.missingRenderers.join(', ')}</div>
           <div>按内容类型统计:</div>
-          {Object.entries(renderState.rendererStats.byContentType).map(([type, count]) => (
-            <div key={type} className="ml-2">
-              - {type}: {count}
-            </div>
-          ))}
+          {Object.entries(renderState.rendererStats.byContentType).map(
+            ([type, count]) => (
+              <div key={type} className="ml-2">
+                - {type}: {count}
+              </div>
+            )
+          )}
         </div>
       )}
 
       {/* 内容列表 */}
-      <BaseList
-        variant={variant}
-        columns={columns}
-        gap="md"
-      >
-        {processedItems.map((item) => (
+      <BaseList variant={variant} columns={columns} gap="md">
+        {processedItems.map(item => (
           <div key={item.id} className="relative">
             {renderContentTypeLabel(item)}
             {renderContentItem(item)}

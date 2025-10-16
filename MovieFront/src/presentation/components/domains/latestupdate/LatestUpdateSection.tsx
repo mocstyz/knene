@@ -8,10 +8,10 @@
  * @version 2.0.0
  */
 
+import { LatestUpdateList, type LatestItem } from '@components/domains/latestupdate/LatestUpdateList'
 import { BaseSection } from '@components/domains/shared'
-import { LatestUpdateList, type LatestItem } from './LatestUpdateList'
-import { cn } from '@utils/cn'
 import React from 'react'
+
 
 /**
  * 首页最新更新模块组件属性接口

@@ -8,11 +8,11 @@
  * @version 2.0.0
  */
 
+import { HotList } from '@components/domains/hot/HotList'
 import { BaseSection } from '@components/domains/shared'
-import { HotList } from './HotList'
 import type { HotItem } from '@infrastructure/repositories/HomeRepository'
-import { cn } from '@utils/cn'
 import React from 'react'
+
 
 /**
  * 首页热门模块组件属性接口

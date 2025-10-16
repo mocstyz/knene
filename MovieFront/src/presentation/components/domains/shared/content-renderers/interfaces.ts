@@ -310,13 +310,27 @@ export function isContentItem(obj: any): obj is BaseContentItem {
  * 检查对象是否为扩展内容项
  */
 export function isExtendedContentItem(obj: any): obj is ExtendedContentItem {
-  return isContentItem(obj) && obj.tags !== undefined
+  return (
+    isContentItem(obj) &&
+    ((obj as ExtendedContentItem).tags !== undefined ||
+      (obj as ExtendedContentItem).rating !== undefined ||
+      (obj as ExtendedContentItem).isVip !== undefined)
+  )
 }
 
 /**
  * 检查内容类型ID是否有效
  */
-export function isValidContentType(contentType: any): contentType is ContentTypeId {
-  const validTypes: ContentTypeId[] = ['movie', 'photo', 'collection', 'video', 'article', 'live']
+export function isValidContentType(
+  contentType: any
+): contentType is ContentTypeId {
+  const validTypes: ContentTypeId[] = [
+    'movie',
+    'photo',
+    'collection',
+    'video',
+    'article',
+    'live',
+  ]
   return validTypes.includes(contentType)
 }

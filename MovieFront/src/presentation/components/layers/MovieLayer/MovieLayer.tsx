@@ -269,12 +269,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
         />
 
         {/* 分类信息 */}
-        <MetadataLayer
-          genres={movie.genres}
-          variant="compact"
-          maxGenres={3}
-        />
-
+        <MetadataLayer genres={movie.genres} variant="compact" maxGenres={3} />
       </div>
     </div>
   )
