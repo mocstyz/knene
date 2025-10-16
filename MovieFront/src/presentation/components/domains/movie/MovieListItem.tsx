@@ -8,8 +8,13 @@
  * @version 1.0.0
  */
 
-import { MovieCard } from '@components/domains/movie/MovieCard'
-import { CollectionCard } from '@components/domains/collections/CollectionCard'
+import {
+  contentRendererFactory,
+  type BaseContentItem,
+  type RendererConfig,
+  type MovieContentItem,
+  type CollectionContentItem,
+} from '@components/domains/shared/content-renderers'
 import {
   CardHoverLayer,
   ImageLayer,
@@ -75,25 +80,37 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
 
   // 渲染专题卡片
   if (cardVariant === 'topic') {
-    return (
+    // 转换为合集内容项
+    const collectionItem: CollectionContentItem = {
+      id: movie.id,
+      title: movie.title,
+      contentType: 'collection',
+      description: movie.description,
+      imageUrl: movie.imageUrl,
+      alt: movie.alt,
+      isNew: (movie as any).isNew ?? true,
+      newType: (movie as any).newType ?? 'new',
+      isVip: true,
+      collectionDescription: movie.description,
+      itemCount: 10, // 默认项目数量
+    }
+
+    // 构建渲染器配置
+    const rendererConfig: Partial<RendererConfig> = {
+      aspectRatio: 'square',
+      showVipBadge: cardConfig?.showVipBadge ?? true,
+      hoverEffect: true,
+      onClick: () => handleClick(),
+      className: itemClasses,
+    }
+
+    // 使用内容渲染器渲染
+    const renderer = contentRendererFactory.getRenderer('collection')
+    return renderer ? (
       <div className={itemClasses}>
-        <CollectionCard
-          collection={{
-            id: movie.id,
-            title: movie.title,
-            description: movie.description,
-            imageUrl: movie.imageUrl,
-            alt: movie.alt,
-            isNew: (movie as any).isNew ?? true,
-            newType: (movie as any).newType ?? 'new',
-          }}
-          onClick={handleClick}
-          aspectRatio="square"
-          showVipBadge={cardConfig?.showVipBadge ?? true}
-          hoverEffect={true}
-        />
+        {renderer.render(collectionItem, rendererConfig as RendererConfig)}
       </div>
-    )
+    ) : null
   }
 
   // 渲染简化卡片 - 使用现有标签组件组合
@@ -208,30 +225,53 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
   }
 
   // 渲染默认卡片
-  return (
+  // 转换为电影内容项
+  const movieItem: MovieContentItem = {
+    id: movie.id,
+    title: movie.title,
+    contentType: 'movie',
+    description: movie.description || `${movie.title} - ${movie.type}`,
+    imageUrl: movie.imageUrl,
+    alt: movie.alt,
+    year: 2024, // 默认年份
+    rating: movie.rating ? parseFloat(movie.rating) : undefined,
+    ratingColor: movie.ratingColor === 'purple' ? 'red' :
+                 movie.ratingColor === 'white' ? 'default' :
+                 movie.ratingColor || 'default',
+    quality: movie.quality,
+    duration: 120, // 默认时长（分钟）
+    genres: [movie.type],
+    isNew: (movie as any).isNew,
+    newType: (movie as any).newType || 'new',
+    isVip: true,
+  }
+
+  // 构建渲染器配置
+  const rendererConfig: Partial<RendererConfig> = {
+    aspectRatio: 'portrait',
+    showVipBadge: cardConfig?.showVipBadge ?? true,
+    showNewBadge: cardConfig?.showNewBadge ?? true,
+    showQualityBadge: cardConfig?.showQualityBadge ?? true,
+    showRatingBadge: cardConfig?.showRatingBadge ?? true,
+    hoverEffect: true,
+    onClick: () => handleClick(),
+    className: itemClasses,
+    extraOptions: {
+      cardVariant,
+      // 映射ratingColor到rating属性
+      ...(movie.ratingColor && {
+        fallbackRating: movie.ratingColor === 'default' ? 7.0 : 8.0,
+      }),
+    },
+  }
+
+  // 使用内容渲染器渲染
+  const renderer = contentRendererFactory.getRenderer('movie')
+  return renderer ? (
     <div className={itemClasses}>
-      <MovieCard
-        movie={{
-          id: movie.id,
-          title: movie.title,
-          poster: movie.imageUrl,
-          year: 2024, // 默认年份
-          rating: parseFloat(movie.rating),
-          duration: 120, // 默认时长（分钟）
-          genres: [movie.type],
-          description: movie.description || `${movie.title} - ${movie.type}`,
-          alt: movie.alt,
-          quality: movie.quality,
-          // 映射ratingColor到rating属性
-          ...(movie.ratingColor && {
-            rating: movie.ratingColor === 'default' ? 7.0 : 8.0,
-          }),
-        }}
-        variant={cardVariant}
-        onPlay={handleClick}
-      />
+      {renderer.render(movieItem, rendererConfig as RendererConfig)}
     </div>
-  )
+  ) : null
 }
 
 export { MovieListItem }

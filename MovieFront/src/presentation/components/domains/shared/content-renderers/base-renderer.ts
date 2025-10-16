@@ -9,6 +9,7 @@
  */
 
 import React from 'react'
+
 import type {
   ContentRenderer,
   BaseContentItem,
@@ -229,37 +230,45 @@ export abstract class BaseContentRenderer implements ContentRenderer {
   ): React.ReactElement {
     const finalConfig = this.mergeConfig(config)
 
-    return (
-      <div
-        className={this.getClassName(finalConfig)}
-        style={this.getStyle(finalConfig)}
-      >
-        <div className="flex flex-col items-center justify-center p-4 text-center">
-          <div className="mb-2 text-red-500">
-            <svg
-              className="h-8 w-8"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </div>
-          <h3 className="mb-1 font-medium text-gray-900 dark:text-gray-100">
-            {item.title || 'Unknown Item'}
-          </h3>
-          {errors.length > 0 && (
-            <p className="text-xs text-red-500">
-              {errors[0]}
-            </p>
-          )}
-        </div>
-      </div>
+    return React.createElement(
+      'div',
+      {
+        className: this.getClassName(finalConfig),
+        style: this.getStyle(finalConfig),
+      },
+      React.createElement(
+        'div',
+        { className: 'flex flex-col items-center justify-center p-4 text-center' },
+        React.createElement(
+          'div',
+          { className: 'mb-2 text-red-500' },
+          React.createElement(
+            'svg',
+            {
+              className: 'h-8 w-8',
+              fill: 'none',
+              stroke: 'currentColor',
+              viewBox: '0 0 24 24',
+            },
+            React.createElement('path', {
+              strokeLinecap: 'round',
+              strokeLinejoin: 'round',
+              strokeWidth: 2,
+              d: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+            })
+          )
+        ),
+        React.createElement(
+          'h3',
+          { className: 'mb-1 font-medium text-gray-900 dark:text-gray-100' },
+          item.title || 'Unknown Item'
+        ),
+        errors.length > 0 && React.createElement(
+          'p',
+          { className: 'text-xs text-red-500' },
+          errors[0]
+        )
+      )
     )
   }
 

@@ -1,10 +1,10 @@
-export { MovieCard } from './MovieCard'
+// MovieCard已被内容渲染器系统替代，移除导出
 export { MovieList } from './MovieList'
 export { MovieListLayout } from './MovieListLayout'
 export { MovieListItem } from './MovieListItem'
 
 // 导出类型
-export type { MovieCardProps } from './MovieCard'
+// MovieCardProps已被内容渲染器系统替代，移除导出
 export type { MovieListProps } from './MovieList'
 export type { MovieListLayoutProps } from './MovieListLayout'
 export type { MovieListItemProps } from './MovieListItem'

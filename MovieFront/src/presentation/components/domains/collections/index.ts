@@ -3,11 +3,11 @@
  * @description 导出所有collections领域的组件和类型
  */
 
-export { CollectionCard } from './CollectionCard'
+// CollectionCard已被内容渲染器系统替代，移除导出
 export { CollectionList } from './CollectionList'
 export { CollectionSection } from './CollectionSection'
 
 // 导出类型
-export type { CollectionCardProps } from './CollectionCard'
+// CollectionCardProps已被内容渲染器系统替代，移除导出
 export type { CollectionListProps, CollectionItem } from './CollectionList'
 export type { CollectionSectionProps } from './CollectionSection'
