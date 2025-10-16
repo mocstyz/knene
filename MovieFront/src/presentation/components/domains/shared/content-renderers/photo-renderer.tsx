@@ -15,13 +15,7 @@ import type {
   RendererConfig,
   ValidationResult,
 } from '@components/domains/shared/content-renderers/interfaces'
-import { CardHoverLayer } from '@components/layers/CardHoverLayer'
-import { ImageLayer } from '@components/layers/ImageLayer'
-import { NewBadgeLayer } from '@components/layers/NewBadgeLayer'
-import { QualityBadgeLayer } from '@components/layers/QualityBadgeLayer'
-import { TextHoverLayer } from '@components/layers/TextHoverLayer'
-import { TitleLayer } from '@components/layers/TitleLayer'
-import { VipBadgeLayer } from '@components/layers/VipBadgeLayer'
+import { MovieLayer } from '@components/layers/MovieLayer'
 import { cn } from '@utils/cn'
 import React from 'react'
 
@@ -94,120 +88,34 @@ export class PhotoContentRenderer extends BaseContentRenderer {
   ): React.ReactElement {
     const photoItem = item as PhotoContentItem
 
-    // 获取宽高比对应的CSS类
-    const aspectRatioClass = this.getAspectRatioClass(
-      config.aspectRatio || 'portrait'
-    )
-
     return (
-      <CardHoverLayer scale="sm" duration="fast">
-        <div
-          className={cn(
-            'relative cursor-pointer overflow-hidden rounded-lg shadow-md group',
-            aspectRatioClass,
-            'active:scale-[0.98]',
-            config.className
-          )}
-          onClick={this.createClickHandler(photoItem, config)}
-        >
-          {/* 图片层 */}
-          <ImageLayer
-            src={photoItem.imageUrl}
-            alt={this.getDisplayAltText(photoItem)}
-            aspectRatio="custom"
-            objectFit="cover"
-            hoverScale={false}
-            fallbackType="gradient"
-          />
-
-          {/* 顶部标签层 */}
-          <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
-            {/* New badge - top-left */}
-            {config.showNewBadge && (
-              <NewBadgeLayer
-                isNew={photoItem.isNew ?? true}
-                newType={photoItem.newType ?? 'new'}
-                position="top-left"
-                size="responsive"
-                variant="default"
-                animated={false}
-              />
-            )}
-
-            {/* 质量徽章 - top-right */}
-            {config.showQualityBadge && photoItem.formatType && (
-              <QualityBadgeLayer
-                quality={photoItem.formatType}
-                position="top-right"
-                variant="default"
-                size="responsive"
-              />
-            )}
-          </div>
-
-          {/* 底部标签层 */}
-          <div className="absolute bottom-2 left-2 right-2 z-10 flex justify-between">
-            {/* 评分徽章 - bottom-left */}
-            {config.showRatingBadge && photoItem.rating && (
-              <div className="rounded bg-black/60 px-2 py-1 text-xs font-bold text-white">
-                {photoItem.rating.toFixed(1)}
-              </div>
-            )}
-
-            {/* VIP徽章层 - bottom-right */}
-            {config.showVipBadge && (
-              <VipBadgeLayer
-                isVip={photoItem.isVip ?? true}
-                position="bottom-right"
-                variant="default"
-              />
-            )}
-          </div>
-
-          {/* 标题信息层 */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
-            <TextHoverLayer
-              hoverColor="red"
-              duration="fast"
-              enableScale={false}
-            >
-              <TitleLayer
-                title={photoItem.title}
-                variant="overlay"
-                size="md"
-                maxLines={2}
-                color="white"
-                weight="medium"
-                align="left"
-                hoverEffect={{
-                  enabled: config.hoverEffect ?? true,
-                  hoverColor: 'red',
-                  transitionDuration: '200ms',
-                }}
-              />
-            </TextHoverLayer>
-
-            {/* 额外信息显示 */}
-            {config.extraOptions?.showMetadata && (
-              <div className="mt-2 text-xs text-white/80">
-                {photoItem.model && <div>模特: {photoItem.model}</div>}
-                {photoItem.resolution && (
-                  <div>分辨率: {photoItem.resolution}</div>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* 成人内容警告 */}
-          {photoItem.isAdult && (
-            <div className="absolute left-2 top-2 z-20">
-              <div className="rounded bg-red-500 px-2 py-1 text-xs font-bold text-white">
-                18+
-              </div>
-            </div>
-          )}
-        </div>
-      </CardHoverLayer>
+      <div
+        className={this.getClassName(config)}
+        style={this.getStyle(config)}
+        onClick={this.createClickHandler(photoItem, config)}
+      >
+        <MovieLayer
+          movie={{
+            id: photoItem.id,
+            title: photoItem.title,
+            poster: photoItem.imageUrl,
+            alt: photoItem.alt,
+            // 将写真的formatType作为质量标签显示
+            quality: photoItem.formatType,
+            // 将写真的tags作为分类显示
+            genres: photoItem.tags,
+          }}
+          variant="default"
+          onPlay={() => config.onClick?.(photoItem)}
+          showHover={config.hoverEffect}
+          showVipBadge={config.showVipBadge}
+          showQualityBadge={config.showQualityBadge}
+          showRatingBadge={false}  // 写真不显示评分标签
+          showNewBadge={config.showNewBadge}
+          newBadgeType={photoItem.newType}
+          qualityText={photoItem.formatType}  // 显示图片格式（如：JPEG高、PNG、WebP）
+        />
+      </div>
     )
   }
 
@@ -304,12 +212,8 @@ export class PhotoContentRenderer extends BaseContentRenderer {
       showVipBadge: true,
       showNewBadge: true,
       showQualityBadge: true,
-      showRatingBadge: false, // 写真默认不显示评分
+      showRatingBadge: false, // 写真不显示评分标签
       hoverEffect: true,
-      extraOptions: {
-        showMetadata: false,
-        titleHoverEffect: true,
-      },
     }
   }
 
@@ -417,23 +321,23 @@ export class PhotoContentRenderer extends BaseContentRenderer {
   }
 
   /**
-   * 获取宽高比对应的CSS类
-   * @param aspectRatio 宽高比
+   * 获取写真专用的CSS类名
+   * @param config 渲染配置
    * @returns CSS类名字符串
    */
-  private getAspectRatioClass(aspectRatio: string): string {
-    switch (aspectRatio) {
-      case 'square':
-        return 'aspect-square'
-      case 'video':
-        return 'aspect-video'
-      case 'portrait':
-        return 'aspect-[2/3]'
-      case 'landscape':
-        return 'aspect-[16/9]'
-      default:
-        return 'aspect-[2/3]'
-    }
+  protected getClassName(config: RendererConfig): string {
+    const baseClasses = super.getClassName(config)
+    const photoSpecificClasses = [
+      'photo-content-renderer',
+      'cursor-pointer',
+      'group',
+      'transition-transform',
+      'duration-200',
+      'hover:scale-[1.02]',
+      'active:scale-[0.98]',
+    ]
+
+    return `${baseClasses} ${photoSpecificClasses.join(' ')}`
   }
 }
 
