@@ -8,6 +8,12 @@
  * @version 1.0.0
  */
 
+import { Movie } from '@domain/entities/Movie'
+import { Duration } from '@domain/value-objects/Duration'
+import { Genre } from '@domain/value-objects/Genre'
+import { MovieQuality } from '@domain/value-objects/MovieQuality'
+import { ReleaseDate } from '@domain/value-objects/ReleaseDate'
+import { Title } from '@domain/value-objects/Title'
 import {
   HomeRepository,
   type HomeDataResponse,
@@ -16,12 +22,6 @@ import {
 } from '@infrastructure/repositories/HomeRepository'
 import type { TopicItem, PhotoItem, LatestItem } from '@types-movie'
 import { generateRandomRating } from '@utils/formatters'
-import { Movie } from '@domain/entities/Movie'
-import { Title } from '@domain/value-objects/Title'
-import { Genre } from '@domain/value-objects/Genre'
-import { Duration } from '@domain/value-objects/Duration'
-import { ReleaseDate } from '@domain/value-objects/ReleaseDate'
-import { MovieQuality } from '@domain/value-objects/MovieQuality'
 
 
 // 首页应用服务类，协调首页数据获取与处理，包含缓存策略、图片URL处理、数据转换和降级策略

@@ -518,7 +518,7 @@ export class RatingDistribution {
     // 简单的正态分布模拟
     for (let rating = 1; rating <= 10; rating++) {
       const distance = Math.abs(rating - center)
-      let weight = Math.exp(-(distance * distance) / 2)
+      const weight = Math.exp(-(distance * distance) / 2)
 
       if (remainingCount <= 0) break
 

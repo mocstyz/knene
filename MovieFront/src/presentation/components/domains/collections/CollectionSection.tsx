@@ -34,7 +34,7 @@ const CollectionSection: React.FC<CollectionSectionProps> = ({
   // 添加调试日志
   console.log('🎬 [CollectionSection] Received data:', {
     length: data?.length || 0,
-    data: data
+    data
   })
 
   return (

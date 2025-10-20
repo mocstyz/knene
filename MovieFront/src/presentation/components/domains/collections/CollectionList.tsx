@@ -98,7 +98,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
   // 添加调试日志
   console.log('🎬 [CollectionList] Received collections:', {
     length: collections?.length || 0,
-    collections: collections,
+    collections,
     isArray: Array.isArray(collections),
     isEmpty: !collections || collections.length === 0
   })

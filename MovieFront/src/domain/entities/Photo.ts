@@ -8,8 +8,8 @@
  * @version 1.0.0
  */
 
-import { Title } from '@domain/value-objects/Title'
 import { ReleaseDate } from '@domain/value-objects/ReleaseDate'
+import { Title } from '@domain/value-objects/Title'
 
 // 写真详情接口，包含写真的完整信息描述
 export interface PhotoDetail {

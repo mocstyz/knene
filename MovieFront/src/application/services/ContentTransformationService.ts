@@ -8,14 +8,15 @@
  * @version 1.0.0
  */
 
+import { Collection } from '@domain/entities/Collection'
 import { Movie } from '@domain/entities/Movie'
 import { Photo } from '@domain/entities/Photo'
-import { Collection } from '@domain/entities/Collection'
 import { 
   UnifiedContentFactory, 
   UnifiedContentBusinessRules,
   type UnifiedContentItem as DomainUnifiedContentItem 
 } from '@domain/entities/UnifiedContent'
+import type { HotItem } from '@infrastructure/repositories/HomeRepository'
 import type { 
   UnifiedContentItem, 
   TopicItem, 
@@ -23,7 +24,6 @@ import type {
   LatestItem, 
   TopItem 
 } from '@types-movie'
-import type { HotItem } from '@infrastructure/repositories/HomeRepository'
 
 /**
  * 内容转换应用服务类

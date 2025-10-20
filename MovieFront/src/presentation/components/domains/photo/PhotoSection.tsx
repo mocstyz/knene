@@ -32,7 +32,7 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({
   // 添加调试日志
   console.log('📸 [PhotoSection] Received data:', {
     length: data?.length || 0,
-    data: data
+    data
   })
 
   return (

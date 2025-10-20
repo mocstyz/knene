@@ -4,9 +4,9 @@
  * 使用HomeApplicationService的mock数据，模拟真实后端数据结构
  */
 
+import { HomeApplicationService } from '@application/services/HomeApplicationService'
 import { CollectionList } from '@components/domains'
 import { NavigationHeader } from '@components/organisms'
-import { HomeApplicationService } from '@application/services/HomeApplicationService'
 import { useImageService } from '@presentation/hooks/image'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import React, { useState, useMemo } from 'react'

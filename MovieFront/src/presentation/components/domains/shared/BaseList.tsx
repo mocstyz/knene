@@ -1,6 +1,6 @@
-import React from 'react'
-import { cn } from '@utils/cn'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
+import { cn } from '@utils/cn'
+import React from 'react'
 
 /**
  * @fileoverview 基础列表组件

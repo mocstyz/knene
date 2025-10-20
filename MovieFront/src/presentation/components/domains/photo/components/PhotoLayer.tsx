@@ -89,7 +89,7 @@ const PhotoLayer: React.FC<PhotoLayerProps> = ({
     photoNewType: photo.newType,
     propsIsNew: isNew,
     propsNewBadgeType: newBadgeType,
-    showNewBadge: showNewBadge,
+    showNewBadge,
     renderCondition: showNewBadge && (photo.isNew || isNew)
   })
 
@@ -103,7 +103,7 @@ const PhotoLayer: React.FC<PhotoLayerProps> = ({
     photoNewType: photo.newType,
     propsIsNew: isNew,
     propsNewBadgeType: newBadgeType,
-    showNewBadge: showNewBadge
+    showNewBadge
   })
 
   return (

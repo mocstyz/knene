@@ -9,14 +9,14 @@
  */
 
 import { ContentTransformationService } from '@application/services/ContentTransformationService'
+import type { CollectionItem } from '@components/domains/collections'
+import type { HotItem } from '@infrastructure/repositories/HomeRepository'
 import type { 
   UnifiedContentItem, 
   TopicItem, 
   PhotoItem, 
   LatestItem 
 } from '@types-movie'
-import type { HotItem } from '@infrastructure/repositories/HomeRepository'
-import type { CollectionItem } from '@components/domains/collections'
 
 /**
  * 将UnifiedContentItem转换为CollectionItem

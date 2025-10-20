@@ -57,7 +57,7 @@ const PhotoList: React.FC<PhotoListProps> = ({
   // 添加调试日志
   console.log('📸 [PhotoList] Received photos:', {
     length: photos?.length || 0,
-    photos: photos,
+    photos,
     isArray: Array.isArray(photos),
     isEmpty: !photos || photos.length === 0
   })
