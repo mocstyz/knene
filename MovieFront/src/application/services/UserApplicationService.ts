@@ -1,15 +1,19 @@
+/**
+ * @fileoverview 用户应用服务
+ * @description 协调用户相关业务流程，编排注册、登录、资料更新、密码修改与注销等逻辑
+ * @created 2025-10-09 13:10:49
+ * @updated 2025-10-19 12:55:27
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
 import { User } from '@domain/entities/User'
 import { AuthenticationService } from '@domain/services/AuthenticationService'
 import { Password } from '@domain/value-objects/Password'
 
-/**
- * 用户应用服务
- * 协调用户相关的业务流程
- */
+// 用户应用服务类，协调用户业务流程，编排注册、登录、资料更新、密码修改与注销等逻辑
 export class UserApplicationService {
-  /**
-   * 用户注册的完整业务流程
-   */
+  // 用户注册的完整业务流程，包含数据验证、用户创建、令牌生成、邮件验证等
   static async registerUser(userData: {
     email: string
     username: string
@@ -22,22 +26,22 @@ export class UserApplicationService {
     requiresEmailVerification: boolean
   }> {
     try {
-      // 1. 验证输入数据
+      // 输入数据验证 - 检查邮箱格式、密码强度、用户名长度等
       this.validateRegistrationData(userData)
 
-      // 2. 检查邮箱和用户名是否已存在
+      // 唯一性检查 - 验证邮箱和用户名是否已被其他用户使用
       await this.checkUserAvailability(userData.email, userData.username)
 
-      // 3. 创建用户实体
+      // 用户实体创建 - 通过工厂方法创建包含完整信息的用户领域对象
       const user = await this.createUser(userData)
 
-      // 4. 生成认证令牌
+      // 认证令牌生成 - 生成访问令牌和刷新令牌用于会话管理
       const { token, refreshToken } = await this.generateAuthTokens(user)
 
-      // 5. 发送验证邮件（如果需要）
+      // 邮件验证发送 - 向用户注册邮箱发送验证邮件
       const requiresEmailVerification = await this.sendVerificationEmail(user)
 
-      // 6. 记录注册事件
+      // 业务事件记录 - 记录用户注册行为用于审计和分析
       await this.recordUserActivity(user.detail.id, 'register', {
         email: userData.email,
         username: userData.username,
@@ -55,13 +59,11 @@ export class UserApplicationService {
     }
   }
 
-  /**
-   * 用户登录的完整业务流程
-   */
+  // 用户登录的完整业务流程，包含凭据验证、两步验证检查、令牌生成等
   static async loginUser(credentials: {
     email: string
     password: string
-    rememberMe?: boolean
+    rememberMe?: boolean // 是否记住登录状态，影响token有效期
   }): Promise<{
     user: User
     token: string
@@ -124,16 +126,14 @@ export class UserApplicationService {
     }
   }
 
-  /**
-   * 更新用户资料的完整流程
-   */
+  // 更新用户资料的完整流程，包含数据验证、更新应用、事件记录等
   static async updateUserProfile(
     userId: string,
     updates: Partial<{
       username: string
       avatar: string
       bio: string
-      preferences: Record<string, unknown>
+      preferences: Record<string, unknown> // 用户偏好设置，可选配置项
     }>
   ): Promise<User> {
     try {
@@ -162,16 +162,14 @@ export class UserApplicationService {
     }
   }
 
-  /**
-   * 用户密码修改流程
-   */
+  // 用户密码修改流程，包含密码验证、强度检查、会话撤销、安全通知等
   static async changePassword(
     userId: string,
     currentPassword: string,
     newPassword: string
   ): Promise<{ success: boolean; message: string }> {
     try {
-      // 1. 验证当前密码
+      // 身份验证 - 验证用户身份和当前密码的正确性
       const currentUser = await this.getUserById(userId)
       if (!currentUser) {
         throw new Error('用户不存在')
@@ -186,21 +184,21 @@ export class UserApplicationService {
         throw new Error('当前密码不正确')
       }
 
-      // 2. 验证新密码强度
+      // 新密码验证 - 检查新密码强度和安全性要求
       this.validatePasswordStrength(newPassword)
 
-      // 3. 更新密码
+      // 密码更新 - 创建新的密码值对象并更新用户实体
       const newPasswordValue = new Password(newPassword)
       const updatedUser = currentUser.changePassword(newPasswordValue)
       await this.saveUser(updatedUser)
 
-      // 4. 撤销所有现有会话（强制重新登录）
+      // 安全措施 - 撤销所有现有会话强制用户重新登录
       await this.revokeAllUserSessions(userId)
 
-      // 5. 记录密码修改事件
+      // 安全审计 - 记录密码修改事件用于安全监控
       await this.recordUserActivity(userId, 'change_password', {})
 
-      // 6. 发送安全通知邮件
+      // 用户通知 - 发送安全通知邮件提醒用户密码已修改
       await this.sendSecurityNotification(userId, 'password_changed')
 
       return {
@@ -213,9 +211,7 @@ export class UserApplicationService {
     }
   }
 
-  /**
-   * 用户注销流程
-   */
+  // 用户注销流程，包含密码验证、下载检查、账户停用、数据清理等
   static async deactivateUser(userId: string, password: string): Promise<void> {
     try {
       // 1. 验证用户密码

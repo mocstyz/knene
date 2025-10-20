@@ -1,14 +1,20 @@
+/**
+ * @fileoverview 影片目录领域服务
+ * @description 处理影片分类、搜索、推荐等业务逻辑，提供完整的影片目录管理功能。
+ *              包括影片过滤、搜索、排序、推荐、相似影片查找、热门影片、最新影片、分组统计等功能。
+ * @created 2025-10-11 12:35:25
+ * @updated 2025-10-19 13:56:30
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { MovieFilters } from '@application/stores/movieStore'
 import { Movie } from '@domain/entities/Movie'
 
-/**
- * 影片目录领域服务
- * 处理影片分类、搜索、推荐等业务逻辑
- */
+// 影片目录领域服务，处理影片分类、搜索、推荐等业务逻辑
 export class MovieCatalogService {
-  /**
-   * 过滤影片列表
-   */
+  // 过滤影片列表，根据多种条件（类型、年份、评分、质量、语言）筛选影片
   static filterMovies(movies: Movie[], filters: MovieFilters): Movie[] {
     let filteredMovies = [...movies]
 
@@ -50,9 +56,7 @@ export class MovieCatalogService {
     return filteredMovies
   }
 
-  /**
-   * 搜索影片
-   */
+  // 搜索影片，在影片标题、描述、导演、演员、类型中进行全文搜索
   static searchMovies(movies: Movie[], query: string): Movie[] {
     if (!query.trim()) {
       return movies
@@ -98,9 +102,7 @@ export class MovieCatalogService {
     })
   }
 
-  /**
-   * 排序影片列表
-   */
+  // 排序影片列表，支持按标题、年份、评分、时长、发布日期、热度排序
   static sortMovies(movies: Movie[], sortBy: string): Movie[] {
     const sortedMovies = [...movies]
 
@@ -132,9 +134,7 @@ export class MovieCatalogService {
     }
   }
 
-  /**
-   * 获取推荐影片
-   */
+  // 获取推荐影片，基于用户偏好和历史行为推荐个性化影片
   static getRecommendations(
     allMovies: Movie[],
     userFavorites: string[],
@@ -167,9 +167,7 @@ export class MovieCatalogService {
       .map(item => item.movie)
   }
 
-  /**
-   * 获取用户偏好的类型
-   */
+  // 获取用户偏好的类型，统计用户收藏影片的类型分布
   private static getUserPreferredGenres(
     movies: Movie[],
     favoriteIds: string[]
@@ -188,9 +186,7 @@ export class MovieCatalogService {
     return genreCount
   }
 
-  /**
-   * 计算推荐分数
-   */
+  // 计算推荐分数，综合考虑评分、类型匹配、热度、新片、质量等因素
   private static calculateRecommendationScore(
     movie: Movie,
     preferredGenres: Map<string, number>,
@@ -227,9 +223,7 @@ export class MovieCatalogService {
     return score
   }
 
-  /**
-   * 获取相似影片
-   */
+  // 获取相似影片，基于类型、年份、导演、演员、评分等因素计算相似度
   static getSimilarMovies(
     targetMovie: Movie,
     allMovies: Movie[],
@@ -248,9 +242,7 @@ export class MovieCatalogService {
     return similarMovies
   }
 
-  /**
-   * 计算影片相似度
-   */
+  // 计算影片相似度，综合考虑类型、年份、导演、演员、评分的匹配度
   private static calculateSimilarity(movie1: Movie, movie2: Movie): number {
     let similarity = 0
 
@@ -290,9 +282,7 @@ export class MovieCatalogService {
     return similarity
   }
 
-  /**
-   * 获取热门影片
-   */
+  // 获取热门影片，结合观看次数和评分权重计算综合热度
   static getTrendingMovies(movies: Movie[], limit: number = 10): Movie[] {
     return movies
       .sort((a, b) => {
@@ -304,9 +294,7 @@ export class MovieCatalogService {
       .slice(0, limit)
   }
 
-  /**
-   * 获取最新影片
-   */
+  // 获取最新影片，按发布日期排序返回最近添加的影片
   static getLatestMovies(movies: Movie[], limit: number = 10): Movie[] {
     return movies
       .filter(movie => movie.releaseDate) // 过滤掉没有发布日期的影片
@@ -318,9 +306,7 @@ export class MovieCatalogService {
       .slice(0, limit)
   }
 
-  /**
-   * 获取高分影片
-   */
+  // 获取高分影片，筛选并返回评分7分以上的优质影片
   static getTopRatedMovies(movies: Movie[], limit: number = 10): Movie[] {
     return movies
       .filter(movie => movie.rating >= 7.0) // 只显示7分以上的影片
@@ -328,9 +314,7 @@ export class MovieCatalogService {
       .slice(0, limit)
   }
 
-  /**
-   * 按类型分组影片
-   */
+  // 按类型分组影片，将影片按类型归类组织便于分类浏览
   static groupMoviesByGenre(movies: Movie[]): Map<string, Movie[]> {
     const genreMap = new Map<string, Movie[]>()
 
@@ -346,9 +330,7 @@ export class MovieCatalogService {
     return genreMap
   }
 
-  /**
-   * 获取所有可用的类型
-   */
+  // 获取所有可用的类型，提取影片库中所有不重复的类型标签
   static getAllGenres(movies: Movie[]): string[] {
     const genreSet = new Set<string>()
 
@@ -361,9 +343,7 @@ export class MovieCatalogService {
     return Array.from(genreSet).sort()
   }
 
-  /**
-   * 获取所有可用的年份
-   */
+  // 获取所有可用的年份，提取影片库中所有不重复的年份并按降序排列
   static getAllYears(movies: Movie[]): number[] {
     const yearSet = new Set<number>()
 
@@ -374,9 +354,7 @@ export class MovieCatalogService {
     return Array.from(yearSet).sort((a, b) => b - a)
   }
 
-  /**
-   * 验证影片数据
-   */
+  // 验证影片数据，检查影片各项必填字段和数据格式的完整性
   static validateMovieData(movie: Partial<Movie>): {
     isValid: boolean
     errors: string[]

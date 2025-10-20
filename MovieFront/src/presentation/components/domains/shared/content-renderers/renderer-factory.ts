@@ -9,17 +9,19 @@
  * @version 1.0.0
  */
 
-import CollectionContentRenderer from '@components/domains/shared/content-renderers/collection-renderer'
+import CollectionContentRenderer from '@components/domains/collections/renderers/collection-renderer'
+import MovieContentRenderer from '@components/domains/latestupdate/renderers/movie-renderer'
+import PhotoContentRenderer from '@components/domains/photo/renderers/photo-renderer'
 import type {
+  BaseContentItem,
   ContentRenderer,
   ContentRendererFactory,
-  BaseContentItem,
   ContentTypeId,
-  RendererRegistration,
   RegistrationOptions,
+  RendererConfig,
+  RendererRegistration,
+  ValidationResult,
 } from '@components/domains/shared/content-renderers/interfaces'
-import MovieContentRenderer from '@components/domains/shared/content-renderers/movie-renderer'
-import PhotoContentRenderer from '@components/domains/shared/content-renderers/photo-renderer'
 
 /**
  * 内容渲染器工厂实现
@@ -204,6 +206,37 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
    */
   public isRegistered(contentType: ContentTypeId): boolean {
     return this.renderers.has(contentType)
+  }
+
+  /**
+   * 检查渲染器是否可用（别名方法）
+   * @param contentType 内容类型ID
+   * @returns 是否可用
+   */
+  public hasRenderer(contentType: ContentTypeId): boolean {
+    return this.isRegistered(contentType)
+  }
+
+  /**
+   * 获取所有可用的内容类型（别名方法）
+   * @returns 内容类型ID列表
+   */
+  public getAvailableContentTypes(): ContentTypeId[] {
+    return this.getRegisteredContentTypes()
+  }
+
+  /**
+   * 渲染内容项
+   * @param item 内容项
+   * @param config 渲染配置
+   * @returns 渲染结果
+   */
+  public render(item: BaseContentItem, config?: RendererConfig): React.ReactElement {
+    const renderer = this.getBestRenderer(item)
+    if (!renderer) {
+      throw new Error(`No renderer available for content type: ${item.contentType}`)
+    }
+    return renderer.render(item, config)
   }
 
   /**

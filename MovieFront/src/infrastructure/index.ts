@@ -1,6 +1,11 @@
 /**
- * 基础设施层统一导出
- * 提供API客户端、事件总线、存储服务、缓存管理等基础设施的统一入口
+ * @fileoverview 基础设施层统一导出模块
+ * @description 提供API客户端、事件总线、存储服务、缓存管理等基础设施的统一入口，包含配置管理和初始化函数
+ * @created 2025-10-13 10:34:00
+ * @updated 2025-10-19 11:30:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
 
 // API服务
@@ -12,16 +17,16 @@ export * from './storage'
 // 仓储层
 export * from './repositories'
 
-// 基础设施层类型定义
+// 基础设施层配置接口，定义API、缓存、存储等基础设施的配置选项
 export interface InfrastructureConfig {
-  apiBaseUrl: string
-  apiTimeout: number
-  retryAttempts: number
-  cacheEnabled: boolean
-  storagePrefix: string
+  apiBaseUrl: string // API基础URL
+  apiTimeout: number // API请求超时时间
+  retryAttempts: number // 重试次数
+  cacheEnabled: boolean // 是否启用缓存
+  storagePrefix: string // 存储前缀
 }
 
-// 默认配置
+// 默认基础设施配置，提供生产就绪的默认设置
 export const defaultInfrastructureConfig: InfrastructureConfig = {
   apiBaseUrl: process.env.VITE_API_BASE_URL || 'http://localhost:3000/api',
   apiTimeout: 10000,
@@ -67,10 +72,7 @@ export {
 export { CacheManager, cacheManager } from './cache/CacheManager'
 export type { CacheOptions, CacheItem, CacheStats } from './cache/CacheManager'
 
-/**
- * 基础设施初始化函数
- * 在应用启动时调用，初始化所有基础设施服务
- */
+// 基础设施初始化函数，在应用启动时调用，初始化所有基础设施服务
 export async function initializeInfrastructure(): Promise<void> {
   try {
     // 初始化存储管理器
@@ -84,10 +86,7 @@ export async function initializeInfrastructure(): Promise<void> {
   }
 }
 
-/**
- * 基础设施清理函数
- * 在应用关闭时调用，清理资源
- */
+// 基础设施清理函数，在应用关闭时调用，清理资源
 export async function cleanupInfrastructure(): Promise<void> {
   try {
     // 动态导入并销毁事件总线

@@ -16,7 +16,7 @@ import React from 'react'
 /**
  * 基础Section组件属性接口
  */
-export interface BaseSectionProps {
+export interface BaseSectionComponentProps {
   /** Section标题 */
   title: string
   /** 子元素内容 */
@@ -27,6 +27,8 @@ export interface BaseSectionProps {
   moreLinkUrl?: string
   /** 更多链接文本 */
   moreLinkText?: string
+  /** 更多链接点击回调 */
+  onMoreLinkClick?: () => void
   /** 自定义CSS类名 */
   className?: string
   /** 标题区域自定义类名 */
@@ -44,12 +46,13 @@ export interface BaseSectionProps {
  * - 响应式间距设计
  * - 自包含的完整视觉效果
  */
-const BaseSection: React.FC<BaseSectionProps> = ({
+const BaseSection: React.FC<BaseSectionComponentProps> = ({
   title,
   children,
   showMoreLink = false,
   moreLinkUrl = '#',
   moreLinkText = 'More >',
+  onMoreLinkClick,
   className,
   headerClassName,
   contentClassName,
@@ -69,7 +72,12 @@ const BaseSection: React.FC<BaseSectionProps> = ({
       <div className={headerClasses}>
         <h2 className="text-2xl font-bold">{title}</h2>
         {showMoreLink && (
-          <TextLink href={moreLinkUrl} variant="primary" size="sm">
+          <TextLink 
+            href={moreLinkUrl} 
+            variant="primary" 
+            size="sm"
+            onClick={onMoreLinkClick}
+          >
             {moreLinkText}
           </TextLink>
         )}

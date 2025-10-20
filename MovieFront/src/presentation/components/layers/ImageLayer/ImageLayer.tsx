@@ -28,6 +28,10 @@ export interface ImageLayerProps {
   objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down'
   /** 是否支持悬停缩放 */
   hoverScale?: boolean
+  /** 缩放比例，默认1.05 */
+  scaleRatio?: number
+  /** 是否启用边缘优化 */
+  enableEdgeOptimization?: boolean
   /** 错误占位符类型 */
   fallbackType?: 'icon' | 'gradient' | 'solid'
   /** 错误占位符颜色 */
@@ -52,6 +56,8 @@ const ImageLayer: React.FC<ImageLayerProps> = ({
   aspectRatio = 'portrait',
   objectFit = 'cover',
   hoverScale = true,
+  scaleRatio = 1.05,
+  enableEdgeOptimization = true,
   fallbackType = 'icon',
   fallbackColor = 'bg-gray-200',
   onLoad,
@@ -79,9 +85,10 @@ const ImageLayer: React.FC<ImageLayerProps> = ({
     'scale-down': 'object-scale-down',
   }
 
-  // 悬停缩放效果
+  // 悬停缩放效果 - 动态缩放比例避免边缘溢出
+  const scaleClass = scaleRatio !== 1.05 ? `group-hover:scale-[${scaleRatio}]` : 'group-hover:scale-105'
   const hoverClasses = hoverScale
-    ? 'transition-transform duration-300 group-hover:scale-105'
+    ? `transition-transform duration-300 ${scaleClass} will-change-transform`
     : ''
 
   // 图片加载状态样式
@@ -92,6 +99,8 @@ const ImageLayer: React.FC<ImageLayerProps> = ({
     hoverClasses,
     imageLoaded ? 'opacity-100' : 'opacity-0',
     'transition-opacity duration-200',
+    // 添加抗锯齿和边缘优化
+    enableEdgeOptimization ? 'antialiased backface-hidden' : '',
     className
   )
 

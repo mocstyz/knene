@@ -1,7 +1,14 @@
 /**
- * 电影质量值对象
- * 封装电影质量相关的属性和验证逻辑
+ * @fileoverview 电影质量值对象
+ * @description 电影质量值对象，封装电影的分辨率、格式、文件大小、下载链接等质量相关属性，提供电影质量的创建、验证、比较和展示功能
+ * @created 2025-10-09 13:10:49
+ * @updated 2025-10-19 10:30:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
+
+// 电影质量值对象，封装电影的分辨率、格式、文件大小、下载链接等质量相关属性
 export class MovieQuality {
   public readonly resolution: '720p' | '1080p' | '4K' | 'HD' | 'SD'
   public readonly format: 'MP4' | 'MKV' | 'AVI' | 'MOV' | 'WEBM'
@@ -39,7 +46,7 @@ export class MovieQuality {
     this.quality = quality
   }
 
-  // 验证方法
+  // 验证分辨率
   private validateResolution(resolution: string): void {
     const validResolutions = ['720p', '1080p', '4K', 'HD', 'SD']
     if (!validResolutions.includes(resolution)) {
@@ -49,6 +56,7 @@ export class MovieQuality {
     }
   }
 
+  // 验证格式
   private validateFormat(format: string): void {
     const validFormats = ['MP4', 'MKV', 'AVI', 'MOV', 'WEBM']
     if (!validFormats.includes(format)) {
@@ -58,60 +66,47 @@ export class MovieQuality {
     }
   }
 
+  // 验证文件大小
   private validateSize(size: number): void {
     if (size <= 0) {
       throw new Error('文件大小必须大于0')
     }
-
-    if (size > 100 * 1024 * 1024 * 1024) {
-      // 100GB
+    if (size > 100 * 1024 * 1024 * 1024) { // 100GB
       throw new Error('文件大小不能超过100GB')
     }
   }
 
+  // 验证下载URL
   private validateUrl(url: string): void {
     if (!url || url.trim().length === 0) {
       throw new Error('下载URL不能为空')
     }
-
     try {
       new URL(url)
     } catch {
-      throw new Error('无效的URL格式')
+      throw new Error('无效的下载URL格式')
     }
   }
 
+  // 验证磁力链接
   private validateMagnetLink(magnetLink?: string): void {
-    if (magnetLink && !magnetLink.startsWith('magnet:')) {
-      throw new Error('无效的磁力链接格式')
+    if (!magnetLink) return
+
+    if (!magnetLink.startsWith('magnet:')) {
+      throw new Error('磁力链接必须以magnet:开头')
     }
   }
 
+  // 验证质量评分
   private validateQuality(quality: number): void {
     if (quality < 1 || quality > 10) {
       throw new Error('质量评分必须在1-10之间')
     }
   }
 
-  // 业务方法
-  isHighQuality(): boolean {
-    return this.quality >= 8
-  }
-
-  isHD(): boolean {
-    return this.resolution === '1080p' || this.resolution === '4K'
-  }
-
-  is4K(): boolean {
-    return this.resolution === '4K'
-  }
-
-  isStandardDefinition(): boolean {
-    return this.resolution === 'SD' || this.resolution === 'HD'
-  }
-
+  // 获取格式化的文件大小
   getFormattedSize(): string {
-    const units = ['B', 'KB', 'MB', 'GB']
+    const units = ['B', 'KB', 'MB', 'GB', 'TB']
     let size = this.size
     let unitIndex = 0
 
@@ -120,244 +115,143 @@ export class MovieQuality {
       unitIndex++
     }
 
-    return `${size.toFixed(1)} ${units[unitIndex]}`
+    const formattedSize =
+      unitIndex === 0
+        ? size.toString()
+        : size.toFixed(2).replace(/\.?0+$/, '')
+
+    return `${formattedSize} ${units[unitIndex]}`
   }
 
-  getDownloadSpeed(): string {
-    // 基于种子数估算下载速度
-    if (!this.seeders) return '未知'
-
-    if (this.seeders > 1000) return '极快'
-    if (this.seeders > 500) return '很快'
-    if (this.seeders > 100) return '快'
-    if (this.seeders > 50) return '中等'
-    if (this.seeders > 10) return '慢'
-    return '很慢'
+  // 获取质量等级
+  getQualityLevel(): 'low' | 'medium' | 'high' | 'ultra' {
+    if (this.quality >= 9) return 'ultra'
+    if (this.quality >= 7) return 'high'
+    if (this.quality >= 5) return 'medium'
+    return 'low'
   }
 
+  // 获取质量等级文本
+  getQualityLevelText(): string {
+    const levels = {
+      low: '低质量',
+      medium: '中等质量',
+      high: '高质量',
+      ultra: '超高质量'
+    }
+    return levels[this.getQualityLevel()]
+  }
+
+  // 获取质量颜色
+  getQualityColor(): string {
+    const level = this.getQualityLevel()
+    const colors = {
+      low: 'text-red-600',
+      medium: 'text-yellow-600',
+      high: 'text-blue-600',
+      ultra: 'text-green-600'
+    }
+    return colors[level]
+  }
+
+  // 检查是否有磁力链接
+  hasMagnetLink(): boolean {
+    return !!this.magnetLink
+  }
+
+  // 检查是否有种子信息
+  hasSeeders(): boolean {
+    return this.seeders !== undefined && this.seeders > 0
+  }
+
+  // 检查是否热门（种子数多）
+  isPopular(): boolean {
+    return this.seeders !== undefined && this.seeders > 100
+  }
+
+  // 获取健康度（种子数/下载者比例）
   getHealth(): 'excellent' | 'good' | 'fair' | 'poor' {
-    if (!this.seeders) return 'poor'
+    if (!this.hasSeeders() || !this.leechers) return 'poor'
 
-    const ratio = this.leechers ? this.seeders / this.leechers : this.seeders
-
-    if (this.seeders > 100 && ratio > 2) return 'excellent'
-    if (this.seeders > 50 && ratio > 1) return 'good'
-    if (this.seeders > 10 && ratio > 0.5) return 'fair'
+    const ratio = this.seeders! / this.leechers
+    if (ratio > 5) return 'excellent'
+    if (ratio > 2) return 'good'
+    if (ratio > 0.5) return 'fair'
     return 'poor'
   }
 
+  // 获取健康度文本
+  getHealthText(): string {
+    const healthTexts = {
+      excellent: '优秀',
+      good: '良好',
+      fair: '一般',
+      poor: '较差'
+    }
+    return healthTexts[this.getHealth()]
+  }
+
+  // 获取健康度颜色
   getHealthColor(): string {
-    const health = this.getHealth()
-    const colors = {
-      excellent: 'green',
-      good: 'blue',
-      fair: 'yellow',
-      poor: 'red',
+    const healthColors = {
+      excellent: 'text-green-600',
+      good: 'text-blue-600',
+      fair: 'text-yellow-600',
+      poor: 'text-red-600'
     }
-    return colors[health]
+    return healthColors[this.getHealth()]
   }
 
-  getRank(): number {
-    // 综合评分：质量 + 分辨率 + 种子数
-    let rank = this.quality
-
-    // 分辨率加分
-    const resolutionBonus = {
-      '4K': 3,
-      '1080p': 2,
-      '720p': 1,
-      HD: 0.5,
-      SD: 0,
-    }
-    rank += resolutionBonus[this.resolution] || 0
-
-    // 种子数加分
-    if (this.seeders) {
-      if (this.seeders > 1000) rank += 2
-      else if (this.seeders > 100) rank += 1
-      else if (this.seeders > 10) rank += 0.5
+  // 比较质量（返回哪个更好）
+  compareQuality(other: MovieQuality): number {
+    // 首先比较质量评分
+    if (this.quality !== other.quality) {
+      return this.quality - other.quality
     }
 
-    return Math.round(rank * 10) / 10
+    // 然后比较分辨率
+    const resolutionOrder = ['SD', 'HD', '720p', '1080p', '4K']
+    const thisIndex = resolutionOrder.indexOf(this.resolution)
+    const otherIndex = resolutionOrder.indexOf(other.resolution)
+    return thisIndex - otherIndex
   }
 
-  isRecommendedForDownload(): boolean {
-    return (
-      this.isHighQuality() &&
-      this.isHD() &&
-      this.getHealth() !== 'poor' &&
-      this.size < 10 * 1024 * 1024 * 1024
-    ) // 小于10GB
-  }
-
-  getCompatibility(): {
-    mobile: boolean
-    tablet: boolean
-    desktop: boolean
-    smartTV: boolean
-  } {
-    return {
-      mobile: this.format === 'MP4' || this.format === 'WEBM',
-      tablet:
-        this.format === 'MP4' ||
-        this.format === 'WEBM' ||
-        this.format === 'MOV',
-      desktop: true, // 所有格式都支持桌面
-      smartTV:
-        this.format === 'MP4' || this.format === 'MKV' || this.format === 'AVI',
-    }
-  }
-
-  // 比较方法
+  // 检查是否比另一个质量更好
   isBetterThan(other: MovieQuality): boolean {
-    return this.getRank() > other.getRank()
+    return this.compareQuality(other) > 0
   }
 
-  isSameQuality(other: MovieQuality): boolean {
-    return this.resolution === other.resolution && this.format === other.format
+  // 检查是否适合流媒体播放
+  isSuitableForStreaming(): boolean {
+    return this.format === 'MP4' && this.size < 5 * 1024 * 1024 * 1024 // 5GB
   }
 
-  // 静态工厂方法
-  static create720pMP4(
-    size: number,
-    downloadUrl: string,
-    quality: number = 6
-  ): MovieQuality {
-    return new MovieQuality(
-      '720p',
-      'MP4',
-      size,
-      downloadUrl,
-      undefined,
-      undefined,
-      undefined,
-      quality
-    )
+  // 检查是否适合移动设备
+  isSuitableForMobile(): boolean {
+    return this.size < 2 * 1024 * 1024 * 1024 && // 2GB
+           ['MP4', 'WEBM'].includes(this.format)
   }
 
-  static create1080pMP4(
-    size: number,
-    downloadUrl: string,
-    quality: number = 8
-  ): MovieQuality {
-    return new MovieQuality(
-      '1080p',
-      'MP4',
-      size,
-      downloadUrl,
-      undefined,
-      undefined,
-      undefined,
-      quality
-    )
-  }
+  // 获取推荐设备
+  getRecommendedDevices(): string[] {
+    const devices: string[] = []
 
-  static create4KMP4(
-    size: number,
-    downloadUrl: string,
-    quality: number = 10
-  ): MovieQuality {
-    return new MovieQuality(
-      '4K',
-      'MP4',
-      size,
-      downloadUrl,
-      undefined,
-      undefined,
-      undefined,
-      quality
-    )
-  }
-
-  static createFromTorrent(
-    resolution: '720p' | '1080p' | '4K' | 'HD' | 'SD',
-    format: 'MP4' | 'MKV' | 'AVI' | 'MOV' | 'WEBM',
-    size: number,
-    magnetLink: string,
-    seeders: number,
-    leechers: number,
-    quality: number = 7
-  ): MovieQuality {
-    return new MovieQuality(
-      resolution,
-      format,
-      size,
-      '', // 磁力链接版本可能没有直接下载链接
-      magnetLink,
-      seeders,
-      leechers,
-      quality
-    )
-  }
-
-  // 预定义的质量选项
-  static readonly QUALITY_OPTIONS = {
-    SD_PIRATE: {
-      resolution: 'SD' as const,
-      format: 'MP4' as const,
-      quality: 4,
-    },
-    HD_720P: {
-      resolution: '720p' as const,
-      format: 'MP4' as const,
-      quality: 6,
-    },
-    HD_1080P: {
-      resolution: '1080p' as const,
-      format: 'MP4' as const,
-      quality: 8,
-    },
-    UHD_4K: { resolution: '4K' as const, format: 'MP4' as const, quality: 10 },
-  } as const
-
-  // 工具方法
-  static getQualityLevel(resolution: string): number {
-    const levels = {
-      SD: 1,
-      HD: 2,
-      '720p': 3,
-      '1080p': 4,
-      '4K': 5,
-    }
-    return levels[resolution as keyof typeof levels] || 0
-  }
-
-  static estimateDownloadSize(
-    resolution: '720p' | '1080p' | '4K' | 'HD' | 'SD',
-    duration: number // 分钟
-  ): number {
-    const bitrates = {
-      SD: 800, // kbps
-      HD: 1200, // kbps
-      '720p': 2000, // kbps
-      '1080p': 5000, // kbps
-      '4K': 15000, // kbps
+    if (this.isSuitableForMobile()) {
+      devices.push('手机', '平板')
     }
 
-    const bitrate = bitrates[resolution] || 2000
-    const sizeBits = bitrate * 1000 * duration * 60 // 转换为位
-    return Math.round(sizeBits / 8) // 转换为字节
+    if (this.resolution !== 'SD' && this.resolution !== 'HD') {
+      devices.push('电脑', '电视')
+    }
+
+    if (this.resolution === '4K') {
+      devices.push('4K电视', '投影仪')
+    }
+
+    return devices.length > 0 ? devices : ['通用设备']
   }
 
-  static getBestQuality(qualities: MovieQuality[]): MovieQuality | null {
-    if (qualities.length === 0) return null
-
-    return qualities.reduce((best, current) =>
-      current.getRank() > best.getRank() ? current : best
-    )
-  }
-
-  static filterByDevice(
-    qualities: MovieQuality[],
-    device: 'mobile' | 'tablet' | 'desktop' | 'smartTV'
-  ): MovieQuality[] {
-    return qualities.filter(quality => {
-      const compatibility = quality.getCompatibility()
-      return compatibility[device]
-    })
-  }
-
-  // 序列化方法
+  // 转换为JSON格式
   toJSON(): {
     resolution: string
     format: string
@@ -376,11 +270,91 @@ export class MovieQuality {
       magnetLink: this.magnetLink,
       seeders: this.seeders,
       leechers: this.leechers,
-      quality: this.quality,
+      quality: this.quality
     }
   }
 
-  static fromJSON(data: {
+  // 转换为字符串
+  toString(): string {
+    return `${this.resolution} ${this.format} (${this.getFormattedSize()})`
+  }
+
+  // ========== 静态工厂方法 ==========
+
+  // 创建720p质量
+  static create720p(
+    format: 'MP4' | 'MKV' | 'AVI' | 'MOV' | 'WEBM',
+    size: number,
+    downloadUrl: string,
+    options: {
+      magnetLink?: string
+      seeders?: number
+      leechers?: number
+      quality?: number
+    } = {}
+  ): MovieQuality {
+    return new MovieQuality(
+      '720p',
+      format,
+      size,
+      downloadUrl,
+      options.magnetLink,
+      options.seeders,
+      options.leechers,
+      options.quality || 7
+    )
+  }
+
+  // 创建1080p质量
+  static create1080p(
+    format: 'MP4' | 'MKV' | 'AVI' | 'MOV' | 'WEBM',
+    size: number,
+    downloadUrl: string,
+    options: {
+      magnetLink?: string
+      seeders?: number
+      leechers?: number
+      quality?: number
+    } = {}
+  ): MovieQuality {
+    return new MovieQuality(
+      '1080p',
+      format,
+      size,
+      downloadUrl,
+      options.magnetLink,
+      options.seeders,
+      options.leechers,
+      options.quality || 8
+    )
+  }
+
+  // 创建4K质量
+  static create4K(
+    format: 'MP4' | 'MKV' | 'AVI' | 'MOV' | 'WEBM',
+    size: number,
+    downloadUrl: string,
+    options: {
+      magnetLink?: string
+      seeders?: number
+      leechers?: number
+      quality?: number
+    } = {}
+  ): MovieQuality {
+    return new MovieQuality(
+      '4K',
+      format,
+      size,
+      downloadUrl,
+      options.magnetLink,
+      options.seeders,
+      options.leechers,
+      options.quality || 9
+    )
+  }
+
+  // 从JSON创建电影质量
+  static fromJSON(json: {
     resolution: string
     format: string
     size: number
@@ -388,49 +362,60 @@ export class MovieQuality {
     magnetLink?: string
     seeders?: number
     leechers?: number
-    quality: number
+    quality?: number
   }): MovieQuality {
     return new MovieQuality(
-      data.resolution as '720p' | '1080p' | '4K' | 'HD' | 'SD',
-      data.format as 'MP4' | 'MKV' | 'AVI' | 'MOV' | 'WEBM',
-      data.size,
-      data.downloadUrl,
-      data.magnetLink,
-      data.seeders,
-      data.leechers,
-      data.quality
+      json.resolution as any,
+      json.format as any,
+      json.size,
+      json.downloadUrl,
+      json.magnetLink,
+      json.seeders,
+      json.leechers,
+      json.quality || 8
     )
   }
 
-  // 字符串表示
-  toString(): string {
-    const sizeStr = this.getFormattedSize()
-    const healthStr = this.seeders ? ` (${this.getHealth()})` : ''
-    return `${this.resolution} ${this.format} - ${sizeStr}${healthStr}`
+  // 验证电影质量数据
+  static isValid(data: {
+    resolution: string
+    format: string
+    size: number
+    downloadUrl: string
+  }): boolean {
+    try {
+      new MovieQuality(
+        data.resolution as any,
+        data.format as any,
+        data.size,
+        data.downloadUrl
+      )
+      return true
+    } catch {
+      return false
+    }
   }
 
-  // 获取显示标签
-  getDisplayLabel(): string {
-    const labels = {
-      '4K': '4K超清',
-      '1080p': '1080P高清',
-      '720p': '720P标清',
-      HD: '高清',
-      SD: '标清',
-    }
-    return labels[this.resolution] || this.resolution
+  // 比较多个质量并返回最好的
+  static getBestQuality(qualities: MovieQuality[]): MovieQuality | null {
+    if (qualities.length === 0) return null
+    return qualities.reduce((best, current) =>
+      current.isBetterThan(best) ? current : best
+    )
   }
 
-  // 获取推荐度描述
-  getRecommendationText(): string {
-    if (this.isRecommendedForDownload()) {
-      return '推荐下载'
-    } else if (this.isHighQuality()) {
-      return '高质量'
-    } else if (this.isHD()) {
-      return '高清'
-    } else {
-      return '标清'
-    }
+  // 按质量排序
+  static sortByQuality(qualities: MovieQuality[]): MovieQuality[] {
+    return [...qualities].sort((a, b) => b.compareQuality(a))
+  }
+
+  // 过滤适合流媒体的质量
+  static filterForStreaming(qualities: MovieQuality[]): MovieQuality[] {
+    return qualities.filter(quality => quality.isSuitableForStreaming())
+  }
+
+  // 过滤适合移动设备的质量
+  static filterForMobile(qualities: MovieQuality[]): MovieQuality[] {
+    return qualities.filter(quality => quality.isSuitableForMobile())
   }
 }

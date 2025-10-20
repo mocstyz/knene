@@ -7,7 +7,7 @@ export { MixedContentList } from './MixedContentList'
 export * from './content-renderers'
 
 // 导出类型
-export type { BaseSectionProps } from './BaseSection'
-export type { BaseListProps, ResponsiveColumnsConfig } from './BaseList'
+export type { BaseSectionComponentProps } from './BaseSection'
+export type { ResponsiveColumnsConfig } from './BaseList'
 export type { EmptyStateProps } from './EmptyState'
 export type { MixedContentListProps } from './MixedContentList'

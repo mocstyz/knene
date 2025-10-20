@@ -1,40 +1,27 @@
+/**
+ * @fileoverview 汉堡菜单按钮组件
+ * @description 移动端导航菜单开关按钮，支持开启/关闭状态切换、平滑动画过渡效果和完整的可访问性支持
+ * @created 2025-10-11 12:35:25
+ * @updated 2025-10-19 15:30:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Icon } from '@components/atoms/Icon'
 import React from 'react'
 
-/**
- * 汉堡菜单按钮组件属性
- */
+// 汉堡菜单按钮组件属性接口，定义按钮的各种配置选项
 export interface HamburgerButtonProps {
-  /** 是否开启状态 */
-  isOpen?: boolean
-  /** 点击回调 */
-  onClick?: () => void
-  /** 按钮大小 */
-  size?: 'sm' | 'md' | 'lg'
-  /** 自定义类名 */
-  className?: string
-  /** 是否禁用 */
-  disabled?: boolean
-  /** ARIA标签 */
-  ariaLabel?: string
+  isOpen?: boolean // 是否开启状态
+  onClick?: () => void // 点击回调函数
+  size?: 'sm' | 'md' | 'lg' // 按钮尺寸
+  className?: string // 自定义CSS类名
+  disabled?: boolean // 是否禁用状态
+  ariaLabel?: string // ARIA标签，用于无障碍访问
 }
 
-/**
- * 汉堡菜单按钮原子组件
- *
- * 功能：
- * - 移动端导航菜单开关按钮
- * - 支持开启/关闭状态切换
- * - 24px × 24px 标准尺寸
- * - 平滑的动画过渡效果
- * - 完整的可访问性支持
- *
- * 规范：
- * - 位置：头部右侧
- * - 交互：点击切换菜单状态
- * - 状态：支持键盘导航（ESC关闭）
- * - 动画：200ms ease-in-out过渡
- */
+// 汉堡菜单按钮原子组件，功能：移动端导航菜单开关按钮，支持开启/关闭状态切换，24px × 24px 标准尺寸，平滑的动画过渡效果，完整的可访问性支持
 export const HamburgerButton: React.FC<HamburgerButtonProps> = ({
   isOpen = false,
   onClick,
@@ -43,12 +30,14 @@ export const HamburgerButton: React.FC<HamburgerButtonProps> = ({
   disabled = false,
   ariaLabel = isOpen ? '关闭菜单' : '打开菜单',
 }) => {
+  // 按钮尺寸样式映射表 - 定义不同尺寸的宽度和高度
   const sizeClasses = {
     sm: 'w-6 h-6',
     md: 'w-9 h-9',
     lg: 'w-10 h-10',
   }
 
+  // 图标尺寸映射表 - 将按钮尺寸映射到对应的图标尺寸
   const iconSizes: Record<string, 'xs' | 'sm' | 'md' | 'lg' | 'xl'> = {
     sm: 'sm',
     md: 'md',

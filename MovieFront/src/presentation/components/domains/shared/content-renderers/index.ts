@@ -9,9 +9,12 @@
  */
 
 // ============================================================================
-// 接口和类型定义
+// 渲染器导出
 // ============================================================================
 
+export { BaseContentRenderer } from './base'
+
+// 导出类型
 export type {
   BaseContentItem,
   ExtendedContentItem,
@@ -24,7 +27,7 @@ export type {
   RegistrationOptions,
 } from './interfaces'
 
-// 导入内部使用的类型
+// 导入内部类型
 import type {
   BaseContentItem as InternalBaseContentItem,
   ContentTypeId as InternalContentTypeId,
@@ -39,12 +42,6 @@ export {
 } from './interfaces'
 
 // ============================================================================
-// 基础实现类
-// ============================================================================
-
-export { BaseContentRenderer } from './base-renderer'
-
-// ============================================================================
 // 工厂实现
 // ============================================================================
 
@@ -54,32 +51,7 @@ export {
 } from './renderer-factory'
 
 // ============================================================================
-// 具体渲染器实现
-// ============================================================================
-
-export {
-  default as MovieContentRenderer,
-  isMovieContentItem,
-  createMovieContentItem,
-} from './movie-renderer'
-export type { MovieContentItem } from './movie-renderer'
-
-export {
-  default as PhotoContentRenderer,
-  isPhotoContentItem,
-  createPhotoContentItem,
-} from './photo-renderer'
-export type { PhotoContentItem } from './photo-renderer'
-
-export {
-  default as CollectionContentRenderer,
-  isCollectionContentItem,
-  createCollectionContentItem,
-} from './collection-renderer'
-export type { CollectionContentItem } from './collection-renderer'
-
-// ============================================================================
-// 注册机制
+// 注册表实现
 // ============================================================================
 
 export {
@@ -94,31 +66,23 @@ export {
 // ============================================================================
 
 /**
- * 创建内容渲染器配置
- * @param overrides 覆盖的配置项
- * @returns 完整的渲染器配置
+ * 创建渲染器配置对象
  */
 export const createRendererConfig = (
   overrides: Partial<InternalRendererConfig> = {}
 ): InternalRendererConfig => {
   return {
-    hoverEffect: true,
-    aspectRatio: 'portrait',
-    showVipBadge: true,
-    showNewBadge: true,
-    showQualityBadge: true,
-    showRatingBadge: true,
-    size: 'md',
+    aspectRatio: 'square',
+    hoverEffect: false,
+    showTitle: true,
+    showDescription: false,
     className: '',
-    extraOptions: {},
     ...overrides,
   }
 }
 
 /**
  * 创建内容项对象
- * @param data 基础数据
- * @returns 内容项对象
  */
 export const createContentItem = (
   data: Partial<InternalBaseContentItem>
@@ -134,42 +98,42 @@ export const createContentItem = (
 
 /**
  * 检查渲染器是否可用
- * @param contentType 内容类型
- * @returns 是否可用
  */
 export const isRendererAvailable = (
   contentType: InternalContentTypeId
 ): boolean => {
-  return contentRendererFactory.isRegistered(contentType)
+  return contentRendererFactory.hasRenderer(contentType)
 }
 
 /**
- * 获取可用的内容类型列表
- * @returns 内容类型列表
+ * 获取可用的内容类型
  */
 export const getAvailableContentTypes = (): InternalContentTypeId[] => {
-  return contentRendererFactory.getRegisteredContentTypes()
+  return contentRendererFactory.getAvailableContentTypes()
 }
 
+// ============================================================================
+// 渲染函数
+// ============================================================================
+
 /**
- * 渲染内容项（便捷方法）
- * @param item 内容项
- * @param config 渲染配置
- * @returns React组件或null
+ * 渲染内容项
  */
 export const renderContentItem = (
   item: InternalBaseContentItem,
   config?: InternalRendererConfig
 ) => {
-  const renderer = contentRendererFactory.getBestRenderer(item)
-  return renderer ? renderer.render(item, config) : null
+  return contentRendererFactory.render(item, config)
 }
 
 // ============================================================================
-// 默认导出
+// 导出默认工厂
 // ============================================================================
 
-/**
- * 默认导出工厂实例，便于直接使用
- */
 export default contentRendererFactory
+
+// ============================================================================
+// 重新导出渲染器类型
+// ============================================================================
+
+export type { CollectionContentItem } from '@components/domains/collections/renderers/collection-renderer'

@@ -15,6 +15,8 @@ module.exports = {
     '.eslintrc.cjs',
     'storybook-static',
     'vite.config.ts',
+    'tailwind.config.js',
+    'postcss.config.js',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {

@@ -72,8 +72,8 @@ const TextHoverLayer: React.FC<TextHoverLayerProps> = ({
     lg: 'group-hover:scale-110',
   }
 
-  // 基础过渡效果
-  const baseClasses = 'transition-all inline-block'
+  // 基础过渡效果 - 移除inline-block避免白色背景阴影
+  const baseClasses = 'transition-all'
 
   // 组合CSS类名
   const hoverClasses = cn(

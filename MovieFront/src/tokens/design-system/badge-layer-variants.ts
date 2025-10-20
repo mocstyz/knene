@@ -88,7 +88,7 @@ export type BadgeLayerPosition =
   | 'bottom-left'
 export type BadgeLayerSize = 'sm' | 'md' | 'lg' | 'responsive'
 export type BadgeLayerVariant = 'default' | 'compact' | 'prominent'
-export type BadgeLayerType = 'vip' | 'rating' | 'quality'
+export type BadgeLayerType = 'vip' | 'rating' | 'quality' | 'new'
 export type BadgeLayerRatingColor =
   | 'green'
   | 'blue'

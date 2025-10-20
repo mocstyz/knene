@@ -58,18 +58,16 @@ const CardHoverLayer: React.FC<CardHoverLayerProps> = ({
     slow: 'duration-500',
   }
 
-  // 阴影效果样式映射
-  const shadowClasses = enableShadow
-    ? 'group-hover:shadow-lg group-hover:shadow-gray-200 dark:group-hover:shadow-gray-800'
-    : ''
+  // 完全移除阴影效果
+  const shadowClasses = ''
 
   // 基础过渡效果
-  const baseClasses = 'group'
+  const baseClasses = 'group cursor-pointer'
 
   // 组合CSS类名
   const hoverClasses = cn(
     baseClasses,
-    disabled && 'pointer-events-none',
+    disabled && 'pointer-events-none cursor-default',
     className
   )
 
@@ -77,7 +75,9 @@ const CardHoverLayer: React.FC<CardHoverLayerProps> = ({
     'transition-transform',
     durationClasses[duration],
     scaleClasses[scale],
-    shadowClasses
+    shadowClasses,
+    // 添加边缘优化，防止缩放时出现白线
+    'backface-hidden transform-gpu will-change-transform'
   )
 
   return (

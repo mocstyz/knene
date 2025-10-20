@@ -62,24 +62,28 @@ export type ContentTypeId =
 export interface RendererConfig {
   /** 是否启用悬停效果 */
   hoverEffect?: boolean
-  /** 宽高比设置 */
+  /** 宽高比 */
   aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape'
   /** 是否显示VIP徽章 */
   showVipBadge?: boolean
-  /** 是否显示新片徽章 */
+  /** 是否显示新内容徽章 */
   showNewBadge?: boolean
   /** 是否显示质量徽章 */
   showQualityBadge?: boolean
   /** 是否显示评分徽章 */
   showRatingBadge?: boolean
-  /** 卡片尺寸 */
+  /** 组件尺寸 */
   size?: 'sm' | 'md' | 'lg' | 'xl'
   /** 自定义CSS类名 */
   className?: string
-  /** 点击事件回调 */
+  /** 点击事件处理器 */
   onClick?: (item: BaseContentItem) => void
-  /** 额外的渲染选项 */
+  /** 额外选项 */
   extraOptions?: Record<string, any>
+  /** 是否显示标题 */
+  showTitle?: boolean
+  /** 是否显示描述 */
+  showDescription?: boolean
 }
 
 // ============================================================================
@@ -227,6 +231,27 @@ export interface ContentRendererFactory {
    * @returns 是否已注册
    */
   isRegistered(contentType: ContentTypeId): boolean
+
+  /**
+   * 检查渲染器是否可用（别名方法）
+   * @param contentType 内容类型ID
+   * @returns 是否可用
+   */
+  hasRenderer(contentType: ContentTypeId): boolean
+
+  /**
+   * 获取所有可用的内容类型（别名方法）
+   * @returns 内容类型ID列表
+   */
+  getAvailableContentTypes(): ContentTypeId[]
+
+  /**
+   * 渲染内容项
+   * @param item 内容项
+   * @param config 渲染配置
+   * @returns 渲染结果
+   */
+  render(item: BaseContentItem, config?: RendererConfig): React.ReactElement
 }
 
 // ============================================================================

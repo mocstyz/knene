@@ -1,7 +1,14 @@
 /**
- * 消息类型值对象
- * 定义不同类型的消息及其属性
+ * @fileoverview 消息类型值对象
+ * @description 消息类型值对象，定义不同类型的消息及其权限属性，提供消息类型的创建、验证和权限管理功能
+ * @created 2025-10-09 13:10:49
+ * @updated 2025-10-19 10:30:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
+
+// 消息类型值对象，定义不同类型的消息及其权限属性
 export class MessageType {
   public readonly type: string
   public readonly canReply: boolean
@@ -24,6 +31,7 @@ export class MessageType {
     this.expiresAfter = expiresAfter
   }
 
+  // 验证消息类型格式
   private validateType(type: string): void {
     if (!type || type.trim().length === 0) {
       throw new Error('消息类型不能为空')
@@ -39,329 +47,265 @@ export class MessageType {
     }
   }
 
-  // 业务方法
+  // 检查是否为系统消息
   isSystemMessage(): boolean {
     return this.type === 'system'
   }
 
+  // 检查是否为用户消息
   isUserMessage(): boolean {
     return !this.isSystemMessage()
   }
 
-  isNotification(): boolean {
-    return this.type.startsWith('notification_')
+  // 检查消息是否已过期
+  isExpired(createdAt: Date): boolean {
+    if (!this.expiresAfter) return false
+    const now = new Date()
+    const diff = now.getTime() - createdAt.getTime()
+    return diff > this.expiresAfter
   }
 
+  // 检查是否可以编辑
+  canEdit(): boolean {
+    return this.canDelete && this.isUserMessage()
+  }
+
+  // 检查是否可以收藏
+  canFavorite(): boolean {
+    return this.isUserMessage()
+  }
+
+  // 检查是否可以举报
+  canReport(): boolean {
+    return this.isUserMessage()
+  }
+
+  // 检查是否为下载消息
   isDownloadMessage(): boolean {
-    return this.type === 'download'
+    return this.type.startsWith('download') || this.type === 'download'
   }
 
+  // 检查是否为影片消息
   isMovieMessage(): boolean {
-    return this.type === 'movie'
+    return this.type.startsWith('movie') || this.type === 'movie'
   }
 
+  // 检查是否为账户消息
   isAccountMessage(): boolean {
-    return this.type === 'account'
+    return this.type.startsWith('account') || this.type === 'account' || this.type.startsWith('security')
   }
 
-  isSecurityMessage(): boolean {
-    return this.type.startsWith('security_')
+  // 比较两个消息类型是否相等
+  equals(other: MessageType): boolean {
+    return this.type === other.type
   }
 
-  hasExpired(createdAt: Date): boolean {
-    if (!this.expiresAfter) {
-      return false
-    }
-
-    return Date.now() - createdAt.getTime() > this.expiresAfter
-  }
-
-  getExpirationTime(createdAt: Date): Date | null {
-    if (!this.expiresAfter) {
-      return null
-    }
-
-    return new Date(createdAt.getTime() + this.expiresAfter)
-  }
-
+  // 获取显示名称
   getDisplayName(): string {
     const displayNames: Record<string, string> = {
-      text: '普通消息',
+      text: '文本消息',
+      image: '图片消息',
+      video: '视频消息',
+      audio: '语音消息',
+      file: '文件消息',
       system: '系统消息',
-      notification_general: '一般通知',
-      notification_download: '下载通知',
-      notification_movie: '电影推荐',
-      notification_account: '账户通知',
-      download: '下载消息',
-      movie: '电影消息',
-      account: '账户消息',
-      security_login: '登录提醒',
-      security_password: '密码变更',
-      security_device: '设备管理',
-      welcome: '欢迎消息',
-      announcement: '公告',
-      warning: '警告',
-      error: '错误',
-      success: '成功',
+      notification: '通知消息',
+      warning: '警告消息',
+      error: '错误消息'
     }
-
     return displayNames[this.type] || this.type
   }
 
+  // 获取类型图标
   getIcon(): string {
-    const iconMap: Record<string, string> = {
-      text: 'message-circle',
-      system: 'info',
-      notification_general: 'bell',
-      notification_download: 'download',
-      notification_movie: 'film',
-      notification_account: 'user',
-      download: 'download-cloud',
-      movie: 'play-circle',
-      account: 'user-circle',
-      security_login: 'shield',
-      security_password: 'key',
-      security_device: 'smartphone',
-      welcome: 'heart',
-      announcement: 'megaphone',
-      warning: 'alert-triangle',
-      error: 'x-circle',
-      success: 'check-circle',
+    const icons: Record<string, string> = {
+      text: '💬',
+      image: '🖼️',
+      video: '🎬',
+      audio: '🎵',
+      file: '📎',
+      system: '⚙️',
+      notification: '🔔',
+      warning: '⚠️',
+      error: '❌'
     }
-
-    return iconMap[this.type] || 'message-circle'
+    return icons[this.type] || '📝'
   }
 
-  getColor(): string {
-    const colorMap: Record<string, string> = {
-      text: 'blue',
-      system: 'gray',
-      notification_general: 'blue',
-      notification_download: 'green',
-      notification_movie: 'purple',
-      notification_account: 'orange',
-      download: 'green',
-      movie: 'purple',
-      account: 'orange',
-      security_login: 'red',
-      security_password: 'red',
-      security_device: 'yellow',
-      welcome: 'pink',
-      announcement: 'indigo',
-      warning: 'yellow',
-      error: 'red',
-      success: 'green',
+  // 获取类型描述
+  getDescription(): string {
+    const descriptions: Record<string, string> = {
+      text: '纯文本消息内容',
+      image: '包含图片的消息',
+      video: '包含视频的消息',
+      audio: '包含语音的消息',
+      file: '包含文件附件的消息',
+      system: '系统自动生成的消息',
+      notification: '系统通知消息',
+      warning: '系统警告消息',
+      error: '系统错误消息'
     }
-
-    return colorMap[this.type] || 'blue'
+    return descriptions[this.type] || '未知类型的消息'
   }
 
-  // 静态工厂方法
+  // 转换为JSON格式
+  toJSON(): {
+    type: string
+    canReply: boolean
+    canForward: boolean
+    canDelete: boolean
+    expiresAfter?: number
+  } {
+    return {
+      type: this.type,
+      canReply: this.canReply,
+      canForward: this.canForward,
+      canDelete: this.canDelete,
+      expiresAfter: this.expiresAfter
+    }
+  }
+
+  // 转换为字符串
+  toString(): string {
+    return this.type
+  }
+
+  // ========== 静态工厂方法 ==========
+
+  // 创建文本消息类型
   static text(): MessageType {
     return new MessageType('text', true, true, true)
   }
 
+  // 创建图片消息类型
+  static image(): MessageType {
+    return new MessageType('image', true, true, true)
+  }
+
+  // 创建视频消息类型
+  static video(): MessageType {
+    return new MessageType('video', true, false, true)
+  }
+
+  // 创建语音消息类型
+  static audio(): MessageType {
+    return new MessageType('audio', true, false, true)
+  }
+
+  // 创建文件消息类型
+  static file(): MessageType {
+    return new MessageType('file', true, true, true)
+  }
+
+  // 创建系统消息类型
   static system(): MessageType {
     return new MessageType('system', false, false, false)
   }
 
-  static notification(
-    type: 'general' | 'download' | 'movie' | 'account'
+  // 创建通知消息类型
+  static notification(): MessageType {
+    return new MessageType('notification', false, true, false, 7 * 24 * 60 * 60 * 1000) // 7天过期
+  }
+
+  // 创建警告消息类型
+  static warning(): MessageType {
+    return new MessageType('warning', false, true, false, 24 * 60 * 60 * 1000) // 1天过期
+  }
+
+  // 错误消息类型
+  static error(): MessageType {
+    return new MessageType('error', false, false, false, 60 * 60 * 1000) // 1小时过期
+  }
+
+  // 安全警告消息类型
+  static security(warningType: 'login' | 'password' | 'device'): MessageType {
+    return new MessageType(`security_${warningType}`, false, false, false, 7 * 24 * 60 * 60 * 1000) // 7天过期
+  }
+
+  // 创建自定义消息类型
+  static custom(
+    type: string,
+    options: {
+      canReply?: boolean
+      canForward?: boolean
+      canDelete?: boolean
+      expiresAfter?: number
+    } = {}
   ): MessageType {
     return new MessageType(
-      `notification_${type}`,
-      false,
-      false,
-      true,
-      7 * 24 * 60 * 60 * 1000
-    ) // 7天过期
-  }
-
-  static download(): MessageType {
-    return new MessageType(
-      'download',
-      false,
-      false,
-      true,
-      30 * 24 * 60 * 60 * 1000
-    ) // 30天过期
-  }
-
-  static movie(): MessageType {
-    return new MessageType('movie', true, true, true, 90 * 24 * 60 * 60 * 1000) // 90天过期
-  }
-
-  static account(): MessageType {
-    return new MessageType(
-      'account',
-      true,
-      false,
-      true,
-      365 * 24 * 60 * 60 * 1000
-    ) // 1年过期
-  }
-
-  static security(type: 'login' | 'password' | 'device'): MessageType {
-    return new MessageType(
-      `security_${type}`,
-      false,
-      false,
-      false,
-      180 * 24 * 60 * 60 * 1000
-    ) // 180天过期
-  }
-
-  static welcome(): MessageType {
-    return new MessageType(
-      'welcome',
-      false,
-      false,
-      false,
-      30 * 24 * 60 * 60 * 1000
-    ) // 30天过期
-  }
-
-  static announcement(): MessageType {
-    return new MessageType(
-      'announcement',
-      false,
-      true,
-      false,
-      60 * 24 * 60 * 60 * 1000
-    ) // 60天过期
-  }
-
-  static warning(): MessageType {
-    return new MessageType(
-      'warning',
-      false,
-      false,
-      true,
-      7 * 24 * 60 * 60 * 1000
-    ) // 7天过期
-  }
-
-  static error(): MessageType {
-    return new MessageType(
-      'error',
-      false,
-      false,
-      true,
-      30 * 24 * 60 * 60 * 1000
-    ) // 30天过期
-  }
-
-  static success(): MessageType {
-    return new MessageType(
-      'success',
-      false,
-      false,
-      true,
-      7 * 24 * 60 * 60 * 1000
-    ) // 7天过期
-  }
-
-  static fromString(type: string): MessageType {
-    switch (type) {
-      case 'text':
-        return MessageType.text()
-      case 'system':
-        return MessageType.system()
-      case 'download':
-        return MessageType.download()
-      case 'movie':
-        return MessageType.movie()
-      case 'account':
-        return MessageType.account()
-      case 'welcome':
-        return MessageType.welcome()
-      case 'announcement':
-        return MessageType.announcement()
-      case 'warning':
-        return MessageType.warning()
-      case 'error':
-        return MessageType.error()
-      case 'success':
-        return MessageType.success()
-      default:
-        if (type.startsWith('notification_')) {
-          const notificationType = type.replace('notification_', '') as
-            | 'general'
-            | 'download'
-            | 'movie'
-            | 'account'
-          return MessageType.notification(notificationType)
-        }
-
-        if (type.startsWith('security_')) {
-          const securityType = type.replace('security_', '') as
-            | 'login'
-            | 'password'
-            | 'device'
-          return MessageType.security(securityType)
-        }
-
-        // 默认返回文本消息类型
-        return MessageType.text()
-    }
-  }
-
-  // 预定义的消息类型
-  static readonly TYPES = {
-    TEXT: 'text',
-    SYSTEM: 'system',
-    NOTIFICATION_GENERAL: 'notification_general',
-    NOTIFICATION_DOWNLOAD: 'notification_download',
-    NOTIFICATION_MOVIE: 'notification_movie',
-    NOTIFICATION_ACCOUNT: 'notification_account',
-    DOWNLOAD: 'download',
-    MOVIE: 'movie',
-    ACCOUNT: 'account',
-    SECURITY_LOGIN: 'security_login',
-    SECURITY_PASSWORD: 'security_password',
-    SECURITY_DEVICE: 'security_device',
-    WELCOME: 'welcome',
-    ANNOUNCEMENT: 'announcement',
-    WARNING: 'warning',
-    ERROR: 'error',
-    SUCCESS: 'success',
-  } as const
-
-  // 验证方法
-  static isValidType(type: string): boolean {
-    return (
-      Object.values(MessageType.TYPES).includes(type as any) ||
-      type.startsWith('notification_') ||
-      type.startsWith('security_')
+      type,
+      options.canReply,
+      options.canForward,
+      options.canDelete,
+      options.expiresAfter
     )
   }
 
-  static getAllTypes(): string[] {
-    return Object.values(MessageType.TYPES)
+  // 从JSON创建消息类型
+  static fromJSON(json: {
+    type: string
+    canReply?: boolean
+    canForward?: boolean
+    canDelete?: boolean
+    expiresAfter?: number
+  }): MessageType {
+    return new MessageType(
+      json.type,
+      json.canReply,
+      json.canForward,
+      json.canDelete,
+      json.expiresAfter
+    )
   }
 
-  static getSystemTypes(): string[] {
+  // 验证消息类型是否有效
+  static isValid(type: string): boolean {
+    try {
+      new MessageType(type)
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  // 获取所有可用的消息类型
+  static getAllTypes(): MessageType[] {
     return [
-      MessageType.TYPES.SYSTEM,
-      MessageType.TYPES.NOTIFICATION_GENERAL,
-      MessageType.TYPES.NOTIFICATION_DOWNLOAD,
-      MessageType.TYPES.NOTIFICATION_MOVIE,
-      MessageType.TYPES.NOTIFICATION_ACCOUNT,
-      MessageType.TYPES.DOWNLOAD,
-      MessageType.TYPES.MOVIE,
-      MessageType.TYPES.ACCOUNT,
-      MessageType.TYPES.SECURITY_LOGIN,
-      MessageType.TYPES.SECURITY_PASSWORD,
-      MessageType.TYPES.SECURITY_DEVICE,
-      MessageType.TYPES.WELCOME,
-      MessageType.TYPES.ANNOUNCEMENT,
-      MessageType.TYPES.WARNING,
-      MessageType.TYPES.ERROR,
-      MessageType.TYPES.SUCCESS,
+      MessageType.text(),
+      MessageType.image(),
+      MessageType.video(),
+      MessageType.audio(),
+      MessageType.file(),
+      MessageType.system(),
+      MessageType.notification(),
+      MessageType.warning(),
+      MessageType.error()
     ]
   }
 
-  static getUserTypes(): string[] {
-    return [MessageType.TYPES.TEXT]
+  // 根据类型查找消息类型
+  static findByType(type: string): MessageType | null {
+    const allTypes = MessageType.getAllTypes()
+    return allTypes.find(messageType => messageType.type === type) || null
+  }
+
+  // 获取用户可发送的消息类型
+  static getUserSendableTypes(): MessageType[] {
+    return MessageType.getAllTypes().filter(type => type.isUserMessage())
+  }
+
+  // 获取系统消息类型
+  static getSystemTypes(): MessageType[] {
+    return MessageType.getAllTypes().filter(type => type.isSystemMessage())
+  }
+
+  // 搜索消息类型
+  static search(keyword: string): MessageType[] {
+    const lowerKeyword = keyword.toLowerCase()
+    return MessageType.getAllTypes().filter(type =>
+      type.type.toLowerCase().includes(lowerKeyword) ||
+      type.getDisplayName().toLowerCase().includes(lowerKeyword) ||
+      type.getDescription().toLowerCase().includes(lowerKeyword)
+    )
   }
 }

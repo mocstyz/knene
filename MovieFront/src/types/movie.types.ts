@@ -117,9 +117,11 @@ export interface FullMovieItem
  * 专题项目接口
  * 专题专用的接口组合
  */
-export interface TopicItem extends BaseMediaItem, MediaImageItem {
+export interface TopicItem extends BaseMediaItem, MediaImageItem, MediaStatusItem {
   /** 专题类型固定为Collection */
   type: 'Collection'
+  /** 是否为VIP内容 */
+  isVip?: boolean
 }
 
 /**
@@ -221,6 +223,16 @@ export interface MixedContentItem extends BaseMovieItem, MediaStatusItem {
  * 基于数据特征自动推断内容类型
  */
 export function inferContentType(item: any): 'movie' | 'photo' | 'collection' {
+  // 优先检查显式的contentType字段
+  if (item.contentType) {
+    return item.contentType
+  }
+
+  // 检查type字段（Mock数据中的标识）
+  if (item.type === 'Collection') {
+    return 'collection'
+  }
+
   // 检查写真特征
   if (item.formatType || item.resolution || item.model || item.photographer) {
     return 'photo'
@@ -250,7 +262,7 @@ export function isMixedContentItem(item: any): item is MixedContentItem {
 /**
  * 转换为统一内容项格式
  */
-export function toUnifiedContentItem(item: any): UnifiedContentItem {
+export function toUnifiedContentItem(item: any): UnifiedContentItem & { contentType: 'movie' | 'photo' | 'collection' | 'video' | 'article' | 'live' } {
   const contentType = item.contentType || inferContentType(item)
 
   return {
@@ -263,7 +275,7 @@ export function toUnifiedContentItem(item: any): UnifiedContentItem {
     createdAt: item.createdAt || item.updatedAt,
     updatedAt: item.updatedAt,
     tags: item.tags,
-    isVip: item.isVip ?? true,
+    isVip: item.isVip ?? false,
     isNew: item.isNew,
     newType: item.newType || 'new',
     rating: item.rating ? parseFloat(item.rating) : undefined,

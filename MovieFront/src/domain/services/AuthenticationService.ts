@@ -1,27 +1,33 @@
+/**
+ * @fileoverview 认证领域服务
+ * @description 处理用户认证相关的业务逻辑，包括用户凭据验证、注册信息验证、密码强度检查、权限验证等功能。
+ *              提供完整的用户认证体系支持，包括登录验证、注册验证、会话管理、权限控制、订阅状态检查等。
+ * @created 2025-10-11 12:35:25
+ * @updated 2025-10-19 13:56:30
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { User } from '@domain/entities/User'
 
-/**
- * 认证领域服务
- * 处理用户认证相关的业务逻辑
- */
+// 认证领域服务，处理用户认证相关的业务逻辑
 export class AuthenticationService {
-  /**
-   * 验证用户凭据
-   */
+  // 验证用户凭据，检查邮箱和密码的有效性并返回验证结果
   static validateCredentials(
     email: string,
     password: string
   ): { isValid: boolean; errors: string[] } {
     const errors: string[] = []
 
-    // 邮箱验证
+    // 防御性检查 - 验证邮箱格式和有效性
     if (!email) {
       errors.push('邮箱不能为空')
     } else if (!this.isValidEmail(email)) {
       errors.push('邮箱格式不正确')
     }
 
-    // 密码验证
+    // 防御性检查 - 验证密码长度和复杂性
     if (!password) {
       errors.push('密码不能为空')
     } else if (password.length < 6) {
@@ -34,9 +40,7 @@ export class AuthenticationService {
     }
   }
 
-  /**
-   * 验证注册信息
-   */
+  // 验证注册信息，包括邮箱、用户名、密码和确认密码的完整性和有效性
   static validateRegistration(userData: {
     email: string
     username: string
@@ -45,14 +49,14 @@ export class AuthenticationService {
   }): { isValid: boolean; errors: string[] } {
     const errors: string[] = []
 
-    // 邮箱验证
+    // 防御性检查 - 验证邮箱格式和有效性
     if (!userData.email) {
       errors.push('邮箱不能为空')
     } else if (!this.isValidEmail(userData.email)) {
       errors.push('邮箱格式不正确')
     }
 
-    // 用户名验证
+    // 防御性检查 - 验证用户名长度、格式和字符限制
     if (!userData.username) {
       errors.push('用户名不能为空')
     } else if (userData.username.length < 2) {
@@ -63,7 +67,7 @@ export class AuthenticationService {
       errors.push('用户名只能包含字母、数字、下划线和中文')
     }
 
-    // 密码验证
+    // 防御性检查 - 验证密码长度和强度
     if (!userData.password) {
       errors.push('密码不能为空')
     } else if (userData.password.length < 6) {
@@ -74,7 +78,7 @@ export class AuthenticationService {
       errors.push('密码必须包含字母和数字')
     }
 
-    // 确认密码验证
+    // 防御性检查 - 验证确认密码是否一致
     if (userData.password !== userData.confirmPassword) {
       errors.push('两次输入的密码不一致')
     }
@@ -85,9 +89,7 @@ export class AuthenticationService {
     }
   }
 
-  /**
-   * 验证密码强度
-   */
+  // 验证密码强度，检查是否包含字母和数字
   static isStrongPassword(password: string): boolean {
     // 至少包含一个字母和一个数字
     const hasLetter = /[a-zA-Z]/.test(password)
@@ -95,9 +97,7 @@ export class AuthenticationService {
     return hasLetter && hasNumber
   }
 
-  /**
-   * 验证密码
-   */
+  // 验证密码，比较输入密码和存储密码是否匹配
   static async verifyPassword(
     inputPassword: string,
     storedPassword: string
@@ -107,24 +107,18 @@ export class AuthenticationService {
     return inputPassword === storedPassword
   }
 
-  /**
-   * 验证邮箱格式
-   */
+  // 验证邮箱格式，使用正则表达式检查邮箱格式是否正确
   static isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return emailRegex.test(email)
   }
 
-  /**
-   * 验证邮箱格式（别名方法，保持向后兼容）
-   */
+  // 验证邮箱格式（别名方法，保持向后兼容）
   static validateEmail(email: string): boolean {
     return this.isValidEmail(email)
   }
 
-  /**
-   * 检查密码强度
-   */
+  // 检查密码强度，提供详细的强度分析和建议
   static checkPasswordStrength(password: string): {
     score: number
     feedback: string[]
@@ -133,35 +127,35 @@ export class AuthenticationService {
     const feedback: string[] = []
     let score = 0
 
-    // 长度检查
+    // 防御性检查 - 验证密码长度
     if (password.length >= 8) {
       score += 1
     } else {
       feedback.push('密码长度至少需要8个字符')
     }
 
-    // 包含小写字母
+    // 防御性检查 - 验证是否包含小写字母
     if (/[a-z]/.test(password)) {
       score += 1
     } else {
       feedback.push('密码需要包含小写字母')
     }
 
-    // 包含大写字母
+    // 防御性检查 - 验证是否包含大写字母
     if (/[A-Z]/.test(password)) {
       score += 1
     } else {
       feedback.push('密码需要包含大写字母')
     }
 
-    // 包含数字
+    // 防御性检查 - 验证是否包含数字
     if (/\d/.test(password)) {
       score += 1
     } else {
       feedback.push('密码需要包含数字')
     }
 
-    // 包含特殊字符
+    // 防御性检查 - 验证是否包含特殊字符
     if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
       score += 1
     } else {
@@ -175,9 +169,7 @@ export class AuthenticationService {
     }
   }
 
-  /**
-   * 生成用户会话令牌
-   */
+  // 生成用户会话令牌，用于维护用户登录状态
   static generateSessionToken(user: User): string {
     // 在实际应用中，这应该是一个安全的JWT令牌
     const timestamp = Date.now()
@@ -185,9 +177,7 @@ export class AuthenticationService {
     return `${user.id}_${timestamp}_${randomStr}`
   }
 
-  /**
-   * 验证会话令牌
-   */
+  // 验证会话令牌，检查令牌格式和有效期
   static validateSessionToken(token: string): {
     isValid: boolean
     userId?: string
@@ -214,9 +204,7 @@ export class AuthenticationService {
     }
   }
 
-  /**
-   * 检查用户权限
-   */
+  // 检查用户权限，根据用户角色和订阅类型判断是否有特定权限
   static hasPermission(user: User, permission: string): boolean {
     // 管理员拥有所有权限
     if (user.hasRole('admin')) {
@@ -255,9 +243,7 @@ export class AuthenticationService {
     return basicPermissions.includes(permission)
   }
 
-  /**
-   * 检查订阅状态
-   */
+  // 检查订阅状态，判断用户订阅是否仍在有效期内
   static isSubscriptionActive(user: User): boolean {
     if (!user.detail.subscription) {
       return false
@@ -269,9 +255,7 @@ export class AuthenticationService {
     return expiryDate > now
   }
 
-  /**
-   * 获取用户可用的下载质量选项
-   */
+  // 获取用户可用的下载质量选项，根据权限返回可用质量列表
   static getAvailableQualities(user: User): string[] {
     const baseQualities = ['SD']
 
@@ -286,9 +270,7 @@ export class AuthenticationService {
     return baseQualities
   }
 
-  /**
-   * 获取用户最大并发下载数
-   */
+  // 获取用户最大并发下载数，根据权限等级返回对应的并发限制
   static getMaxConcurrentDownloads(user: User): number {
     if (this.hasPermission(user, 'unlimited_downloads')) {
       return 10
@@ -301,25 +283,19 @@ export class AuthenticationService {
     return 1
   }
 
-  /**
-   * 检查用户是否可以访问管理功能
-   */
+  // 检查用户是否可以访问管理功能，基于用户角色判断
   static canAccessAdmin(user: User): boolean {
     return user.hasRole('admin')
   }
 
-  /**
-   * 生成密码重置令牌
-   */
+  // 生成密码重置令牌，用于密码重置流程的身份验证
   static generatePasswordResetToken(email: string): string {
     const timestamp = Date.now()
     const randomStr = Math.random().toString(36).substring(2)
     return `reset_${email}_${timestamp}_${randomStr}`
   }
 
-  /**
-   * 验证密码重置令牌
-   */
+  // 验证密码重置令牌，检查令牌格式、邮箱有效性和过期时间
   static validatePasswordResetToken(token: string): {
     isValid: boolean
     email?: string

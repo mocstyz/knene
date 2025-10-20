@@ -2,7 +2,8 @@
  * @fileoverview 下载调度领域服务
  * @description 下载管理领域的核心服务，处理下载任务的调度、优先级管理和资源分配。
  * 负责下载队列管理、并发控制、重试机制和下载统计等核心业务逻辑。
- *
+ * @created 2025-10-11 12:35:25
+ * @updated 2025-10-19 13:56:30
  * @author mosctz
  * @since 1.0.0
  * @version 1.2.0
@@ -11,22 +12,14 @@
 import { Download, DownloadTask } from '@domain/entities/Download'
 import { DownloadStatus } from '@domain/value-objects/DownloadStatus'
 
-/**
- * 下载调度领域服务
- *
- * 领域服务：处理下载任务的调度、优先级管理和资源分配
- */
+// 下载调度领域服务，处理下载任务的调度、优先级管理和资源分配
 export class DownloadScheduler {
-  /** 最大并发下载数 */
+  // 最大并发下载数
   private static readonly MAX_CONCURRENT_DOWNLOADS = 3
-  /** 重试延迟时间（毫秒） */
+  // 重试延迟时间（毫秒）
   private static readonly RETRY_DELAYS = [1000, 3000, 5000, 10000]
 
-  /**
-   * 检查是否可以开始新的下载
-   * @param activeDownloads 当前活跃的下载任务列表
-   * @returns {boolean} 如果可以开始新下载则返回true
-   */
+  // 检查是否可以开始新的下载，基于当前活跃下载数量判断并发限制
   static canStartDownload(activeDownloads: DownloadTask[]): boolean {
     const runningCount = activeDownloads.filter(
       task =>
@@ -37,11 +30,7 @@ export class DownloadScheduler {
     return runningCount < this.MAX_CONCURRENT_DOWNLOADS
   }
 
-  /**
-   * 获取下一个待下载任务
-   * @param downloads 下载任务列表
-   * @returns {DownloadTask|null} 返回优先级最高的待下载任务，如果没有则返回null
-   */
+  // 获取下一个待下载任务，按优先级和创建时间排序返回最优任务
   static getNextDownloadTask(downloads: DownloadTask[]): DownloadTask | null {
     // 按优先级和创建时间排序
     const pendingTasks = downloads
@@ -61,23 +50,13 @@ export class DownloadScheduler {
     return pendingTasks[0] || null
   }
 
-  /**
-   * 获取优先级数值
-   * @param priority 优先级值
-   * @returns {number} 返回处理后的优先级数值，默认为5
-   */
+  // 获取优先级数值，返回处理后的优先级值，默认为5
   private static getPriorityValue(priority: number): number {
     // priority是数字类型，直接返回
     return priority || 5 // 默认优先级为5
   }
 
-  /**
-   * 计算下载优先级
-   * @param movieId 电影ID
-   * @param userPreferences 用户偏好设置（可选）
-   * @param movieData 电影数据（可选）
-   * @returns {number} 返回计算出的优先级（1-10）
-   */
+  // 计算下载优先级，基于用户偏好、影片评分、年份和热度等因素综合计算优先级分数
   static calculatePriority(
     movieId: string,
     userPreferences?: Record<string, unknown>,
@@ -116,9 +95,7 @@ export class DownloadScheduler {
     return Math.min(10, Math.max(1, Math.ceil(score / 5)))
   }
 
-  /**
-   * 验证下载任务
-   */
+  // 验证下载任务的完整性和有效性，检查必需字段和数据格式
   static validateDownloadTask(task: Partial<DownloadTask>): {
     isValid: boolean
     errors: string[]
@@ -149,9 +126,7 @@ export class DownloadScheduler {
     }
   }
 
-  /**
-   * 计算预估下载时间
-   */
+  // 计算预估下载时间，基于文件大小和平均下载速度估算完成时间
   static estimateDownloadTime(fileSize: number, averageSpeed: number): number {
     if (averageSpeed <= 0) {
       return 0
@@ -161,9 +136,7 @@ export class DownloadScheduler {
     return Math.ceil(fileSize / averageSpeed)
   }
 
-  /**
-   * 计算剩余时间
-   */
+  // 计算剩余下载时间，基于当前下载速度和剩余文件大小估算完成时间
   static calculateRemainingTime(
     fileSize: number,
     downloadedSize: number,
@@ -177,13 +150,7 @@ export class DownloadScheduler {
     return Math.ceil(remainingSize / currentSpeed)
   }
 
-  /**
-   * 格式化时间
-   */
-
-  /**
-   * 检查存储空间
-   */
+  // 检查设备存储空间是否足够，返回可用空间和是否满足下载需求
   static checkStorageSpace(
     requiredSpace: number
   ): Promise<{ hasSpace: boolean; availableSpace: number }> {
@@ -199,17 +166,13 @@ export class DownloadScheduler {
     })
   }
 
-  /**
-   * 获取重试延迟时间
-   */
+  // 获取重试延迟时间，根据重试次数返回递增的延迟时间，避免频繁重试
   static getRetryDelay(retryCount: number): number {
     const index = Math.min(retryCount, this.RETRY_DELAYS.length - 1)
     return this.RETRY_DELAYS[index]
   }
 
-  /**
-   * 检查是否应该重试
-   */
+  // 检查下载任务是否应该重试，基于重试次数上限和任务状态判断
   static shouldRetry(task: DownloadTask, maxRetries: number = 3): boolean {
     return (
       task.retryCount < maxRetries &&
@@ -217,9 +180,7 @@ export class DownloadScheduler {
     )
   }
 
-  /**
-   * 生成下载URL
-   */
+  // 生成下载URL，包含安全令牌和时间戳，确保下载链接的安全性和时效性
   static generateDownloadUrl(movieId: string, quality: string): string {
     // 在实际应用中，这应该调用后端API获取真实的下载链接
     const baseUrl = 'https://api.moviesite.com/download'
@@ -229,9 +190,7 @@ export class DownloadScheduler {
     return `${baseUrl}/${movieId}?quality=${quality}&token=${token}&ts=${timestamp}`
   }
 
-  /**
-   * 生成下载令牌
-   */
+  // 生成下载令牌，基于影片ID、质量和时间戳创建安全验证令牌
   private static generateDownloadToken(
     movieId: string,
     quality: string,
@@ -242,9 +201,7 @@ export class DownloadScheduler {
     return btoa(data).replace(/[+/=]/g, '')
   }
 
-  /**
-   * 验证下载权限
-   */
+  // 验证下载权限，检查用户是否有对应质量的下载权限，返回验证结果和拒绝原因
   static validateDownloadPermission(
     _movieId: string,
     quality: string,
@@ -277,9 +234,7 @@ export class DownloadScheduler {
     return { canDownload: true }
   }
 
-  /**
-   * 获取推荐的下载质量
-   */
+  // 获取推荐的下载质量，根据网络速度和可用质量选项推荐最适合的下载质量
   static getRecommendedQuality(
     availableQualities: string[],
     _userPreferences: Record<string, unknown>,
@@ -301,9 +256,7 @@ export class DownloadScheduler {
     }
   }
 
-  /**
-   * 计算下载统计
-   */
+  // 计算下载统计信息，包括各状态任务数量、总大小、下载进度和平均速度
   static calculateDownloadStats(downloads: DownloadTask[]) {
     const stats = {
       total: downloads.length,
@@ -351,7 +304,7 @@ export class DownloadScheduler {
     return stats
   }
 
-  // 添加缺失的静态方法
+  // 添加下载任务到队列，将新的下载任务加入下载队列
   static addToQueue(download: Download): Promise<void> {
     return new Promise(resolve => {
       // 模拟添加到队列
@@ -360,6 +313,7 @@ export class DownloadScheduler {
     })
   }
 
+  // 暂停指定的下载任务，根据下载ID暂停正在进行的下载
   static pauseDownload(downloadId: string): Promise<void> {
     return new Promise(resolve => {
       // 模拟暂停下载
@@ -368,6 +322,7 @@ export class DownloadScheduler {
     })
   }
 
+  // 恢复暂停的下载任务，根据下载ID恢复已暂停的下载
   static resumeDownload(downloadId: string): Promise<void> {
     return new Promise(resolve => {
       // 模拟恢复下载
@@ -376,6 +331,7 @@ export class DownloadScheduler {
     })
   }
 
+  // 从下载队列中移除任务，根据下载ID删除指定的下载任务
   static removeFromQueue(downloadId: string): Promise<void> {
     return new Promise(resolve => {
       // 模拟从队列移除

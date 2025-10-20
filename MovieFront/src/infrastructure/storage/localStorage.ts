@@ -1,11 +1,17 @@
 /**
- * 本地存储管理器
- * 提供类型安全的本地存储操作
+ * @fileoverview 本地存储管理器
+ * @description 提供类型安全的本地存储操作，包含数据序列化、过期时间管理、批量操作等功能
+ * 支持存储配额检查、数据导入导出、监听存储变化等高级功能
+ * @created 2025-10-15 15:25:00
+ * @updated 2025-10-19 11:15:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
+
+// 本地存储管理器类，提供类型安全的本地存储操作
 export class LocalStorageManager {
-  /**
-   * 存储键名常量
-   */
+  // 存储键名常量，定义应用中使用的所有存储键
   static readonly KEYS = {
     AUTH_TOKEN: 'auth_token',
     REFRESH_TOKEN: 'refresh_token',
@@ -24,9 +30,7 @@ export class LocalStorageManager {
     OFFLINE_DATA: 'offline_data',
   } as const
 
-  /**
-   * 设置存储项
-   */
+  // 设置存储项，自动序列化数据并添加时间戳
   static setItem<T>(key: string, value: T): void {
     try {
       const serializedValue = JSON.stringify({
@@ -41,9 +45,7 @@ export class LocalStorageManager {
     }
   }
 
-  /**
-   * 获取存储项
-   */
+  // 获取存储项，支持默认值和旧格式数据兼容
   static getItem<T>(key: string, defaultValue?: T): T | null {
     try {
       const item = localStorage.getItem(key)
@@ -66,9 +68,7 @@ export class LocalStorageManager {
     }
   }
 
-  /**
-   * 移除存储项
-   */
+  // 移除指定的存储项
   static removeItem(key: string): void {
     try {
       localStorage.removeItem(key)
@@ -77,9 +77,7 @@ export class LocalStorageManager {
     }
   }
 
-  /**
-   * 清空所有存储
-   */
+  // 清空所有本地存储数据
   static clear(): void {
     try {
       localStorage.clear()
@@ -88,16 +86,12 @@ export class LocalStorageManager {
     }
   }
 
-  /**
-   * 检查存储项是否存在
-   */
+  // 检查存储项是否存在
   static hasItem(key: string): boolean {
     return localStorage.getItem(key) !== null
   }
 
-  /**
-   * 获取所有键名
-   */
+  // 获取所有存储键名
   static getAllKeys(): string[] {
     const keys: string[] = []
     for (let i = 0; i < localStorage.length; i++) {
@@ -109,9 +103,7 @@ export class LocalStorageManager {
     return keys
   }
 
-  /**
-   * 获取存储大小（字节）
-   */
+  // 获取存储大小（字节）
   static getStorageSize(): number {
     let total = 0
     for (const key in localStorage) {
@@ -122,9 +114,7 @@ export class LocalStorageManager {
     return total
   }
 
-  /**
-   * 检查存储配额
-   */
+  // 检查存储配额使用情况
   static checkStorageQuota(): {
     used: number
     available: number
@@ -141,9 +131,7 @@ export class LocalStorageManager {
     }
   }
 
-  /**
-   * 设置带过期时间的存储项
-   */
+  // 设置带过期时间的存储项，支持自动过期清理
   static setItemWithExpiry<T>(
     key: string,
     value: T,
@@ -165,9 +153,7 @@ export class LocalStorageManager {
     }
   }
 
-  /**
-   * 获取带过期检查的存储项
-   */
+  // 获取带过期检查的存储项，过期数据自动清理
   static getItemWithExpiry<T>(key: string, defaultValue?: T): T | null {
     try {
       const item = localStorage.getItem(key)
@@ -190,18 +176,14 @@ export class LocalStorageManager {
     }
   }
 
-  /**
-   * 批量设置存储项
-   */
+  // 批量设置存储项，提高操作效率
   static setMultipleItems(items: Record<string, unknown>): void {
     Object.entries(items).forEach(([key, value]) => {
       this.setItem(key, value)
     })
   }
 
-  /**
-   * 批量获取存储项
-   */
+  // 批量获取存储项，支持类型安全的批量操作
   static getMultipleItems<T extends Record<string, unknown>>(
     keys: (keyof T)[]
   ): Partial<T> {
@@ -215,18 +197,14 @@ export class LocalStorageManager {
     return result
   }
 
-  /**
-   * 批量移除存储项
-   */
+  // 批量移除存储项，支持清理多个键
   static removeMultipleItems(keys: string[]): void {
     keys.forEach(key => {
       this.removeItem(key)
     })
   }
 
-  /**
-   * 清理过期的存储项
-   */
+  // 清理所有过期的存储项，返回清理数量
   static cleanupExpiredItems(): number {
     let cleanedCount = 0
     const keys = this.getAllKeys()
@@ -249,9 +227,7 @@ export class LocalStorageManager {
     return cleanedCount
   }
 
-  /**
-   * 导出存储数据
-   */
+  // 导出所有存储数据为JSON格式
   static exportData(): string {
     const data: Record<string, unknown> = {}
     const keys = this.getAllKeys()
@@ -266,9 +242,7 @@ export class LocalStorageManager {
     return JSON.stringify(data, null, 2)
   }
 
-  /**
-   * 导入存储数据
-   */
+  // 从JSON格式导入存储数据
   static importData(jsonData: string): void {
     try {
       const data = JSON.parse(jsonData)
@@ -281,9 +255,7 @@ export class LocalStorageManager {
     }
   }
 
-  /**
-   * 监听存储变化
-   */
+  // 监听存储变化事件，返回清理函数
   static onStorageChange(callback: (event: StorageEvent) => void): () => void {
     window.addEventListener('storage', callback)
 
@@ -293,9 +265,7 @@ export class LocalStorageManager {
     }
   }
 
-  /**
-   * 安全地执行存储操作
-   */
+  // 安全地执行存储操作，支持错误回退
   static safeOperation<T>(operation: () => T, fallback?: T): T | null {
     try {
       return operation()
@@ -305,9 +275,7 @@ export class LocalStorageManager {
     }
   }
 
-  /**
-   * 检查localStorage是否可用
-   */
+  // 检查localStorage是否可用
   static isAvailable(): boolean {
     try {
       const testKey = '__localStorage_test__'
@@ -319,9 +287,7 @@ export class LocalStorageManager {
     }
   }
 
-  /**
-   * 获取存储统计信息
-   */
+  // 获取存储统计信息，包含项目数量、大小、最大项等
   static getStorageStats(): {
     totalItems: number
     totalSize: number

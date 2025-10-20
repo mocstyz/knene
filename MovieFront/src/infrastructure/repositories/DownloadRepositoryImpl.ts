@@ -1,18 +1,24 @@
+/**
+ * @fileoverview 下载仓储实现类
+ * @description 实现下载相关的数据访问操作，包含缓存机制、API调用、数据映射等功能
+ * 提供下载任务的完整生命周期管理，包括创建、查询、更新、删除、进度跟踪等操作
+ * @created 2025-10-15 14:35:00
+ * @updated 2025-10-19 10:20:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Download } from '@domain/entities/Download'
 import { DownloadRepository } from '@infrastructure/repositories/DownloadRepository'
 
-/**
- * 下载仓储实现
- * 负责下载数据的持久化和查询
- */
+// 下载仓储实现类，负责下载数据的持久化和查询操作
 export class DownloadRepositoryImpl implements DownloadRepository {
   private cache = new Map<string, Download>()
   private cacheExpiry = new Map<string, number>()
   private readonly CACHE_DURATION = 2 * 60 * 1000 // 2分钟缓存
 
-  /**
-   * 根据ID查找下载任务
-   */
+  // 根据ID查找下载任务，支持缓存机制提升查询性能
   async findById(id: string): Promise<Download | null> {
     try {
       // 1. 检查缓存
@@ -44,9 +50,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 获取所有下载任务
-   */
+  // 获取所有下载任务列表
   async findAll(): Promise<Download[]> {
     try {
       const response = await fetch('/api/downloads', {
@@ -67,9 +71,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 保存下载任务
-   */
+  // 保存下载任务到持久化存储
   async save(download: Download): Promise<Download> {
     try {
       const downloadData = this.mapFromDownloadEntity(download)
@@ -100,9 +102,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 删除下载任务
-   */
+  // 删除指定的下载任务
   async delete(id: string): Promise<boolean> {
     try {
       const response = await fetch(`/api/downloads/${id}`, {
@@ -125,9 +125,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 根据用户ID查找下载任务
-   */
+  // 根据用户ID查找所有相关的下载任务
   async findByUserId(userId: string): Promise<Download[]> {
     try {
       const response = await fetch(`/api/users/${userId}/downloads`, {
@@ -148,9 +146,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 查找活跃的下载任务
-   */
+  // 查找当前活跃状态的下载任务
   async findActiveDownloads(): Promise<Download[]> {
     try {
       const response = await fetch('/api/downloads/active', {
@@ -171,9 +167,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 创建新的下载任务
-   */
+  // 创建新的下载任务并返回创建结果
   async create(download: Download): Promise<Download> {
     try {
       const downloadData = {
@@ -213,9 +207,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 更新下载进度
-   */
+  // 更新下载任务的进度信息
   async updateProgress(
     downloadId: string,
     progress: {
@@ -246,9 +238,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 暂停下载任务
-   */
+  // 暂停指定的下载任务
   async pauseDownload(downloadId: string): Promise<void> {
     try {
       const response = await fetch(`/api/downloads/${downloadId}/pause`, {
@@ -270,9 +260,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 恢复下载任务
-   */
+  // 恢复已暂停的下载任务
   async resumeDownload(downloadId: string): Promise<void> {
     try {
       const response = await fetch(`/api/downloads/${downloadId}/resume`, {
@@ -294,9 +282,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 取消下载任务
-   */
+  // 取消下载任务，可提供取消原因
   async cancelDownload(downloadId: string, reason?: string): Promise<void> {
     try {
       const response = await fetch(`/api/downloads/${downloadId}/cancel`, {
@@ -320,9 +306,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 重试下载任务
-   */
+  // 重试失败的下载任务
   async retryDownload(downloadId: string): Promise<void> {
     try {
       const response = await fetch(`/api/downloads/${downloadId}/retry`, {
@@ -344,9 +328,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 获取下载统计信息
-   */
+  // 获取用户的下载统计信息
   async getDownloadStats(userId: string): Promise<{
     total: number
     completed: number
@@ -382,9 +364,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 清理已完成的下载任务
-   */
+  // 清理指定天数之前已完成的下载任务
   async cleanupCompletedDownloads(
     userId: string,
     olderThanDays: number = 30
@@ -411,9 +391,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 获取下载历史记录
-   */
+  // 获取用户的下载历史记录，支持状态和时间范围过滤
   async getDownloadHistory(
     userId: string,
     filters?: {
@@ -475,9 +453,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
 
   // 私有辅助方法
 
-  /**
-   * 从缓存获取数据
-   */
+  // 从缓存中获取下载任务数据，检查缓存是否过期
   private getFromCache(id: string): Download | null {
     const cached = this.cache.get(id)
     const expiry = this.cacheExpiry.get(id)
@@ -492,32 +468,24 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     return null
   }
 
-  /**
-   * 设置缓存
-   */
+  // 将下载任务数据设置到缓存中，并设置过期时间
   private setCache(id: string, download: Download): void {
     this.cache.set(id, download)
     this.cacheExpiry.set(id, Date.now() + this.CACHE_DURATION)
   }
 
-  /**
-   * 清除缓存
-   */
+  // 清除指定下载任务的缓存数据
   private clearCache(id: string): void {
     this.cache.delete(id)
     this.cacheExpiry.delete(id)
   }
 
-  /**
-   * 获取认证令牌
-   */
+  // 从本地存储获取认证令牌
   private getAuthToken(): string {
     return localStorage.getItem('auth_token') || ''
   }
 
-  /**
-   * 将API数据映射为下载实体
-   */
+  // 将API返回的数据映射为下载实体对象
   private mapToDownloadEntity(data: any): Download {
     return {
       detail: {
@@ -544,12 +512,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     } as Download
   }
 
-  /**
-   * 将下载实体映射为API数据格式
-   */
-  /**
-   * 根据影片ID查找下载任务
-   */
+  // 根据影片ID查找下载任务列表
   async findByMovieId(movieId: string): Promise<Download[]> {
     try {
       const response = await fetch(`/api/downloads/movie/${movieId}`, {
@@ -570,9 +533,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
-  /**
-   * 更新下载任务
-   */
+  // 更新下载任务信息
   async update(download: Download): Promise<Download> {
     try {
       const downloadData = this.mapFromDownloadEntity(download)
@@ -603,6 +564,7 @@ export class DownloadRepositoryImpl implements DownloadRepository {
     }
   }
 
+  // 将下载实体映射为API数据格式
   private mapFromDownloadEntity(download: Download): any {
     return {
       id: download.detail.id,

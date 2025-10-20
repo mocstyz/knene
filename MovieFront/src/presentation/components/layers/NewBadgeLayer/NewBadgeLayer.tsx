@@ -71,8 +71,23 @@ const NewBadgeLayer: React.FC<NewBadgeLayerProps> = ({
   animationType = 'pulse',
   colorVariant: _colorVariant,
 }) => {
+  // 调试输出：检查NewBadgeLayer接收到的props
+  console.log('NewBadgeLayer - Received props:', {
+    isNew,
+    newType,
+    position,
+    size,
+    variant: _variant,
+    text,
+    animated,
+    animationType,
+    colorVariant: _colorVariant,
+    className
+  })
+
   // 如果不是新片，不显示标签
   if (!isNew) {
+    console.log('NewBadgeLayer - Not rendering: isNew is false')
     return null
   }
 
@@ -98,6 +113,15 @@ const NewBadgeLayer: React.FC<NewBadgeLayerProps> = ({
     animated && animationType === 'bounce' && 'animate-bounce',
     className
   )
+
+  // 调试输出：检查样式类名和渲染信息
+  console.log('NewBadgeLayer - Rendering:', {
+    displayText,
+    badgeClasses,
+    variantUsed: _variant || 'default',
+    badgeLayerVariantsNew: badgeLayerVariants.variant.new,
+    finalClassName: badgeClasses
+  })
 
   return <div className={badgeClasses}>{displayText}</div>
 }

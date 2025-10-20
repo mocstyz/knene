@@ -9,6 +9,7 @@
  * @version 2.0.0
  */
 
+import { createPhotoContentItem } from '@components/domains/photo/renderers'
 import {
   BaseList,
   EmptyState,
@@ -17,12 +18,12 @@ import {
 import {
   createRendererConfig,
   type RendererConfig,
-  createPhotoContentItem,
 } from '@components/domains/shared/content-renderers'
-import { contentRendererFactory } from '@components/domains/shared/content-renderers/renderer-factory'
-import type { PhotoItem } from '@types-movie/movie.types'
+import { contentRendererFactory } from '@components/domains/shared/content-renderers'
+import type { PhotoItem } from '@types-movie'
 import { cn } from '@utils/cn'
 import React from 'react'
+
 
 /**
  * 写真列表组件属性接口
@@ -69,37 +70,24 @@ export interface PhotoListProps {
  */
 const PhotoList: React.FC<PhotoListProps> = ({
   photos,
+  cardConfig,
+  columns,
   onPhotoClick,
   className,
   variant = 'grid',
-  columns = {
-    xs: 2,
-    sm: 3,
-    md: 4,
-    lg: 4,
-    xl: 5,
-    xxl: 6,
-  },
-  cardConfig = {
-    showVipBadge: true,
-    showNewBadge: true,
-    showQualityBadge: true,
-    showRatingBadge: false,
-    aspectRatio: 'portrait',
-    hoverEffect: true,
-    titleHoverEffect: true,
-  },
 }) => {
-  // 防御性检查 - 如果photos是undefined或空数组，显示空状态
+  // 添加调试日志
+  console.log('📸 [PhotoList] Received photos:', {
+    length: photos?.length || 0,
+    photos: photos,
+    isArray: Array.isArray(photos),
+    isEmpty: !photos || photos.length === 0
+  })
+
+  // 防御性检查
   if (!photos || !Array.isArray(photos) || photos.length === 0) {
-    return (
-      <EmptyState
-        message="暂无数据"
-        className={className}
-        size="md"
-        variant="center"
-      />
-    )
+    console.log('📸 [PhotoList] Showing empty state - no photos')
+    return <EmptyState message="暂无数据" />
   }
 
   // 获取写真内容渲染器
@@ -124,12 +112,21 @@ const PhotoList: React.FC<PhotoListProps> = ({
 
   return (
     <BaseList
+      items={photos}
       variant={variant}
       columns={columns}
       className={className}
-      gap="md"
-    >
-      {photos.map(photo => {
+      renderItem={(photo) => {
+        // 调试输出：检查写真数据
+        console.log('PhotoList - Processing photo:', {
+          id: photo.id,
+          title: photo.title,
+          isNew: photo.isNew,
+          newType: photo.newType,
+          hasIsNew: 'isNew' in photo,
+          hasNewType: 'newType' in photo
+        })
+
         // 将PhotoItem转换为PhotoContentItem
         const photoContentItem = createPhotoContentItem({
           id: photo.id,
@@ -150,14 +147,18 @@ const PhotoList: React.FC<PhotoListProps> = ({
           formatType: photo.formatType,
         })
 
+        // 调试输出：检查转换后的数据
+        console.log('PhotoList - Created photoContentItem:', {
+          id: photoContentItem.id,
+          title: photoContentItem.title,
+          isNew: photoContentItem.isNew,
+          newType: photoContentItem.newType
+        })
+
         // 使用内容渲染器渲染写真项目
-        return (
-          <div key={photo.id}>
-            {photoRenderer?.render(photoContentItem, rendererConfig)}
-          </div>
-        )
-      })}
-    </BaseList>
+        return photoRenderer?.render(photoContentItem, rendererConfig)
+      }}
+    />
   )
 }
 

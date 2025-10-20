@@ -1,3 +1,12 @@
+/**
+ * @fileoverview 电影应用服务
+ * @description 协调电影相关业务流程，编排搜索、详情、评分与收藏等领域服务
+ * @created 2025-10-09 13:10:49
+ * @updated 2025-10-19 12:55:27
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
 import {
   MovieFilters,
   Movie as StoreMovie,
@@ -12,14 +21,9 @@ import {
   MovieQuality,
 } from '@domain/value-objects'
 
-/**
- * 电影应用服务
- * 协调电影相关的业务流程，编排多个领域服务
- */
+// 电影应用服务类，协调电影业务流程，编排多个领域服务
 export class MovieApplicationService {
-  /**
-   * 搜索电影的完整业务流程
-   */
+  // 搜索电影的完整业务流程，包含基础搜索、过滤条件、推荐内容等功能
   static async searchMovies(
     query: string,
     filters?: MovieFilters
@@ -30,7 +34,7 @@ export class MovieApplicationService {
     categories: string[]
   }> {
     try {
-      // 1. 基础搜索
+      // 基础搜索 - 从Store层获取数据并转换为领域对象进行搜索
       const allStoreMovies = await this.getAllMovies()
       const allDomainMovies = this.storeMoviesToDomain(allStoreMovies)
       const searchResults = MovieCatalogService.searchMovies(
@@ -38,15 +42,15 @@ export class MovieApplicationService {
         query
       )
 
-      // 2. 应用过滤条件
+      // 过滤处理 - 根据用户提供的过滤条件筛选搜索结果
       const filteredResults = filters
         ? MovieCatalogService.filterMovies(searchResults, filters)
         : searchResults
 
-      // 3. 转换回Store类型
+      // 数据转换 - 将领域对象转换回Store类型供前端使用
       const filteredStoreMovies = this.domainMoviesToStore(filteredResults)
 
-      // 4. 获取推荐内容
+      // 推荐内容生成 - 基于搜索结果生成搜索建议和分类列表
       const suggestions = this.getSearchSuggestions(query, allStoreMovies)
       const categories = MovieCatalogService.getAllGenres(filteredResults)
 
@@ -62,9 +66,7 @@ export class MovieApplicationService {
     }
   }
 
-  /**
-   * 获取电影详情的完整流程
-   */
+  // 获取电影详情的完整流程，包含推荐电影、相似电影、用户数据等
   static async getMovieDetail(
     movieId: string,
     userId?: string
@@ -127,29 +129,27 @@ export class MovieApplicationService {
     }
   }
 
-  /**
-   * 电影评分的完整业务流程
-   */
+  // 电影评分的完整业务流程，包含验证评分、更新电影评分、记录用户活动
   static async rateMovie(
     movieId: string,
     userId: string,
-    rating: number,
-    review?: string
+    rating: number, // 评分值，范围0-10
+    review?: string // 用户评价内容，可选
   ): Promise<DomainMovie> {
     try {
-      // 1. 验证评分合法性
+      // 数据验证 - 检查评分值是否在有效范围内
       if (rating < 0 || rating > 10) {
         throw new Error('评分必须在0-10之间')
       }
 
-      // 2. 获取电影信息
+      // 电影存在性验证 - 获取电影信息并转换为领域对象
       const storeMovie = await this.getMovieById(movieId)
       if (!storeMovie) {
         throw new Error('电影不存在')
       }
       const domainMovie = this.storeMovieToDomain(storeMovie)
 
-      // 3. 创建评分对象
+      // 评分数据创建 - 构建评分对象包含用户、电影、评分和评价内容
       const movieRating = {
         userId,
         movieId,
@@ -158,13 +158,13 @@ export class MovieApplicationService {
         createdAt: new Date(),
       }
 
-      // 4. 更新电影评分
+      // 业务逻辑处理 - 调用领域对象方法添加评分
       const updatedMovie = domainMovie.addRating(movieRating)
 
-      // 5. 保存更新（这里应该通过仓储层保存）
+      // 数据持久化 - 保存更新后的电影信息到仓储层
       await this.saveMovie(updatedMovie)
 
-      // 6. 更新用户活动记录
+      // 用户行为记录 - 记录评分行为用于用户画像分析
       await this.recordUserActivity(userId, 'rate_movie', { movieId, rating })
 
       return updatedMovie
@@ -174,9 +174,7 @@ export class MovieApplicationService {
     }
   }
 
-  /**
-   * 收藏/取消收藏电影
-   */
+  // 收藏/取消收藏电影，根据当前状态切换收藏状态并记录用户活动
   static async toggleFavorite(
     movieId: string,
     userId: string
@@ -213,9 +211,7 @@ export class MovieApplicationService {
     }
   }
 
-  /**
-   * 获取电影列表（为useMovies hook提供支持）
-   */
+  // 获取电影列表，为useMovies hook提供支持，包含过滤和分页功能
   static async getMovies(
     page = 1,
     filters?: MovieFilters
@@ -252,12 +248,10 @@ export class MovieApplicationService {
     }
   }
 
-  /**
-   * 获取个性化推荐
-   */
+  // 获取个性化推荐，基于用户收藏和浏览历史，失败时返回热门电影作为备选
   static async getPersonalizedRecommendations(
     userId: string,
-    limit: number = 10
+    limit: number = 10 // 推荐电影数量限制，默认10部
   ): Promise<DomainMovie[]> {
     try {
       const allStoreMovies = await this.getAllMovies()
@@ -372,14 +366,15 @@ export class MovieApplicationService {
     return this.domainMoviesToStore(trendingDomainMovies)
   }
 
-  // 类型转换方法
+  // 数据转换方法 - Store层到Domain层的对象转换
   private static storeMovieToDomain(storeMovie: StoreMovie): DomainMovie {
+    // 值对象创建 - 将基础数据类型转换为领域值对象
     const title = new Title(storeMovie.title)
     const genres = storeMovie.genres.map(g => new Genre(g))
     const duration = new Duration(storeMovie.duration)
     const releaseDate = new ReleaseDate(storeMovie.releaseDate || new Date())
 
-    // 根据质量字符串创建MovieQuality对象
+    // 质量信息解析 - 将质量字符串解析为MovieQuality值对象
     const qualities: MovieQuality[] = []
     if (storeMovie.qualities) {
       storeMovie.qualities.forEach(q => {
@@ -399,6 +394,7 @@ export class MovieApplicationService {
       })
     }
 
+    // 领域对象创建 - 使用工厂方法创建完整的电影领域对象
     return DomainMovie.create(
       storeMovie.id,
       title,

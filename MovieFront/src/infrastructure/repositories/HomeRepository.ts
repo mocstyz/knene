@@ -2,7 +2,8 @@
  * @fileoverview 首页数据仓储接口
  * @description 定义首页数据的获取规范，支持专题、写真、最新更新、24小时热门等模块。
  * 遵循DDD架构中的仓储模式，抽象数据访问层。
- *
+ * @created 2025-10-15 15:00:00
+ * @updated 2025-10-19 10:50:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -14,92 +15,47 @@ import type {
   PhotoItem,
   LatestItem,
   BaseMovieItem,
-} from '@types-movie/movie.types'
+} from '@types-movie'
 import { generateRandomRating } from '@utils/formatters'
 
-/**
- * 热门项目接口 - 扩展基础接口
- */
+
+// 热门项目接口，扩展基础接口，添加排名功能
 export interface HotItem extends BaseMovieItem {
-  /** 排名 */
-  rank?: number
+  rank?: number // 排名
 }
 
-/**
- * 首页数据响应接口
- * 使用具体的领域类型，遵循DDD架构原则
- */
+// 首页数据响应接口，使用具体的领域类型，遵循DDD架构原则
 export interface HomeDataResponse {
-  /** 专题数据 */
-  topics: TopicItem[]
-  /** 写真数据 */
-  photos: PhotoItem[]
-  /** 最新更新数据 */
-  latestUpdates: LatestItem[]
-  /** 24小时热门数据 */
-  hotDaily: HotItem[]
+  topics: TopicItem[] // 专题数据
+  photos: PhotoItem[] // 写真数据
+  latestUpdates: LatestItem[] // 最新更新数据
+  hotDaily: HotItem[] // 24小时热门数据
 }
 
-/**
- * 首页数据获取参数
- */
+// 首页数据获取参数配置接口
 export interface HomeDataParams {
-  /** 每个模块返回的数据数量限制 */
-  limit?: number
-  /** 是否包含评分信息 */
-  includeRatings?: boolean
-  /** 图片质量配置 */
-  imageQuality?: 'low' | 'medium' | 'high'
+  limit?: number // 每个模块返回的数据数量限制
+  includeRatings?: boolean // 是否包含评分信息
+  imageQuality?: 'low' | 'medium' | 'high' // 图片质量配置
 }
 
-/**
- * 首页仓储接口
- * 使用具体的领域类型，遵循DDD架构原则
- */
+// 首页仓储接口，使用具体的领域类型，遵循DDD架构原则
 export interface IHomeRepository {
-  /**
-   * 获取首页所有模块数据
-   * @param params 获取参数
-   * @returns 首页数据响应
-   */
+  // 获取首页所有模块数据
   getHomeData(params?: HomeDataParams): Promise<HomeDataResponse>
-
-  /**
-   * 获取专题数据
-   * @param limit 数量限制
-   * @returns 专题列表
-   */
+  // 获取专题数据
   getTopics(limit?: number): Promise<TopicItem[]>
-
-  /**
-   * 获取写真数据
-   * @param limit 数量限制
-   * @returns 写真列表
-   */
+  // 获取写真数据
   getPhotos(limit?: number): Promise<PhotoItem[]>
-
-  /**
-   * 获取最新更新数据
-   * @param limit 数量限制
-   * @returns 最新更新列表
-   */
+  // 获取最新更新数据
   getLatestUpdates(limit?: number): Promise<LatestItem[]>
-
-  /**
-   * 获取24小时热门数据
-   * @param limit 数量限制
-   * @returns 热门列表
-   */
+  // 获取24小时热门数据
   getHotDaily(limit?: number): Promise<HotItem[]>
 }
 
-/**
- * 首页仓储实现类
- */
+// 首页仓储实现类，提供首页数据的获取和转换功能
 export class HomeRepository implements IHomeRepository {
-  /**
-   * 获取首页所有模块数据
-   */
+  // 获取首页所有模块数据，支持配置参数和错误处理
   async getHomeData(params: HomeDataParams = {}): Promise<HomeDataResponse> {
     const { limit = 6, includeRatings = true, imageQuality = 'medium' } = params
 
@@ -143,9 +99,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  /**
-   * 获取专题数据
-   */
+  // 获取专题数据，支持数量限制和错误处理
   async getTopics(limit = 3): Promise<TopicItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
@@ -173,9 +127,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  /**
-   * 获取写真数据
-   */
+  // 获取写真数据，支持数量限制和错误处理
   async getPhotos(limit = 6): Promise<PhotoItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
@@ -203,9 +155,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  /**
-   * 获取最新更新数据
-   */
+  // 获取最新更新数据，支持数量限制和错误处理
   async getLatestUpdates(limit = 6): Promise<LatestItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
@@ -233,9 +183,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  /**
-   * 获取24小时热门数据
-   */
+  // 获取24小时热门数据，支持数量限制和错误处理
   async getHotDaily(limit = 6): Promise<HotItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
@@ -263,9 +211,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  /**
-   * 转换API响应数据为前端格式
-   */
+  // 转换API响应数据为前端统一格式
   private transformApiResponse(apiData: any): HomeDataResponse {
     return {
       topics: this.transformTopics(apiData.topics || []),
@@ -275,9 +221,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  /**
-   * 转换专题数据 - 直接返回TopicItem类型
-   */
+  // 转换专题数据为TopicItem类型，处理字段映射和默认值
   private transformTopics(topics: any[]): TopicItem[] {
     return topics.map(topic => ({
       id: topic.id || topic._id,
@@ -289,11 +233,9 @@ export class HomeRepository implements IHomeRepository {
     }))
   }
 
-  /**
-   * 转换写真数据 - 直接返回PhotoItem类型
-   */
+  // 转换写真数据为PhotoItem类型，处理评分、质量、类型等字段
   private transformPhotos(photos: any[]): PhotoItem[] {
-    return photos.map(photo => ({
+    return photos.map((photo, index) => ({
       id: photo.id || photo._id,
       title: photo.title || photo.name,
       type: photo.type === 'series' ? 'TV Show' : 'Movie',
@@ -306,12 +248,13 @@ export class HomeRepository implements IHomeRepository {
         'JPEG高',
       alt: photo.alt || `${photo.title || photo.name} poster`,
       genres: photo.genres || this.getRandomGenres(),
+      // 添加NEW标签相关属性
+      isNew: photo.isNew !== undefined ? photo.isNew : index < 3, // 前3个默认为新内容
+      newType: photo.newType || (['new', 'today', 'latest'][index % 3] as 'new' | 'update' | 'today' | 'latest'),
     }))
   }
 
-  /**
-   * 转换最新更新数据 - 直接返回LatestItem类型
-   */
+  // 转换最新更新数据为LatestItem类型，处理新片状态和更新类型
   private transformLatestUpdates(latest: any[]): LatestItem[] {
     return latest.map(item => ({
       id: item.id || item._id,
@@ -330,9 +273,7 @@ export class HomeRepository implements IHomeRepository {
     }))
   }
 
-  /**
-   * 转换热门数据 - 直接返回HotItem类型
-   */
+  // 转换热门数据为HotItem类型，添加排名信息
   private transformHotDaily(hotItems: any[]): HotItem[] {
     return hotItems.map((item, index) => ({
       id: item.id || item._id,
@@ -348,9 +289,7 @@ export class HomeRepository implements IHomeRepository {
     }))
   }
 
-  /**
-   * 根据评分获取颜色
-   */
+  // 根据评分返回对应的颜色标识
   private getRatingColor(
     rating?: number
   ): 'purple' | 'red' | 'white' | 'default' {
@@ -360,17 +299,13 @@ export class HomeRepository implements IHomeRepository {
     return 'white'
   }
 
-  /**
-   * 获取随机质量（作为fallback）
-   */
+  // 获取随机的影片质量标识，作为数据缺失时的fallback
   private getRandomQuality(): string {
     const qualities = ['4K HDR', 'HD', 'Dolby Vision', 'SD', '4K', 'IMAX']
     return qualities[Math.floor(Math.random() * qualities.length)]
   }
 
-  /**
-   * 获取随机类型（作为fallback）
-   */
+  // 获取随机的影片类型列表，作为数据缺失时的fallback
   private getRandomGenres(): string[] {
     const allGenres = [
       '动作',

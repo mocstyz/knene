@@ -1,77 +1,56 @@
 /**
- * @fileoverview 用户实体
- * @description 用户管理领域的核心实体，包含用户的基本信息、偏好设置和业务逻辑。
- * 实现了完整的用户生命周期管理，包括注册、登录、权限控制等功能。
- *
+ * @fileoverview 用户领域实体定义
+ * @description 用户管理领域的核心实体，包含用户的基本信息、偏好设置和业务逻辑，实现完整的用户生命周期管理
+ * @created 2025-10-11 12:35:25
+ * @updated 2025-10-19 13:56:30
  * @author mosctz
  * @since 1.0.0
- * @version 1.2.0
+ * @version 1.0.0
  */
 
 import { Avatar } from '@domain/value-objects/Avatar'
 import { Email } from '@domain/value-objects/Email'
 import { Password } from '@domain/value-objects/Password'
 
-/**
- * 用户档案接口
- * 定义用户的基本档案信息
- */
+// 用户档案接口，定义用户的基本档案信息结构
 export interface UserProfile {
-  id: string
-  username: string
-  email: Email
-  avatar?: Avatar
-  nickname?: string
-  bio?: string
-  createdAt: Date
-  updatedAt: Date
+  id: string // 用户唯一标识
+  username: string // 用户名
+  email: Email // 邮箱值对象
+  avatar?: Avatar // 头像值对象
+  nickname?: string // 昵称
+  bio?: string // 个人简介
+  createdAt: Date // 创建时间
+  updatedAt: Date // 更新时间
 }
 
-/**
- * 用户偏好设置接口
- * 定义用户的个人偏好配置
- */
+// 用户偏好设置接口，定义用户的个人偏好配置选项
 export interface UserPreferences {
-  theme: 'light' | 'dark' | 'auto'
-  language: 'zh-CN' | 'en-US'
-  downloadPath: string
-  maxConcurrentDownloads: number
-  autoDownload: boolean
-  notifications: {
-    downloadComplete: boolean
-    newMovies: boolean
-    systemUpdates: boolean
+  theme: 'light' | 'dark' | 'auto' // 主题模式
+  language: 'zh-CN' | 'en-US' // 语言设置
+  downloadPath: string // 下载路径
+  maxConcurrentDownloads: number // 最大并发下载数
+  autoDownload: boolean // 自动下载开关
+  notifications: { // 通知设置
+    downloadComplete: boolean // 下载完成通知
+    newMovies: boolean // 新片通知
+    systemUpdates: boolean // 系统更新通知
   }
 }
 
-/**
- * 用户实体类
- *
- * 聚合根：用户管理领域的核心实体，包含用户的完整信息和业务规则
- *
- * @param id 用户唯一标识符
- * @param profile 用户档案信息
- * @param preferences 用户偏好设置
- * @param password 用户密码（加密存储）
- * @param roles 用户角色列表，默认为['user']
- * @param isActive 账户是否激活，默认为true
- * @param lastLoginAt 最后登录时间
- */
+// 用户领域实体类，聚合根：用户管理领域的核心实体，包含用户的完整信息和业务规则
 export class User {
   constructor(
-    public readonly id: string,
-    public readonly profile: UserProfile,
-    public readonly preferences: UserPreferences,
-    private password: Password,
-    public readonly roles: string[] = ['user'],
-    public readonly isActive: boolean = true,
-    public readonly lastLoginAt?: Date
+    public readonly id: string, // 用户唯一标识符
+    public readonly profile: UserProfile, // 用户档案信息
+    public readonly preferences: UserPreferences, // 用户偏好设置
+    private password: Password, // 用户密码（加密存储）
+    public readonly roles: string[] = ['user'], // 用户角色列表，默认为['user']
+    public readonly isActive: boolean = true, // 账户是否激活，默认为true
+    public readonly lastLoginAt?: Date // 最后登录时间
   ) {}
 
-  /**
-   * 兼容性属性 - 提供对用户数据的直接访问
-   * @returns {Object} 用户详细信息的扁平化对象
-   */
+  // 兼容性属性访问器 - 提供用户详细信息的扁平化对象，保持与现有代码的兼容性
   get detail(): {
     id: string
     email: string
@@ -110,13 +89,7 @@ export class User {
     }
   }
 
-  // ========== 业务方法 ==========
-
-  /**
-   * 更新用户档案信息
-   * @param updates 要更新的档案信息（排除id、创建时间和更新时间）
-   * @returns {User} 返回包含更新档案的新User实例
-   */
+  // 更新用户档案信息 - 返回新的User实例保证不可变性
   updateProfile(
     updates: Partial<Omit<UserProfile, 'id' | 'createdAt' | 'updatedAt'>>
   ): User {
@@ -137,11 +110,7 @@ export class User {
     )
   }
 
-  /**
-   * 更新用户偏好设置
-   * @param updates 要更新的偏好设置
-   * @returns {User} 返回包含更新偏好的新User实例
-   */
+  // 更新用户偏好设置 - 合并新的偏好设置并返回新的User实例
   updatePreferences(updates: Partial<UserPreferences>): User {
     const updatedPreferences = {
       ...this.preferences,
@@ -159,11 +128,7 @@ export class User {
     )
   }
 
-  /**
-   * 更改用户密码
-   * @param newPassword 新的加密密码
-   * @returns {User} 返回包含新密码的新User实例
-   */
+  // 更改用户密码 - 安全地更新用户密码并返回新的User实例
   changePassword(newPassword: Password): User {
     return new User(
       this.id,
@@ -176,10 +141,7 @@ export class User {
     )
   }
 
-  /**
-   * 用户登录，更新最后登录时间
-   * @returns {User} 返回更新了登录时间的新User实例
-   */
+  // 用户登录 - 更新最后登录时间并返回新的User实例
   login(): User {
     return new User(
       this.id,
@@ -192,19 +154,12 @@ export class User {
     )
   }
 
-  /**
-   * 检查用户是否具有指定角色
-   * @param role 要检查的角色名称
-   * @returns {boolean} 如果用户具有该角色则返回true
-   */
+  // 检查用户角色 - 判断用户是否具有指定角色
   hasRole(role: string): boolean {
     return this.roles.includes(role)
   }
 
-  /**
-   * 检查用户是否具有下载权限
-   * @returns {boolean} 如果用户可以下载则返回true
-   */
+  // 检查下载权限 - 根据用户状态和角色判断是否具有下载权限
   canDownload(): boolean {
     return (
       this.isActive &&
@@ -212,27 +167,13 @@ export class User {
     )
   }
 
-  /**
-   * 获取用户最大并发下载数
-   * @returns {number} 返回用户的最大并发下载数
-   */
+  // 获取最大并发下载数 - 根据用户角色返回对应的并发下载数限制
   getMaxConcurrentDownloads(): number {
     if (this.hasRole('premium')) return 10
     if (this.hasRole('admin')) return 20
     return this.preferences.maxConcurrentDownloads
   }
 
-  // ========== 静态工厂方法 ==========
-
-  /**
-   * 创建新用户（领域事件）
-   * @param id 用户唯一标识符
-   * @param username 用户名
-   * @param email 用户邮箱
-   * @param password 用户密码
-   * @param avatar 用户头像（可选）
-   * @returns {User} 返回新创建的User实例
-   */
   static create(
     id: string,
     username: string,
@@ -250,15 +191,15 @@ export class User {
     }
 
     const preferences: UserPreferences = {
-      theme: 'auto',
-      language: 'zh-CN',
-      downloadPath: './downloads',
-      maxConcurrentDownloads: 3,
-      autoDownload: false,
+      theme: 'auto', // 默认自动主题
+      language: 'zh-CN', // 默认中文
+      downloadPath: './downloads', // 默认下载路径
+      maxConcurrentDownloads: 3, // 默认并发下载数
+      autoDownload: false, // 默认不自动下载
       notifications: {
-        downloadComplete: true,
-        newMovies: true,
-        systemUpdates: false,
+        downloadComplete: true, // 下载完成通知默认开启
+        newMovies: true, // 新片通知默认开启
+        systemUpdates: false, // 系统更新通知默认关闭
       },
     }
 

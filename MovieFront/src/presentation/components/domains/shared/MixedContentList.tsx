@@ -17,8 +17,10 @@ import {
   isContentItem,
 } from '@components/domains/shared/content-renderers'
 import { contentRendererFactory } from '@components/domains/shared/content-renderers/renderer-factory'
+import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { cn } from '@utils/cn'
 import React, { useEffect, useState, useMemo } from 'react'
+
 
 // ============================================================================
 // 接口定义
@@ -106,14 +108,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
   onItemClick,
   className,
   variant = 'grid',
-  columns = {
-    xs: 2,
-    sm: 3,
-    md: 4,
-    lg: 4,
-    xl: 5,
-    xxl: 6,
-  },
+  columns = RESPONSIVE_CONFIGS.mixedContent,
   defaultRendererConfig = {},
   rendererConfigs = {},
   enableFilter = false,
@@ -483,14 +478,17 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
       )}
 
       {/* 内容列表 */}
-      <BaseList variant={variant} columns={columns} gap="md">
-        {processedItems.map(item => (
-          <div key={item.id} className="relative">
+      <BaseList 
+        items={processedItems}
+        variant={variant} 
+        columns={columns}
+        renderItem={(item) => (
+          <div className="relative">
             {renderContentTypeLabel(item)}
             {renderContentItem(item)}
           </div>
-        ))}
-      </BaseList>
+        )}
+      />
     </div>
   )
 }

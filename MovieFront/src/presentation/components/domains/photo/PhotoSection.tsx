@@ -10,45 +10,10 @@
 
 import { PhotoList, type PhotoItem } from '@components/domains/photo'
 import { BaseSection } from '@components/domains/shared'
+import type { PhotoSectionProps } from '@types-unified'
 import { cn } from '@utils/cn'
 import React from 'react'
 
-/**
- * 首页写真模块组件属性接口
- */
-export interface PhotoSectionProps {
-  /** 写真数据列表 */
-  photos: PhotoItem[]
-  /** 是否显示更多链接 */
-  showMoreLink?: boolean
-  /** 更多链接URL */
-  moreLinkUrl?: string
-  /** 更多链接文本 */
-  moreLinkText?: string
-  /** 写真卡片点击事件 */
-  onPhotoClick?: (photo: PhotoItem) => void
-  /** 自定义CSS类名 */
-  className?: string
-  /** 布局变体 */
-  variant?: 'grid' | 'list'
-  /** 响应式列数配置 */
-  columns?: {
-    xs?: number
-    sm?: number
-    md?: number
-    lg?: number
-    xl?: number
-    xxl?: number
-  }
-  /** 是否显示评分标签 */
-  showRatingBadge?: boolean
-  /** 是否显示质量标签 */
-  showQualityBadge?: boolean
-  /** 是否显示VIP标签 */
-  showVipBadge?: boolean
-  /** 是否显示新片标签 */
-  showNewBadge?: boolean
-}
 
 /**
  * 首页写真模块组件
@@ -59,52 +24,40 @@ export interface PhotoSectionProps {
  * - 保持现有的props接口，确保向后兼容
  */
 const PhotoSection: React.FC<PhotoSectionProps> = ({
-  photos,
+  data,
+  title = '写真',
   showMoreLink = false,
-  moreLinkUrl = '#',
-  moreLinkText = 'More >',
+  moreLinkUrl,
+  moreLinkText = '查看更多',
+  cardConfig,
+  columns,
   onPhotoClick,
   className,
-  variant = 'grid',
-  columns = {
-    xs: 2,
-    sm: 3,
-    md: 4,
-    lg: 4,
-    xl: 5,
-    xxl: 6,
-  },
-  showRatingBadge = false,
-  showQualityBadge = true,
-  showVipBadge = true,
-  showNewBadge = true,
 }) => {
+  // 添加调试日志
+  console.log('📸 [PhotoSection] Received data:', {
+    length: data?.length || 0,
+    data: data
+  })
+
   return (
     <BaseSection
-      title="写真"
+      title={title}
       showMoreLink={showMoreLink}
       moreLinkUrl={moreLinkUrl}
       moreLinkText={moreLinkText}
       className={className}
     >
       <PhotoList
-        photos={photos}
-        onPhotoClick={onPhotoClick}
-        variant={variant}
+        photos={data}
+        cardConfig={cardConfig}
         columns={columns}
-        cardConfig={{
-          showVipBadge,
-          showNewBadge,
-          showQualityBadge,
-          showRatingBadge,
-          aspectRatio: 'portrait',
-          hoverEffect: true,
-          titleHoverEffect: true,
-        }}
+        onPhotoClick={onPhotoClick}
       />
     </BaseSection>
   )
 }
 
 export { PhotoSection }
+export type { PhotoSectionProps }
 export default PhotoSection

@@ -1,75 +1,76 @@
 /**
- * @fileoverview 影片相关API服务 - 服务端状态管理
- * @description 处理影片列表、详情、搜索、分类等API调用
+ * @fileoverview 影片相关API服务
+ * @description 处理影片列表、详情、搜索、分类等API调用，提供完整的影片数据服务。
+ *              支持影片数据获取、搜索筛选、推荐系统、用户收藏和观看历史等功能。
+ *              遵循RESTful设计原则，提供高性能和可扩展的影片管理API。
+ * @created 2025-10-11 12:35:25
+ * @updated 2025-10-19 15:06:15
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
 
-// Movie类型定义 - 与movieStore保持一致
-export interface Movie {
-  id: string
-  title: string
-  description: string
-  poster: string
-  backdrop?: string
-  genres: string[]
-  rating: number
-  year: number
-  duration: number
-  director?: string
-  actors?: string[]
-  qualities?: string[]
-  views?: number
-  quality?: 'HD' | '4K' | 'BluRay' | 'WebRip'
-  size?: string
-  downloadCount?: number
-  releaseDate?: Date
-  country?: string
-  language?: string
-  subtitles?: string[]
-  trailerUrl?: string
-  imdbId?: string
-  tmdbId?: string
-}
 import { apiClient } from '@infrastructure/api/ApiClient'
 
-/**
- * 搜索参数接口
- */
-export interface SearchParams {
-  query?: string
-  genre?: string
-  year?: number
-  rating?: number
-  quality?: string
-  language?: string
-  sortBy?: 'title' | 'year' | 'rating' | 'downloadCount' | 'releaseDate'
-  sortOrder?: 'asc' | 'desc'
-  page?: number
-  limit?: number
+// Movie类型定义 - 影片数据结构，与movieStore保持一致
+export interface Movie {
+  id: string // 影片唯一标识
+  title: string // 影片标题
+  description: string // 影片描述
+  poster: string // 海报URL
+  backdrop?: string // 背景图URL
+  genres: string[] // 影片类型
+  rating: number // 评分
+  year: number // 上映年份
+  duration: number // 时长（分钟）
+  director?: string // 导演
+  actors?: string[] // 主演列表
+  qualities?: string[] // 可用质量
+  views?: number // 观看次数
+  quality?: 'HD' | '4K' | 'BluRay' | 'WebRip' // 主要质量
+  size?: string // 文件大小
+  downloadCount?: number // 下载次数
+  releaseDate?: Date // 上映日期
+  country?: string // 制片国家
+  language?: string // 语言
+  subtitles?: string[] // 字幕语言
+  trailerUrl?: string // 预告片URL
+  imdbId?: string // IMDB ID
+  tmdbId?: string // TMDB ID
 }
 
-// 辅助函数：提取API响应数据
+// 搜索参数接口 - 定义影片搜索的筛选条件
+export interface SearchParams {
+  query?: string // 搜索关键词
+  genre?: string // 影片类型
+  year?: number // 上映年份
+  rating?: number // 最低评分
+  quality?: string // 质量要求
+  language?: string // 语言
+  sortBy?: 'title' | 'year' | 'rating' | 'downloadCount' | 'releaseDate' // 排序字段
+  sortOrder?: 'asc' | 'desc' // 排序方向
+  page?: number // 页码
+  limit?: number // 每页数量
+}
+
+// 辅助函数 - 提取API响应数据，统一处理响应格式
 const extractData = async <T>(promise: Promise<{ data: T }>): Promise<T> => {
   const response = await promise
   return response.data
 }
 
-// 分页响应接口
+// 分页响应接口 - 定义分页数据的标准格式
 export interface PaginatedResponse<T> {
-  items: T[]
-  total: number
-  page: number
-  pageSize: number
-  totalPages: number
+  items: T[] // 数据列表
+  total: number // 总条数
+  page: number // 当前页码
+  pageSize: number // 每页条数
+  totalPages: number // 总页数
 }
 
-/**
- * 影片API服务类
- * 提供影片相关的所有API调用方法
- */
+// 影片API服务类 - 提供影片相关的所有API调用方法
 export class MovieApiService {
-  /**
-   * 获取影片详情
-   */
+  // 获取影片详情 - 根据影片ID获取完整信息
   static async getMovieById(id: string): Promise<Movie> {
     await new Promise(resolve => setTimeout(resolve, 300))
 
@@ -103,9 +104,7 @@ export class MovieApiService {
     return mockMovie
   }
 
-  /**
-   * 获取影片列表
-   */
+  // 获取影片列表 - 支持分页和多种筛选条件
   static async getMovies(
     page: number = 1,
     filters?: SearchParams
@@ -135,9 +134,7 @@ export class MovieApiService {
     )
   }
 
-  /**
-   * 获取特色影片
-   */
+  // 获取特色影片 - 获取首页展示的特色推荐影片
   static async getFeaturedMovies(limit: number = 10): Promise<Movie[]> {
     await new Promise(resolve => setTimeout(resolve, 300))
 
@@ -146,16 +143,12 @@ export class MovieApiService {
     )
   }
 
-  /**
-   * 获取影片详情（别名方法）
-   */
+  // 获取影片详情（别名方法） - 提供与getMovieById相同的功能
   static async getMovieDetail(id: string): Promise<Movie> {
     return this.getMovieById(id)
   }
 
-  /**
-   * 获取推荐影片
-   */
+  // 获取推荐影片 - 根据用户偏好和观看历史推荐相关影片
   static async getRecommendations(
     userId?: string,
     limit: number = 10
@@ -173,9 +166,7 @@ export class MovieApiService {
     )
   }
 
-  /**
-   * 获取热门影片
-   */
+  // 获取热门影片 - 获取当前热门趋势的影片
   static async getTrendingMovies(limit: number = 10): Promise<Movie[]> {
     await new Promise(resolve => setTimeout(resolve, 300))
 
@@ -184,18 +175,14 @@ export class MovieApiService {
     )
   }
 
-  /**
-   * 获取最新影片
-   */
+  // 获取最新影片 - 获取最新添加的影片
   static async getLatestMovies(limit: number = 10): Promise<Movie[]> {
     await new Promise(resolve => setTimeout(resolve, 300))
 
     return extractData(apiClient.get<Movie[]>(`/movies/latest?limit=${limit}`))
   }
 
-  /**
-   * 获取高分影片
-   */
+  // 获取高分影片 - 获取评分最高的影片列表
   static async getTopRatedMovies(limit: number = 10): Promise<Movie[]> {
     await new Promise(resolve => setTimeout(resolve, 300))
 
@@ -204,36 +191,28 @@ export class MovieApiService {
     )
   }
 
-  /**
-   * 获取影片分类
-   */
+  // 获取影片分类 - 获取所有可用的影片类型
   static async getGenres(): Promise<string[]> {
     await new Promise(resolve => setTimeout(resolve, 200))
 
     return extractData(apiClient.get<string[]>('/movies/genres'))
   }
 
-  /**
-   * 获取用户收藏列表
-   */
+  // 获取用户收藏列表 - 获取当前用户收藏的影片
   static async getFavorites(): Promise<Movie[]> {
     await new Promise(resolve => setTimeout(resolve, 400))
 
     return extractData(apiClient.get<Movie[]>('/user/favorites'))
   }
 
-  /**
-   * 获取最近观看列表
-   */
+  // 获取最近观看列表 - 获取用户最近观看的影片历史
   static async getRecentlyViewed(): Promise<Movie[]> {
     await new Promise(resolve => setTimeout(resolve, 300))
 
     return extractData(apiClient.get<Movie[]>('/user/recently-viewed'))
   }
 
-  /**
-   * 搜索影片
-   */
+  // 搜索影片 - 根据关键词和筛选条件搜索影片
   static async searchMovies(params: {
     query: string
     filters?: SearchParams
@@ -269,27 +248,21 @@ export class MovieApiService {
     )
   }
 
-  /**
-   * 获取影片分类
-   */
+  // 获取影片分类 - 获取影片的分类标签
   static async getCategories(): Promise<string[]> {
     await new Promise(resolve => setTimeout(resolve, 200))
 
     return extractData(apiClient.get<string[]>('/movies/categories'))
   }
 
-  /**
-   * 获取相关影片
-   */
+  // 获取相关影片 - 根据影片ID获取相关推荐的影片
   static async getRelatedMovies(movieId: string): Promise<Movie[]> {
     await new Promise(resolve => setTimeout(resolve, 300))
 
     return extractData(apiClient.get<Movie[]>(`/movies/${movieId}/related`))
   }
 
-  /**
-   * 获取热门影片
-   */
+  // 获取热门影片 - 根据时间周期获取热门影片
   static async getPopularMovies(
     period: 'day' | 'week' | 'month' = 'week'
   ): Promise<Movie[]> {
@@ -300,9 +273,7 @@ export class MovieApiService {
     )
   }
 
-  /**
-   * 获取用户评分
-   */
+  // 获取用户评分 - 获取影片的平均评分和用户的个人评分
   static async getUserRating(
     movieId: string
   ): Promise<{ rating: number; userRating?: number }> {

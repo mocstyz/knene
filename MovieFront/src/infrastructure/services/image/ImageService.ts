@@ -2,87 +2,45 @@
  * @fileoverview 图片服务抽象接口
  * @description 提供统一的图片服务接口，支持多环境配置和自动fallback。
  * 遵循配置化图片服务规范，禁止硬编码图片URL。
- *
+ * @created 2025-10-15 15:15:00
+ * @updated 2025-10-19 11:05:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
  */
 
-/**
- * 图片服务配置选项
- */
+// 图片服务配置选项接口
 export interface ImageServiceConfig {
-  /** 服务提供商 */
-  provider: 'picsum' | 'custom' | 'cloudinary'
-  /** 基础URL */
-  baseUrl: string
-  /** 默认图片质量 */
-  quality: number
-  /** 默认图片格式 */
-  format: 'webp' | 'jpg' | 'png' | 'auto'
-  /** 是否启用裁剪 */
-  enableCrop: boolean
+  provider: 'picsum' | 'custom' | 'cloudinary' // 服务提供商
+  baseUrl: string // 基础URL
+  quality: number // 默认图片质量
+  format: 'webp' | 'jpg' | 'png' | 'auto' // 默认图片格式
+  enableCrop: boolean // 是否启用裁剪
 }
 
-/**
- * 图片生成选项
- */
+// 图片生成选项接口
 export interface ImageOptions {
-  /** 宽度 */
-  width?: number
-  /** 高度 */
-  height?: number
-  /** 图片质量 */
-  quality?: number
-  /** 图片格式 */
-  format?: 'webp' | 'jpg' | 'png' | 'auto'
-  /** 裁剪模式 */
-  crop?: 'cover' | 'contain' | 'fill'
-  /** 随机种子（用于一致性） */
-  seed?: string
+  width?: number // 宽度
+  height?: number // 高度
+  quality?: number // 图片质量
+  format?: 'webp' | 'jpg' | 'png' | 'auto' // 图片格式
+  crop?: 'cover' | 'contain' | 'fill' // 裁剪模式
+  seed?: string // 随机种子（用于一致性）
 }
 
-/**
- * 图片服务接口
- */
+// 图片服务接口，定义图片处理的核心方法
 export interface IImageService {
-  /**
-   * 获取图片URL
-   * @param seed 图片种子或ID
-   * @param options 图片选项
-   * @returns 图片URL
-   */
+  // 获取图片URL
   getUrl(seed: string, options?: ImageOptions): string
-
-  /**
-   * 获取优化后的图片URL
-   * @param seed 图片种子或ID
-   * @param options 图片选项
-   * @returns 优化后的图片URL
-   */
+  // 获取优化后的图片URL
   getOptimizedUrl(seed: string, options?: ImageOptions): string
-
-  /**
-   * 获取占位符图片URL
-   * @param width 宽度
-   * @param height 高度
-   * @returns 占位符图片URL
-   */
+  // 获取占位符图片URL
   getPlaceholder(width?: number, height?: number): string
-
-  /**
-   * 生成响应式图片srcset
-   * @param seed 图片种子或ID
-   * @param options 图片选项
-   * @param sizes 断点配置
-   * @returns srcset字符串
-   */
+  // 生成响应式图片srcset
   generateSrcSet(seed: string, options?: ImageOptions, sizes?: number[]): string
 }
 
-/**
- * 基础图片服务实现
- */
+// 基础图片服务抽象类，实现通用的图片处理逻辑
 export abstract class BaseImageService implements IImageService {
   protected config: ImageServiceConfig
 
@@ -126,10 +84,7 @@ export abstract class BaseImageService implements IImageService {
   }
 }
 
-/**
- * Picsum图片服务实现
- * 开发环境使用，支持seed一致性
- */
+// Picsum图片服务实现类，开发环境使用，支持seed一致性
 export class PicsumImageService extends BaseImageService {
   getUrl(seed: string, options?: ImageOptions): string {
     const width = options?.width || 400
@@ -155,10 +110,7 @@ export class PicsumImageService extends BaseImageService {
   }
 }
 
-/**
- * 自定义CDN图片服务实现
- * 生产环境使用，支持参数化URL
- */
+// 自定义CDN图片服务实现类，生产环境使用，支持参数化URL
 export class CustomImageService extends BaseImageService {
   getUrl(seed: string, options?: ImageOptions): string {
     const params = new URLSearchParams()
@@ -178,10 +130,7 @@ export class CustomImageService extends BaseImageService {
   }
 }
 
-/**
- * Cloudinary图片服务实现
- * 可选的高级图片处理服务
- */
+// Cloudinary图片服务实现类，可选的高级图片处理服务
 export class CloudinaryImageService extends BaseImageService {
   getUrl(seed: string, options?: ImageOptions): string {
     const transformations = []
@@ -200,16 +149,11 @@ export class CloudinaryImageService extends BaseImageService {
   }
 }
 
-/**
- * 图片服务工厂
- */
+// 图片服务工厂类，负责根据环境创建和管理图片服务实例
 export class ImageServiceFactory {
   private static instance: IImageService
 
-  /**
-   * 获取图片服务实例
-   * @returns 图片服务实例
-   */
+  // 获取单例图片服务实例
   static getInstance(): IImageService {
     if (!this.instance) {
       this.instance = this.createService()
@@ -217,10 +161,7 @@ export class ImageServiceFactory {
     return this.instance
   }
 
-  /**
-   * 根据环境创建图片服务
-   * @returns 图片服务实例
-   */
+  // 根据环境自动创建合适的图片服务实例
   private static createService(): IImageService {
     const isDevelopment = import.meta.env.DEV
     const isProduction = import.meta.env.PROD
@@ -259,9 +200,7 @@ export class ImageServiceFactory {
     })
   }
 
-  /**
-   * 重置服务实例（主要用于测试）
-   */
+  // 重置服务实例，主要用于测试场景
   static resetInstance(): void {
     this.instance = null as any
   }

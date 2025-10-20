@@ -27,7 +27,6 @@ export { LatestUpdateSection, LatestUpdateList } from './latestupdate'
 export type {
   LatestUpdateSectionProps,
   LatestUpdateListProps,
-  LatestItem,
 } from './latestupdate'
 
 // Hot领域 - 24小时热门内容
@@ -50,17 +49,16 @@ export type { CollectionSectionProps } from './collections/CollectionSection'
 export { PhotoList, PhotoSection } from './photo'
 export type { PhotoListProps } from './photo/PhotoList'
 export type { PhotoSectionProps } from './photo/PhotoSection'
-export type { PhotoItem } from '@types-movie/movie.types'
+export type { PhotoItem } from '@types-movie'
 
 // Movie领域已被删除 - 影片内容展示已由内容渲染器系统替代
 // 热门和最新更新模块现在使用MixedContentList支持混合内容
-export type { BaseMovieItem } from '@types-movie/movie.types'
+export type { BaseMovieItem } from '@types-movie'
 
 // Shared领域 - 基础组件和内容渲染器系统
 export { BaseSection, BaseList, MixedContentList } from './shared'
 export type {
-  BaseSectionProps,
-  BaseListProps,
+  BaseSectionComponentProps,
   MixedContentListProps,
 } from './shared'
 // 导出整个内容渲染器系统

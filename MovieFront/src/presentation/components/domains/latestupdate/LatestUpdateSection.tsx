@@ -8,47 +8,12 @@
  * @version 2.0.0
  */
 
-import { LatestUpdateList, type LatestItem } from '@components/domains/latestupdate/LatestUpdateList'
+import { LatestUpdateList } from '@components/domains/latestupdate/LatestUpdateList'
 import { BaseSection } from '@components/domains/shared'
+import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
+import type { LatestUpdateSectionProps } from '@types-unified'
 import React from 'react'
 
-
-/**
- * 首页最新更新模块组件属性接口
- */
-export interface LatestUpdateSectionProps {
-  /** 最新更新数据列表 */
-  latestItems: LatestItem[]
-  /** 是否显示更多链接 */
-  showMoreLink?: boolean
-  /** 更多链接URL */
-  moreLinkUrl?: string
-  /** 更多链接文本 */
-  moreLinkText?: string
-  /** 最新更新卡片点击事件 */
-  onLatestClick?: (item: LatestItem) => void
-  /** 自定义CSS类名 */
-  className?: string
-  /** 布局变体 */
-  variant?: 'grid' | 'list'
-  /** 响应式列数配置 */
-  columns?: {
-    xs?: number
-    sm?: number
-    md?: number
-    lg?: number
-    xl?: number
-    xxl?: number
-  }
-  /** 是否显示评分标签 */
-  showRatingBadge?: boolean
-  /** 是否显示质量标签 */
-  showQualityBadge?: boolean
-  /** 是否显示VIP标签 */
-  showVipBadge?: boolean
-  /** 是否显示新片标签 */
-  showNewBadge?: boolean
-}
 
 /**
  * 首页最新更新模块组件
@@ -59,29 +24,34 @@ export interface LatestUpdateSectionProps {
  * - 保持现有的props接口，确保向后兼容
  */
 const LatestUpdateSection: React.FC<LatestUpdateSectionProps> = ({
-  latestItems,
+  data: latestItems,
+  title = "最新更新",
   showMoreLink = false,
   moreLinkUrl = '#',
   moreLinkText = 'More >',
-  onLatestClick,
+  onItemClick: onLatestClick,
   className,
-  variant = 'grid',
-  columns = {
-    xs: 2,
-    sm: 3,
-    md: 4,
-    lg: 4,
-    xl: 5,
-    xxl: 6,
+  cardConfig = {
+    variant: 'grid',
+    columns: {
+      xs: 2,
+      sm: 3,
+      md: 4,
+      lg: 4,
+      xl: 5,
+      xxl: 6,
+    },
+    showRatingBadge: true,
+    showQualityBadge: true,
+    showVipBadge: true,
+    showNewBadge: true,
+    aspectRatio: 'portrait',
+    hoverEffect: true,
   },
-  showRatingBadge = true,
-  showQualityBadge = true,
-  showVipBadge = true,
-  showNewBadge = true,
 }) => {
   return (
     <BaseSection
-      title="最新更新"
+      title={title}
       showMoreLink={showMoreLink}
       moreLinkUrl={moreLinkUrl}
       moreLinkText={moreLinkText}
@@ -90,15 +60,15 @@ const LatestUpdateSection: React.FC<LatestUpdateSectionProps> = ({
       <LatestUpdateList
         latestItems={latestItems}
         onLatestClick={onLatestClick}
-        variant={variant}
-        columns={columns}
+        variant={cardConfig.variant}
+        columns={RESPONSIVE_CONFIGS.latestUpdate}
         cardConfig={{
-          showRatingBadge,
-          showQualityBadge,
-          showVipBadge,
-          showNewBadge,
-          aspectRatio: 'portrait',
-          hoverEffect: true,
+          showRatingBadge: cardConfig.showRatingBadge,
+          showQualityBadge: cardConfig.showQualityBadge,
+          showVipBadge: cardConfig.showVipBadge,
+          showNewBadge: cardConfig.showNewBadge,
+          aspectRatio: cardConfig.aspectRatio,
+          hoverEffect: cardConfig.hoverEffect,
         }}
       />
     </BaseSection>
@@ -106,4 +76,5 @@ const LatestUpdateSection: React.FC<LatestUpdateSectionProps> = ({
 }
 
 export { LatestUpdateSection }
+export type { LatestUpdateSectionProps } from '@types-unified'
 export default LatestUpdateSection

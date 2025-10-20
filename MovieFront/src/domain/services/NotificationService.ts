@@ -1,3 +1,14 @@
+/**
+ * @fileoverview 消息通知领域服务
+ * @description 处理消息发送、通知管理和消息路由，提供完整的消息通知体系支持。
+ *              包括系统通知、下载通知、电影推荐通知、批量通知、消息管理、会话创建等功能。
+ * @created 2025-10-11 12:35:25
+ * @updated 2025-10-19 13:56:30
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import {
   Message,
   MessageThreadManager,
@@ -6,16 +17,10 @@ import {
 } from '@domain/entities/Message'
 import { MessageContent } from '@domain/value-objects/MessageContent'
 import { MessageType } from '@domain/value-objects/MessageType'
-// import { ReadStatus } from '@domain/value-objects/ReadStatus' // 未使用，已注释
 
-/**
- * 消息通知领域服务
- * 处理消息发送、通知管理和消息路由
- */
+// 消息通知领域服务，处理消息发送、通知管理和消息路由
 export class NotificationService {
-  /**
-   * 发送系统通知
-   */
+  // 发送系统通知，创建消息和通知对象并进行投递
   static async sendSystemNotification(
     userId: string,
     title: string,
@@ -26,7 +31,7 @@ export class NotificationService {
     notification: Notification
   }> {
     try {
-      // 1. 创建消息
+      // 数据构建 - 创建系统消息对象
       const messageId = this.generateId()
       const message = Message.createSystemMessage(
         messageId,
@@ -35,7 +40,7 @@ export class NotificationService {
         priority
       )
 
-      // 2. 创建通知
+      // 数据构建 - 创建通知对象
       const notificationId = this.generateId()
       const notification = this.createNotification(
         notificationId,
@@ -46,7 +51,7 @@ export class NotificationService {
         priority
       )
 
-      // 3. 发送通知（这里应该调用基础设施层）
+      // 业务逻辑 - 投递消息和通知
       await this.deliverMessage(message)
       await this.deliverNotification(notification)
 
@@ -57,9 +62,7 @@ export class NotificationService {
     }
   }
 
-  /**
-   * 发送下载通知
-   */
+  // 发送下载通知，创建下载状态相关的消息
   static async sendDownloadNotification(
     userId: string,
     movieTitle: string,
@@ -84,9 +87,7 @@ export class NotificationService {
     }
   }
 
-  /**
-   * 发送电影推荐通知
-   */
+  // 发送电影推荐通知，基于用户偏好和历史记录推送相关影片
   static async sendMovieRecommendation(
     userId: string,
     movieTitle: string,
@@ -111,9 +112,7 @@ export class NotificationService {
     }
   }
 
-  /**
-   * 批量发送通知
-   */
+  // 批量发送通知，支持多用户同时推送相同内容并跟踪失败记录
   static async sendBulkNotification(
     userIds: string[],
     title: string,
@@ -151,9 +150,7 @@ export class NotificationService {
     return results
   }
 
-  /**
-   * 获取用户未读消息数量
-   */
+  // 获取用户未读消息数量，按消息类型分类统计便于消息管理
   static async getUnreadMessageCount(userId: string): Promise<{
     totalMessages: number
     systemMessages: number
@@ -189,9 +186,7 @@ export class NotificationService {
     }
   }
 
-  /**
-   * 标记消息为已读
-   */
+  // 标记消息为已读，验证消息所有权和权限确保操作安全性
   static async markMessageAsRead(
     messageId: string,
     userId: string
@@ -216,9 +211,7 @@ export class NotificationService {
     }
   }
 
-  /**
-   * 批量标记消息为已读
-   */
+  // 批量标记消息为已读，处理多个消息并跟踪成功失败的执行结果
   static async markMessagesAsRead(
     messageIds: string[],
     userId: string
@@ -246,14 +239,12 @@ export class NotificationService {
     return results
   }
 
-  /**
-   * 删除过期消息
-   */
+  // 删除过期消息，基于消息类型和创建时间自动清理过期内容
   static async cleanupExpiredMessages(): Promise<number> {
     try {
       const allMessages = await this.getAllMessages()
       const expiredMessages = allMessages.filter(msg =>
-        msg.detail.type.hasExpired(msg.detail.createdAt)
+        msg.detail.type.isExpired(msg.detail.createdAt)
       )
 
       let deletedCount = 0
@@ -273,9 +264,7 @@ export class NotificationService {
     }
   }
 
-  /**
-   * 创建消息会话
-   */
+  // 创建消息会话，支持多用户会话管理和初始消息设置
   static async createMessageThread(
     participants: string[],
     subject?: string,
@@ -321,9 +310,7 @@ export class NotificationService {
     }
   }
 
-  /**
-   * 发送安全警告
-   */
+  // 发送安全警告，针对登录、密码、设备等安全事件发送高优先级警告
   static async sendSecurityWarning(
     userId: string,
     warningType: 'login' | 'password' | 'device',
@@ -354,10 +341,12 @@ export class NotificationService {
 
   // 私有辅助方法
 
+  // 生成唯一消息ID标识符
   private static generateId(): string {
     return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
   }
 
+  // 创建通知对象，封装通知的基本属性和状态
   private static createNotification(
     id: string,
     userId: string,
@@ -378,6 +367,7 @@ export class NotificationService {
     }
   }
 
+  // 根据优先级映射通知类型，高优先级作为系统通知
   private static getNotificationTypeFromPriority(
     priority: 'low' | 'normal' | 'high' | 'urgent'
   ): 'system' | 'download' | 'movie' | 'account' | 'social' {
@@ -395,6 +385,7 @@ export class NotificationService {
     }
   }
 
+  // 投递消息到用户，调用消息基础设施服务进行消息分发
   private static async deliverMessage(message: Message): Promise<void> {
     // 这里应该调用消息基础设施服务
     console.log(
@@ -402,6 +393,7 @@ export class NotificationService {
     )
   }
 
+  // 投递通知到用户设备，调用通知基础设施服务进行推送
   private static async deliverNotification(
     notification: Notification
   ): Promise<void> {
@@ -409,21 +401,25 @@ export class NotificationService {
     console.log(`投递通知: ${notification.id} 到 ${notification.userId}`)
   }
 
+  // 保存消息到数据库，调用消息仓储进行持久化存储
   private static async saveMessage(message: Message): Promise<void> {
     // 这里应该调用消息仓储
     console.log(`保存消息: ${message.detail.id}`)
   }
 
+  // 保存消息会话到数据库，调用会话仓储进行持久化存储
   private static async saveMessageThread(thread: MessageThread): Promise<void> {
     // 这里应该调用会话仓储
     console.log(`保存消息会话: ${thread.id}`)
   }
 
+  // 从数据库获取用户的所有消息，调用消息仓储进行数据查询
   private static async getUserMessages(_userId: string): Promise<Message[]> {
     // 这里应该从消息仓储获取
     return []
   }
 
+  // 根据消息ID从数据库获取单条消息，调用消息仓储进行精确查询
   private static async getMessageById(
     _messageId: string
   ): Promise<Message | null> {
@@ -431,16 +427,19 @@ export class NotificationService {
     return null
   }
 
+  // 从数据库获取所有消息，用于过期消息清理等批量操作
   private static async getAllMessages(): Promise<Message[]> {
     // 这里应该从消息仓储获取
     return []
   }
 
+  // 从数据库删除消息，调用消息仓储进行数据删除操作
   private static async deleteMessage(messageId: string): Promise<void> {
     // 这里应该调用消息仓储
     console.log(`删除消息: ${messageId}`)
   }
 
+  // 生成安全警告消息内容，根据警告类型使用对应的消息模板
   private static generateSecurityWarningContent(
     warningType: 'login' | 'password' | 'device' | 'suspicious',
     details: string

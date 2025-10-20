@@ -14,8 +14,9 @@ export { TextHoverLayer } from './TextHoverLayer'
 export { ImageLayer } from './ImageLayer'
 export { TitleLayer } from './TitleLayer'
 export { MetadataLayer } from './MetadataLayer'
-export { CollectionLayer } from './CollectionLayer'
 export { MovieLayer } from './MovieLayer'
+// CollectionLayer已移动到domains/collections/components，不再从layers导出
+// PhotoLayer已移动到domains/photo/components，不再从layers导出
 
 // 类型导出
 export type { VipBadgeLayerProps } from './VipBadgeLayer'
@@ -28,5 +29,6 @@ export type { TextHoverLayerProps } from './TextHoverLayer'
 export type { ImageLayerProps } from './ImageLayer'
 export type { TitleLayerProps } from './TitleLayer'
 export type { MetadataLayerProps } from './MetadataLayer'
-export type { CollectionLayerProps } from './CollectionLayer'
 export type { MovieLayerProps } from './MovieLayer'
+// CollectionLayerProps已移动到domains/collections/components，不再从layers导出
+// PhotoLayerProps已移动到domains/photo/components，不再从layers导出

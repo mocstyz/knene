@@ -1,15 +1,18 @@
 /**
  * @fileoverview 影片合集列表组件
  * @description 影片合集专用的列表组件，已重构为使用内容渲染器系统。
- * 使用BaseList提供布局，内容渲染器提供合集卡片渲染。
- * 遵循自包含组件设计原则，提供完整的影片合集列表功能。
- *
+ *              使用BaseList提供布局，内容渲染器提供合集卡片渲染。
+ *              遵循自包含组件设计原则，提供完整的影片合集列表功能。
+ *              支持响应式布局、分页、空状态处理和多种显示变体。
+ * @created 2025-10-16 11:21:33
+ * @updated 2025-10-19 16:45:28
  * @author mosctz
  * @since 1.0.0
- * @version 3.0.0
+ * @version 1.0.0
  */
 
 import { Button } from '@components/atoms'
+import { createCollectionContentItem } from '@components/domains/collections/renderers'
 import {
   BaseList,
   EmptyState,
@@ -18,38 +21,32 @@ import {
 import {
   createRendererConfig,
   type RendererConfig,
-  createCollectionContentItem,
 } from '@components/domains/shared/content-renderers'
-import { contentRendererFactory } from '@components/domains/shared/content-renderers/renderer-factory'
+import { contentRendererFactory } from '@components/domains/shared/content-renderers'
+import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { cn } from '@utils/cn'
 import React from 'react'
 
-/**
- * 影片合集数据类型定义
- */
+// 影片合集数据类型定义，描述合集的基本信息和类型标识
 export interface Collection {
   id: string
   title: string
   imageUrl: string
   description?: string
-  type?: 'Movie' | 'TV Show' | 'Collection'
+  type?: 'Movie' | 'TV Show' | 'Collection' // 合集类型标识
   isNew?: boolean
-  newType?: 'new' | 'update' | 'today' | 'latest'
+  newType?: 'new' | 'update' | 'today' | 'latest' // 新合集类型标识
 }
 
-/**
- * 分页配置类型
- */
+// 分页配置类型，定义列表分页的基本参数和回调
 export interface PaginationConfig {
   currentPage: number
   totalPages: number
-  onPageChange: (page: number) => void
+  onPageChange: (page: number) => void // 页码变更回调函数
   itemsPerPage?: number
 }
 
-/**
- * 影片合集项目接口
- */
+// 影片合集项目接口，描述单个合集项目的完整信息
 export interface CollectionItem {
   id: string
   title: string
@@ -57,134 +54,73 @@ export interface CollectionItem {
   imageUrl: string
   alt?: string
   isNew?: boolean
-  newType?: 'new' | 'update' | 'today' | 'latest'
+  newType?: 'new' | 'update' | 'today' | 'latest' // 新项目类型标识
+  isVip?: boolean // VIP专享内容标识
 }
 
-/**
- * 分页配置类型
- */
-export interface PaginationConfig {
-  currentPage: number
-  totalPages: number
-  onPageChange: (page: number) => void
-  itemsPerPage?: number
-}
-
-/**
- * 影片合集列表组件属性接口
- */
+// 影片合集列表组件属性接口，定义CollectionList组件的所有配置选项，支持多种布局变体、响应式列数配置、卡片样式定制和分页功能，提供完整的影片合集展示和交互能力
 export interface CollectionListProps {
-  /** 影片合集数据列表 */
   collections: CollectionItem[]
-  /** 分页配置 */
   pagination?: PaginationConfig
-  /** 影片合集卡片点击事件 */
-  onCollectionClick?: (collection: CollectionItem) => void
-  /** 自定义CSS类名 */
+  onCollectionClick?: (collection: CollectionItem) => void // 影片合集卡片点击事件
   className?: string
-  /** 布局变体 */
-  variant?: 'grid' | 'carousel'
-  /** 响应式列数配置 */
-  columns?: ResponsiveColumnsConfig
-  /** 卡片配置 */
+  variant?: 'grid' | 'list' // 布局变体
+  columns?: ResponsiveColumnsConfig // 响应式列数配置
   cardConfig?: {
-    /** 是否显示VIP标签 */
-    showVipBadge?: boolean
-    /** 是否显示新片标签 */
-    showNewBadge?: boolean
-    /** 宽高比 */
-    aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape'
-    /** 悬停效果 */
-    hoverEffect?: boolean
-  }
-  /** 列表标题 */
+    showVipBadge?: boolean // 是否显示VIP标签
+    showNewBadge?: boolean // 是否显示新片标签
+    aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape' // 宽高比配置
+    hoverEffect?: boolean // 悬停效果开关
+  } // 卡片配置选项
   title?: string
-  /** 是否显示更多链接 */
   showMoreLink?: boolean
-  /** 更多链接URL */
   moreLinkUrl?: string
-  /** 更多链接文本 */
   moreLinkText?: string
 }
 
-/**
- * 影片合集列表组件
- *
- * 提供影片合集的完整列表功能，使用内容渲染器系统：
- * - 使用BaseList提供统一布局
- * - 使用CollectionContentRenderer提供影片合集卡片渲染
- * - 支持响应式列数配置
- * - 自包含的交互和视觉效果
- * - 使用统一的内容渲染器架构，支持扩展和定制
- */
+// 影片合集列表组件，提供影片合集的完整列表功能，使用内容渲染器系统支持多种布局和交互，使用BaseList提供统一布局，使用CollectionContentRenderer提供影片合集卡片渲染，支持响应式列数配置，自包含的交互和视觉效果，使用统一的内容渲染器架构，支持扩展和定制
 const CollectionList: React.FC<CollectionListProps> = ({
   collections,
-  pagination,
+  cardConfig,
   onCollectionClick,
-  className,
   variant = 'grid',
-  columns = {
-    xs: 1,
-    sm: 1,
-    md: 2,
-    lg: 3,
-    xl: 3,
-  },
-  cardConfig = {
-    showVipBadge: true,
-    showNewBadge: true,
-    aspectRatio: 'portrait',
-    hoverEffect: true,
-  },
+  columns = RESPONSIVE_CONFIGS.collection,
+  className,
   title,
-  showMoreLink = false,
+  showMoreLink,
   moreLinkUrl,
   moreLinkText = '查看更多',
+  pagination,
 }) => {
-  // 防御性检查 - 如果collections是undefined或空数组，显示空状态
+  // 添加调试日志
+  console.log('🎬 [CollectionList] Received collections:', {
+    length: collections?.length || 0,
+    collections: collections,
+    isArray: Array.isArray(collections),
+    isEmpty: !collections || collections.length === 0
+  })
+
+  // 防御性检查
   if (!collections || !Array.isArray(collections) || collections.length === 0) {
-    return (
-      <div className={cn('w-full space-y-8', className)}>
-        {title && (
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">{title}</h2>
-            {showMoreLink && moreLinkUrl && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => window.open(moreLinkUrl, '_self')}
-                className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300"
-              >
-                {moreLinkText}
-              </Button>
-            )}
-          </div>
-        )}
-        <EmptyState
-          message="暂无数据"
-          className="w-full"
-          size="md"
-          variant="center"
-        />
-      </div>
-    )
+    console.log('🎬 [CollectionList] Showing empty state - no collections')
+    return <EmptyState message="暂无数据" />
   }
 
-  // 获取合集内容渲染器
+  // 获取合集内容渲染器 - 使用工厂模式获取专用渲染器
   const collectionRenderer = contentRendererFactory.getRenderer('collection')
 
-  // 根据配置创建渲染器配置
+  // 构建渲染器配置 - 根据组件props创建统一的渲染配置
   const rendererConfig = createRendererConfig({
     hoverEffect: cardConfig?.hoverEffect ?? true,
     showVipBadge: cardConfig?.showVipBadge ?? true,
     showNewBadge: cardConfig?.showNewBadge ?? true,
     showQualityBadge: false,
     showRatingBadge: false,
-    aspectRatio: cardConfig?.aspectRatio ?? 'portrait',
+    aspectRatio: cardConfig?.aspectRatio ?? 'square',
     onClick: onCollectionClick,
   })
 
-  // 获取当前页显示的数据（如果有分页）
+  // 获取当前页显示的数据 - 根据分页配置计算显示范围
   const getCurrentPageCollections = () => {
     if (!pagination) return collections
 
@@ -196,7 +132,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
 
   return (
     <div className={cn('w-full space-y-8', className)}>
-      {/* 标题区域 */}
+      {/* 标题区域 - 显示列表标题和更多链接 */}
       {title && (
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">{title}</h2>
@@ -213,15 +149,14 @@ const CollectionList: React.FC<CollectionListProps> = ({
         </div>
       )}
 
-      {/* 影片合集列表 - 使用内容渲染器系统 */}
+      {/* 影片合集列表 - 使用内容渲染器系统渲染合集卡片 */}
       <BaseList
+        items={getCurrentPageCollections()}
         variant={variant}
         columns={columns}
         className="collection-list-container"
-        gap="md"
-      >
-        {getCurrentPageCollections().map(collection => {
-          // 将CollectionItem转换为CollectionContentItem
+        renderItem={(collection) => {
+          // 数据转换 - 将CollectionItem转换为CollectionContentItem格式
           const collectionContentItem = createCollectionContentItem({
             id: collection.id,
             title: collection.title,
@@ -230,25 +165,21 @@ const CollectionList: React.FC<CollectionListProps> = ({
             description: collection.description,
             isNew: collection.isNew,
             newType: collection.newType,
-            isVip: false, // 合集通常不需要VIP标记
+            isVip: collection.isVip || false, // 从原始数据中获取VIP状态
           })
 
-          // 使用内容渲染器渲染合集项目
-          return (
-            <div key={collection.id}>
-              {collectionRenderer?.render(
-                collectionContentItem,
-                rendererConfig
-              )}
-            </div>
+          // 渲染合集项目 - 使用内容渲染器统一渲染
+          return collectionRenderer?.render(
+            collectionContentItem,
+            rendererConfig
           )
-        })}
-      </BaseList>
+        }}
+      />
 
-      {/* 分页组件 */}
+      {/* 分页组件 - 提供页码导航功能 */}
       {pagination && (
         <div className="flex items-center justify-center space-x-1 sm:space-x-2">
-          {/* 上一页按钮 */}
+          {/* 上一页按钮 - 导航到前一页 */}
           <Button
             variant="ghost"
             size="sm"
@@ -265,7 +196,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
             </svg>
           </Button>
 
-          {/* 页码按钮 */}
+          {/* 页码按钮 - 显示所有页码并支持直接跳转 */}
           <div className="flex items-center space-x-1">
             {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
               page => (
@@ -287,7 +218,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
             )}
           </div>
 
-          {/* 下一页按钮 */}
+          {/* 下一页按钮 - 导航到后一页 */}
           <Button
             variant="ghost"
             size="sm"

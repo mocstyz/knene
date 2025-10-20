@@ -9,6 +9,7 @@
  */
 
 import { Badge } from '@components/atoms'
+import { TextHoverLayer } from '@components/layers'
 import { cn } from '@utils/cn'
 import React from 'react'
 
@@ -66,9 +67,13 @@ const MetadataLayer: React.FC<MetadataLayerProps> = ({
         : genres.slice(0, 1) // 只显示第一个分类
 
     return (
-      <span className="text-sm text-gray-500 transition-colors duration-200 hover:text-gray-400">
+      <TextHoverLayer
+        hoverColor="red"
+        duration="fast"
+        className="text-sm text-gray-500"
+      >
         {genresToDisplay[0]}
-      </span>
+      </TextHoverLayer>
     )
   }
 
