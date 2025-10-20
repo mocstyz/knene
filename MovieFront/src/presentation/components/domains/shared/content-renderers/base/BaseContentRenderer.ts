@@ -1,8 +1,9 @@
 /**
  * @fileoverview 内容渲染器基础抽象类
  * @description 提供内容渲染器的通用实现，减少具体实现类的重复代码。
- * 实现模板方法模式，定义算法骨架，子类实现具体步骤。
- *
+ *              实现模板方法模式，定义算法骨架，子类实现具体步骤。
+ * @created 2025-10-20 14:04:05
+ * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -17,43 +18,24 @@ import type {
 } from '@components/domains/shared/content-renderers/interfaces'
 import React from 'react'
 
-
-
-/**
- * 内容渲染器基础抽象类
- * 提供通用的渲染器实现模板
- */
+// 内容渲染器基础抽象类，提供通用的渲染器实现模板
 export abstract class BaseContentRenderer implements ContentRenderer {
-  /**
-   * 子类必须实现的内容类型
-   */
+  // 子类必须实现的内容类型
   public abstract readonly contentType: ContentTypeId
 
-  /**
-   * 渲染器名称，默认使用类名
-   */
+  // 渲染器名称，默认使用类名
   public readonly name: string
 
-  /**
-   * 渲染器版本，默认为1.0.0
-   */
+  // 渲染器版本，默认为1.0.0
   public readonly version: string = '1.0.0'
 
-  /**
-   * 构造函数
-   * @param name 可选的自定义名称
-   * @param version 可选的自定义版本
-   */
+  // 构造函数
   constructor(name?: string, version?: string) {
     this.name = name || this.constructor.name
     this.version = version || '1.0.0'
   }
 
-  /**
-   * 检查是否支持渲染指定的内容项
-   * @param item 内容项
-   * @returns 是否支持渲染
-   */
+  // 检查是否支持渲染指定的内容项
   public canRender(item: BaseContentItem): boolean {
     // 基础检查：内容类型匹配
     if (item.contentType !== this.contentType) {
@@ -65,13 +47,7 @@ export abstract class BaseContentRenderer implements ContentRenderer {
     return validation.isValid
   }
 
-  /**
-   * 渲染内容项为React组件
-   * 使用模板方法模式，定义渲染流程
-   * @param item 要渲染的内容项
-   * @param config 渲染器配置
-   * @returns React组件
-   */
+  // 渲染内容项为React组件，使用模板方法模式，定义渲染流程
   public render(
     item: BaseContentItem,
     config?: RendererConfig
@@ -101,10 +77,7 @@ export abstract class BaseContentRenderer implements ContentRenderer {
     }
   }
 
-  /**
-   * 获取渲染器的默认配置
-   * @returns 默认配置对象
-   */
+  // 获取渲染器的默认配置
   public getDefaultConfig(): Partial<RendererConfig> {
     return {
       hoverEffect: true,
@@ -117,11 +90,7 @@ export abstract class BaseContentRenderer implements ContentRenderer {
     }
   }
 
-  /**
-   * 验证内容项是否符合渲染器要求
-   * @param item 要验证的内容项
-   * @returns 验证结果
-   */
+  // 验证内容项是否符合渲染器要求
   public validateItem(item: BaseContentItem): ValidationResult {
     const errors: string[] = []
     const warnings: string[] = []
@@ -152,10 +121,7 @@ export abstract class BaseContentRenderer implements ContentRenderer {
     }
   }
 
-  /**
-   * 获取渲染器支持的配置选项
-   * @returns 支持的配置选项列表
-   */
+  // 获取渲染器支持的配置选项
   public getSupportedConfigOptions(): string[] {
     return [
       'hoverEffect',
@@ -171,39 +137,20 @@ export abstract class BaseContentRenderer implements ContentRenderer {
     ]
   }
 
-  // ============================================================================
   // 抽象方法 - 子类必须实现
-  // ============================================================================
 
-  /**
-   * 具体的渲染实现方法
-   * 子类必须实现此方法来提供具体的渲染逻辑
-   * @param item 预处理后的内容项
-   * @param config 合并后的配置
-   * @returns React组件
-   */
+  // 具体的渲染实现方法，子类必须实现此方法来提供具体的渲染逻辑
   protected abstract doRender(
     item: BaseContentItem,
     config: RendererConfig
   ): React.ReactElement
 
-  /**
-   * 验证特定字段的抽象方法
-   * 子类可以重写此方法来添加特定于内容类型的验证逻辑
-   * @param item 要验证的内容项
-   * @returns 验证结果
-   */
+  // 验证特定字段的抽象方法，子类可以重写此方法来添加特定于内容类型的验证逻辑
   protected validateSpecificFields(item: BaseContentItem): ValidationResult {
     return { isValid: true, errors: [], warnings: [] }
   }
 
-  /**
-   * 预处理内容项的抽象方法
-   * 子类可以重写此方法来预处理内容项数据
-   * @param item 原始内容项
-   * @param config 渲染配置
-   * @returns 预处理后的内容项
-   */
+  // 预处理内容项的抽象方法，子类可以重写此方法来预处理内容项数据
   protected preprocessItem(
     item: BaseContentItem,
     config: RendererConfig
@@ -212,18 +159,9 @@ export abstract class BaseContentRenderer implements ContentRenderer {
     return item
   }
 
-  // ============================================================================
   // 通用方法 - 子类可以重写
-  // ============================================================================
 
-  /**
-   * 渲染错误内容项
-   * 当内容项验证失败或渲染出错时使用
-   * @param item 出错的内容项
-   * @param config 渲染配置
-   * @param errors 错误信息列表
-   * @returns 错误状态的React组件
-   */
+  // 渲染错误内容项，当内容项验证失败或渲染出错时使用
   protected renderErrorItem(
     item: BaseContentItem,
     config?: RendererConfig,
@@ -277,11 +215,7 @@ export abstract class BaseContentRenderer implements ContentRenderer {
     )
   }
 
-  /**
-   * 合并配置对象
-   * @param config 用户配置
-   * @returns 合并后的配置
-   */
+  // 合并配置对象
   public mergeConfig(config?: RendererConfig): RendererConfig {
     const defaultConfig = this.getDefaultConfig()
     return {
@@ -294,11 +228,7 @@ export abstract class BaseContentRenderer implements ContentRenderer {
     } as RendererConfig
   }
 
-  /**
-   * 获取CSS类名
-   * @param config 渲染配置
-   * @returns CSS类名字符串
-   */
+  // 获取CSS类名
   public getClassName(config: RendererConfig): string {
     const baseClasses = [
       'content-renderer',
@@ -317,11 +247,7 @@ export abstract class BaseContentRenderer implements ContentRenderer {
     return baseClasses.join(' ')
   }
 
-  /**
-   * 获取内联样式
-   * @param config 渲染配置
-   * @returns CSS样式对象
-   */
+  // 获取内联样式
   public getStyle(config: RendererConfig): React.CSSProperties {
     const style: React.CSSProperties = {}
 
@@ -339,12 +265,7 @@ export abstract class BaseContentRenderer implements ContentRenderer {
     return style
   }
 
-  /**
-   * 创建点击处理器
-   * @param item 内容项
-   * @param config 渲染配置
-   * @returns 点击处理函数
-   */
+  // 创建点击处理器
   public createClickHandler(
     item: BaseContentItem,
     config: RendererConfig
@@ -356,38 +277,22 @@ export abstract class BaseContentRenderer implements ContentRenderer {
     }
   }
 
-  /**
-   * 获取内容项的显示标题
-   * @param item 内容项
-   * @returns 显示标题
-   */
+  // 获取内容项的显示标题
   protected getDisplayTitle(item: BaseContentItem): string {
     return item.title || 'Untitled'
   }
 
-  /**
-   * 获取内容项的显示描述
-   * @param item 内容项
-   * @returns 显示描述
-   */
+  // 获取内容项的显示描述
   protected getDisplayDescription(item: BaseContentItem): string {
     return item.description || ''
   }
 
-  /**
-   * 获取内容项的显示图片URL
-   * @param item 内容项
-   * @returns 图片URL
-   */
+  // 获取内容项的显示图片URL
   protected getDisplayImageUrl(item: BaseContentItem): string {
     return item.imageUrl || ''
   }
 
-  /**
-   * 获取内容项的显示Alt文本
-   * @param item 内容项
-   * @returns Alt文本
-   */
+  // 获取内容项的显示Alt文本
   protected getDisplayAltText(item: BaseContentItem): string {
     return item.alt || item.title || 'Content image'
   }

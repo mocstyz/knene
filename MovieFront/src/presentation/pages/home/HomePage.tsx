@@ -151,6 +151,14 @@ const HomePage: React.FC = () => {
             data={processedTrendingMovies}
             showMoreLink={true}
             moreLinkText="More >"
+            cardConfig={{
+              showNewBadge: true,
+              showVipBadge: true,
+              showQualityBadge: true,
+              showRatingBadge: false,
+              aspectRatio: 'portrait',
+              hoverEffect: true,
+            }}
           />
 
           {/* 首页最近更新区块 */}

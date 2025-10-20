@@ -16,22 +16,14 @@ import React from 'react'
 
 // 统一内容项基础接口，所有内容类型都必须实现此基础接口
 export interface BaseContentItem {
-  /** 内容唯一标识符 */
-  id: string
-  /** 内容标题 */
-  title: string
-  /** 内容类型标识符 */
-  contentType: ContentTypeId
-  /** 内容描述（可选） */
-  description?: string
-  /** 主图片URL */
-  imageUrl: string
-  /** 图片alt文本 */
-  alt?: string
-  /** 创建时间 */
-  createdAt?: string
-  /** 更新时间 */
-  updatedAt?: string
+  id: string // 内容唯一标识符
+  title: string // 内容标题
+  contentType: ContentTypeId // 内容类型标识符
+  description?: string // 内容描述（可选）
+  imageUrl: string // 主图片URL
+  alt?: string // 图片alt文本
+  createdAt?: string // 创建时间
+  updatedAt?: string // 更新时间
 }
 
 // 内容类型标识符类型，使用联合类型确保类型安全
@@ -45,44 +37,27 @@ export type ContentTypeId =
 
 // 渲染器配置接口，控制渲染器的行为和显示选项
 export interface RendererConfig {
-  /** 是否启用悬停效果 */
-  hoverEffect?: boolean
-  /** 宽高比 */
-  aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape'
-  /** 是否显示VIP徽章 */
-  showVipBadge?: boolean
-  /** 是否显示新内容徽章 */
-  showNewBadge?: boolean
-  /** 是否显示质量徽章 */
-  showQualityBadge?: boolean
-  /** 是否显示评分徽章 */
-  showRatingBadge?: boolean
-  /** 组件尺寸 */
-  size?: 'sm' | 'md' | 'lg' | 'xl'
-  /** 自定义CSS类名 */
-  className?: string
-  /** 点击事件处理器 */
-  onClick?: (item: BaseContentItem) => void
-  /** 额外选项 */
-  extraOptions?: Record<string, any>
-  /** 是否显示标题 */
-  showTitle?: boolean
-  /** 是否显示描述 */
-  showDescription?: boolean
+  hoverEffect?: boolean // 是否启用悬停效果
+  aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape' // 宽高比
+  showVipBadge?: boolean // 是否显示VIP徽章
+  showNewBadge?: boolean // 是否显示新内容徽章
+  showQualityBadge?: boolean // 是否显示质量徽章
+  showRatingBadge?: boolean // 是否显示评分徽章
+  size?: 'sm' | 'md' | 'lg' | 'xl' // 组件尺寸
+  className?: string // 自定义CSS类名
+  onClick?: (item: BaseContentItem) => void // 点击事件处理器
+  extraOptions?: Record<string, any> // 额外选项
+  showTitle?: boolean // 是否显示标题
+  showDescription?: boolean // 是否显示描述
 }
 
 // 内容渲染器抽象接口
 
 // 内容渲染器抽象接口，定义所有内容渲染器必须实现的方法
 export interface ContentRenderer {
-  /** 渲染器支持的内容类型 */
-  readonly contentType: ContentTypeId
-
-  /** 渲染器名称，用于调试和日志 */
-  readonly name: string
-
-  /** 渲染器版本，用于兼容性检查 */
-  readonly version: string
+  readonly contentType: ContentTypeId // 渲染器支持的内容类型
+  readonly name: string // 渲染器名称，用于调试和日志
+  readonly version: string // 渲染器版本，用于兼容性检查
 
   // 检查是否支持渲染指定的内容项
   canRender(item: BaseContentItem): boolean

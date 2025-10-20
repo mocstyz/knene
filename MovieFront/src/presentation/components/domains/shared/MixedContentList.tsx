@@ -1,13 +1,12 @@
 /**
  * @fileoverview 统一的混合内容列表组件
- * @description 基于内容渲染器抽象层的统一列表组件，支持多种内容类型的混合展示。
- * 使用内容渲染器工厂自动选择最佳渲染器，实现真正的内容类型无关渲染。
- *
+ * @description 基于内容渲染器抽象层的统一列表组件，支持多种内容类型的混合展示，使用内容渲染器工厂自动选择最佳渲染器，实现真正的内容类型无关渲染
+ * @created 2025-10-20 15:43:22
+ * @updated 2025-10-20 16:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
  */
-
 
 import { BaseList, EmptyState } from '@components/domains/shared'
 import {
@@ -21,25 +20,17 @@ import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { cn } from '@utils/cn'
 import React, { useEffect, useState, useMemo } from 'react'
 
-
 // ============================================================================
 // 接口定义
 // ============================================================================
 
-/**
- * 混合内容列表组件属性接口
- */
+// 混合内容列表组件属性接口，定义混合内容列表的所有配置选项
 export interface MixedContentListProps {
-  /** 混合内容数据列表 */
-  items: BaseContentItem[]
-  /** 内容项点击事件 */
-  onItemClick?: (item: BaseContentItem) => void
-  /** 自定义CSS类名 */
-  className?: string
-  /** 布局变体 */
-  variant?: 'grid' | 'list'
-  /** 响应式列数配置 */
-  columns?: {
+  items: BaseContentItem[] // 混合内容数据列表
+  onItemClick?: (item: BaseContentItem) => void // 内容项点击事件
+  className?: string // 自定义CSS类名
+  variant?: 'grid' | 'list' // 布局变体，默认'grid'
+  columns?: { // 响应式列数配置
     xs?: number
     sm?: number
     md?: number
@@ -47,62 +38,41 @@ export interface MixedContentListProps {
     xl?: number
     xxl?: number
   }
-  /** 默认渲染器配置 */
-  defaultRendererConfig?: Partial<RendererConfig>
-  /** 内容类型特定的渲染器配置 */
-  rendererConfigs?: Record<string, Partial<RendererConfig>>
-  /** 是否启用内容类型过滤 */
-  enableFilter?: boolean
-  /** 允许的内容类型列表（空表示允许所有类型） */
-  allowedContentTypes?: string[]
-  /** 是否显示内容类型标签 */
-  showContentTypeLabels?: boolean
-  /** 是否启用虚拟滚动 */
-  enableVirtualScroll?: boolean
-  /** 虚拟滚动项目高度 */
-  itemHeight?: number
-  /** 加载状态 */
-  loading?: boolean
-  /** 错误状态 */
-  error?: string | null
-  /** 重试加载回调 */
-  onRetry?: () => void
-  /** 空状态配置 */
-  emptyState?: {
+  defaultRendererConfig?: Partial<RendererConfig> // 默认渲染器配置
+  rendererConfigs?: Record<string, Partial<RendererConfig>> // 内容类型特定的渲染器配置
+  enableFilter?: boolean // 是否启用内容类型过滤，默认false
+  allowedContentTypes?: string[] // 允许的内容类型列表（空表示允许所有类型）
+  showContentTypeLabels?: boolean // 是否显示内容类型标签，默认false
+  enableVirtualScroll?: boolean // 是否启用虚拟滚动，默认false
+  itemHeight?: number // 虚拟滚动项目高度，默认300
+  loading?: boolean // 加载状态，默认false
+  error?: string | null // 错误状态
+  onRetry?: () => void // 重试加载回调
+  emptyState?: { // 空状态配置
     message?: string
     description?: string
   }
-  /** 调试模式 */
-  debug?: boolean
+  debug?: boolean // 调试模式，默认false
 }
 
-/**
- * 渲染状态接口
- */
+// 渲染状态接口，管理组件的渲染状态和统计信息
 interface RenderState {
-  /** 是否已初始化 */
-  initialized: boolean
-  /** 初始化错误 */
-  initError: string | null
-  /** 渲染器统计信息 */
-  rendererStats: {
+  initialized: boolean // 是否已初始化
+  initError: string | null // 初始化错误
+  rendererStats: { // 渲染器统计信息
     total: number
     successful: number
     failed: number
     byContentType: Record<string, number>
   }
-  /** 缺失渲染器的内容类型 */
-  missingRenderers: string[]
+  missingRenderers: string[] // 缺失渲染器的内容类型
 }
 
 // ============================================================================
 // 组件实现
 // ============================================================================
 
-/**
- * 混合内容列表组件
- * 支持多种内容类型的统一渲染和展示
- */
+// 混合内容列表组件，支持多种内容类型的统一渲染和展示，基于内容渲染器工厂实现自动化的渲染器选择和配置管理
 const MixedContentList: React.FC<MixedContentListProps> = ({
   items,
   onItemClick,
@@ -122,7 +92,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
   emptyState,
   debug = false,
 }) => {
-  // 渲染状态管理
+  // 渲染状态管理 - 初始化组件状态
   const [renderState, setRenderState] = useState<RenderState>({
     initialized: false,
     initError: null,
@@ -135,7 +105,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     missingRenderers: [],
   })
 
-  // 初始化渲染器
+  // 初始化渲染器 - 在组件挂载时异步初始化所有渲染器
   useEffect(() => {
     const initializeRenderers = async () => {
       try {
@@ -169,14 +139,14 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     initializeRenderers()
   }, [debug])
 
-  // 过滤和处理内容项
+  // 过滤和处理内容项 - 验证和过滤输入数据，确保只有有效的内容项参与渲染
   const processedItems = useMemo(() => {
     if (!Array.isArray(items)) {
       return []
     }
 
     const filteredItems = items.filter(item => {
-      // 验证内容项
+      // 验证内容项格式
       if (!isContentItem(item)) {
         console.warn('MixedContentList: Invalid content item:', item)
         return false
@@ -207,7 +177,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     return filteredItems
   }, [items, enableFilter, allowedContentTypes, debug])
 
-  // 检查缺失的渲染器
+  // 检查缺失的渲染器 - 统计各类内容类型的渲染器状态
   useEffect(() => {
     if (!renderState.initialized) return
 
@@ -239,7 +209,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     }))
   }, [processedItems, renderState.initialized])
 
-  // 获取渲染器配置
+  // 获取渲染器配置 - 合并默认配置和内容类型特定配置
   const getRendererConfig = (item: BaseContentItem): RendererConfig => {
     const baseConfig: RendererConfig = {
       hoverEffect: true,
@@ -260,7 +230,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     return { ...baseConfig, ...typeSpecificConfig }
   }
 
-  // 渲染单个内容项
+  // 渲染单个内容项 - 使用渲染器工厂选择最佳渲染器进行渲染
   const renderContentItem = (item: BaseContentItem): React.ReactNode => {
     const renderer = contentRendererFactory.getBestRenderer(item)
 
@@ -334,7 +304,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     }
   }
 
-  // 渲染内容类型标签
+  // 渲染内容类型标签 - 显示内容类型的可视化标识
   const renderContentTypeLabel = (item: BaseContentItem) => {
     if (!showContentTypeLabels) return null
 
@@ -358,7 +328,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     )
   }
 
-  // 渲染加载状态
+  // 渲染加载状态 - 显示加载指示器和提示文本
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -372,7 +342,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     )
   }
 
-  // 渲染错误状态
+  // 渲染错误状态 - 显示错误信息和重试按钮
   if (error) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -411,7 +381,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     )
   }
 
-  // 渲染初始化错误
+  // 渲染初始化错误 - 显示渲染器初始化失败的错误信息
   if (renderState.initError) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -442,7 +412,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     )
   }
 
-  // 渲染空状态
+  // 渲染空状态 - 显示无内容提示
   if (processedItems.length === 0) {
     return (
       <EmptyState
@@ -455,7 +425,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     )
   }
 
-  // 主渲染
+  // 主渲染 - 渲染内容列表和调试信息
   return (
     <div className={cn('mixed-content-list', className)}>
       {/* 调试信息 */}
@@ -478,9 +448,9 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
       )}
 
       {/* 内容列表 */}
-      <BaseList 
+      <BaseList
         items={processedItems}
-        variant={variant} 
+        variant={variant}
         columns={columns}
         renderItem={(item) => (
           <div className="relative">

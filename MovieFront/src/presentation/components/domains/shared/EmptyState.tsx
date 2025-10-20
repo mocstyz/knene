@@ -1,8 +1,8 @@
 /**
  * @fileoverview 通用空状态组件
- * @description 统一的空数据状态展示组件，遵循自包含组件设计原则。
- * 提供一致的空状态视觉效果和用户体验，支持多种变体和自定义配置。
- *
+ * @description 统一的空数据状态展示组件，遵循自包含组件设计原则，提供一致的空状态视觉效果和用户体验，支持多种变体和自定义配置
+ * @created 2025-10-20 14:07:15
+ * @updated 2025-10-20 16:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -11,39 +11,20 @@
 import { cn } from '@utils/cn'
 import React from 'react'
 
-/**
- * 空状态组件属性接口
- */
+// 空状态组件属性接口，定义空状态组件的所有配置选项
 export interface EmptyStateProps {
-  /** 空状态消息文本 */
-  message?: string
-  /** 空状态描述文本 */
-  description?: string
-  /** 自定义CSS类名 */
-  className?: string
-  /** 容器样式变体 */
-  variant?: 'center' | 'left' | 'right'
-  /** 尺寸变体 */
-  size?: 'sm' | 'md' | 'lg'
-  /** 是否显示图标 */
-  showIcon?: boolean
-  /** 自定义图标 */
-  icon?: React.ReactNode
-  /** 文本颜色变体 */
-  colorVariant?: 'default' | 'muted' | 'primary'
-  /** 垂直内边距 */
-  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  message?: string // 空状态消息文本，默认'暂无数据'
+  description?: string // 空状态描述文本
+  className?: string // 自定义CSS类名
+  variant?: 'center' | 'left' | 'right' // 容器样式变体，默认'center'
+  size?: 'sm' | 'md' | 'lg' // 尺寸变体，默认'md'
+  showIcon?: boolean // 是否显示图标，默认false
+  icon?: React.ReactNode // 自定义图标
+  colorVariant?: 'default' | 'muted' | 'primary' // 文本颜色变体，默认'default'
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl' // 垂直内边距，默认'md'
 }
 
-/**
- * 通用空状态组件
- *
- * 提供统一的空数据状态展示：
- * - 自包含的完整视觉效果
- * - 支持多种布局和样式变体
- * - 可配置的消息和图标
- * - 响应式设计
- */
+// 通用空状态组件，提供统一的空数据状态展示，包括自包含的完整视觉效果、多种布局和样式变体支持、可配置的消息和图标以及响应式设计
 const EmptyState: React.FC<EmptyStateProps> = ({
   message = '暂无数据',
   description,
@@ -55,7 +36,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   colorVariant = 'default',
   padding = 'md',
 }) => {
-  // 尺寸配置映射
+  // 尺寸配置映射 - 定义各尺寸对应的文本和图标大小
   const sizeClasses = {
     sm: {
       text: 'text-sm',
@@ -74,21 +55,21 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     },
   }
 
-  // 颜色变体配置
+  // 颜色变体配置 - 定义不同颜色主题的文本样式
   const colorClasses = {
     default: 'text-gray-500 dark:text-gray-400',
     muted: 'text-gray-400 dark:text-gray-500',
     primary: 'text-blue-500 dark:text-blue-400',
   }
 
-  // 布局变体配置
+  // 布局变体配置 - 定义文本对齐方式
   const layoutClasses = {
     center: 'text-center',
     left: 'text-left',
     right: 'text-right',
   }
 
-  // 内边距配置
+  // 内边距配置 - 定义不同的垂直内边距
   const paddingClasses = {
     none: '',
     sm: 'py-2',
@@ -97,7 +78,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     xl: 'py-8',
   }
 
-  // 容器样式类
+  // 容器样式类 - 合并所有配置生成最终的容器样式
   const containerClasses = cn(
     'w-full',
     paddingClasses[padding],
@@ -106,7 +87,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     className
   )
 
-  // 默认图标
+  // 默认图标 - 使用SVG绘制的文件夹图标
   const defaultIcon = (
     <svg
       className={cn('h-full w-full', sizeClasses[size].icon)}

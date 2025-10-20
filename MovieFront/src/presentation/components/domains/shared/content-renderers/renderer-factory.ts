@@ -152,56 +152,34 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     return null
   }
 
-  /**
-   * 获取所有已注册的渲染器
-   * @returns 渲染器列表
-   */
+  // 获取所有已注册的渲染器
   public getAllRenderers(): ContentRenderer[] {
     return Array.from(this.renderers.values())
       .filter(reg => reg.enabled)
       .map(reg => reg.renderer)
   }
 
-  /**
-   * 获取已注册的内容类型列表
-   * @returns 内容类型ID列表
-   */
+  // 获取已注册的内容类型列表
   public getRegisteredContentTypes(): ContentTypeId[] {
     return Array.from(this.renderers.keys())
   }
 
-  /**
-   * 检查指定内容类型是否已注册
-   * @param contentType 内容类型ID
-   * @returns 是否已注册
-   */
+  // 检查指定内容类型是否已注册
   public isRegistered(contentType: ContentTypeId): boolean {
     return this.renderers.has(contentType)
   }
 
-  /**
-   * 检查渲染器是否可用（别名方法）
-   * @param contentType 内容类型ID
-   * @returns 是否可用
-   */
+  // 检查渲染器是否可用（别名方法）
   public hasRenderer(contentType: ContentTypeId): boolean {
     return this.isRegistered(contentType)
   }
 
-  /**
-   * 获取所有可用的内容类型（别名方法）
-   * @returns 内容类型ID列表
-   */
+  // 获取所有可用的内容类型（别名方法）
   public getAvailableContentTypes(): ContentTypeId[] {
     return this.getRegisteredContentTypes()
   }
 
-  /**
-   * 渲染内容项
-   * @param item 内容项
-   * @param config 渲染配置
-   * @returns 渲染结果
-   */
+  // 渲染内容项
   public render(item: BaseContentItem, config?: RendererConfig): React.ReactElement {
     const renderer = this.getBestRenderer(item)
     if (!renderer) {
@@ -210,11 +188,7 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     return renderer.render(item, config)
   }
 
-  /**
-   * 启用或禁用渲染器
-   * @param contentType 内容类型ID
-   * @param enabled 是否启用
-   */
+  // 启用或禁用渲染器
   public setRendererEnabled(
     contentType: ContentTypeId,
     enabled: boolean
@@ -232,62 +206,41 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     }
   }
 
-  /**
-   * 获取渲染器注册信息
-   * @param contentType 内容类型ID
-   * @returns 注册信息或null
-   */
+  // 获取渲染器注册信息
   public getRegistrationInfo(
     contentType: ContentTypeId
   ): RendererRegistration | null {
     return this.renderers.get(contentType) || null
   }
 
-  /**
-   * 获取所有渲染器的注册信息
-   * @returns 注册信息列表
-   */
+  // 获取所有渲染器的注册信息
   public getAllRegistrationInfo(): RendererRegistration[] {
     return Array.from(this.renderers.values())
   }
 
-  /**
-   * 清空所有已注册的渲染器
-   * 主要用于测试场景
-   */
+  // 清空所有已注册的渲染器，主要用于测试场景
   public clear(): void {
     this.renderers.clear()
     this.priorityCache = []
     console.log('All content renderers cleared')
   }
 
-  /**
-   * 重置工厂到初始状态
-   * 清空所有渲染器并重新初始化内置渲染器
-   */
+  // 重置工厂到初始状态，清空所有渲染器并重新初始化内置渲染器
   public reset(): void {
     this.clear()
     this.initializeBuiltinRenderers()
   }
 
-  // ============================================================================
   // 私有方法
-  // ============================================================================
 
-  /**
-   * 更新优先级缓存
-   * 按优先级排序内容类型列表
-   */
+  // 更新优先级缓存，按优先级排序内容类型列表
   private updatePriorityCache(): void {
     this.priorityCache = Array.from(this.renderers.entries())
       .sort(([, a], [, b]) => b.priority - a.priority)
       .map(([contentType]) => contentType)
   }
 
-  /**
-   * 初始化内置渲染器
-   * 注册系统默认提供的基础渲染器
-   */
+  // 初始化内置渲染器，注册系统默认提供的基础渲染器
   private initializeBuiltinRenderers(): void {
     console.log('Initializing built-in content renderers...')
 
@@ -314,14 +267,9 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     })
   }
 
-  // ============================================================================
   // 调试和监控方法
-  // ============================================================================
 
-  /**
-   * 获取工厂统计信息
-   * @returns 统计信息对象
-   */
+  // 获取工厂统计信息
   public getStats(): {
     totalRenderers: number
     enabledRenderers: number
@@ -340,10 +288,7 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     }
   }
 
-  /**
-   * 输出工厂状态到控制台
-   * 用于调试和监控
-   */
+  // 输出工厂状态到控制台，用于调试和监控
   public logStatus(): void {
     const stats = this.getStats()
     console.group('Content Renderer Factory Status')
@@ -370,11 +315,7 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     console.groupEnd()
   }
 
-  /**
-   * 验证工厂状态
-   * 检查是否存在配置问题
-   * @returns 验证结果
-   */
+  // 验证工厂状态，检查是否存在配置问题
   public validateFactory(): {
     isValid: boolean
     errors: string[]
@@ -435,15 +376,9 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
   }
 }
 
-/**
- * 导出工厂单例实例
- * 使用此实例进行所有渲染器操作
- */
+// 导出工厂单例实例，使用此实例进行所有渲染器操作
 export const contentRendererFactory =
   DefaultContentRendererFactory.getInstance()
 
-/**
- * 导出工厂类（用于测试或特殊场景）
- * 重命名以避免重复导出错误
- */
+// 导出工厂类（用于测试或特殊场景），重命名以避免重复导出错误
 export { DefaultContentRendererFactory as ContentRendererFactoryClass }

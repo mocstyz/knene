@@ -63,10 +63,9 @@ export function toPhotoItem(item: UnifiedContentItem): PhotoItem {
     description: item.description,
     imageUrl: item.imageUrl,
     alt: item.alt || item.title,
-    // tags: item.tags, // PhotoItem不包含tags属性，移除此行
-    // isVip: item.isVip, // PhotoItem不包含isVip属性，移除此行
-    // isNew: item.isNew, // HotItem不包含isNew属性，移除此行
-    // newType: item.newType, // HotItem不包含newType属性，移除此行
+    isVip: item.isVip || false, // 保留VIP属性
+    isNew: item.isNew || false, // 保留NEW属性
+    newType: item.newType || 'latest', // 保留newType属性
     rating: item.rating ? String(item.rating) : '',
     ratingColor: item.ratingColor as 'purple' | 'red' | 'white' | 'default' | undefined,
     quality: item.quality,
