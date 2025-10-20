@@ -1,9 +1,9 @@
 /**
  * @fileoverview 内容渲染器工厂实现
- * @description 提供内容渲染器的注册、管理和创建功能。
- * 使用单例模式确保全局只有一个工厂实例。
- * 支持优先级排序、动态注册和注销、智能选择最佳渲染器。
- *
+ * @description 提供内容渲染器的注册、管理和创建功能，使用单例模式确保全局只有一个工厂实例。
+ *              支持优先级排序、动态注册和注销、智能选择最佳渲染器。
+ * @created 2025-10-16 11:30:16
+ * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -23,36 +23,22 @@ import type {
   ValidationResult,
 } from '@components/domains/shared/content-renderers/interfaces'
 
-/**
- * 内容渲染器工厂实现
- * 单例模式，全局唯一的渲染器管理器
- */
+// 内容渲染器工厂实现，单例模式，全局唯一的渲染器管理器
 export class DefaultContentRendererFactory implements ContentRendererFactory {
   private static instance: DefaultContentRendererFactory | null = null
 
-  /**
-   * 已注册的渲染器映射表
-   * Key: ContentTypeId, Value: RendererRegistration
-   */
+  // 已注册的渲染器映射表，Key: ContentTypeId, Value: RendererRegistration
   private renderers: Map<ContentTypeId, RendererRegistration> = new Map()
 
-  /**
-   * 渲染器优先级缓存
-   * 用于快速查找最佳渲染器
-   */
+  // 渲染器优先级缓存，用于快速查找最佳渲染器
   private priorityCache: ContentTypeId[] = []
 
-  /**
-   * 私有构造函数，实现单例模式
-   */
+  // 私有构造函数，实现单例模式
   private constructor() {
     this.initializeBuiltinRenderers()
   }
 
-  /**
-   * 获取工厂实例
-   * @returns 工厂单例实例
-   */
+  // 获取工厂实例
   public static getInstance(): DefaultContentRendererFactory {
     if (!DefaultContentRendererFactory.instance) {
       DefaultContentRendererFactory.instance =
@@ -61,11 +47,7 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     return DefaultContentRendererFactory.instance
   }
 
-  /**
-   * 注册新的内容渲染器
-   * @param renderer 渲染器实例
-   * @param options 注册选项
-   */
+  // 注册新的内容渲染器
   public register(
     renderer: ContentRenderer,
     options: RegistrationOptions = {}
@@ -109,10 +91,7 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     )
   }
 
-  /**
-   * 注销内容渲染器
-   * @param contentType 内容类型ID
-   */
+  // 注销内容渲染器
   public unregister(contentType: ContentTypeId): void {
     const registration = this.renderers.get(contentType)
 
@@ -131,11 +110,7 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     }
   }
 
-  /**
-   * 根据内容类型获取渲染器
-   * @param contentType 内容类型ID
-   * @returns 渲染器实例或null
-   */
+  // 根据内容类型获取渲染器
   public getRenderer(contentType: ContentTypeId): ContentRenderer | null {
     const registration = this.renderers.get(contentType)
 
@@ -146,11 +121,7 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     return null
   }
 
-  /**
-   * 根据内容项自动选择最佳渲染器
-   * @param item 内容项
-   * @returns 最佳渲染器或null
-   */
+  // 根据内容项自动选择最佳渲染器
   public getBestRenderer(item: BaseContentItem): ContentRenderer | null {
     // 首先尝试直接匹配内容类型
     const renderer = this.getRenderer(item.contentType)

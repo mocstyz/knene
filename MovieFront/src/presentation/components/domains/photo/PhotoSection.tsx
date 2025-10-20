@@ -12,6 +12,7 @@
 
 import { PhotoList, type PhotoItem } from '@components/domains/photo'
 import { BaseSection } from '@components/domains/shared'
+import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import type { PhotoSectionProps } from '@types-unified'
 import { cn } from '@utils/cn'
 import React from 'react'
@@ -46,7 +47,7 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({
       <PhotoList
         photos={data}
         cardConfig={cardConfig}
-        columns={columns}
+        columns={columns || RESPONSIVE_CONFIGS.photo}
         onPhotoClick={onPhotoClick}
       />
     </BaseSection>

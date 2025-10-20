@@ -84,210 +84,112 @@ export interface ContentRenderer {
   /** 渲染器版本，用于兼容性检查 */
   readonly version: string
 
-  /**
-   * 检查是否支持渲染指定的内容项
-   * @param item 内容项
-   * @returns 是否支持渲染
-   */
+  // 检查是否支持渲染指定的内容项
   canRender(item: BaseContentItem): boolean
 
-  /**
-   * 渲染内容项为React组件
-   * @param item 要渲染的内容项
-   * @param config 渲染器配置
-   * @returns React组件
-   */
+  // 渲染内容项为React组件
   render(item: BaseContentItem, config?: RendererConfig): React.ReactElement
 
-  /**
-   * 获取渲染器的默认配置
-   * @returns 默认配置对象
-   */
+  // 获取渲染器的默认配置
   getDefaultConfig(): Partial<RendererConfig>
 
-  /**
-   * 验证内容项是否符合渲染器要求
-   * @param item 要验证的内容项
-   * @returns 验证结果
-   */
+  // 验证内容项是否符合渲染器要求
   validateItem(item: BaseContentItem): ValidationResult
 
-  /**
-   * 获取渲染器支持的配置选项
-   * @returns 支持的配置选项列表
-   */
+  // 获取渲染器支持的配置选项
   getSupportedConfigOptions(): string[]
 }
 
 // 验证结果接口
 
-/**
- * 内容项验证结果
- */
+// 内容项验证结果
 export interface ValidationResult {
-  /** 是否验证通过 */
-  isValid: boolean
-  /** 错误信息列表 */
-  errors: string[]
-  /** 警告信息列表 */
-  warnings: string[]
+  isValid: boolean // 是否验证通过
+  errors: string[] // 错误信息列表
+  warnings: string[] // 警告信息列表
 }
 
 // 渲染器注册信息接口
 
-/**
- * 渲染器注册信息
- */
+// 渲染器注册信息
 export interface RendererRegistration {
-  /** 内容类型ID */
-  contentType: ContentTypeId
-  /** 渲染器实例 */
-  renderer: ContentRenderer
-  /** 注册时间 */
-  registeredAt: Date
-  /** 注册者信息 */
-  registrar?: string
-  /** 是否启用 */
-  enabled: boolean
-  /** 优先级（数字越大优先级越高） */
-  priority: number
+  contentType: ContentTypeId // 内容类型ID
+  renderer: ContentRenderer // 渲染器实例
+  registeredAt: Date // 注册时间
+  registrar?: string // 注册者信息
+  enabled: boolean // 是否启用
+  priority: number // 优先级（数字越大优先级越高）
 }
 
 // 工厂接口定义
 
-/**
- * 内容渲染器工厂接口
- * 定义渲染器创建和管理的标准方法
- */
+// 内容渲染器工厂接口，定义渲染器创建和管理的标准方法
 export interface ContentRendererFactory {
-  /**
-   * 注册新的内容渲染器
-   * @param renderer 渲染器实例
-   * @param options 注册选项
-   */
+  // 注册新的内容渲染器
   register(renderer: ContentRenderer, options?: RegistrationOptions): void
 
-  /**
-   * 注销内容渲染器
-   * @param contentType 内容类型ID
-   */
+  // 注销内容渲染器
   unregister(contentType: ContentTypeId): void
 
-  /**
-   * 根据内容类型获取渲染器
-   * @param contentType 内容类型ID
-   * @returns 渲染器实例或null
-   */
+  // 根据内容类型获取渲染器
   getRenderer(contentType: ContentTypeId): ContentRenderer | null
 
-  /**
-   * 根据内容项自动选择最佳渲染器
-   * @param item 内容项
-   * @returns 最佳渲染器或null
-   */
+  // 根据内容项自动选择最佳渲染器
   getBestRenderer(item: BaseContentItem): ContentRenderer | null
 
-  /**
-   * 获取所有已注册的渲染器
-   * @returns 渲染器列表
-   */
+  // 获取所有已注册的渲染器
   getAllRenderers(): ContentRenderer[]
 
-  /**
-   * 获取已注册的内容类型列表
-   * @returns 内容类型ID列表
-   */
+  // 获取已注册的内容类型列表
   getRegisteredContentTypes(): ContentTypeId[]
 
-  /**
-   * 检查指定内容类型是否已注册
-   * @param contentType 内容类型ID
-   * @returns 是否已注册
-   */
+  // 检查指定内容类型是否已注册
   isRegistered(contentType: ContentTypeId): boolean
 
-  /**
-   * 检查渲染器是否可用（别名方法）
-   * @param contentType 内容类型ID
-   * @returns 是否可用
-   */
+  // 检查渲染器是否可用（别名方法）
   hasRenderer(contentType: ContentTypeId): boolean
 
-  /**
-   * 获取所有可用的内容类型（别名方法）
-   * @returns 内容类型ID列表
-   */
+  // 获取所有可用的内容类型（别名方法）
   getAvailableContentTypes(): ContentTypeId[]
 
-  /**
-   * 渲染内容项
-   * @param item 内容项
-   * @param config 渲染配置
-   * @returns 渲染结果
-   */
+  // 渲染内容项
   render(item: BaseContentItem, config?: RendererConfig): React.ReactElement
 }
 
 // 注册选项接口
 
-/**
- * 渲染器注册选项
- */
+// 渲染器注册选项
 export interface RegistrationOptions {
-  /** 注册者信息 */
-  registrar?: string
-  /** 是否立即启用 */
-  enabled?: boolean
-  /** 优先级 */
-  priority?: number
-  /** 是否覆盖已存在的渲染器 */
-  override?: boolean
+  registrar?: string // 注册者信息
+  enabled?: boolean // 是否立即启用
+  priority?: number // 优先级
+  override?: boolean // 是否覆盖已存在的渲染器
 }
 
 // 扩展的内容项接口（可选实现）
 
-/**
- * 扩展内容项接口
- * 提供更丰富的内容属性
- */
+// 扩展内容项接口，提供更丰富的内容属性
 export interface ExtendedContentItem extends BaseContentItem {
-  /** 内容标签 */
-  tags?: string[]
-  /** 内容分类 */
-  category?: string
-  /** 内容语言 */
-  language?: string
-  /** 地区信息 */
-  region?: string
-  /** 是否为VIP内容 */
-  isVip?: boolean
-  /** 是否为新内容 */
-  isNew?: boolean
-  /** 新片类型 */
+  tags?: string[] // 内容标签
+  category?: string // 内容分类
+  language?: string // 内容语言
+  region?: string // 地区信息
+  isVip?: boolean // 是否为VIP内容
+  isNew?: boolean // 是否为新内容
   newType?: 'hot' | 'latest' | null // 新项目类型标识，对齐统一类型系统
-  /** 评分信息 */
-  rating?: number
-  /** 评分颜色 */
-  ratingColor?: string
-  /** 质量信息 */
-  quality?: string
-  /** 文件大小 */
-  fileSize?: string
-  /** 下载次数 */
-  downloadCount?: number
-  /** 观看次数 */
-  viewCount?: number
-  /** 点赞数 */
-  likeCount?: number
-  /** 自定义元数据 */
-  metadata?: Record<string, any>
+  rating?: number // 评分信息
+  ratingColor?: string // 评分颜色
+  quality?: string // 质量信息
+  fileSize?: string // 文件大小
+  downloadCount?: number // 下载次数
+  viewCount?: number // 观看次数
+  likeCount?: number // 点赞数
+  metadata?: Record<string, any> // 自定义元数据
 }
 
 // 类型守卫函数
 
-/**
- * 检查对象是否为有效的内容项
- */
+// 检查对象是否为有效的内容项
 export function isContentItem(obj: any): obj is BaseContentItem {
   return (
     obj &&
@@ -299,9 +201,7 @@ export function isContentItem(obj: any): obj is BaseContentItem {
   )
 }
 
-/**
- * 检查对象是否为扩展内容项
- */
+// 检查对象是否为扩展内容项
 export function isExtendedContentItem(obj: any): obj is ExtendedContentItem {
   return (
     isContentItem(obj) &&
@@ -311,9 +211,7 @@ export function isExtendedContentItem(obj: any): obj is ExtendedContentItem {
   )
 }
 
-/**
- * 检查内容类型ID是否有效
- */
+// 检查内容类型ID是否有效
 export function isValidContentType(
   contentType: any
 ): contentType is ContentTypeId {
