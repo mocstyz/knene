@@ -40,7 +40,7 @@ export interface CollectionContentItem extends BaseContentItem {
   isFeatured?: boolean // 是否为精选合集
   isVip?: boolean // 是否为VIP内容
   isNew?: boolean // 是否为新合集
-  newType?: 'new' | 'update' | 'today' | 'latest' // 新合集类型
+  newType?: 'hot' | 'latest' | null // 新合集类型，对齐统一类型系统
   publishDate?: string // 发布日期
   lastUpdated?: string // 最后更新时间
 }
@@ -78,7 +78,7 @@ export class CollectionContentRenderer extends BaseContentRenderer {
           showNewBadge={config.showNewBadge}
           isVip={collectionItem.isVip}
           isNew={collectionItem.isNew}
-          newBadgeType={collectionItem.newType === 'update' ? 'update' : collectionItem.newType || 'new'}
+          newBadgeType={collectionItem.newType || 'latest'}
           hoverEffect={{
             enabled: config.hoverEffect,
             hoverColor: 'red',

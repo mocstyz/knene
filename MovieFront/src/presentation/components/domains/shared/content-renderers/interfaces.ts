@@ -294,7 +294,7 @@ export interface ExtendedContentItem extends BaseContentItem {
   /** 是否为新内容 */
   isNew?: boolean
   /** 新片类型 */
-  newType?: 'new' | 'update' | 'today' | 'latest'
+  newType?: 'hot' | 'latest' | null // 新项目类型标识，对齐统一类型系统
   /** 评分信息 */
   rating?: number
   /** 评分颜色 */

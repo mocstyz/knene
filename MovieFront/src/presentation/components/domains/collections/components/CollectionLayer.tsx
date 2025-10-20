@@ -43,7 +43,7 @@ export interface CollectionLayerProps {
   showNewBadge?: boolean // 是否显示NEW标签
   isVip?: boolean // 是否为VIP内容
   isNew?: boolean // 是否为新内容
-  newBadgeType?: 'new' | 'hot' | 'update' | 'today' | 'latest' // NEW标签类型
+  newBadgeType?: 'hot' | 'latest' | null // NEW标签类型，对齐统一类型系统
 }
 
 // 影片合集层组件，提供影片合集卡片的内容展示功能，包含标题、描述和渐变背景，使用CardHoverLayer包装完整卡片结构，确保整体hover效果一致性
@@ -61,7 +61,7 @@ const CollectionLayer: React.FC<CollectionLayerProps> = ({
   showNewBadge = false,
   isVip = false,
   isNew = false,
-  newBadgeType = 'new',
+  newBadgeType = 'latest',
 }) => {
   // 宽高比样式映射
   const aspectRatioClasses = {

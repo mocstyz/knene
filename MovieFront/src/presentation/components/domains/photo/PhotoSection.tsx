@@ -1,8 +1,10 @@
 /**
  * @fileoverview 首页写真模块组件
  * @description 首页写真模块的领域组件，使用BaseSection + PhotoList组合架构。
- * 遵循自包含组件设计原则，提供完整的写真模块功能。
- *
+ *              遵循自包含组件设计原则，提供完整的写真模块功能。
+ *              负责展示写真内容列表，支持自定义标题和查看更多功能。
+ * @created 2025-10-16 11:21:33
+ * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 2.0.0
@@ -15,14 +17,7 @@ import { cn } from '@utils/cn'
 import React from 'react'
 
 
-/**
- * 首页写真模块组件
- *
- * 使用BaseSection + PhotoList组合架构：
- * - BaseSection提供统一的Section布局
- * - PhotoList提供写真列表渲染
- * - 保持现有的props接口，确保向后兼容
- */
+// 首页写真模块组件，使用BaseSection + PhotoList组合架构，遵循自包含组件设计原则
 const PhotoSection: React.FC<PhotoSectionProps> = ({
   data,
   title = '写真',

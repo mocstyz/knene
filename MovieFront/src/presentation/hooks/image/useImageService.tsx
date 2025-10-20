@@ -97,6 +97,11 @@ export const useImageService = (): UseImageServiceReturn => {
   const imageService = useMemo(() => ImageServiceFactory.getInstance(), [])
 
   const getMoviePoster = (movieId: string, options?: ImageOptions): string => {
+    // 如果传入的是完整的URL，直接返回
+    if (movieId.startsWith('http://') || movieId.startsWith('https://')) {
+      return movieId
+    }
+
     // 电影海报默认配置
     const defaultOptions: ImageOptions = {
       width: 400,
@@ -111,6 +116,11 @@ export const useImageService = (): UseImageServiceReturn => {
   }
 
   const getTopicCover = (topicId: string, options?: ImageOptions): string => {
+    // 如果传入的是完整的URL，直接返回
+    if (topicId.startsWith('http://') || topicId.startsWith('https://')) {
+      return topicId
+    }
+
     // 专题封面默认配置
     const defaultOptions: ImageOptions = {
       width: 600,
@@ -128,6 +138,11 @@ export const useImageService = (): UseImageServiceReturn => {
     collectionId: string,
     options?: ImageOptions
   ): string => {
+    // 如果传入的是完整的URL，直接返回
+    if (collectionId.startsWith('http://') || collectionId.startsWith('https://')) {
+      return collectionId
+    }
+
     // 合集封面默认配置
     const defaultOptions: ImageOptions = {
       width: 600,

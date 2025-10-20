@@ -1,8 +1,10 @@
 /**
  * @fileoverview 写真内容渲染器实现
  * @description 基于内容渲染器抽象层的写真内容渲染器。
- * 使用现有的Layer组件组合进行渲染，与PhotoCard保持一致的功能。
- *
+ *              使用现有的Layer组件组合进行渲染，与PhotoCard保持一致的功能。
+ *              提供写真内容的完整渲染逻辑，包括数据验证、预处理、错误处理等功能。
+ * @created 2025-10-20 14:04:05
+ * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -20,69 +22,34 @@ import {
 import { cn } from '@utils/cn'
 import React from 'react'
 
-/**
- * 写真内容项接口
- * 扩展基础内容项，添加写真特有属性
- */
+// 写真内容项接口，扩展基础内容项，添加写真特有属性
 export interface PhotoContentItem extends BaseContentItem {
-  /** 内容类型固定为 'photo' */
-  contentType: 'photo'
-  /** 图片格式类型 */
-  formatType?: 'JPEG高' | 'PNG' | 'WebP' | 'GIF' | 'BMP'
-  /** 图片分辨率 */
-  resolution?: string
-  /** 图片大小 */
-  fileSize?: string
-  /** 图片宽高比 */
-  imageAspectRatio?: string
-  /** 拍摄设备 */
-  camera?: string
-  /** 拍摄地点 */
-  location?: string
-  /** 拍摄时间 */
-  shootDate?: string
-  /** 模特信息 */
-  model?: string
-  /** 摄影师 */
-  photographer?: string
-  /** 图片标签 */
-  tags?: string[]
-  /** 评分 */
-  rating?: number
-  /** 评分颜色 */
-  ratingColor?:
-    | 'default'
-    | 'green'
-    | 'blue'
-    | 'cyan'
-    | 'yellow'
-    | 'orange'
-    | 'red'
-  /** 是否为新内容 */
-  isNew?: boolean
-  /** 新片类型 */
-  newType?: 'new' | 'update' | 'today' | 'latest'
-  /** 是否为VIP内容 */
-  isVip?: boolean
-  /** 是否包含成人内容 */
-  isAdult?: boolean
+  contentType: 'photo' // 内容类型固定为 'photo'
+  formatType?: 'JPEG高' | 'PNG' | 'WebP' | 'GIF' | 'BMP' // 图片格式类型
+  resolution?: string // 图片分辨率
+  fileSize?: string // 图片大小
+  imageAspectRatio?: string // 图片宽高比
+  camera?: string // 拍摄设备
+  location?: string // 拍摄地点
+  shootDate?: string // 拍摄时间
+  model?: string // 模特信息
+  photographer?: string // 摄影师
+  tags?: string[] // 图片标签
+  rating?: number // 评分
+  ratingColor?: 'default' | 'green' | 'blue' | 'cyan' | 'yellow' | 'orange' | 'red' // 评分颜色
+  isNew?: boolean // 是否为新内容
+  newType?: 'hot' | 'latest' | null // 新项目类型标识，对齐统一类型系统
+  isVip?: boolean // 是否为VIP内容
+  isAdult?: boolean // 是否包含成人内容
 }
 
-/**
- * 写真内容渲染器
- * 使用Layer组件组合渲染写真内容
- */
+// 写真内容渲染器，使用Layer组件组合渲染写真内容
 export class PhotoContentRenderer extends BaseContentRenderer {
   public readonly contentType = 'photo' as const
   public readonly name: string = 'PhotoContentRenderer'
   public readonly version: string = '1.0.0'
 
-  /**
-   * 具体的渲染实现方法
-   * @param item 预处理后的写真内容项
-   * @param config 合并后的配置
-   * @returns React组件
-   */
+  // 具体的渲染实现方法，使用PhotoLayer组件渲染写真内容
   protected doRender(
     item: BaseContentItem,
     config: RendererConfig
@@ -128,7 +95,7 @@ export class PhotoContentRenderer extends BaseContentRenderer {
           showVipBadge={config.showVipBadge}
           showQualityBadge={config.showQualityBadge}
           showNewBadge={config.showNewBadge}
-          newBadgeType={photoItem.newType || 'new'}
+          newBadgeType={photoItem.newType || 'latest'}
           isVip={photoItem.isVip}
           isNew={photoItem.isNew || false} // 同时设置PhotoLayer的isNew prop
         />
@@ -136,11 +103,7 @@ export class PhotoContentRenderer extends BaseContentRenderer {
     )
   }
 
-  /**
-   * 验证写真特定字段
-   * @param item 要验证的内容项
-   * @returns 验证结果
-   */
+  // 验证写真特定字段，检查写真数据的合理性和完整性
   protected validateSpecificFields(item: BaseContentItem): ValidationResult {
     const errors: string[] = []
     const warnings: string[] = []
@@ -187,7 +150,7 @@ export class PhotoContentRenderer extends BaseContentRenderer {
 
     // 检查新片类型
     if (photoItem.newType) {
-      const validNewTypes = ['new', 'update', 'today', 'latest']
+      const validNewTypes = ['hot', 'latest']
       if (!validNewTypes.includes(photoItem.newType)) {
         warnings.push(`Unknown new type: ${photoItem.newType}`)
       }
@@ -200,12 +163,7 @@ export class PhotoContentRenderer extends BaseContentRenderer {
     }
   }
 
-  /**
-   * 预处理写真内容项
-   * @param item 原始内容项
-   * @param config 渲染配置
-   * @returns 预处理后的内容项
-   */
+  // 预处理写真内容项，进行数据标准化和默认值设置
   protected preprocessItem(
     item: BaseContentItem,
     config: RendererConfig
@@ -220,10 +178,7 @@ export class PhotoContentRenderer extends BaseContentRenderer {
     return photoItem
   }
 
-  /**
-   * 获取默认配置
-   * @returns 默认配置对象
-   */
+  // 获取默认配置，返回写真专用的默认设置
   public getDefaultConfig(): Partial<RendererConfig> {
     return {
       aspectRatio: 'portrait',
@@ -238,10 +193,7 @@ export class PhotoContentRenderer extends BaseContentRenderer {
     }
   }
 
-  /**
-   * 获取支持的配置选项
-   * @returns 支持的配置选项列表
-   */
+  // 获取支持的配置选项，返回所有支持的配置项列表
   public getSupportedConfigOptions(): string[] {
     return [
       'aspectRatio',
@@ -260,13 +212,7 @@ export class PhotoContentRenderer extends BaseContentRenderer {
     ]
   }
 
-  /**
-   * 渲染错误状态的内容项
-   * @param item 内容项
-   * @param config 配置
-   * @param errors 错误列表
-   * @returns 错误状态的React组件
-   */
+  // 渲染错误状态的内容项，当渲染出错时显示错误信息
   protected renderErrorItem(
     item: BaseContentItem,
     config?: RendererConfig,
@@ -310,11 +256,7 @@ export class PhotoContentRenderer extends BaseContentRenderer {
     )
   }
 
-  /**
-   * 获取宽高比CSS类名
-   * @param aspectRatio 宽高比字符串
-   * @returns CSS类名
-   */
+  // 获取宽高比CSS类名，根据宽高比返回对应的CSS类名
   protected getAspectRatioClass(aspectRatio: string): string {
     const ratioMap: Record<string, string> = {
       '1/1': 'aspect-square',
@@ -328,11 +270,7 @@ export class PhotoContentRenderer extends BaseContentRenderer {
     return ratioMap[aspectRatio] || 'aspect-[2/3]'
   }
 
-  /**
-   * 获取组件CSS类名
-   * @param config 配置对象
-   * @returns CSS类名字符串
-   */
+  // 获取组件CSS类名，返回合并后的CSS类名
   public getClassName(config: RendererConfig): string {
     return cn(
       super.getClassName(config),
@@ -341,11 +279,7 @@ export class PhotoContentRenderer extends BaseContentRenderer {
   }
 }
 
-/**
- * 类型守卫：检查是否为写真内容项
- * @param item 要检查的内容项
- * @returns 是否为写真内容项
- */
+// 类型守卫函数，检查内容项是否为写真内容项
 export function isPhotoContentItem(item: any): item is PhotoContentItem {
   return (
     item &&
@@ -357,11 +291,7 @@ export function isPhotoContentItem(item: any): item is PhotoContentItem {
   )
 }
 
-/**
- * 创建写真内容项的工厂函数
- * @param data 写真数据
- * @returns 写真内容项
- */
+// 创建写真内容项的工厂函数，用于创建新的写真内容项
 export function createPhotoContentItem(
   data: Partial<PhotoContentItem> & { id: string; title: string; imageUrl: string }
 ): PhotoContentItem {

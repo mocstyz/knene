@@ -1,8 +1,10 @@
 /**
  * @fileoverview 电影内容渲染器实现
  * @description 基于内容渲染器抽象层的电影内容渲染器。
- * 使用现有的MovieLayer组件进行渲染，保持与现有系统的兼容性。
- *
+ *              使用现有的MovieLayer组件进行渲染，保持与现有系统的兼容性。
+ *              提供电影内容的完整渲染逻辑，包括数据验证、预处理、错误处理等功能。
+ * @created 2025-10-20 14:04:05
+ * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -20,56 +22,31 @@ import {
 import { cn } from '@utils/cn'
 import React from 'react'
 
-/**
- * 电影内容项接口
- * 扩展基础内容项，添加电影特有属性
- */
+// 电影内容项接口，扩展基础内容项，添加电影特有属性
 export interface MovieContentItem extends BaseContentItem {
-  /** 内容类型固定为 'movie' */
-  contentType: 'movie'
-  /** 电影年份 */
-  year?: number
-  /** 电影时长（分钟） */
-  duration?: number
-  /** 电影类型/分类 */
-  genres?: string[]
-  /** 导演 */
-  director?: string
-  /** 主演 */
-  actors?: string[]
-  /** 电影质量 */
-  quality?: string
-  /** 文件大小 */
-  size?: string
-  /** 下载次数 */
-  downloadCount?: number
-  /** 评分 */
-  rating?: number
-  /** 评分颜色 */
-  ratingColor?: 'purple' | 'red' | 'white' | 'default'
-  /** 是否为新片 */
-  isNew?: boolean
-  /** 新片类型 */
-  newType?: 'new' | 'update' | 'today' | 'latest'
-  /** 是否为VIP内容 */
-  isVip?: boolean
+  contentType: 'movie' // 内容类型固定为 'movie'
+  year?: number // 电影年份
+  duration?: number // 电影时长（分钟）
+  genres?: string[] // 电影类型/分类
+  director?: string // 导演
+  actors?: string[] // 主演
+  quality?: string // 电影质量
+  size?: string // 文件大小
+  downloadCount?: number // 下载次数
+  rating?: number // 评分
+  ratingColor?: 'purple' | 'red' | 'white' | 'default' // 评分颜色
+  isNew?: boolean // 是否为新片
+  newType?: 'hot' | 'latest' | null // 新项目类型标识，对齐统一类型系统
+  isVip?: boolean // 是否为VIP内容
 }
 
-/**
- * 电影内容渲染器
- * 使用MovieLayer组件渲染电影内容
- */
+// 电影内容渲染器，使用MovieLayer组件渲染电影内容
 export class MovieContentRenderer extends BaseContentRenderer {
   public readonly contentType = 'movie' as const
   public readonly name: string = 'MovieContentRenderer'
   public readonly version: string = '1.0.0'
 
-  /**
-   * 具体的渲染实现方法
-   * @param item 预处理后的电影内容项
-   * @param config 合并后的配置
-   * @returns React组件
-   */
+  // 具体的渲染实现方法，使用MovieLayer组件渲染电影内容
   protected doRender(
     item: BaseContentItem,
     config: RendererConfig
@@ -114,11 +91,7 @@ export class MovieContentRenderer extends BaseContentRenderer {
     )
   }
 
-  /**
-   * 验证电影特定字段
-   * @param item 要验证的内容项
-   * @returns 验证结果
-   */
+  // 验证电影特定字段，检查电影数据的合理性和完整性
   protected validateSpecificFields(item: BaseContentItem): ValidationResult {
     const errors: string[] = []
     const warnings: string[] = []
@@ -160,12 +133,7 @@ export class MovieContentRenderer extends BaseContentRenderer {
     }
   }
 
-  /**
-   * 预处理电影内容项
-   * @param item 原始内容项
-   * @param config 渲染配置
-   * @returns 预处理后的内容项
-   */
+  // 预处理电影内容项，进行数据标准化和默认值设置
   protected preprocessItem(
     item: BaseContentItem,
     config: RendererConfig
@@ -178,10 +146,7 @@ export class MovieContentRenderer extends BaseContentRenderer {
     }
   }
 
-  /**
-   * 获取电影渲染器的默认配置
-   * @returns 默认配置对象
-   */
+  // 获取电影渲染器的默认配置，返回电影专用的默认设置
   public getDefaultConfig(): Partial<RendererConfig> {
     return {
       ...super.getDefaultConfig(),
@@ -194,10 +159,7 @@ export class MovieContentRenderer extends BaseContentRenderer {
     }
   }
 
-  /**
-   * 获取电影渲染器支持的配置选项
-   * @returns 支持的配置选项列表
-   */
+  // 获取电影渲染器支持的配置选项，返回所有支持的配置项列表
   public getSupportedConfigOptions(): string[] {
     return [
       ...super.getSupportedConfigOptions(),
@@ -214,13 +176,7 @@ export class MovieContentRenderer extends BaseContentRenderer {
     ]
   }
 
-  /**
-   * 创建错误状态的电影组件
-   * @param item 出错的电影内容项
-   * @param config 渲染配置
-   * @param errors 错误信息列表
-   * @returns 错误状态的React组件
-   */
+  // 创建错误状态的电影组件，当渲染出错时显示错误信息
   protected renderErrorItem(
     item: BaseContentItem,
     config?: RendererConfig,
@@ -291,11 +247,7 @@ export class MovieContentRenderer extends BaseContentRenderer {
     )
   }
 
-  /**
-   * 获取电影专用的CSS类名
-   * @param config 渲染配置
-   * @returns CSS类名字符串
-   */
+  // 获取电影专用的CSS类名，返回合并后的CSS类名
   public getClassName(config: RendererConfig): string {
     return cn(
       super.getClassName(config),
@@ -304,13 +256,7 @@ export class MovieContentRenderer extends BaseContentRenderer {
   }
 }
 
-// ============================================================================
-// 类型守卫函数
-// ============================================================================
-
-/**
- * 检查内容项是否为电影内容项
- */
+// 检查内容项是否为电影内容项，类型守卫函数
 export function isMovieContentItem(item: any): item is MovieContentItem {
   return (
     item &&
@@ -322,9 +268,7 @@ export function isMovieContentItem(item: any): item is MovieContentItem {
   )
 }
 
-/**
- * 创建电影内容项
- */
+// 创建电影内容项，工厂函数用于创建新的电影内容项
 export function createMovieContentItem(
   data: Partial<MovieContentItem>
 ): MovieContentItem {
@@ -336,9 +280,5 @@ export function createMovieContentItem(
     ...data,
   }
 }
-
-// ============================================================================
-// 导出
-// ============================================================================
 
 export default MovieContentRenderer

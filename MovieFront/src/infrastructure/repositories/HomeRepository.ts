@@ -250,7 +250,7 @@ export class HomeRepository implements IHomeRepository {
       genres: photo.genres || this.getRandomGenres(),
       // 添加NEW标签相关属性
       isNew: photo.isNew !== undefined ? photo.isNew : index < 3, // 前3个默认为新内容
-      newType: photo.newType || (['new', 'today', 'latest'][index % 3] as 'new' | 'update' | 'today' | 'latest'),
+      newType: photo.newType || (['hot', 'latest', 'latest'][index % 3] as 'hot' | 'latest' | null),
     }))
   }
 
@@ -268,8 +268,8 @@ export class HomeRepository implements IHomeRepository {
       genres: item.genres || this.getRandomGenres(),
       isNew: item.isNew || Math.random() > 0.7, // 随机设置新片状态
       newType:
-        (item.newType as 'new' | 'update' | 'today' | 'latest') ||
-        (Math.random() > 0.5 ? 'new' : 'update'),
+        (item.newType as 'hot' | 'latest' | null) ||
+        (Math.random() > 0.5 ? 'latest' : 'hot'),
     }))
   }
 

@@ -1,9 +1,11 @@
 /**
  * @fileoverview 写真层组件
  * @description 提供写真特化的内容展示逻辑，遵循组合式架构原则。
- * 包含写真特有的元素组合，提供完整的写真展示功能。
- * 参考MovieLayer的分离式布局设计，确保标题和分类显示在卡片下方。
- *
+ *              包含写真特有的元素组合，提供完整的写真展示功能。
+ *              参考MovieLayer的分离式布局设计，确保标题和分类显示在卡片下方。
+ *              支持多种显示变体，包含图片、标题、标签、操作按钮等完整的写真信息展示。
+ * @created 2025-10-20 14:04:05
+ * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -26,11 +28,8 @@ import {
 import { cn } from '@utils/cn'
 import React from 'react'
 
-/**
- * 写真层组件属性接口
- */
+// 写真层组件属性接口，定义写真层组件的所有配置选项
 export interface PhotoLayerProps {
-  /** 写真数据 */
   photo: {
     id: string
     title: string
@@ -47,42 +46,24 @@ export interface PhotoLayerProps {
     photographer?: string
     rating?: number
     isNew?: boolean
-    newType?: 'new' | 'update' | 'today' | 'latest'
-  }
-  /** 自定义CSS类名 */
-  className?: string
-  /** 写真变体 */
-  variant?: 'default' | 'detailed' | 'featured' | 'list'
-  /** 查看按钮点击回调 */
-  onView?: (photoId: string) => void
-  /** 下载按钮点击回调 */
-  onDownload?: (photoId: string) => void
-  /** 收藏按钮点击回调 */
-  onFavorite?: (photoId: string) => void
-  /** 是否已收藏 */
-  isFavorited?: boolean
-  /** 是否显示悬停效果 */
-  showHover?: boolean
-  /** 是否显示VIP标签 */
-  showVipBadge?: boolean
-  /** 是否显示质量标签 */
-  showQualityBadge?: boolean
-  /** 是否显示新片标签 */
-  showNewBadge?: boolean
-  /** 新片类型 */
-  newBadgeType?: 'new' | 'update' | 'today' | 'latest'
-  /** 是否为VIP内容 */
-  isVip?: boolean
-  /** 是否为新内容 */
-  isNew?: boolean
+    newType?: 'hot' | 'latest' | null // 新项目类型标识，对齐统一类型系统
+  } // 写真数据
+  className?: string // 自定义CSS类名
+  variant?: 'default' | 'detailed' | 'featured' | 'list' // 写真变体
+  onView?: (photoId: string) => void // 查看按钮点击回调
+  onDownload?: (photoId: string) => void // 下载按钮点击回调
+  onFavorite?: (photoId: string) => void // 收藏按钮点击回调
+  isFavorited?: boolean // 是否已收藏
+  showHover?: boolean // 是否显示悬停效果
+  showVipBadge?: boolean // 是否显示VIP标签
+  showQualityBadge?: boolean // 是否显示质量标签
+  showNewBadge?: boolean // 是否显示新片标签
+  newBadgeType?: 'hot' | 'latest' | null // 新片类型，对齐统一类型系统
+  isVip?: boolean // 是否为VIP内容
+  isNew?: boolean // 是否为新内容
 }
 
-/**
- * 写真层组件
- *
- * 提供写真特化的内容展示功能，组合多个Layer组件。
- * 采用分离式布局：图片卡片区域 + 独立信息区域
- */
+// 写真层组件，提供写真特化的内容展示功能，组合多个Layer组件，采用分离式布局
 const PhotoLayer: React.FC<PhotoLayerProps> = ({
   photo,
   variant = 'default',
@@ -94,7 +75,7 @@ const PhotoLayer: React.FC<PhotoLayerProps> = ({
   showVipBadge = true,
   showQualityBadge = true,
   showNewBadge = true,
-  newBadgeType = 'new',
+  newBadgeType = 'latest',
   isVip = false,
   isNew = false,
   className,
@@ -199,6 +180,14 @@ const PhotoLayer: React.FC<PhotoLayerProps> = ({
             objectFit="cover"
             hoverScale={false} // 由CardHoverLayer统一处理
             fallbackType="gradient"
+          />
+
+          {/* 底部渐变遮罩 - 使用统一的渐变Token系统，与MovieLayer保持一致 */}
+          <div
+            className={cn(
+              'pointer-events-none absolute inset-x-0 bottom-0 h-1/3',
+              getOverlayGradient('medium') // 对应原来的 from-black/50 via-black/20 to-transparent
+            )}
           />
 
           {/* 标签层 */}

@@ -66,8 +66,48 @@ export class Movie {
     public readonly categories: MovieCategory[] = [], // 影片分类列表
     public readonly ratings: MovieRating[] = [], // 用户评分列表
     public readonly isActive: boolean = true, // 是否激活状态
-    public readonly isFeatured: boolean = false // 是否为精选影片
+    public readonly isFeatured: boolean = false, // 是否为精选影片
+    public readonly isVipRequired: boolean = false // 是否需要VIP权限
   ) {}
+
+  // 业务规则：是否显示NEW标签（24小时内发布）
+  public isNew(): boolean {
+    const now = new Date()
+    const hoursDiff = (now.getTime() - this.detail.createdAt.getTime()) / (1000 * 60 * 60)
+    return hoursDiff <= 24
+  }
+
+  // 业务规则：是否为VIP专享内容
+  public isVipContent(): boolean {
+    return this.isVipRequired
+  }
+
+  // 业务规则：获取NEW标签类型
+  public getNewType(): 'hot' | 'latest' | null {
+    if (!this.isNew()) return null
+    // 根据下载量判断是热门还是最新
+    return this.detail.downloadCount > 1000 ? 'hot' : 'latest'
+  }
+
+  // 业务规则：生成标签列表
+  public generateTags(): string[] {
+    const tags: string[] = [...this.detail.genres.map(g => g.name)]
+    if (this.isVipContent()) tags.push('VIP')
+    if (this.isNew()) tags.push('NEW')
+    if (this.isFeatured) tags.push('精选')
+    if (this.detail.quality.length > 0) tags.push(this.detail.quality[0].resolution)
+    return tags
+  }
+
+  // 业务规则：是否为热门内容
+  public isHot(): boolean {
+    return this.detail.downloadCount > 1000 || this.detail.rating >= 8.0
+  }
+
+  // 业务规则：是否为高质量影片
+  public isHighQuality(): boolean {
+    return this.detail.quality.some(q => q.resolution === '4K' || q.resolution === '1080p')
+  }
 
   // 更新影片详情 - 返回新的Movie实例保证不可变性
   updateDetail(
@@ -180,7 +220,20 @@ export class Movie {
       this.categories,
       this.ratings,
       this.isActive,
-      featured
+      featured,
+      this.isVipRequired
+    )
+  }
+
+  // 设置VIP权限要求
+  setVipRequired(vipRequired: boolean): Movie {
+    return new Movie(
+      this.detail,
+      this.categories,
+      this.ratings,
+      this.isActive,
+      this.isFeatured,
+      vipRequired
     )
   }
 
@@ -191,7 +244,8 @@ export class Movie {
       this.categories,
       this.ratings,
       true,
-      this.isFeatured
+      this.isFeatured,
+      this.isVipRequired
     )
   }
 
@@ -202,7 +256,8 @@ export class Movie {
       this.categories,
       this.ratings,
       false,
-      this.isFeatured
+      this.isFeatured,
+      this.isVipRequired
     )
   }
 
@@ -293,6 +348,18 @@ export class Movie {
 
   get releaseDate(): Date {
     return this.detail.releaseDate.date
+  }
+
+  get downloadCount() {
+    return this.detail.downloadCount
+  }
+
+  get quality() {
+    return this.detail.quality
+  }
+
+  get tags() {
+    return this.generateTags()
   }
 
   // 静态工厂方法 - 创建新的影片实例，使用默认值初始化影片详情

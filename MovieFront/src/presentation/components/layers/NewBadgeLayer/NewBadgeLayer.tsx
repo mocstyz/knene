@@ -20,13 +20,11 @@ import React from 'react'
 /**
  * 新片类型枚举
  */
-export type NewBadgeType =
-  | 'new' // 新片
-  | 'update' // 新更新
-  | 'today' // 今日新增
-  | 'latest' // 最新
+export type NewBadgeType = 
   | 'hot' // 热门
+  | 'latest' // 最新
   | 'exclusive' // 独家
+  | null // 无标签
 
 /**
  * 新片标签层组件属性接口
@@ -61,7 +59,7 @@ export interface NewBadgeLayerProps {
  */
 const NewBadgeLayer: React.FC<NewBadgeLayerProps> = ({
   isNew = true,
-  newType = 'new',
+  newType = 'latest',
   className,
   position = 'top-left',
   size = 'responsive',
@@ -85,14 +83,15 @@ const NewBadgeLayer: React.FC<NewBadgeLayerProps> = ({
     className
   })
 
-  // 如果不是新片，不显示标签
-  if (!isNew) {
-    console.log('NewBadgeLayer - Not rendering: isNew is false')
+  // 如果不是新片或newType为null，不显示标签
+  if (!isNew || newType === null) {
+    console.log('NewBadgeLayer - Not rendering: isNew is false or newType is null')
     return null
   }
 
   // 获取新片类型对应的文本
   const getNewTypeText = (_type: NewBadgeType): string => {
+    if (_type === null) return ''
     // 统一返回 'new'，确保所有新片标签显示相同的文本
     return 'new'
   }

@@ -2,47 +2,31 @@
  * @fileoverview 首页热门模块组件
  * @description 首页24小时热门模块的领域组件，使用BaseSection + HotList组合架构。
  *              遵循自包含组件设计原则，提供完整的热门模块功能。
+ *              负责展示热门内容列表，支持自定义标题和查看更多功能。
  * @created 2025-10-16 11:21:33
- * @updated 2025-10-19 17:11:42
+ * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
  */
 
-import { HotList } from './HotList'
-import { BaseSection } from '@components/domains/shared'
-import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
-import type { HotItem } from '@infrastructure/repositories/HomeRepository'
 
+import { BaseSection } from '@components/domains/shared'
+import type { HotItem } from '@infrastructure/repositories/HomeRepository'
+import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
+
+import { HotList } from './HotList'
+
+// 热门模块属性接口，定义热门模块组件的所有配置选项
 interface HotSectionProps {
-  /**
-   * 热门数据列表
-   */
-  movies: HotItem[]
-  
-  /**
-   * 区块标题
-   * @default "24小时热门"
-   */
-  title?: string
-  
-  /**
-   * 是否显示查看更多按钮
-   * @default true
-   */
-  showViewMore?: boolean
-  
-  /**
-   * 查看更多按钮点击处理
-   */
-  onViewMore?: () => void
-  
-  /**
-   * 自定义CSS类名
-   */
-  className?: string
+  movies: HotItem[] // 热门数据列表
+  title?: string // 区块标题，默认"24小时热门"
+  showViewMore?: boolean // 是否显示查看更多按钮，默认true
+  onViewMore?: () => void // 查看更多按钮点击处理
+  className?: string // 自定义CSS类名
 }
 
+// 首页热门模块组件，使用BaseSection + HotList组合架构，遵循自包含组件设计原则，提供完整的热门模块功能
 export const HotSection: React.FC<HotSectionProps> = ({
   movies,
   title = "24小时热门",

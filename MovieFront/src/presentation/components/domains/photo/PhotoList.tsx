@@ -1,9 +1,11 @@
 /**
  * @fileoverview 写真列表组件
  * @description 写真专用的列表组件，已重构为使用内容渲染器系统。
- * 使用BaseList提供布局，内容渲染器提供写真卡片渲染。
- * 遵循自包含组件设计原则，提供完整的写真列表功能。
- *
+ *              使用BaseList提供布局，内容渲染器提供写真卡片渲染。
+ *              遵循自包含组件设计原则，提供完整的写真列表功能。
+ *              采用内容渲染器架构设计，支持多种写真类型展示和配置。
+ * @created 2025-10-16 11:21:33
+ * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 2.0.0
@@ -25,49 +27,25 @@ import { cn } from '@utils/cn'
 import React from 'react'
 
 
-/**
- * 写真列表组件属性接口
- */
+// 写真列表组件属性接口，定义写真列表组件的所有配置选项
 export interface PhotoListProps {
-  /** 写真数据列表 */
-  photos: PhotoItem[]
-  /** 写真卡片点击事件 */
-  onPhotoClick?: (photo: PhotoItem) => void
-  /** 自定义CSS类名 */
-  className?: string
-  /** 布局变体 */
-  variant?: 'grid' | 'list'
-  /** 响应式列数配置 */
-  columns?: ResponsiveColumnsConfig
-  /** 卡片配置 */
+  photos: PhotoItem[] // 写真数据列表
+  onPhotoClick?: (photo: PhotoItem) => void // 写真卡片点击事件
+  className?: string // 自定义CSS类名
+  variant?: 'grid' | 'list' // 布局变体
+  columns?: ResponsiveColumnsConfig // 响应式列数配置
   cardConfig?: {
-    /** 是否显示VIP标签 */
-    showVipBadge?: boolean
-    /** 是否显示新片标签 */
-    showNewBadge?: boolean
-    /** 是否显示质量标签 */
-    showQualityBadge?: boolean
-    /** 是否显示评分标签 */
-    showRatingBadge?: boolean
-    /** 宽高比 */
-    aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape'
-    /** 悬停效果 */
-    hoverEffect?: boolean
-    /** 标题悬停效果 */
-    titleHoverEffect?: boolean
-  }
+    showVipBadge?: boolean // 是否显示VIP标签
+    showNewBadge?: boolean // 是否显示新片标签
+    showQualityBadge?: boolean // 是否显示质量标签
+    showRatingBadge?: boolean // 是否显示评分标签
+    aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape' // 宽高比
+    hoverEffect?: boolean // 悬停效果
+    titleHoverEffect?: boolean // 标题悬停效果
+  } // 卡片配置
 }
 
-/**
- * 写真列表组件
- *
- * 提供写真的完整列表功能，使用内容渲染器系统：
- * - 使用BaseList提供统一布局
- * - 使用PhotoContentRenderer提供写真卡片渲染
- * - 支持响应式列数配置
- * - 自包含的交互和视觉效果
- * - 使用统一的内容渲染器架构，支持扩展和定制
- */
+// 写真列表组件，提供写真的完整列表功能，使用内容渲染器系统和BaseList布局
 const PhotoList: React.FC<PhotoListProps> = ({
   photos,
   cardConfig,
@@ -102,7 +80,7 @@ const PhotoList: React.FC<PhotoListProps> = ({
     showRatingBadge: cardConfig?.showRatingBadge ?? false,
     aspectRatio: cardConfig?.aspectRatio ?? 'portrait',
     onClick: item => {
-      // Find the original PhotoItem that corresponds to this BaseContentItem
+      // 查找与当前BaseContentItem对应的原始PhotoItem
       const originalPhotoItem = photos.find(photo => photo.id === item.id)
       if (originalPhotoItem) {
         onPhotoClick?.(originalPhotoItem)

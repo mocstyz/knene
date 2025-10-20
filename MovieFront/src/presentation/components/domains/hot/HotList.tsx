@@ -2,8 +2,9 @@
  * @fileoverview 热门列表组件
  * @description 基于内容渲染器抽象层的热门列表组件，支持多种内容类型的混合展示。
  *              使用MixedContentList实现真正的内容类型无关渲染，支持电影、写真、合集等混合内容。
+ *              采用内容渲染器架构设计，自动选择最佳渲染器进行内容展示，支持热度排名和热度分数显示。
  * @created 2025-10-16 11:21:33
- * @updated 2025-10-19 17:11:42
+ * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -23,7 +24,7 @@ import React, { useMemo } from 'react'
 
 // 扩展的热门项目接口，支持多种内容类型的热门项目
 export interface HotItemExtended extends HotItem {
-  contentType?: 'movie' | 'photo' | 'collection' // 内容类型 - 用于内容渲染器选择
+  contentType?: 'movie' | 'photo' | 'collection' // 内容类型，用于内容渲染器选择
   rank?: number // 热度排名
   hotScore?: number // 热度分数
   viewCount24h?: number // 24小时内访问次数
@@ -34,15 +35,15 @@ export interface HotItemExtended extends HotItem {
 export interface HotListProps {
   hotItems: HotItem[] // 热门数据列表
   onHotClick?: (item: HotItem) => void // 热门卡片点击事件
-  className?: string
+  className?: string // 自定义CSS类名
   variant?: 'grid' | 'list' // 布局变体
   columns?: {
-    xs?: number
-    sm?: number
-    md?: number
-    lg?: number
-    xl?: number
-    xxl?: number
+    xs?: number // 超小屏幕列数
+    sm?: number // 小屏幕列数
+    md?: number // 中等屏幕列数
+    lg?: number // 大屏幕列数
+    xl?: number // 超大屏幕列数
+    xxl?: number // 超超大屏幕列数
   } // 响应式列数配置
   cardConfig?: {
     showRatingBadge?: boolean // 是否显示评分标签
@@ -171,7 +172,7 @@ const HotList: React.FC<HotListProps> = ({
     <MixedContentList
       items={contentItems}
       onItemClick={(item: BaseContentItem) => {
-        // Find the original HotItem that corresponds to this BaseContentItem
+        // 查找与当前BaseContentItem对应的原始HotItem
         const originalHotItem = hotItems.find(hotItem => hotItem.id === item.id)
         if (originalHotItem) {
           onHotClick?.(originalHotItem)

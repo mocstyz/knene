@@ -1,8 +1,10 @@
 /**
  * @fileoverview 最新更新列表组件
  * @description 基于内容渲染器抽象层的最新更新列表组件，支持多种内容类型的混合展示。
- * 使用MixedContentList实现真正的内容类型无关渲染，支持电影、写真、合集等混合内容。
- *
+ *              使用MixedContentList实现真正的内容类型无关渲染，支持电影、写真、合集等混合内容。
+ *              采用内容渲染器架构设计，自动选择最佳渲染器进行内容展示。
+ * @created 2025-10-16 11:21:33
+ * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 2.0.0
@@ -19,60 +21,35 @@ import { toUnifiedContentItem } from '@types-movie'
 import type { UnifiedCardConfig } from '@types-unified'
 import React, { useMemo } from 'react'
 
-/**
- * 最新更新列表组件属性接口
- */
+// 最新更新列表组件属性接口，定义最新更新列表组件的所有配置选项
 export interface LatestUpdateListProps {
-  /** 最新更新数据列表 */
-  latestItems: LatestItem[]
-  /** 最新更新卡片点击事件 */
-  onLatestClick?: (item: LatestItem) => void
-  /** 自定义CSS类名 */
-  className?: string
-  /** 布局变体 */
-  variant?: 'grid' | 'list'
-  /** 响应式列数配置 */
+  latestItems: LatestItem[] // 最新更新数据列表
+  onLatestClick?: (item: LatestItem) => void // 最新更新卡片点击事件
+  className?: string // 自定义CSS类名
+  variant?: 'grid' | 'list' // 布局变体
   columns?: {
-    xs?: number
-    sm?: number
-    md?: number
-    lg?: number
-    xl?: number
-    xxl?: number
-  }
-  /** 卡片配置 */
+    xs?: number // 超小屏幕列数
+    sm?: number // 小屏幕列数
+    md?: number // 中等屏幕列数
+    lg?: number // 大屏幕列数
+    xl?: number // 超大屏幕列数
+    xxl?: number // 超超大屏幕列数
+  } // 响应式列数配置
   cardConfig?: {
-    /** 是否显示评分标签 */
-    showRatingBadge?: boolean
-    /** 是否显示质量标签 */
-    showQualityBadge?: boolean
-    /** 是否显示VIP标签 */
-    showVipBadge?: boolean
-    /** 是否显示新片标签 */
-    showNewBadge?: boolean
-    /** 宽高比 */
-    aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape'
-    /** 悬停效果 */
-    hoverEffect?: boolean
-  }
-  /** 是否启用混合内容模式 */
-  enableMixedContent?: boolean
-  /** 允许的内容类型列表 */
-  allowedContentTypes?: string[]
-  /** 是否显示内容类型标签 */
-  showContentTypeLabels?: boolean
-  /** 调试模式 */
-  debug?: boolean
+    showRatingBadge?: boolean // 是否显示评分标签
+    showQualityBadge?: boolean // 是否显示质量标签
+    showVipBadge?: boolean // 是否显示VIP标签
+    showNewBadge?: boolean // 是否显示新片标签
+    aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape' // 宽高比
+    hoverEffect?: boolean // 悬停效果
+  } // 卡片配置
+  enableMixedContent?: boolean // 是否启用混合内容模式
+  allowedContentTypes?: string[] // 允许的内容类型列表
+  showContentTypeLabels?: boolean // 是否显示内容类型标签
+  debug?: boolean // 调试模式
 }
 
-/**
- * 最新更新列表组件
- *
- * 采用内容渲染器架构设计：
- * - MixedContentList: 提供统一的混合内容渲染
- * - 支持电影、写真、合集等多种内容类型
- * - 自动选择最佳渲染器进行内容展示
- */
+// 最新更新列表组件，采用内容渲染器架构设计，使用MixedContentList提供统一的混合内容渲染
 const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
   latestItems,
   onLatestClick,
@@ -172,7 +149,7 @@ const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
       <MixedContentList
         items={contentItems}
         onItemClick={(item: BaseContentItem) => {
-          // Find the original LatestItem that corresponds to this BaseContentItem
+          // 查找与当前BaseContentItem对应的原始LatestItem
           const originalLatestItem = latestItems.find(
             latestItem => latestItem.id === item.id
           )
@@ -202,7 +179,7 @@ const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
     <MixedContentList
       items={contentItems}
       onItemClick={item => {
-        // Find the original LatestItem that corresponds to this BaseContentItem
+        // 查找与当前BaseContentItem对应的原始LatestItem
         const originalLatestItem = latestItems.find(
           latestItem => latestItem.id === item.id
         )

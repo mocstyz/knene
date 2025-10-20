@@ -8,6 +8,7 @@
  */
 
 import { QualityBadgeLayer, RatingBadgeLayer, VipBadgeLayer } from '@components/layers'
+import { getOverlayGradient } from '@tokens/design-system'
 import React from 'react'
 
 /**
@@ -29,7 +30,7 @@ const BadgeTestPage: React.FC = () => {
             </h2>
 
             <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-gray-300 dark:bg-gray-700">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+              <div className={`absolute inset-0 ${getOverlayGradient('medium')}`}></div>
               <RatingBadgeLayer rating={8.7} position="bottom-left" />
               <div className="absolute bottom-8 left-8 text-white">
                 <p>高评分 (8.7)</p>
@@ -37,7 +38,7 @@ const BadgeTestPage: React.FC = () => {
             </div>
 
             <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-gray-300 dark:bg-gray-700">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+              <div className={`absolute inset-0 ${getOverlayGradient('medium')}`}></div>
               <RatingBadgeLayer rating={6.5} position="bottom-left" />
               <div className="absolute bottom-8 left-8 text-white">
                 <p>中等评分 (6.5)</p>
@@ -45,7 +46,7 @@ const BadgeTestPage: React.FC = () => {
             </div>
 
             <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-gray-300 dark:bg-gray-700">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+              <div className={`absolute inset-0 ${getOverlayGradient('medium')}`}></div>
               <RatingBadgeLayer rating={9.2} position="bottom-left" />
               <div className="absolute bottom-8 left-8 text-white">
                 <p>极高评分 (9.2)</p>
@@ -60,7 +61,7 @@ const BadgeTestPage: React.FC = () => {
             </h2>
 
             <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-gray-300 dark:bg-gray-700">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+              <div className={`absolute inset-0 ${getOverlayGradient('medium')}`}></div>
               <VipBadgeLayer isVip={true} position="bottom-right" />
               <div className="absolute bottom-8 right-8 text-white">
                 <p>VIP内容</p>
@@ -68,7 +69,7 @@ const BadgeTestPage: React.FC = () => {
             </div>
 
             <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-gray-300 dark:bg-gray-700">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+              <div className={`absolute inset-0 ${getOverlayGradient('medium')}`}></div>
               <VipBadgeLayer isVip={true} position="top-right" text="VIP+" />
               <div className="absolute right-8 top-8 text-white">
                 <p>VIP+内容</p>
@@ -83,7 +84,7 @@ const BadgeTestPage: React.FC = () => {
             </h2>
 
             <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-gray-300 dark:bg-gray-700">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+              <div className={`absolute inset-0 ${getOverlayGradient('medium')}`}></div>
               <QualityBadgeLayer quality="4K" position="top-left" />
               <div className="absolute left-8 top-8 text-white">
                 <p>4K质量</p>
@@ -91,7 +92,7 @@ const BadgeTestPage: React.FC = () => {
             </div>
 
             <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-gray-300 dark:bg-gray-700">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+              <div className={`absolute inset-0 ${getOverlayGradient('medium')}`}></div>
               <QualityBadgeLayer quality="HD" position="top-left" />
               <div className="absolute left-8 top-8 text-white">
                 <p>HD质量</p>
@@ -99,7 +100,7 @@ const BadgeTestPage: React.FC = () => {
             </div>
 
             <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-gray-300 dark:bg-gray-700">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+              <div className={`absolute inset-0 ${getOverlayGradient('medium')}`}></div>
               <QualityBadgeLayer quality="蓝光" position="top-left" />
               <div className="absolute left-8 top-8 text-white">
                 <p>蓝光质量</p>

@@ -63,10 +63,18 @@ export interface MediaQualityItem {
  * 处理状态相关的属性
  */
 export interface MediaStatusItem {
-  /** 是否为新内容 */
+  /** 是否为新内容（24小时内发布） */
   isNew?: boolean
-  /** 新片类型 */
-  newType?: 'new' | 'update' | 'today' | 'latest'
+  /** 是否为VIP专享内容 */
+  isVip?: boolean
+  /** NEW标签类型 */
+  newType?: 'hot' | 'latest' | null
+  /** 标签列表 */
+  tags?: string[]
+  /** 是否为热门内容 */
+  isHot?: boolean
+  /** 是否为精选内容 */
+  isFeatured?: boolean
 }
 
 /**
@@ -150,20 +158,19 @@ export interface TopItem extends BaseMovieItem, MediaRankItem {}
 // ============================================================================
 
 /**
- * 统一内容项类型
- * 与内容渲染器系统集成的统一接口
- * 支持电影、写真、合集等多种内容类型
+ * 统一内容项接口
+ * 定义所有内容类型的统一数据结构，包含完整的业务状态字段
  */
 export interface UnifiedContentItem {
-  /** 唯一标识符 */
+  /** 内容唯一标识 */
   id: string
-  /** 标题 */
+  /** 内容标题 */
   title: string
   /** 内容类型 */
   contentType: 'movie' | 'photo' | 'collection' | 'video' | 'article' | 'live'
-  /** 描述信息 */
+  /** 内容描述 */
   description?: string
-  /** 主图片URL */
+  /** 图片URL */
   imageUrl: string
   /** 图片alt文本 */
   alt?: string
@@ -171,21 +178,31 @@ export interface UnifiedContentItem {
   createdAt?: string
   /** 更新时间 */
   updatedAt?: string
-  /** 内容标签 */
+  /** 标签列表 */
   tags?: string[]
-  /** 是否为VIP内容 */
+  /** 是否为VIP专享内容 */
   isVip?: boolean
-  /** 是否为新内容 */
+  /** 是否为新内容（24小时内发布） */
   isNew?: boolean
-  /** 新片类型 */
-  newType?: 'new' | 'update' | 'today' | 'latest'
+  /** NEW标签类型 */
+  newType?: 'hot' | 'latest' | null
   /** 评分 */
   rating?: number
   /** 评分颜色 */
   ratingColor?: string
-  /** 质量信息 */
+  /** 质量标识 */
   quality?: string
-  /** 自定义元数据 */
+  /** 是否为热门内容 */
+  isHot?: boolean
+  /** 是否为精选内容 */
+  isFeatured?: boolean
+  /** 浏览次数 */
+  viewCount?: number
+  /** 下载次数 */
+  downloadCount?: number
+  /** 发布日期 */
+  publishDate?: string
+  /** 内容元数据 */
   metadata?: Record<string, any>
 }
 
@@ -327,20 +344,25 @@ export interface ResponsiveColumnsConfig {
 
 /**
  * 卡片配置接口
+ * 定义卡片组件的显示配置选项
  */
 export interface CardConfig {
-  /** 是否显示评分标签 */
+  /** 是否显示评分徽章 */
   showRatingBadge?: boolean
-  /** 是否显示质量标签 */
+  /** 是否显示质量徽章 */
   showQualityBadge?: boolean
-  /** 是否显示VIP标签 */
+  /** 是否显示VIP徽章 */
   showVipBadge?: boolean
-  /** 是否显示新片标签 */
+  /** 是否显示NEW徽章 */
   showNewBadge?: boolean
-  /** 质量标签文本 */
+  /** 是否显示热门徽章 */
+  showHotBadge?: boolean
+  /** 是否显示精选徽章 */
+  showFeaturedBadge?: boolean
+  /** 质量文本 */
   qualityText?: string
-  /** 新片类型 */
-  newBadgeType?: 'new' | 'update' | 'today' | 'latest'
+  /** NEW徽章类型 */
+  newBadgeType?: 'hot' | 'latest'
 }
 
 // ============================================================================

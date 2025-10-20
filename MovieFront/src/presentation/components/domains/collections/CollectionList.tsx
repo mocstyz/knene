@@ -35,7 +35,7 @@ export interface Collection {
   description?: string
   type?: 'Movie' | 'TV Show' | 'Collection' // 合集类型标识
   isNew?: boolean
-  newType?: 'new' | 'update' | 'today' | 'latest' // 新合集类型标识
+  newType?: 'hot' | 'latest' | null // 新合集类型标识，对齐统一类型系统
 }
 
 // 分页配置类型，定义列表分页的基本参数和回调
@@ -54,8 +54,11 @@ export interface CollectionItem {
   imageUrl: string
   alt?: string
   isNew?: boolean
-  newType?: 'new' | 'update' | 'today' | 'latest' // 新项目类型标识
+  newType?: 'hot' | 'latest' | null // 新项目类型标识，对齐统一类型系统
   isVip?: boolean // VIP专享内容标识
+  tags?: string[] // 标签列表
+  isHot?: boolean // 热门内容标识
+  isFeatured?: boolean // 精选内容标识
 }
 
 // 影片合集列表组件属性接口，定义CollectionList组件的所有配置选项，支持多种布局变体、响应式列数配置、卡片样式定制和分页功能，提供完整的影片合集展示和交互能力

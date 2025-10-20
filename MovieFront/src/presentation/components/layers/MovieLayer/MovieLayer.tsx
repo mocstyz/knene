@@ -69,7 +69,7 @@ export interface MovieLayerProps {
   /** 是否显示新片标签 */
   showNewBadge?: boolean
   /** 新片类型 */
-  newBadgeType?: 'new' | 'update' | 'today' | 'latest'
+  newBadgeType?: 'hot' | 'latest' | null // 新片类型，对齐统一类型系统
   /** 评分颜色 */
   ratingColor?: 'purple' | 'red' | 'white' | 'default'
   /** 质量标签文本 */
@@ -93,7 +93,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
   showQualityBadge = true,
   showRatingBadge = true,
   showNewBadge = true,
-  newBadgeType = 'new',
+  newBadgeType = 'latest',
   ratingColor = 'default',
   qualityText,
 }) => {
