@@ -9,12 +9,14 @@ export { RatingBadgeLayer } from './RatingBadgeLayer'
 export { QualityBadgeLayer } from './QualityBadgeLayer'
 export { NewBadgeLayer } from './NewBadgeLayer'
 export { HoverInteractionLayer } from './HoverInteractionLayer'
+export { CardHoverLayer } from './CardHoverLayer'
+export { TextHoverLayer } from './TextHoverLayer'
 export { ImageLayer } from './ImageLayer'
 export { TitleLayer } from './TitleLayer'
 export { MetadataLayer } from './MetadataLayer'
-export { TopicLayer } from './TopicLayer'
 export { MovieLayer } from './MovieLayer'
-export { SimpleMovieLayer } from './SimpleMovieLayer'
+// CollectionLayer已移动到domains/collections/components，不再从layers导出
+// PhotoLayer已移动到domains/photo/components，不再从layers导出
 
 // 类型导出
 export type { VipBadgeLayerProps } from './VipBadgeLayer'
@@ -22,9 +24,11 @@ export type { RatingBadgeLayerProps } from './RatingBadgeLayer'
 export type { QualityBadgeLayerProps } from './QualityBadgeLayer'
 export type { NewBadgeLayerProps, NewBadgeType } from './NewBadgeLayer'
 export type { HoverInteractionLayerProps } from './HoverInteractionLayer'
+export type { CardHoverLayerProps } from './CardHoverLayer'
+export type { TextHoverLayerProps } from './TextHoverLayer'
 export type { ImageLayerProps } from './ImageLayer'
 export type { TitleLayerProps } from './TitleLayer'
 export type { MetadataLayerProps } from './MetadataLayer'
-export type { TopicLayerProps } from './TopicLayer'
 export type { MovieLayerProps } from './MovieLayer'
-export type { SimpleMovieLayerProps } from './SimpleMovieLayer'
+// CollectionLayerProps已移动到domains/collections/components，不再从layers导出
+// PhotoLayerProps已移动到domains/photo/components，不再从layers导出

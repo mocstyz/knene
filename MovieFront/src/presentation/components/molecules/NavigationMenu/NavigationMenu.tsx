@@ -116,7 +116,7 @@ export const NavigationMenu: React.FC<NavigationMenuProps> & {
       className={`hidden items-center space-x-6 text-sm font-medium lg:flex ${className}`}
     >
       {/* VIP Dropdown - 1024px及以上显示 */}
-      <div className="group relative">
+      <div className="relative group">
         <a
           className="flex h-9 items-center space-x-1 text-gray-700 transition-colors duration-200 group-hover:text-[#6EE7B7] dark:text-gray-300"
           href="#vip"
@@ -154,7 +154,7 @@ export const NavigationMenu: React.FC<NavigationMenuProps> & {
       </a>
 
       {/* 普通 Dropdown - 1024px及以上显示 */}
-      <div className="group relative">
+      <div className="relative group">
         <a
           className="flex h-9 items-center space-x-1 text-gray-700 transition-colors duration-200 group-hover:text-[#6EE7B7] dark:text-gray-300"
           href="#normal"

@@ -1,26 +1,30 @@
+/**
+ * @fileoverview 影片仓储实现类
+ * @description 实现影片相关的数据访问操作，包含缓存机制、API调用、数据映射、搜索筛选等功能
+ * 提供影片的完整生命周期管理，包括创建、查询、更新、删除、统计等操作
+ * @created 2025-10-15 14:45:00
+ * @updated 2025-10-19 10:30:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { MovieFilters } from '@application/stores/movieStore'
 import { Movie as DomainMovie } from '@domain/entities/Movie'
 import { MovieRepository } from '@infrastructure/repositories/MovieRepository'
 
-/**
- * 电影仓储实现
- * 负责电影数据的持久化和查询
- */
+// 影片仓储实现类，负责影片数据的持久化和查询操作
 export class MovieRepositoryImpl implements MovieRepository {
   private cache = new Map<string, DomainMovie>()
   private cacheExpiry = new Map<string, number>()
   private readonly CACHE_DURATION = 5 * 60 * 1000 // 5分钟缓存
 
-  /**
-   * 获取认证令牌
-   */
+  // 从本地存储获取认证令牌
   private getAuthToken(): string {
     return localStorage.getItem('authToken') || ''
   }
 
-  /**
-   * 根据ID查找电影
-   */
+  // 根据ID查找影片，支持缓存机制提升查询性能
   async findById(id: string): Promise<DomainMovie | null> {
     try {
       // 1. 检查缓存
@@ -47,9 +51,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
-  /**
-   * 获取所有电影
-   */
+  // 获取所有影片列表
   async findAll(): Promise<DomainMovie[]> {
     try {
       const response = await fetch('/api/movies')
@@ -65,9 +67,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
-  /**
-   * 保存电影
-   */
+  // 保存影片到持久化存储
   async save(movie: DomainMovie): Promise<DomainMovie> {
     try {
       const movieData = this.mapFromMovieEntity(movie)
@@ -97,9 +97,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
-  /**
-   * 删除电影
-   */
+  // 删除指定ID的影片
   async delete(id: string): Promise<boolean> {
     try {
       const response = await fetch(`/api/movies/${id}`, {
@@ -119,9 +117,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
-  /**
-   * 按类型查找电影
-   */
+  // 根据影片类型查找影片列表
   async findByGenre(genre: string): Promise<DomainMovie[]> {
     try {
       const response = await fetch(
@@ -139,9 +135,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
-  /**
-   * 按年份查找电影
-   */
+  // 根据上映年份查找影片列表
   async findByYear(year: number): Promise<DomainMovie[]> {
     try {
       const response = await fetch(`/api/movies?year=${year}`)
@@ -157,9 +151,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
-  /**
-   * 搜索电影
-   */
+  // 根据关键词搜索影片
   async search(query: string): Promise<DomainMovie[]> {
     try {
       const response = await fetch(
@@ -177,9 +169,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
-  /**
-   * 按过滤条件查找电影
-   */
+  // 根据过滤条件查找影片，支持分页
   async findByFilters(
     filters: MovieFilters,
     page: number = 1,
@@ -233,9 +223,7 @@ export class MovieRepositoryImpl implements MovieRepository {
 
   // 私有辅助方法
 
-  /**
-   * 从缓存获取数据
-   */
+  // 从缓存中获取影片数据，检查缓存是否过期
   private getFromCache(id: string): DomainMovie | null {
     const cached = this.cache.get(id)
     const expiry = this.cacheExpiry.get(id)
@@ -250,26 +238,19 @@ export class MovieRepositoryImpl implements MovieRepository {
     return null
   }
 
-  /**
-   * 设置缓存
-   */
+  // 将影片数据设置到缓存中，并设置过期时间
   private setCache(id: string, movie: DomainMovie): void {
     this.cache.set(id, movie)
     this.cacheExpiry.set(id, Date.now() + this.CACHE_DURATION)
   }
 
-  /**
-   * 清除缓存
-   */
+  // 清除指定影片的缓存数据
   private clearCache(id: string): void {
     this.cache.delete(id)
     this.cacheExpiry.delete(id)
   }
 
-  /**
-   * 将API数据映射为电影实体
-   * 注意：这是一个简化的实现，实际应该根据DomainMovie构造函数来创建
-   */
+  // 将API返回的数据映射为影片实体对象，注意这是一个简化的实现
   private mapToMovieEntity(data: any): DomainMovie {
     // 这里需要根据DomainMovie的实际构造方法来实现
     // 暂时返回一个简单的对象，后续需要完善
@@ -305,9 +286,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     } as DomainMovie
   }
 
-  /**
-   * 创建电影
-   */
+  // 创建新的影片
   async create(movie: DomainMovie): Promise<DomainMovie> {
     try {
       const movieData = this.mapFromMovieEntity(movie)
@@ -338,9 +317,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
-  /**
-   * 查找推荐电影
-   */
+  // 查找推荐影片列表
   async findFeatured(): Promise<DomainMovie[]> {
     try {
       const response = await fetch('/api/movies/featured', {
@@ -361,9 +338,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
-  /**
-   * 更新电影
-   */
+  // 更新影片信息
   async update(movie: DomainMovie): Promise<DomainMovie> {
     try {
       const movieData = this.mapFromMovieEntity(movie)
@@ -394,9 +369,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
-  /**
-   * 获取电影统计信息
-   */
+  // 获取影片统计信息，按类型和年份分组
   async getMovieStats(): Promise<{
     total: number
     byGenre: Record<string, number>
@@ -424,9 +397,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
-  /**
-   * 将电影实体映射为API数据格式
-   */
+  // 将影片实体映射为API数据格式
   private mapFromMovieEntity(movie: DomainMovie): any {
     return {
       id: movie.detail.id,

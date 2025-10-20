@@ -1,3 +1,12 @@
+/**
+ * @fileoverview 下载应用服务
+ * @description 协调下载相关业务流程，编排权限校验、配额检查、调度与事件记录
+ * @created 2025-10-09 13:10:49
+ * @updated 2025-10-19 12:55:27
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
 import { Download, DownloadTask } from '@domain/entities/Download'
 import { DownloadScheduler } from '@domain/services/DownloadScheduler'
 import { DownloadSpeed } from '@domain/value-objects/DownloadSpeed'
@@ -8,27 +17,22 @@ import { FileSize } from '@domain/value-objects/FileSize'
 type StoreUser = import('@application/stores/userStore').User
 type StoreMovie = import('@application/stores/movieStore').Movie
 
-/**
- * 下载应用服务
- * 协调下载相关的业务流程
- */
+// 下载应用服务类，协调下载相关业务流程，编排权限校验、配额检查、调度与事件记录
 export class DownloadApplicationService {
-  /**
-   * 创建下载任务的完整流程
-   */
+  // 创建下载任务的完整流程，包含权限验证、配额检查、重复检查等步骤
   static async createDownloadTask(params: {
     userId: string
     movieId: string
     quality: string
     format: string
-    priority?: 'low' | 'normal' | 'high'
+    priority?: 'low' | 'normal' | 'high' // 下载优先级，影响调度顺序
   }): Promise<{
     download: Download | null
     requiresLogin: boolean
     message: string
   }> {
     try {
-      // 1. 验证用户权限
+      // 权限验证 - 检查用户登录状态和下载权限
       const authResult = await this.validateDownloadPermission(params.userId)
 
       if (!authResult.allowed) {
@@ -39,7 +43,7 @@ export class DownloadApplicationService {
         }
       }
 
-      // 2. 检查下载配额
+      // 配额检查 - 验证用户下载配额和系统资源
       const quotaResult = await this.checkDownloadQuota(params.userId)
 
       if (!quotaResult.allowed) {
@@ -50,7 +54,7 @@ export class DownloadApplicationService {
         }
       }
 
-      // 3. 检查是否已存在相同的下载任务
+      // 重复检查 - 避免相同内容的重复下载任务
       const existingDownload = await this.findExistingDownload(params)
       if (existingDownload) {
         return {
@@ -60,16 +64,16 @@ export class DownloadApplicationService {
         }
       }
 
-      // 4. 创建下载实体
+      // 创建下载实体 - 根据参数创建领域下载对象
       const download = await this.createDownloadEntity(params)
 
-      // 5. 添加到调度队列
+      // 加入调度队列 - 将下载任务添加到调度器等待执行
       await DownloadScheduler.addToQueue(download)
 
-      // 6. 更新用户下载统计
+      // 更新统计信息 - 记录用户下载行为数据
       await this.updateDownloadStats(params.userId, 'created')
 
-      // 7. 记录下载事件
+      // 记录业务事件 - 用于审计和分析
       await this.recordDownloadEvent('download_created', {
         userId: params.userId,
         movieId: params.movieId,
@@ -87,15 +91,13 @@ export class DownloadApplicationService {
     }
   }
 
-  /**
-   * 暂停下载任务
-   */
+  // 暂停正在进行的下载任务，包含权限验证和状态检查
   static async pauseDownload(
     downloadId: string,
     userId: string
   ): Promise<{ success: boolean; message: string }> {
     try {
-      // 1. 验证用户权限
+      // 权限和存在性验证 - 确保下载任务存在且用户有权限操作
       const download = await this.getDownloadById(downloadId)
       if (!download) {
         throw new Error('下载任务不存在')
@@ -105,7 +107,7 @@ export class DownloadApplicationService {
         throw new Error('无权限操作此下载任务')
       }
 
-      // 2. 检查下载状态
+      // 状态检查 - 只有正在下载的任务才能暂停
       if (download.detail.status !== 'downloading') {
         return {
           success: false,
@@ -113,14 +115,14 @@ export class DownloadApplicationService {
         }
       }
 
-      // 3. 暂停下载
+      // 调度器操作 - 通知调度器暂停实际的下载进程
       await DownloadScheduler.pauseDownload(downloadId)
 
-      // 4. 更新下载状态
+      // 状态更新 - 更新领域对象状态并持久化
       const pausedDownload = download.pause()
       await this.saveDownload(pausedDownload)
 
-      // 5. 记录事件
+      // 业务事件记录 - 记录暂停操作用于审计
       await this.recordDownloadEvent('download_paused', {
         downloadId,
         userId,
@@ -136,9 +138,7 @@ export class DownloadApplicationService {
     }
   }
 
-  /**
-   * 恢复下载任务
-   */
+  // 恢复已暂停的下载任务，包含权限验证和状态检查
   static async resumeDownload(
     downloadId: string,
     userId: string
@@ -185,13 +185,11 @@ export class DownloadApplicationService {
     }
   }
 
-  /**
-   * 取消下载任务
-   */
+  // 取消下载任务，清理临时文件并更新用户统计
   static async cancelDownload(
     downloadId: string,
     userId: string,
-    reason?: string
+    reason?: string // 取消原因，用于日志记录和用户通知
   ): Promise<{ success: boolean; message: string }> {
     try {
       // 1. 验证用户权限
@@ -242,16 +240,14 @@ export class DownloadApplicationService {
     }
   }
 
-  /**
-   * 获取用户下载历史
-   */
+  // 获取用户下载历史记录，支持过滤和分页，包含统计数据
   static async getUserDownloadHistory(
     userId: string,
     filters?: {
       status?: string
-      dateRange?: { start: Date; end: Date }
-      limit?: number
-      offset?: number
+      dateRange?: { start: Date; end: Date } // 日期范围筛选
+      limit?: number // 返回记录数限制
+      offset?: number // 分页偏移量
     }
   ): Promise<{
     downloads: Download[]
@@ -313,26 +309,27 @@ export class DownloadApplicationService {
     }
   }
 
-  /**
-   * 批量操作下载任务
-   */
+  // 批量操作下载任务，支持暂停、恢复、取消、重试等操作
   static async batchDownloadOperation(params: {
     userId: string
-    downloadIds: string[]
-    operation: 'pause' | 'resume' | 'cancel' | 'retry'
+    downloadIds: string[] // 要批量操作的下载任务ID列表
+    operation: 'pause' | 'resume' | 'cancel' | 'retry' // 批量操作类型
   }): Promise<{
     successful: string[]
     failed: { downloadId: string; error: string }[]
     message: string
   }> {
     try {
+      // 初始化批量操作结果容器
       const results = {
         successful: [] as string[],
         failed: [] as { downloadId: string; error: string }[],
       }
 
+      // 逐个处理下载任务 - 确保单个任务失败不影响其他任务
       for (const downloadId of params.downloadIds) {
         try {
+          // 根据操作类型执行相应的方法调用
           switch (params.operation) {
             case 'pause':
               await this.pauseDownload(downloadId, params.userId)
@@ -347,8 +344,10 @@ export class DownloadApplicationService {
               await this.retryDownload(downloadId)
               break
           }
+          // 记录成功的操作
           results.successful.push(downloadId)
         } catch (error) {
+          // 记录失败的操作，继续处理其他任务
           results.failed.push({
             downloadId,
             error: error instanceof Error ? error.message : '未知错误',
@@ -356,6 +355,7 @@ export class DownloadApplicationService {
         }
       }
 
+      // 返回批量操作结果汇总
       return {
         ...results,
         message: `批量操作完成：成功 ${results.successful.length} 个，失败 ${results.failed.length} 个`,
@@ -589,7 +589,7 @@ export class DownloadApplicationService {
   }
 
   private static convertTaskToDownload(task: unknown): Download {
-    // 将store中的DownloadTask转换为Domain Download
+    // 数据转换 - 将store中的DownloadTask转换为Domain层的Download对象
     const taskData = task as Record<string, unknown>
     const domainTask: DownloadTask = {
       id: taskData.id as string,
@@ -600,11 +600,11 @@ export class DownloadApplicationService {
       format: taskData.format as string,
       downloadUrl: taskData.downloadUrl as string,
       magnetLink: taskData.magnetLink as string | undefined,
-      status: this.convertStatusToDomain(taskData.status as string),
+      status: this.convertStatusToDomain(taskData.status as string), // 状态枚举转换
       progress: taskData.progress as number,
-      downloadedSize: new FileSize(taskData.downloadedSize as number),
-      totalSize: new FileSize(taskData.totalSize as number),
-      speed: new DownloadSpeed(taskData.speed as number),
+      downloadedSize: new FileSize(taskData.downloadedSize as number), // 封装为值对象
+      totalSize: new FileSize(taskData.totalSize as number), // 封装为值对象
+      speed: new DownloadSpeed(taskData.speed as number), // 封装为值对象
       estimatedTimeRemaining: taskData.estimatedTimeRemaining as number,
       startedAt: taskData.startedAt as Date,
       completedAt: taskData.completedAt as Date | undefined,
@@ -617,6 +617,7 @@ export class DownloadApplicationService {
       updatedAt: taskData.updatedAt as Date,
     }
 
+    // 创建领域对象 - 封装业务逻辑和状态
     return new Download(domainTask)
   }
 

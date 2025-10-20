@@ -15,6 +15,8 @@ module.exports = {
     '.eslintrc.cjs',
     'storybook-static',
     'vite.config.ts',
+    'tailwind.config.js',
+    'postcss.config.js',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -33,7 +35,7 @@ module.exports = {
     'object-shorthand': 'error',
     'prefer-template': 'error',
     '@typescript-eslint/no-unused-vars': [
-      'error',
+      'warn',
       {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',

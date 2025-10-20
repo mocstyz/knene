@@ -3,6 +3,8 @@ import {
   NavigationTheme,
   NavigationSize,
 } from '@components/molecules/NavigationMenu/designTokens'
+import { getOverlayGradient } from '@tokens/design-system'
+import { cn } from '@utils/cn'
 import React from 'react'
 
 // 特色内容接口
@@ -59,7 +61,12 @@ export const HomeMenu: React.FC<HomeMenuProps> = ({
                 alt={featuredContent.title}
                 className="h-full w-full object-cover transition-transform duration-300 group-hover/image:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+              <div
+                className={cn(
+                  'absolute inset-0',
+                  getOverlayGradient('intense')
+                )}
+              ></div>
               <div className="absolute bottom-3 left-3 z-10">
                 <div
                   className={`${styles.text} text-red-500 transition-colors duration-200`}

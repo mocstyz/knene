@@ -1,35 +1,42 @@
 /**
- * @fileoverview 用户相关API服务 - 服务端状态管理
- * @description 处理用户认证、资料、偏好设置等API调用
+ * @fileoverview 用户相关API服务
+ * @description 处理用户认证、资料管理、偏好设置等API调用，提供完整的用户服务。
+ *              支持用户登录注册、资料更新、密码管理、邮箱验证和权限检查等功能。
+ *              遵循用户数据保护最佳实践，确保用户隐私和数据安全。
+ * @created 2025-10-11 12:35:25
+ * @updated 2025-10-19 15:06:15
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
 
 import { User } from '@application/stores/userStore'
 
-// 登录请求数据
+// 登录请求数据接口 - 定义用户登录的请求参数
 export interface LoginRequest {
-  email: string
-  password: string
-  rememberMe?: boolean
+  email: string // 邮箱地址
+  password: string // 密码
+  rememberMe?: boolean // 是否记住登录状态
 }
 
-// 注册请求数据
+// 注册请求数据接口 - 定义用户注册的请求参数
 export interface RegisterRequest {
-  email: string
-  username: string
-  password: string
-  confirmPassword: string
+  email: string // 邮箱地址
+  username: string // 用户名
+  password: string // 密码
+  confirmPassword: string // 确认密码
 }
 
-// 更新资料请求数据
+// 更新资料请求数据接口 - 定义用户资料更新的请求参数
 export interface UpdateProfileRequest {
-  username?: string
-  avatar?: string
-  preferences?: Partial<User['preferences']>
+  username?: string // 用户名
+  avatar?: string // 头像URL
+  preferences?: Partial<User['preferences']> // 偏好设置
 }
 
-// 用户API服务类
+// 用户API服务类 - 提供用户管理相关的所有API调用方法
 export class UserApiService {
-  // 登录
+  // 用户登录 - 验证用户凭据并返回用户信息
   static async login(data: LoginRequest): Promise<User> {
     await new Promise(resolve => setTimeout(resolve, 1000))
 
@@ -115,7 +122,7 @@ export class UserApiService {
     throw new Error('邮箱或密码错误')
   }
 
-  // 注册
+  // 用户注册 - 创建新用户账户
   static async register(data: RegisterRequest): Promise<User> {
     await new Promise(resolve => setTimeout(resolve, 1500))
 
@@ -157,7 +164,7 @@ export class UserApiService {
     }
   }
 
-  // 获取用户资料
+  // 获取用户资料 - 根据用户ID获取用户详细信息
   static async getProfile(userId: string): Promise<User> {
     await new Promise(resolve => setTimeout(resolve, 300))
 
@@ -191,7 +198,7 @@ export class UserApiService {
     }
   }
 
-  // 更新用户资料
+  // 更新用户资料 - 更新用户的基本信息和偏好设置
   static async updateProfile(
     userId: string,
     data: UpdateProfileRequest
@@ -216,7 +223,7 @@ export class UserApiService {
     }
   }
 
-  // 更新偏好设置
+  // 更新偏好设置 - 更新用户的个人偏好配置
   static async updatePreferences(
     userId: string,
     preferences: Partial<User['preferences']>
@@ -234,7 +241,7 @@ export class UserApiService {
     }
   }
 
-  // 修改密码
+  // 修改密码 - 验证当前密码后设置新密码
   static async changePassword(
     userId: string,
     currentPassword: string,
@@ -254,7 +261,7 @@ export class UserApiService {
     console.log(`用户 ${userId} 密码修改成功`)
   }
 
-  // 忘记密码
+  // 忘记密码 - 发送密码重置邮件到用户邮箱
   static async forgotPassword(email: string): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, 1000))
 
@@ -262,7 +269,7 @@ export class UserApiService {
     console.log(`重置密码邮件已发送到: ${email}`)
   }
 
-  // 重置密码
+  // 重置密码 - 使用重置令牌设置新密码
   static async resetPassword(
     token: string,
     newPassword: string
@@ -280,7 +287,7 @@ export class UserApiService {
     console.log('密码重置成功')
   }
 
-  // 验证邮箱
+  // 验证邮箱 - 使用验证令牌激活用户邮箱
   static async verifyEmail(token: string): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, 1000))
 
@@ -291,7 +298,7 @@ export class UserApiService {
     console.log('邮箱验证成功')
   }
 
-  // 检查认证状态
+  // 检查认证状态 - 验证令牌的有效性并返回用户信息
   static async checkAuth(token?: string): Promise<User | null> {
     await new Promise(resolve => setTimeout(resolve, 200))
 
@@ -327,7 +334,7 @@ export class UserApiService {
     return null
   }
 
-  // 登出
+  // 用户登出 - 清除用户的登录状态
   static async logout(): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, 200))
     console.log('用户已登出')

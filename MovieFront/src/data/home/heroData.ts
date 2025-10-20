@@ -1,3 +1,13 @@
+/**
+ * @fileoverview 首页英雄区域数据定义
+ * @description 定义首页英雄轮播区域的数据结构和内容数据，提供13个精选影片展示内容
+ * @created 2025-10-13 10:34:00
+ * @updated 2025-10-19 13:24:27
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import heroImage1 from '@images/heroes/0003.jpg'
 import heroImage2 from '@images/heroes/0015.jpg'
 import heroImage3 from '@images/heroes/0016.jpg'
@@ -12,13 +22,15 @@ import heroImage11 from '@images/heroes/0056.png'
 import heroImage12 from '@images/heroes/0063.jpg'
 import heroImage13 from '@images/heroes/0067.jpg'
 
+// 英雄区域数据项接口，定义首页轮播展示的单个影片内容结构
 export interface HeroItem {
-  id: string
-  title: string
-  description: string
-  imageUrl: string
+  id: string // 唯一标识符
+  title: string // 影片标题
+  description: string // 影片描述
+  imageUrl: string // 影片海报图片
 }
 
+// 首页英雄区域数据数组，包含13个精选影片展示内容
 export const heroData: HeroItem[] = [
   {
     id: 'hero-1',

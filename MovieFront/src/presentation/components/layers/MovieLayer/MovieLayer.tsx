@@ -18,6 +18,11 @@ import {
   TitleLayer,
   VipBadgeLayer,
 } from '@components/layers'
+import {
+  getOverlayGradient,
+  type BadgeLayerRatingColor,
+} from '@tokens/design-system'
+import { cn } from '@utils/cn'
 import React from 'react'
 
 /**
@@ -63,6 +68,12 @@ export interface MovieLayerProps {
   showRatingBadge?: boolean
   /** 是否显示新片标签 */
   showNewBadge?: boolean
+  /** 新片类型 */
+  newBadgeType?: 'new' | 'update' | 'today' | 'latest'
+  /** 评分颜色 */
+  ratingColor?: 'purple' | 'red' | 'white' | 'default'
+  /** 质量标签文本 */
+  qualityText?: string
 }
 
 /**
@@ -82,7 +93,29 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
   showQualityBadge = true,
   showRatingBadge = true,
   showNewBadge = true,
+  newBadgeType = 'new',
+  ratingColor = 'default',
+  qualityText,
 }) => {
+  /**
+   * 映射评分颜色到RatingBadgeLayer的textColor
+   */
+  const mapRatingColor = (
+    color?: 'purple' | 'red' | 'white' | 'default'
+  ): BadgeLayerRatingColor => {
+    switch (color) {
+      case 'purple':
+        return 'purple'
+      case 'red':
+        return 'red'
+      case 'white':
+        return 'white'
+      case 'default':
+      default:
+        return 'white'
+    }
+  }
+
   // 列表变体的特殊处理
   if (variant === 'list') {
     return (
@@ -111,22 +144,11 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
             onClick={() => onPlay?.(movie.id)}
           />
 
-          {/* 元数据 */}
+          {/* 分类信息 */}
           <MetadataLayer
-            year={movie.year}
-            duration={movie.duration}
-            rating={movie.rating}
+            genres={movie.genres}
             variant="horizontal"
-            showItems={{
-              year: true,
-              duration: true,
-              rating: true,
-              genres: false,
-              director: false,
-              actors: false,
-              size: false,
-              downloadCount: false,
-            }}
+            maxGenres={3}
           />
 
           {/* 操作按钮 */}
@@ -153,7 +175,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
 
   // 默认和特色变体的处理
   return (
-    <div className="group space-y-3">
+    <div className="space-y-3 group">
       {/* 图片卡片区域 - 独立的阴影卡片 */}
       <div className="relative aspect-[2/3] overflow-hidden rounded-lg shadow-md">
         <ImageLayer
@@ -165,8 +187,13 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
           fallbackType="gradient"
         />
 
-        {/* 底部渐变遮罩 */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+        {/* 底部渐变遮罩 - 使用统一的渐变Token系统 */}
+        <div
+          className={cn(
+            'pointer-events-none absolute inset-x-0 bottom-0 h-1/3',
+            getOverlayGradient('medium') // 对应原来的 from-black/50 via-black/20 to-transparent
+          )}
+        />
 
         {/* 标签层 */}
         <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
@@ -174,7 +201,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
           {showNewBadge && (
             <NewBadgeLayer
               isNew={true}
-              newType="new"
+              newType={newBadgeType}
               position="top-left"
               size="responsive"
               variant="default"
@@ -183,9 +210,9 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
           )}
           <div className="flex gap-2">
             {/* Quality badge - top-right */}
-            {showQualityBadge && movie.quality && (
+            {showQualityBadge && (qualityText || movie.quality) && (
               <QualityBadgeLayer
-                quality={movie.quality}
+                quality={qualityText || movie.quality}
                 position="top-right"
                 displayType="layer"
                 variant="default"
@@ -215,7 +242,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
               rating={movie.rating}
               position="bottom-left"
               variant="default"
-              showIcon={false}
+              textColor={mapRatingColor(ratingColor)}
             />
           )}
           {showVipBadge && (
@@ -229,7 +256,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
       </div>
 
       {/* 信息区域 - 独立容器，无阴影 */}
-      <div className="space-y-3">
+      <div className="space-y-2">
         {/* 标题 */}
         <TitleLayer
           title={movie.title}
@@ -241,67 +268,8 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
           onClick={() => onPlay?.(movie.id)}
         />
 
-        {/* 元数据 */}
-        <MetadataLayer
-          year={movie.year}
-          duration={movie.duration}
-          rating={movie.rating}
-          genres={movie.genres}
-          variant="vertical"
-          showItems={{
-            year: true,
-            duration: true,
-            rating: true,
-            genres: true,
-            director: variant === 'featured',
-            actors: variant === 'featured',
-            size: !!movie.size,
-            downloadCount: !!movie.downloadCount,
-          }}
-        />
-
-        {/* 特色变体的额外内容 */}
-        {variant === 'featured' && (
-          <>
-            {/* 描述 */}
-            {movie.description && (
-              <p className="mb-3 line-clamp-2 text-sm text-gray-600">
-                {movie.description}
-              </p>
-            )}
-
-            {/* 导演和演员 */}
-            {(movie.director || movie.actors) && (
-              <div className="mb-3 space-y-1 text-xs text-gray-500">
-                {movie.director && (
-                  <div>
-                    <span className="font-medium">导演：</span>
-                    <span>{movie.director}</span>
-                  </div>
-                )}
-                {movie.actors && movie.actors.length > 0 && (
-                  <div>
-                    <span className="font-medium">主演：</span>
-                    <span>{movie.actors.slice(0, 3).join('、')}</span>
-                  </div>
-                )}
-              </div>
-            )}
-          </>
-        )}
-
-        {/* 文件大小和下载次数 */}
-        {(movie.size || movie.downloadCount) && (
-          <div className="mb-3 flex items-center justify-between text-xs text-gray-500">
-            {movie.size && <span>大小：{movie.size}</span>}
-            {movie.downloadCount && (
-              <div className="flex items-center gap-1">
-                <Icon name="download" size="xs" />
-                <span>{movie.downloadCount}</span>
-              </div>
-            )}
-          </div>
-        )}
+        {/* 分类信息 */}
+        <MetadataLayer genres={movie.genres} variant="compact" maxGenres={3} />
       </div>
     </div>
   )

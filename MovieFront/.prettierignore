@@ -1,26 +1,22 @@
-# Build outputs
+# 忽略设计稿文件
+stitch_*/
+stitch_*
+code.html
+
+# 忽略构建输出
 dist/
 build/
+
+# 忽略依赖
+node_modules/
+
+# 忽略临时文件
+*.log
+*.tmp
+temp_*
+
+# 忽略覆盖率报告
 coverage/
 
-# Dependencies
-node_modules/
-pnpm-lock.yaml
-
-# Generated files
-*.generated.ts
-*.generated.js
-
-# HTML files that should not be formatted
-code.html
-**/code.html
-
-# Config files that have specific formatting
-.nyc_output
-
-# Documentation files
-*.md
-
-# Temporary files
-*.tmp
-*.temp
+# 忽略Storybook构建
+storybook-static/

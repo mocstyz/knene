@@ -1,97 +1,18 @@
 /**
- * 电影管理领域组件变体配置
+ * 影片管理领域组件变体配置
  * 按照Claude.md第1.3.2节影片管理领域和第3.2.4节变体配置要求
+ *
+ * 重构说明：
+ * - MovieCard、MovieGrid等组件已被内容渲染器系统替代
+ * - 保留RatingBadge、HeroSection等通用组件变体
+ * - 这些变体现在由内容渲染器系统统一管理
  */
 
 // ============================================================================
-// MovieCard 组件变体
+// 已删除的组件变体 - 由内容渲染器系统替代
 // ============================================================================
-
-export const movieCardVariants = {
-  base: 'group relative overflow-hidden rounded-lg transition-all duration-300',
-  variant: {
-    default: 'bg-white dark:bg-gray-1 shadow-md hover:shadow-lg',
-    poster: 'aspect-[2/3] bg-gray-3 dark:bg-gray-6',
-    simple: '', // 首页专用样式：完全透明，无背景，让外层样式控制
-    topic: 'relative rounded-lg overflow-hidden group cursor-pointer', // 专题卡片样式
-    featured:
-      'bg-gradient-to-br from-accent-2 to-accent-3 dark:from-accent-3 dark:to-accent-4 border-2 border-accent-7 dark:border-accent-6',
-    grid: 'bg-white dark:bg-gray-1 shadow-md hover:shadow-xl hover:scale-[1.02]',
-    list: 'bg-white dark:bg-gray-1 shadow-sm hover:shadow-md flex gap-4 p-4',
-    compact: 'bg-white dark:bg-gray-1 shadow-sm hover:shadow-md',
-  },
-  size: {
-    sm: 'w-48 h-72',
-    md: 'w-56 h-80',
-    lg: 'w-64 h-96',
-    xl: 'w-72 h-[28rem]',
-  },
-  interactive: {
-    true: 'cursor-pointer',
-    false: '',
-  },
-} as const
-
-export type MovieCardVariant =
-  | 'default'
-  | 'poster'
-  | 'simple'
-  | 'topic'
-  | 'featured'
-  | 'grid'
-  | 'list'
-  | 'compact'
-export type MovieCardSize = 'sm' | 'md' | 'lg' | 'xl'
-
-// ============================================================================
-// MovieItem 组件变体
-// ============================================================================
-
-export const movieItemVariants = {
-  base: 'flex items-center gap-4 p-3 rounded-lg transition-all duration-200',
-  variant: {
-    default:
-      'bg-white dark:bg-gray-1 border border-gray-6 dark:border-gray-5 hover:border-accent-8',
-    simple: 'hover:bg-gray-2 dark:hover:bg-gray-9',
-    detailed: 'bg-white dark:bg-gray-1 shadow-md hover:shadow-lg',
-    compact: 'bg-transparent hover:bg-gray-2 dark:hover:bg-gray-9/50',
-  },
-  size: {
-    sm: 'p-2',
-    md: 'p-3',
-    lg: 'p-4',
-  },
-} as const
-
-export type MovieItemVariant = 'default' | 'simple' | 'detailed' | 'compact'
-export type MovieItemSize = 'sm' | 'md' | 'lg'
-
-// ============================================================================
-// MovieGrid 组件变体
-// ============================================================================
-
-export const movieGridVariants = {
-  base: 'grid',
-  variant: {
-    default:
-      'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6',
-    compact: 'grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3',
-    featured: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8',
-    list: 'grid-cols-1 gap-4',
-    category: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6',
-  },
-  loading: {
-    true: 'opacity-50',
-    false: '',
-  },
-} as const
-
-export type MovieGridVariant =
-  | 'default'
-  | 'compact'
-  | 'featured'
-  | 'list'
-  | 'category'
+// MovieCard、MovieGrid、MovieCardItem 组件变体已被内容渲染器系统替代
+// 相关变体配置现在由 @components/domains/shared/content-renderers 系统统一管理
 
 // ============================================================================
 // MovieDetail 组件变体

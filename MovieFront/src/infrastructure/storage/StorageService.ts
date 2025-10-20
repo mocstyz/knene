@@ -1,6 +1,12 @@
 /**
- * 存储服务基础设施
- * 提供统一的本地存储、会话存储和IndexedDB接口，支持数据加密和过期管理
+ * @fileoverview 存储服务基础设施
+ * @description 提供统一的本地存储、会话存储和IndexedDB接口，支持数据加密和过期管理
+ * 包含存储抽象基类、具体实现类以及存储管理器，遵循DDD架构中的基础设施层模式
+ * @created 2025-10-15 15:35:00
+ * @updated 2025-10-19 11:25:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
 
 export interface StorageOptions {
@@ -31,9 +37,7 @@ export interface DatabaseSchema {
   }[]
 }
 
-/**
- * 存储服务基类
- */
+// 存储服务抽象基类，提供通用的存储功能
 abstract class BaseStorageService {
   protected namespace: string
 
@@ -41,32 +45,24 @@ abstract class BaseStorageService {
     this.namespace = namespace
   }
 
-  /**
-   * 生成带命名空间的键
-   */
+  // 生成带命名空间的键，避免键名冲突
   protected getNamespacedKey(key: string): string {
     return `${this.namespace}:${key}`
   }
 
-  /**
-   * 检查项目是否过期
-   */
+  // 检查存储项目是否过期
   protected isExpired(item: StoredItem): boolean {
     if (!item.ttl) return false
     return Date.now() - item.timestamp > item.ttl
   }
 
-  /**
-   * 加密数据
-   */
+  // 加密存储数据
   protected encrypt(data: string): string {
     // 简单的Base64编码，实际项目中应使用更安全的加密算法
     return btoa(encodeURIComponent(data))
   }
 
-  /**
-   * 解密数据
-   */
+  // 解密数据，将Base64编码的数据解码并转换为UTF-8字符串
   protected decrypt(encryptedData: string): string {
     try {
       return decodeURIComponent(atob(encryptedData))
@@ -75,9 +71,7 @@ abstract class BaseStorageService {
     }
   }
 
-  /**
-   * 序列化数据
-   */
+  // 序列化数据，将数据转换为存储格式并添加时间戳、过期时间等元信息
   protected serialize<T>(value: T, options: StorageOptions = {}): string {
     const item: StoredItem<T> = {
       value,
@@ -95,9 +89,7 @@ abstract class BaseStorageService {
     return serialized
   }
 
-  /**
-   * 反序列化数据
-   */
+  // 反序列化数据，将存储格式数据解析并检查过期时间，支持自动解密
   protected deserialize<T>(data: string): T | null {
     try {
       let parsed: StoredItem<T>
@@ -123,13 +115,9 @@ abstract class BaseStorageService {
   }
 }
 
-/**
- * 本地存储服务
- */
+// 本地存储服务，基于localStorage实现的持久化存储
 export class LocalStorageService extends BaseStorageService {
-  /**
-   * 设置数据
-   */
+  // 设置数据到localStorage，支持命名空间、加密和过期时间
   set<T>(key: string, value: T, options: StorageOptions = {}): void {
     try {
       const namespacedKey = this.getNamespacedKey(key)
@@ -141,9 +129,7 @@ export class LocalStorageService extends BaseStorageService {
     }
   }
 
-  /**
-   * 获取数据
-   */
+  // 从localStorage获取数据，自动检查过期时间并清理过期数据
   get<T>(key: string): T | null {
     try {
       const namespacedKey = this.getNamespacedKey(key)
@@ -165,17 +151,13 @@ export class LocalStorageService extends BaseStorageService {
     }
   }
 
-  /**
-   * 删除数据
-   */
+  // 从localStorage删除指定键的数据
   remove(key: string): void {
     const namespacedKey = this.getNamespacedKey(key)
     localStorage.removeItem(namespacedKey)
   }
 
-  /**
-   * 清除所有数据
-   */
+  // 清除localStorage中当前命名空间的所有数据
   clear(): void {
     const keys = Object.keys(localStorage)
     const namespacePrefix = `${this.namespace}:`
@@ -187,9 +169,7 @@ export class LocalStorageService extends BaseStorageService {
     })
   }
 
-  /**
-   * 获取所有键
-   */
+  // 获取localStorage中当前命名空间的所有键名
   keys(): string[] {
     const keys = Object.keys(localStorage)
     const namespacePrefix = `${this.namespace}:`
@@ -199,17 +179,13 @@ export class LocalStorageService extends BaseStorageService {
       .map(key => key.substring(namespacePrefix.length))
   }
 
-  /**
-   * 检查键是否存在
-   */
+  // 检查指定键是否存在于localStorage中
   has(key: string): boolean {
     const namespacedKey = this.getNamespacedKey(key)
     return localStorage.getItem(namespacedKey) !== null
   }
 
-  /**
-   * 获取存储大小
-   */
+  // 获取localStorage中当前命名空间数据的总大小（字节）
   getSize(): number {
     let size = 0
     const namespacePrefix = `${this.namespace}:`
@@ -223,9 +199,7 @@ export class LocalStorageService extends BaseStorageService {
     return size
   }
 
-  /**
-   * 清理过期数据
-   */
+  // 清理localStorage中的过期数据，自动删除过期的存储项
   cleanup(): void {
     const keys = this.keys()
 
@@ -236,13 +210,9 @@ export class LocalStorageService extends BaseStorageService {
   }
 }
 
-/**
- * 会话存储服务
- */
+// 会话存储服务，基于sessionStorage实现的临时存储
 export class SessionStorageService extends BaseStorageService {
-  /**
-   * 设置数据
-   */
+  // 设置数据到sessionStorage，支持命名空间、加密和过期时间
   set<T>(key: string, value: T, options: StorageOptions = {}): void {
     try {
       const namespacedKey = this.getNamespacedKey(key)
@@ -254,9 +224,7 @@ export class SessionStorageService extends BaseStorageService {
     }
   }
 
-  /**
-   * 获取数据
-   */
+  // 从sessionStorage获取数据，自动检查过期时间并清理过期数据
   get<T>(key: string): T | null {
     try {
       const namespacedKey = this.getNamespacedKey(key)
@@ -277,17 +245,13 @@ export class SessionStorageService extends BaseStorageService {
     }
   }
 
-  /**
-   * 删除数据
-   */
+  // 从sessionStorage删除指定键的数据
   remove(key: string): void {
     const namespacedKey = this.getNamespacedKey(key)
     sessionStorage.removeItem(namespacedKey)
   }
 
-  /**
-   * 清除所有数据
-   */
+  // 清除sessionStorage中当前命名空间的所有数据
   clear(): void {
     const keys = Object.keys(sessionStorage)
     const namespacePrefix = `${this.namespace}:`
@@ -299,9 +263,7 @@ export class SessionStorageService extends BaseStorageService {
     })
   }
 
-  /**
-   * 获取所有键
-   */
+  // 获取sessionStorage中当前命名空间的所有键名
   keys(): string[] {
     const keys = Object.keys(sessionStorage)
     const namespacePrefix = `${this.namespace}:`
@@ -311,18 +273,14 @@ export class SessionStorageService extends BaseStorageService {
       .map(key => key.substring(namespacePrefix.length))
   }
 
-  /**
-   * 检查键是否存在
-   */
+  // 检查指定键是否存在于sessionStorage中
   has(key: string): boolean {
     const namespacedKey = this.getNamespacedKey(key)
     return sessionStorage.getItem(namespacedKey) !== null
   }
 }
 
-/**
- * IndexedDB存储服务
- */
+// IndexedDB存储服务，提供客户端数据库存储功能
 export class IndexedDBService {
   private dbName: string
   private version: number
@@ -335,9 +293,7 @@ export class IndexedDBService {
     this.version = schema.version
   }
 
-  /**
-   * 初始化数据库
-   */
+  // 初始化数据库，创建数据库和对象存储
   async init(): Promise<void> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this.dbName, this.version)
@@ -374,9 +330,7 @@ export class IndexedDBService {
     })
   }
 
-  /**
-   * 添加数据
-   */
+  // 向对象存储添加数据
   async add<T>(storeName: string, data: T): Promise<IDBValidKey> {
     if (!this.db) throw new Error('数据库未初始化')
 
@@ -390,9 +344,7 @@ export class IndexedDBService {
     })
   }
 
-  /**
-   * 获取数据
-   */
+  // 从对象存储获取数据
   async get<T>(storeName: string, key: IDBValidKey): Promise<T | null> {
     if (!this.db) throw new Error('数据库未初始化')
 
@@ -406,9 +358,7 @@ export class IndexedDBService {
     })
   }
 
-  /**
-   * 更新数据
-   */
+  // 更新对象存储中的数据
   async put<T>(storeName: string, data: T): Promise<IDBValidKey> {
     if (!this.db) throw new Error('数据库未初始化')
 
@@ -422,9 +372,7 @@ export class IndexedDBService {
     })
   }
 
-  /**
-   * 删除数据
-   */
+  // 从对象存储删除数据
   async delete(storeName: string, key: IDBValidKey): Promise<void> {
     if (!this.db) throw new Error('数据库未初始化')
 
@@ -438,9 +386,7 @@ export class IndexedDBService {
     })
   }
 
-  /**
-   * 获取所有数据
-   */
+  // 获取对象存储中的所有数据
   async getAll<T>(storeName: string): Promise<T[]> {
     if (!this.db) throw new Error('数据库未初始化')
 
@@ -454,9 +400,7 @@ export class IndexedDBService {
     })
   }
 
-  /**
-   * 通过索引查询
-   */
+  // 通过索引查询数据
   async getByIndex<T>(
     storeName: string,
     indexName: string,
@@ -475,9 +419,7 @@ export class IndexedDBService {
     })
   }
 
-  /**
-   * 清空存储
-   */
+  // 清空对象存储中的所有数据
   async clear(storeName: string): Promise<void> {
     if (!this.db) throw new Error('数据库未初始化')
 
@@ -491,9 +433,7 @@ export class IndexedDBService {
     })
   }
 
-  /**
-   * 计数
-   */
+  // 获取对象存储中的数据条数
   async count(storeName: string): Promise<number> {
     if (!this.db) throw new Error('数据库未初始化')
 
@@ -507,9 +447,7 @@ export class IndexedDBService {
     })
   }
 
-  /**
-   * 关闭数据库
-   */
+  // 关闭数据库连接
   close(): void {
     if (this.db) {
       this.db.close()
@@ -518,9 +456,7 @@ export class IndexedDBService {
   }
 }
 
-/**
- * 统一存储管理器
- */
+// 统一存储管理器，提供多种存储方式的统一接口
 export class StorageManager {
   public localStorage: LocalStorageService
   public sessionStorage: SessionStorageService
@@ -567,9 +503,7 @@ export class StorageManager {
     this.indexedDB = new IndexedDBService(defaultSchema)
   }
 
-  /**
-   * 初始化所有存储服务
-   */
+  // 初始化所有存储服务，包含定期清理任务
   async init(): Promise<void> {
     await this.indexedDB.init()
 
@@ -579,18 +513,14 @@ export class StorageManager {
     }, 60000) // 每分钟清理一次
   }
 
-  /**
-   * 清理所有存储
-   */
+  // 清理所有存储数据
   clearAll(): void {
     this.localStorage.clear()
     this.sessionStorage.clear()
     // IndexedDB需要逐个清理存储
   }
 
-  /**
-   * 获取存储使用情况
-   */
+  // 获取存储使用情况统计信息
   getStorageInfo(): {
     localStorage: { size: number; keys: number }
     sessionStorage: { keys: number }

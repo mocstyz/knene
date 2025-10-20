@@ -53,6 +53,13 @@ export const badgeLayerVariants = {
       prominent:
         'bg-black/80 dark:bg-black/90 text-white shadow-lg dark:shadow-xl',
     },
+    // 新片标签变体
+    new: {
+      default: 'bg-red-500/80 dark:bg-red-600/80 text-white dark:text-gray-100',
+      compact: 'bg-red-500/70 dark:bg-red-600/70 text-white dark:text-gray-100',
+      prominent:
+        'bg-red-500/90 dark:bg-red-600/90 text-white dark:text-gray-100 shadow-lg dark:shadow-xl',
+    },
   },
   // 评分颜色映射 - 匹配trending模块样式
   ratingColor: {
@@ -81,7 +88,7 @@ export type BadgeLayerPosition =
   | 'bottom-left'
 export type BadgeLayerSize = 'sm' | 'md' | 'lg' | 'responsive'
 export type BadgeLayerVariant = 'default' | 'compact' | 'prominent'
-export type BadgeLayerType = 'vip' | 'rating' | 'quality'
+export type BadgeLayerType = 'vip' | 'rating' | 'quality' | 'new'
 export type BadgeLayerRatingColor =
   | 'green'
   | 'blue'

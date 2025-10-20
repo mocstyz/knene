@@ -32,7 +32,7 @@ export const buttonVariants = {
     warning:
       'bg-yellow-11 text-white hover:bg-yellow-12 focus:ring-0 focus:ring-offset-0',
     info: 'bg-blue-11 text-white hover:bg-blue-12 focus:ring-0 focus:ring-offset-0',
-    link: 'text-accent-11 underline-offset-4 hover:underline focus:ring-0 focus:ring-offset-0 p-0',
+    link: 'text-accent-11 hover:text-accent-11/80 hover:opacity-80 focus:ring-0 focus:ring-offset-0 p-0',
   },
   fullWidth: {
     true: 'w-full',
@@ -196,3 +196,37 @@ export const switchVariants = {
 
 export type SwitchVariant = 'default' | 'success' | 'warning' | 'danger'
 export type SwitchSize = 'sm' | 'md' | 'lg'
+
+// ============================================================================
+// TextLink 组件变体
+// ============================================================================
+
+export const textLinkVariants = {
+  base: 'inline-flex items-center transition-all duration-200 cursor-pointer focus:outline-none',
+  variant: {
+    primary: 'text-primary hover:text-primary/80 hover:opacity-80',
+    secondary:
+      'text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200',
+    default: 'text-inherit hover:text-primary hover:opacity-80',
+    accent:
+      'text-accent-600 hover:text-accent-800 dark:text-accent-400 dark:hover:text-accent-200',
+    muted:
+      'text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300',
+    inherit: 'text-inherit hover:opacity-80',
+  },
+  size: {
+    xs: 'text-xs',
+    sm: 'text-sm',
+    md: 'text-base',
+    lg: 'text-lg',
+  },
+} as const
+
+export type TextLinkVariant =
+  | 'primary'
+  | 'secondary'
+  | 'default'
+  | 'accent'
+  | 'muted'
+  | 'inherit'
+export type TextLinkSize = 'xs' | 'sm' | 'md' | 'lg'

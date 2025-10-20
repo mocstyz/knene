@@ -43,12 +43,7 @@ export const MobileSubmenuContent: React.FC<MobileSubmenuContentProps> = ({
         <a
           key={`submenu-${index}`}
           href={item.href}
-          className={`
-            flex items-center rounded-md px-3 py-2
-            text-sm text-gray-600 transition-colors
-            duration-200 hover:bg-green-50 hover:text-green-600 dark:text-gray-400
-            dark:hover:bg-green-900/10 dark:hover:text-green-400
-          `}
+          className={`flex items-center rounded-md px-3 py-2 text-sm text-gray-600 transition-colors duration-200 hover:bg-green-50 hover:text-green-600 dark:text-gray-400 dark:hover:bg-green-900/10 dark:hover:text-green-400`}
           onClick={() => {
             onClose?.()
           }}

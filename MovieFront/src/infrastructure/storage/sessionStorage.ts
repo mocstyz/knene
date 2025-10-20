@@ -1,11 +1,17 @@
 /**
- * 会话存储管理器
- * 提供类型安全的会话存储操作
+ * @fileoverview 会话存储管理器
+ * @description 提供类型安全的会话存储操作，包含数据序列化、临时状态管理等功能
+ * 适用于页面会话期间的临时数据存储，如导航状态、表单数据、播放器状态等
+ * @created 2025-10-15 15:30:00
+ * @updated 2025-10-19 11:20:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
+
+// 会话存储管理器类，提供类型安全的会话存储操作
 export class SessionStorageManager {
-  /**
-   * 存储键名常量
-   */
+  // 存储键名常量，定义会话存储中使用的所有键名
   static readonly KEYS = {
     CURRENT_SESSION: 'current_session',
     NAVIGATION_STATE: 'navigation_state',
@@ -21,9 +27,7 @@ export class SessionStorageManager {
     TEMP_SETTINGS: 'temp_settings',
   } as const
 
-  /**
-   * 设置存储项
-   */
+  // 设置会话存储项，自动序列化数据并添加时间戳
   static setItem<T>(key: string, value: T): void {
     try {
       const serializedValue = JSON.stringify({
@@ -38,9 +42,7 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 获取存储项
-   */
+  // 获取会话存储项，支持默认值和旧格式数据兼容
   static getItem<T>(key: string, defaultValue?: T): T | null {
     try {
       const item = sessionStorage.getItem(key)
@@ -63,9 +65,7 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 移除存储项
-   */
+  // 移除指定的会话存储项
   static removeItem(key: string): void {
     try {
       sessionStorage.removeItem(key)
@@ -74,9 +74,7 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 清空所有存储
-   */
+  // 清空所有会话存储数据
   static clear(): void {
     try {
       sessionStorage.clear()
@@ -85,16 +83,12 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 检查存储项是否存在
-   */
+  // 检查会话存储项是否存在
   static hasItem(key: string): boolean {
     return sessionStorage.getItem(key) !== null
   }
 
-  /**
-   * 获取所有键名
-   */
+  // 获取所有会话存储键名
   static getAllKeys(): string[] {
     const keys: string[] = []
     for (let i = 0; i < sessionStorage.length; i++) {
@@ -106,9 +100,7 @@ export class SessionStorageManager {
     return keys
   }
 
-  /**
-   * 获取存储大小（字节）
-   */
+  // 获取会话存储大小（字节）
   static getStorageSize(): number {
     let total = 0
     for (const key in sessionStorage) {
@@ -119,18 +111,14 @@ export class SessionStorageManager {
     return total
   }
 
-  /**
-   * 批量设置存储项
-   */
+  // 批量设置会话存储项
   static setMultipleItems(items: Record<string, unknown>): void {
     Object.entries(items).forEach(([key, value]) => {
       this.setItem(key, value)
     })
   }
 
-  /**
-   * 批量获取存储项
-   */
+  // 批量获取会话存储项
   static getMultipleItems<T extends Record<string, unknown>>(
     keys: (keyof T)[]
   ): Partial<T> {
@@ -144,18 +132,14 @@ export class SessionStorageManager {
     return result
   }
 
-  /**
-   * 批量移除存储项
-   */
+  // 批量移除会话存储项
   static removeMultipleItems(keys: string[]): void {
     keys.forEach(key => {
       this.removeItem(key)
     })
   }
 
-  /**
-   * 设置页面状态
-   */
+  // 设置页面状态，支持页面间状态管理
   static setPageState(pageId: string, state: Record<string, unknown>): void {
     const pageStates = this.getItem<Record<string, Record<string, unknown>>>(
       'page_states',
@@ -170,9 +154,7 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 获取页面状态
-   */
+  // 获取页面状态，返回指定页面的状态数据
   static getPageState<T>(pageId: string): T | null {
     const pageStates = this.getItem<Record<string, Record<string, unknown>>>(
       'page_states',
@@ -181,9 +163,7 @@ export class SessionStorageManager {
     return (pageStates?.[pageId]?.data as T) || null
   }
 
-  /**
-   * 移除页面状态
-   */
+  // 移除指定页面的状态
   static removePageState(pageId: string): void {
     const pageStates = this.getItem<Record<string, Record<string, unknown>>>(
       'page_states',
@@ -195,9 +175,7 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 设置滚动位置
-   */
+  // 设置页面滚动位置，支持页面间滚动状态保持
   static setScrollPosition(
     pageId: string,
     position: { x: number; y: number }
@@ -211,9 +189,7 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 获取滚动位置
-   */
+  // 获取页面滚动位置
   static getScrollPosition(pageId: string): { x: number; y: number } | null {
     const scrollPositions = this.getItem<
       Record<string, { x: number; y: number }>
@@ -221,9 +197,7 @@ export class SessionStorageManager {
     return scrollPositions?.[pageId] || null
   }
 
-  /**
-   * 设置表单数据
-   */
+  // 设置表单数据，将表单数据存储到sessionStorage中并添加时间戳
   static setFormData(formId: string, data: unknown): void {
     const formDataMap = this.getItem<
       Record<string, { data: unknown; timestamp: number }>
@@ -237,9 +211,7 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 获取表单数据
-   */
+  // 获取表单数据，支持过期时间检查（30分钟过期）
   static getFormData<T>(formId: string): T | null {
     const formDataMap = this.getItem<
       Record<string, { data: unknown; timestamp: number }>
@@ -260,9 +232,7 @@ export class SessionStorageManager {
     return formData.data as T
   }
 
-  /**
-   * 移除表单数据
-   */
+  // 移除表单数据，从sessionStorage中删除指定的表单数据
   static removeFormData(formId: string): void {
     const formDataMap = this.getItem<
       Record<string, { data: unknown; timestamp: number }>
@@ -273,9 +243,7 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 设置导航状态
-   */
+  // 设置导航状态，存储当前路径、上一个路径、参数和查询信息
   static setNavigationState(state: {
     currentPath: string
     previousPath?: string
@@ -285,9 +253,7 @@ export class SessionStorageManager {
     this.setItem(this.KEYS.NAVIGATION_STATE, state)
   }
 
-  /**
-   * 获取导航状态
-   */
+  // 获取导航状态，返回当前导航的状态信息
   static getNavigationState(): {
     currentPath: string
     previousPath?: string
@@ -297,9 +263,7 @@ export class SessionStorageManager {
     return this.getItem(this.KEYS.NAVIGATION_STATE)
   }
 
-  /**
-   * 设置播放器状态
-   */
+  // 设置播放器状态，保存影片播放进度、音量、播放速度等信息
   static setPlayerState(
     movieId: string,
     state: {
@@ -320,9 +284,7 @@ export class SessionStorageManager {
     this.setItem('player_states', playerStates)
   }
 
-  /**
-   * 获取播放器状态
-   */
+  // 获取播放器状态，返回指定影片的播放状态信息
   static getPlayerState(movieId: string): {
     currentTime: number
     duration: number
@@ -346,9 +308,7 @@ export class SessionStorageManager {
     return playerStates[movieId] || null
   }
 
-  /**
-   * 设置搜索过滤器
-   */
+  // 设置搜索过滤器，保存搜索查询、分类、年份、评分等筛选条件
   static setSearchFilters(filters: {
     query?: string
     genre?: string
@@ -360,9 +320,7 @@ export class SessionStorageManager {
     this.setItem(this.KEYS.SEARCH_FILTERS, filters)
   }
 
-  /**
-   * 获取搜索过滤器
-   */
+  // 获取搜索过滤器，返回保存的搜索筛选条件
   static getSearchFilters(): {
     query?: string
     genre?: string
@@ -374,9 +332,7 @@ export class SessionStorageManager {
     return this.getItem(this.KEYS.SEARCH_FILTERS)
   }
 
-  /**
-   * 设置模态框状态
-   */
+  // 设置模态框状态，保存模态框的开启状态和相关数据
   static setModalState(modalId: string, isOpen: boolean, data?: unknown): void {
     const modalStates =
       (this.getItem('modal_states') as Record<string, unknown> | null) || {}
@@ -388,9 +344,7 @@ export class SessionStorageManager {
     this.setItem('modal_states', modalStates)
   }
 
-  /**
-   * 获取模态框状态
-   */
+  // 获取模态框状态，返回指定模态框的状态信息
   static getModalState(modalId: string): {
     isOpen: boolean
     data?: unknown
@@ -406,9 +360,7 @@ export class SessionStorageManager {
     return modalStates[modalId] || null
   }
 
-  /**
-   * 安全地执行存储操作
-   */
+  // 安全地执行存储操作，提供错误处理和回退机制
   static safeOperation<T>(operation: () => T, fallback?: T): T | null {
     try {
       return operation()
@@ -418,9 +370,7 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 检查sessionStorage是否可用
-   */
+  // 检查sessionStorage是否可用，通过测试读写操作验证
   static isAvailable(): boolean {
     try {
       const testKey = '__sessionStorage_test__'
@@ -432,9 +382,7 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 获取存储统计信息
-   */
+  // 获取存储统计信息，包含项目数量、总大小和最大项信息
   static getStorageStats(): {
     totalItems: number
     totalSize: number
@@ -464,9 +412,7 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 清理过期的表单数据
-   */
+  // 清理过期的表单数据，删除超过30分钟的表单数据并返回清理数量
   static cleanupExpiredFormData(): void {
     const formDataMap = this.getItem('form_data_map') as Record<
       string,
@@ -491,9 +437,7 @@ export class SessionStorageManager {
     }
   }
 
-  /**
-   * 导出会话数据
-   */
+  // 导出会话数据，将sessionStorage中的所有数据序列化为JSON格式
   static exportData(): string {
     const data: Record<string, any> = {}
     const keys = this.getAllKeys()

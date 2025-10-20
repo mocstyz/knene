@@ -1,7 +1,14 @@
 /**
- * 消息内容值对象
- * 封装消息内容及其相关属性
+ * @fileoverview 消息内容值对象
+ * @description 消息内容值对象，封装消息文本内容、附件、提及和话题标签等功能，提供消息内容的创建、验证、格式化和搜索功能
+ * @created 2025-10-09 13:10:49
+ * @updated 2025-10-19 10:30:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
+
+// 消息内容值对象，封装消息文本内容、附件、提及和话题标签等功能
 export class MessageContent {
   constructor(
     public readonly text: string,
@@ -12,6 +19,7 @@ export class MessageContent {
     this.validateContent()
   }
 
+  // 验证消息内容的完整性和合规性
   private validateContent(): void {
     if (!this.text || this.text.trim().length === 0) {
       throw new Error('消息内容不能为空')
@@ -44,47 +52,56 @@ export class MessageContent {
     }
   }
 
-  // 业务方法
+  // 检查消息是否为空
   isEmpty(): boolean {
     return this.text.trim().length === 0 && this.attachments.length === 0
   }
 
+  // 检查是否有附件
   hasAttachments(): boolean {
     return this.attachments.length > 0
   }
 
+  // 检查是否有提及
   hasMentions(): boolean {
     return this.mentions.length > 0
   }
 
+  // 检查是否有话题标签
   hasHashtags(): boolean {
     return this.hashtags.length > 0
   }
 
+  // 检查文本是否包含指定内容
   containsText(searchText: string): boolean {
     return this.text.toLowerCase().includes(searchText.toLowerCase())
   }
 
+  // 检查是否提及指定用户
   containsMention(username: string): boolean {
     return this.mentions.some(
       mention => mention.toLowerCase() === username.toLowerCase()
     )
   }
 
+  // 检查是否包含指定话题标签
   containsHashtag(hashtag: string): boolean {
     return this.hashtags.some(
       tag => tag.toLowerCase() === hashtag.toLowerCase()
     )
   }
 
+  // 获取单词数量
   getWordCount(): number {
     return this.text.trim().split(/\s+/).length
   }
 
+  // 获取字符数量
   getCharacterCount(): number {
     return this.text.length
   }
 
+  // 获取附件总大小
   getTotalAttachmentSize(): number {
     return this.attachments.reduce(
       (total, attachment) => total + attachment.size,
@@ -92,216 +109,265 @@ export class MessageContent {
     )
   }
 
+  // 获取图片附件
   getImageAttachments(): MessageAttachment[] {
     return this.attachments.filter(attachment => attachment.isImage())
   }
 
+  // 获取视频附件
   getVideoAttachments(): MessageAttachment[] {
     return this.attachments.filter(attachment => attachment.isVideo())
   }
 
+  // 获取文档附件
   getDocumentAttachments(): MessageAttachment[] {
     return this.attachments.filter(attachment => attachment.isDocument())
   }
 
-  // 格式化方法
-  formatText(): string {
-    let formattedText = this.text
+  // 获取纯文本内容（移除格式化）
+  getPlainText(): string {
+    return this.text
+      .replace(/@\w+/g, '') // 移除提及
+      .replace(/#\w+/g, '') // 移除话题标签
+      .trim()
+  }
+
+  // 格式化显示内容
+  getFormattedContent(): string {
+    let formatted = this.text
 
     // 格式化提及
     for (const mention of this.mentions) {
-      const regex = new RegExp(
-        `@${mention.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`,
-        'g'
-      )
-      formattedText = formattedText.replace(regex, `**@${mention}**`)
+      const mentionRegex = new RegExp(`@${mention}`, 'gi')
+      formatted = formatted.replace(mentionRegex, `[@${mention}]`)
     }
 
     // 格式化话题标签
     for (const hashtag of this.hashtags) {
-      const regex = new RegExp(
-        `#${hashtag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`,
-        'g'
-      )
-      formattedText = formattedText.replace(regex, `*#${hashtag}*`)
+      const hashtagRegex = new RegExp(`#${hashtag}`, 'gi')
+      formatted = formatted.replace(hashtagRegex, `[#${hashtag}]`)
     }
 
-    return formattedText
+    return formatted
   }
 
-  getPreview(maxLength: number = 100): string {
-    let preview = this.text
-
-    // 移除附件信息
-    preview = preview.replace(/\[附件:.+?\]/g, '')
-
-    // 截取指定长度
-    if (preview.length > maxLength) {
-      preview = `${preview.substring(0, maxLength - 3)}...`
+  // 获取内容摘要
+  getSummary(maxLength: number = 100): string {
+    const plainText = this.getPlainText()
+    if (plainText.length <= maxLength) {
+      return plainText
     }
-
-    return preview.trim()
+    return `${plainText.substring(0, maxLength - 3)  }...`
   }
 
-  // 静态工厂方法
+  // 检查内容是否包含敏感词
+  containsSensitiveWords(sensitiveWords: string[]): boolean {
+    const lowerText = this.text.toLowerCase()
+    return sensitiveWords.some(word =>
+      lowerText.includes(word.toLowerCase())
+    )
+  }
+
+  // 转换为JSON格式
+  toJSON(): {
+    text: string
+    attachments: MessageAttachment[]
+    mentions: string[]
+    hashtags: string[]
+  } {
+    return {
+      text: this.text,
+      attachments: this.attachments,
+      mentions: this.mentions,
+      hashtags: this.hashtags
+    }
+  }
+
+  // 转换为字符串
+  toString(): string {
+    return this.text
+  }
+
+  // ========== 静态工厂方法 ==========
+
+  // 创建纯文本消息
   static fromText(text: string): MessageContent {
-    return new MessageContent(text.trim())
+    return new MessageContent(text)
   }
 
-  static fromTextWithAttachments(
+  // 创建带附件的消息
+  static withAttachments(
     text: string,
     attachments: MessageAttachment[]
   ): MessageContent {
-    return new MessageContent(text.trim(), attachments)
+    return new MessageContent(text, attachments)
   }
 
-  static fromTextWithMentions(
+  // 创建带提及的消息
+  static withMentions(
     text: string,
     mentions: string[]
   ): MessageContent {
-    return new MessageContent(text.trim(), [], mentions)
+    return new MessageContent(text, [], mentions)
   }
 
-  static parseText(text: string): MessageContent {
+  // 创建带话题标签的消息
+  static withHashtags(
+    text: string,
+    hashtags: string[]
+  ): MessageContent {
+    return new MessageContent(text, [], [], hashtags)
+  }
+
+  // 从JSON创建消息内容
+  static fromJSON(json: {
+    text: string
+    attachments?: MessageAttachment[]
+    mentions?: string[]
+    hashtags?: string[]
+  }): MessageContent {
+    return new MessageContent(
+      json.text,
+      json.attachments || [],
+      json.mentions || [],
+      json.hashtags || []
+    )
+  }
+
+  // 验证消息内容是否有效
+  static isValid(text: string): boolean {
+    try {
+      new MessageContent(text)
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  // 解析文本中的提及和话题标签
+  static parseContent(text: string): {
+    text: string
+    mentions: string[]
+    hashtags: string[]
+  } {
     const mentions: string[] = []
     const hashtags: string[] = []
 
-    // 解析提及 (@username)
+    // 解析提及 @username
     const mentionRegex = /@(\w+)/g
-    let match
-    while ((match = mentionRegex.exec(text)) !== null) {
-      mentions.push(match[1])
+    let mentionMatch
+    while ((mentionMatch = mentionRegex.exec(text)) !== null) {
+      const username = mentionMatch[1]
+      if (!mentions.includes(username)) {
+        mentions.push(username)
+      }
     }
 
-    // 解析话题标签 (#hashtag)
+    // 解析话题标签 #hashtag
     const hashtagRegex = /#(\w+)/g
-    while ((match = hashtagRegex.exec(text)) !== null) {
-      hashtags.push(match[1])
+    let hashtagMatch
+    while ((hashtagMatch = hashtagRegex.exec(text)) !== null) {
+      const tag = hashtagMatch[1]
+      if (!hashtags.includes(tag)) {
+        hashtags.push(tag)
+      }
     }
 
-    return new MessageContent(text.trim(), [], mentions, hashtags)
+    return { text, mentions, hashtags }
   }
 
-  // 验证方法
-  static isValidText(text: string): boolean {
-    if (!text || text.trim().length === 0) {
-      return false
-    }
-
-    if (text.length > 4000) {
-      return false
-    }
-
-    return true
-  }
-
-  static isValidMention(username: string): boolean {
-    if (!username || username.trim().length === 0) {
-      return false
-    }
-
-    if (username.length > 30) {
-      return false
-    }
-
-    // 只允许字母、数字、下划线
-    return /^[a-zA-Z0-9_]+$/.test(username)
-  }
-
-  static isValidHashtag(hashtag: string): boolean {
-    if (!hashtag || hashtag.trim().length === 0) {
-      return false
-    }
-
-    if (hashtag.length > 50) {
-      return false
-    }
-
-    // 只允许字母、数字、中文、下划线
-    return /^[\w\u4e00-\u9fa5]+$/.test(hashtag)
+  // 从原始文本创建消息内容（自动解析提及和话题标签）
+  static fromRawText(rawText: string): MessageContent {
+    const parsed = MessageContent.parseContent(rawText)
+    return new MessageContent(
+      parsed.text,
+      [],
+      parsed.mentions,
+      parsed.hashtags
+    )
   }
 }
 
-/**
- * 消息附件值对象
- */
-export class MessageAttachment {
+// 消息附件接口
+export interface MessageAttachment {
+  id: string
+  name: string
+  type: string
+  size: number
+  url: string
+
+  // 检查是否为图片
+  isImage(): boolean
+
+  // 检查是否为视频
+  isVideo(): boolean
+
+  // 检查是否为文档
+  isDocument(): boolean
+
+  // 获取格式化的文件大小
+  getFormattedSize(): string
+
+  // 获取文件扩展名
+  getFileExtension(): string
+}
+
+// 图片附件类
+export class ImageAttachment implements MessageAttachment {
   constructor(
     public readonly id: string,
     public readonly name: string,
-    public readonly url: string,
-    public readonly type: string,
     public readonly size: number,
-    public readonly mimeType: string,
-    public readonly thumbnailUrl?: string
-  ) {
-    this.validateAttachment()
+    public readonly url: string,
+    public readonly width?: number,
+    public readonly height?: number,
+    public readonly alt?: string
+  ) {}
+
+  get type(): string {
+    return 'image'
   }
 
-  private validateAttachment(): void {
-    if (!this.name || this.name.trim().length === 0) {
-      throw new Error('附件名称不能为空')
-    }
-
-    if (!this.url) {
-      throw new Error('附件URL不能为空')
-    }
-
-    if (!this.type) {
-      throw new Error('附件类型不能为空')
-    }
-
-    if (this.size < 0) {
-      throw new Error('附件大小不能为负数')
-    }
-
-    if (this.size > 100 * 1024 * 1024) {
-      // 100MB
-      throw new Error('附件大小不能超过100MB')
-    }
-  }
-
-  // 业务方法
   isImage(): boolean {
-    return this.mimeType.startsWith('image/')
+    return true
   }
 
   isVideo(): boolean {
-    return this.mimeType.startsWith('video/')
-  }
-
-  isAudio(): boolean {
-    return this.mimeType.startsWith('audio/')
+    return false
   }
 
   isDocument(): boolean {
-    const documentTypes = [
-      'application/pdf',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'application/vnd.ms-excel',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'application/vnd.ms-powerpoint',
-      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-      'text/plain',
-    ]
-    return documentTypes.includes(this.mimeType)
-  }
-
-  isArchive(): boolean {
-    const archiveTypes = [
-      'application/zip',
-      'application/x-rar-compressed',
-      'application/x-7z-compressed',
-      'application/x-tar',
-      'application/gzip',
-    ]
-    return archiveTypes.includes(this.mimeType)
+    return false
   }
 
   getFormattedSize(): string {
+    return this.formatFileSize(this.size)
+  }
+
+  getFileExtension(): string {
+    const lastDot = this.name.lastIndexOf('.')
+    return lastDot !== -1 ? this.name.substring(lastDot + 1).toLowerCase() : ''
+  }
+
+  // 获取图片宽高比
+  getAspectRatio(): number {
+    if (!this.width || !this.height) return 0
+    return this.width / this.height
+  }
+
+  // 检查是否为横向图片
+  isLandscape(): boolean {
+    return this.getAspectRatio() > 1
+  }
+
+  // 检查是否为纵向图片
+  isPortrait(): boolean {
+    return this.getAspectRatio() < 1
+  }
+
+  private formatFileSize(bytes: number): string {
     const units = ['B', 'KB', 'MB', 'GB']
-    let size = this.size
+    let size = bytes
     let unitIndex = 0
 
     while (size >= 1024 && unitIndex < units.length - 1) {
@@ -311,84 +377,70 @@ export class MessageAttachment {
 
     return `${size.toFixed(1)} ${units[unitIndex]}`
   }
+}
+
+// 文档附件类
+export class DocumentAttachment implements MessageAttachment {
+  constructor(
+    public readonly id: string,
+    public readonly name: string,
+    public readonly size: number,
+    public readonly url: string,
+    public readonly mimeType?: string
+  ) {}
+
+  get type(): string {
+    return 'document'
+  }
+
+  isImage(): boolean {
+    return false
+  }
+
+  isVideo(): boolean {
+    return false
+  }
+
+  isDocument(): boolean {
+    return true
+  }
+
+  getFormattedSize(): string {
+    return this.formatFileSize(this.size)
+  }
 
   getFileExtension(): string {
-    return this.name.split('.').pop() || ''
+    const lastDot = this.name.lastIndexOf('.')
+    return lastDot !== -1 ? this.name.substring(lastDot + 1).toLowerCase() : ''
   }
 
-  getIconType(): string {
-    if (this.isImage()) return 'image'
-    if (this.isVideo()) return 'video'
-    if (this.isAudio()) return 'audio'
-    if (this.isDocument()) return 'document'
-    if (this.isArchive()) return 'archive'
-    return 'file'
+  // 检查是否为PDF文档
+  isPDF(): boolean {
+    return this.getFileExtension() === 'pdf'
   }
 
-  // 静态工厂方法
-  static create(
-    id: string,
-    name: string,
-    url: string,
-    type: string,
-    size: number,
-    mimeType: string,
-    thumbnailUrl?: string
-  ): MessageAttachment {
-    return new MessageAttachment(
-      id,
-      name,
-      url,
-      type,
-      size,
-      mimeType,
-      thumbnailUrl
-    )
+  // 检查是否为Word文档
+  isWord(): boolean {
+    const ext = this.getFileExtension()
+    return ['doc', 'docx'].includes(ext)
   }
 
-  static createImage(
-    id: string,
-    name: string,
-    url: string,
-    size: number,
-    thumbnailUrl?: string
-  ): MessageAttachment {
-    return new MessageAttachment(
-      id,
-      name,
-      url,
-      'image',
-      size,
-      'image/jpeg',
-      thumbnailUrl
-    )
+  // 检查是否为Excel文档
+  isExcel(): boolean {
+    const ext = this.getFileExtension()
+    return ['xls', 'xlsx'].includes(ext)
   }
 
-  static createVideo(
-    id: string,
-    name: string,
-    url: string,
-    size: number,
-    thumbnailUrl?: string
-  ): MessageAttachment {
-    return new MessageAttachment(
-      id,
-      name,
-      url,
-      'video',
-      size,
-      'video/mp4',
-      thumbnailUrl
-    )
-  }
+  private formatFileSize(bytes: number): string {
+    const units = ['B', 'KB', 'MB', 'GB']
+    let size = bytes
+    let unitIndex = 0
 
-  static createDocument(
-    id: string,
-    name: string,
-    url: string,
-    size: number,
-    mimeType: string
-  ): MessageAttachment {
-    return new MessageAttachment(id, name, url, 'document', size, mimeType)
+    while (size >= 1024 && unitIndex < units.length - 1) {
+      size /= 1024
+      unitIndex++
+    }
+
+    return `${size.toFixed(1)} ${units[unitIndex]}`
   }
 }

@@ -7,9 +7,7 @@
  * @version 1.0.0
  */
 
-import { QualityBadgeLayer } from '@components/layers/QualityBadgeLayer'
-import { RatingBadgeLayer } from '@components/layers/RatingBadgeLayer'
-import { VipBadgeLayer } from '@components/layers/VipBadgeLayer'
+import { QualityBadgeLayer, RatingBadgeLayer, VipBadgeLayer } from '@components/layers'
 import React from 'react'
 
 /**

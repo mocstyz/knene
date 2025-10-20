@@ -1,89 +1,34 @@
 /**
  * 专题列表页面
  * 展示所有精选专题合集，采用卡片式网格布局
+ * 使用HomeApplicationService的mock数据，模拟真实后端数据结构
  */
 
-import { TopicList } from '@components/domains'
+import { CollectionList } from '@components/domains'
 import { NavigationHeader } from '@components/organisms'
+import { HomeApplicationService } from '@application/services/HomeApplicationService'
 import { useImageService } from '@presentation/hooks/image'
-import React, { useState } from 'react'
+import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
+import React, { useState, useMemo } from 'react'
 
 /**
  * 生成专题数据的Hook
- * 使用配置化图片服务替换硬编码URL
+ * 使用HomeApplicationService的mock数据，模拟真实的后端数据获取
  */
 const useSpecialCollections = () => {
   const { getTopicCover } = useImageService()
+  const homeService = useMemo(() => new HomeApplicationService(), [])
 
-  // 专题数据生成
-  const topics = (() => {
-    const topicsArray = []
-    const categories = [
-      'Modern Architecture',
-      'Abstract Art',
-      'Nature Photography',
-      'Urban Landscapes',
-      'Portrait Photography',
-      'Still Life',
-      'Wildlife Safari',
-      'Street Photography',
-      'Fine Art Nudes',
-      'Landscape Masters',
-      'Black & White',
-      'Digital Art',
-      'Cinematic Masterpieces',
-      'Nature Documentary',
-      'Travel Photography',
-      'Food Photography',
-      'Fashion Photography',
-      'Sports Photography',
-      'Architecture Photography',
-      'Night Photography',
-      'Macro Photography',
-      'Aerial Photography',
-    ]
-
-    const descriptions = [
-      '探索当代建筑的简约美学',
-      '色彩与形状的视觉交响曲',
-      '大自然的壮美瞬间定格',
-      '城市风光的现代诠释',
-      '人物情感的艺术捕捉',
-      '静物的诗意美学',
-      '野生动物的自然栖息地',
-      '城市街头的人文故事',
-      '人体艺术的美学探索',
-      '风景摄影的经典之作',
-      '黑白摄影的艺术魅力',
-      '数字艺术的无限可能',
-      '电影史上的经典之作',
-      '自然世界的精彩记录',
-      '旅行摄影的精彩世界',
-      '美食摄影的诱人魅力',
-      '时尚摄影的潮流趋势',
-      '体育摄影的动感瞬间',
-      '建筑摄影的空间美学',
-      '夜景摄影的神秘魅力',
-      '微距摄影的细节世界',
-      '航拍摄影的壮丽视角',
-    ]
-
-    // 生成120个专题数据（10页）
-    for (let i = 0; i < 120; i++) {
-      const categoryIndex = i % categories.length
-      const pageNum = Math.floor(i / 12) + 1
-
-      topicsArray.push({
-        id: `${i + 1}`,
-        title: `${categories[categoryIndex]} - 第${pageNum}页-${(i % 12) + 1}`,
-        imageUrl: getTopicCover(`collection${i}`, { width: 400, height: 500 }),
-        description: descriptions[categoryIndex],
-        type: 'Movie' as const,
-      })
-    }
-
-    return topicsArray
-  })()
+  // 使用HomeApplicationService的扩展mock数据
+  const topics = useMemo(() => {
+    const mockTopics = homeService.getMockTopicsExtended(120)
+    
+    // 处理图片URL，使用图片服务
+    return mockTopics.map(topic => ({
+      ...topic,
+      imageUrl: getTopicCover(topic.imageUrl, { width: 400, height: 500 }),
+    }))
+  }, [homeService, getTopicCover])
 
   return topics
 }
@@ -117,8 +62,8 @@ const SpecialCollectionsPage: React.FC = () => {
       <NavigationHeader />
 
       <main className="container mx-auto px-4 pb-8 pt-24 sm:px-6 lg:px-8">
-        <TopicList
-          topics={topics}
+        <CollectionList
+          collections={topics}
           title="专题列表"
           pagination={{
             currentPage,
@@ -126,11 +71,14 @@ const SpecialCollectionsPage: React.FC = () => {
             onPageChange: handlePageChange,
             itemsPerPage: ITEMS_PER_PAGE,
           }}
-          onTopicClick={handleTopicClick}
+          onCollectionClick={handleTopicClick}
           variant="grid"
-          hoverEffect={true}
-          showHoverOverlay={true}
-          columns={{ sm: 2, md: 3, lg: 4, xl: 5, '2xl': 6 }}
+          cardConfig={{
+            hoverEffect: true,
+            aspectRatio: 'portrait',
+            showVipBadge: true,
+          }}
+          columns={RESPONSIVE_CONFIGS.specialPage}
         />
       </main>
     </div>

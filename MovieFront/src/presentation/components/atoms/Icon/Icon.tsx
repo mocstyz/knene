@@ -1,93 +1,39 @@
+/**
+ * @fileoverview 图标组件
+ * @description 提供统一的SVG图标组件，支持多种尺寸和颜色配置，包含丰富的图标库
+ * @created 2025-10-11 12:35:25
+ * @updated 2025-10-19 15:30:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { cn } from '@utils/cn'
 import React from 'react'
 
+// 图标组件属性接口，扩展SVG属性并添加自定义功能
 export interface IconProps extends React.SVGAttributes<SVGSVGElement> {
-  name: IconName
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  color?: string
+  name: IconName // 图标名称
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' // 图标尺寸
+  color?: string // 图标颜色，支持预设颜色和自定义值
 }
 
+// 图标名称类型定义，包含所有支持的图标名称
 export type IconName =
-  | 'search'
-  | 'play'
-  | 'play_arrow'
-  | 'download'
-  | 'heart'
-  | 'star'
-  | 'user'
-  | 'settings'
-  | 'menu'
-  | 'close'
-  | 'chevron-left'
-  | 'chevron-right'
-  | 'chevron-up'
-  | 'chevron-down'
-  | 'chevronLeft'
-  | 'chevronRight'
-  | 'chevronUp'
-  | 'chevronDown'
-  | 'chevron_left'
-  | 'chevron_right'
-  | 'expand_more'
-  | 'eye'
-  | 'eye-off'
-  | 'eye-slash'
-  | 'mail'
-  | 'lock'
-  | 'check'
-  | 'x'
-  | 'plus'
-  | 'minus'
-  | 'edit'
-  | 'trash'
-  | 'filter'
-  | 'sort'
-  | 'grid'
-  | 'list'
-  | 'home'
-  | 'film'
-  | 'movie'
-  | 'clock'
-  | 'calendar'
-  | 'bookmark'
-  | 'share'
-  | 'external-link'
-  | 'loading'
-  | 'bell'
-  | 'logout'
-  | 'check-circle'
-  | 'exclamation-triangle'
-  | 'alertTriangle'
-  | 'refresh'
-  | 'arrowLeft'
-  | 'alertCircle'
-  | 'arrowRight'
-  | 'arrow-left'
-  | 'globe'
-  | 'info'
-  | 'warning'
-  | 'envelope'
-  | 'message'
-  | 'spinner'
-  | 'shield-exclamation'
-  | 'key'
-  | 'login'
-  | 'pause'
-  | 'error'
-  | 'success'
-  | 'userPlus'
-  | 'github'
-  | 'twitter'
-  | 'facebook'
-  | 'instagram'
-  | 'linkedin'
-  | 'pause'
-  | 'stop'
-  | 'resume'
-  | 'cancel'
-  | 'eyeOff'
-  | string // 允许任意字符串，保持灵活性
+  | 'search' | 'play' | 'play_arrow' | 'download' | 'heart' | 'star' | 'user' | 'settings'
+  | 'menu' | 'close' | 'chevron-left' | 'chevron-right' | 'chevron-up' | 'chevron-down'
+  | 'chevronLeft' | 'chevronRight' | 'chevronUp' | 'chevronDown' | 'chevron_left' | 'chevron_right'
+  | 'expand_more' | 'eye' | 'eye-off' | 'eye-slash' | 'mail' | 'lock' | 'check' | 'x'
+  | 'plus' | 'minus' | 'edit' | 'trash' | 'filter' | 'sort' | 'grid' | 'list'
+  | 'home' | 'film' | 'movie' | 'clock' | 'calendar' | 'bookmark' | 'share' | 'external-link'
+  | 'loading' | 'bell' | 'logout' | 'check-circle' | 'exclamation-triangle' | 'alertTriangle'
+  | 'refresh' | 'arrowLeft' | 'alertCircle' | 'arrowRight' | 'arrow-left' | 'globe'
+  | 'info' | 'warning' | 'envelope' | 'message' | 'spinner' | 'shield-exclamation' | 'key'
+  | 'login' | 'pause' | 'error' | 'success' | 'userPlus' | 'github' | 'twitter'
+  | 'facebook' | 'instagram' | 'linkedin' | 'stop' | 'resume' | 'cancel' | 'eyeOff'
+  | string // 允许任意字符串，保持扩展性
 
+// 图标路径映射表 - 定义所有图标对应的SVG路径数据
 const iconPaths: Record<IconName, string> = {
   search: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
   play: 'M8 5v14l11-7z',
@@ -195,8 +141,10 @@ const iconPaths: Record<IconName, string> = {
     'M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22',
 }
 
+// 图标组件实现，使用forwardRef支持ref传递
 const Icon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ name, size = 'md', color, className, ...props }, ref) => {
+    // 尺寸样式映射表 - 定义不同图标尺寸对应的宽高
     const sizeClasses = {
       xs: 'w-3 h-3',
       sm: 'w-4 h-4',
@@ -205,10 +153,11 @@ const Icon = React.forwardRef<SVGSVGElement, IconProps>(
       xl: 'w-8 h-8',
     }
 
-    // Map color strings to Tailwind classes
+    // 颜色映射函数 - 将颜色字符串转换为Tailwind CSS类名
     const getColorClass = (color?: string) => {
       if (!color) return 'text-current'
 
+      // 预设颜色映射表
       const colorMap: Record<string, string> = {
         primary: 'text-primary',
         secondary: 'text-gray-500',
@@ -229,12 +178,15 @@ const Icon = React.forwardRef<SVGSVGElement, IconProps>(
         current: 'text-current',
       }
 
+      // 返回映射的颜色类名或使用任意值语法
       return colorMap[color] || `text-[${color}]`
     }
 
+    // 获取图标路径和颜色类名
     const iconContent = iconPaths[name]
     const colorClass = getColorClass(color)
 
+    // 特殊处理loading图标 - 添加旋转动画效果
     if (name === 'loading') {
       return (
         <svg
@@ -257,6 +209,7 @@ const Icon = React.forwardRef<SVGSVGElement, IconProps>(
       )
     }
 
+  // 渲染普通SVG图标 - 应用尺寸、颜色和自定义样式
     return (
       <svg
         ref={ref}

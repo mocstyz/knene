@@ -1,18 +1,24 @@
+/**
+ * @fileoverview 用户仓储实现类
+ * @description 实现用户相关的数据访问操作，包含缓存机制、API调用、数据映射、认证管理等功能
+ * 提供用户的完整生命周期管理，包括创建、查询、更新、删除、认证、偏好设置等操作
+ * @created 2025-10-15 14:50:00
+ * @updated 2025-10-19 10:45:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { User } from '@domain/entities/User'
 import { UserRepository } from '@infrastructure/repositories/UserRepository'
 
-/**
- * 用户仓储实现
- * 负责用户数据的持久化和查询
- */
+// 用户仓储实现类，负责用户数据的持久化和查询操作
 export class UserRepositoryImpl implements UserRepository {
   private cache = new Map<string, User>()
   private cacheExpiry = new Map<string, number>()
   private readonly CACHE_DURATION = 10 * 60 * 1000 // 10分钟缓存
 
-  /**
-   * 根据ID查找用户
-   */
+  // 根据ID查找用户，支持缓存机制提升查询性能
   async findById(id: string): Promise<User | null> {
     try {
       // 1. 检查缓存
@@ -39,9 +45,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 获取所有用户
-   */
+  // 获取所有用户列表
   async findAll(): Promise<User[]> {
     try {
       const response = await fetch('/api/users')
@@ -57,9 +61,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 保存用户
-   */
+  // 保存用户到持久化存储
   async save(user: User): Promise<User> {
     try {
       const userData = this.mapFromUserEntity(user)
@@ -90,9 +92,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 删除用户
-   */
+  // 删除指定用户
   async delete(id: string): Promise<boolean> {
     try {
       const response = await fetch(`/api/users/${id}`, {
@@ -115,9 +115,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 根据邮箱查找用户
-   */
+  // 根据邮箱地址查找用户
   async findByEmail(email: string): Promise<User | null> {
     try {
       const response = await fetch(
@@ -136,9 +134,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 根据用户名查找用户
-   */
+  // 根据用户名查找用户
   async findByUsername(username: string): Promise<User | null> {
     try {
       const response = await fetch(
@@ -157,9 +153,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 创建新用户
-   */
+  // 创建新用户并返回创建结果
   async create(user: User): Promise<User> {
     try {
       const userData = {
@@ -195,9 +189,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 用户认证
-   */
+  // 用户身份认证，验证邮箱和密码并返回认证结果
   async authenticate(
     email: string,
     password: string
@@ -236,9 +228,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 更新用户密码
-   */
+  // 更新用户密码，需要验证当前密码
   async updatePassword(
     userId: string,
     currentPassword: string,
@@ -266,9 +256,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 更新用户资料
-   */
+  // 更新用户资料信息
   async updateProfile(
     userId: string,
     updates: {
@@ -305,9 +293,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 获取用户收藏列表
-   */
+  // 获取用户收藏的影片ID列表
   async getUserFavorites(userId: string): Promise<string[]> {
     try {
       const response = await fetch(`/api/users/${userId}/favorites`, {
@@ -328,9 +314,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 添加收藏
-   */
+  // 添加影片到用户收藏列表
   async addFavorite(userId: string, movieId: string): Promise<void> {
     try {
       const response = await fetch(`/api/users/${userId}/favorites`, {
@@ -351,9 +335,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 移除收藏
-   */
+  // 从用户收藏列表中移除影片
   async removeFavorite(userId: string, movieId: string): Promise<void> {
     try {
       const response = await fetch(
@@ -375,9 +357,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 获取用户活动记录
-   */
+  // 获取用户活动记录，支持数量限制
   async getUserActivity(userId: string, limit: number = 20): Promise<any[]> {
     try {
       const response = await fetch(
@@ -401,9 +381,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 检查用户名是否可用
-   */
+  // 检查用户名是否已被使用
   async checkUsernameAvailability(username: string): Promise<boolean> {
     try {
       const response = await fetch(
@@ -421,9 +399,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 检查邮箱是否可用
-   */
+  // 检查邮箱是否已被使用
   async checkEmailAvailability(email: string): Promise<boolean> {
     try {
       const response = await fetch(
@@ -441,9 +417,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 获取用户统计信息
-   */
+  // 获取用户统计信息，包含下载、收藏、消息数量
   async getUserStats(userId: string): Promise<{
     downloadsCount: number
     favoritesCount: number
@@ -474,9 +448,7 @@ export class UserRepositoryImpl implements UserRepository {
 
   // 私有辅助方法
 
-  /**
-   * 从缓存获取数据
-   */
+  // 从缓存中获取用户数据，检查缓存是否过期
   private getFromCache(id: string): User | null {
     const cached = this.cache.get(id)
     const expiry = this.cacheExpiry.get(id)
@@ -491,32 +463,24 @@ export class UserRepositoryImpl implements UserRepository {
     return null
   }
 
-  /**
-   * 设置缓存
-   */
+  // 将用户数据设置到缓存中，并设置过期时间
   private setCache(id: string, user: User): void {
     this.cache.set(id, user)
     this.cacheExpiry.set(id, Date.now() + this.CACHE_DURATION)
   }
 
-  /**
-   * 清除缓存
-   */
+  // 清除指定用户的缓存数据
   private clearCache(id: string): void {
     this.cache.delete(id)
     this.cacheExpiry.delete(id)
   }
 
-  /**
-   * 获取认证令牌
-   */
+  // 从本地存储获取认证令牌
   private getAuthToken(): string {
     return localStorage.getItem('auth_token') || ''
   }
 
-  /**
-   * 将API数据映射为用户实体
-   */
+  // 将API返回的数据映射为用户实体对象
   private mapToUserEntity(data: any): User {
     return {
       detail: {
@@ -539,9 +503,7 @@ export class UserRepositoryImpl implements UserRepository {
     } as User
   }
 
-  /**
-   * 更新用户信息
-   */
+  // 更新用户信息
   async update(user: User): Promise<User> {
     try {
       const userData = this.mapFromUserEntity(user)
@@ -572,9 +534,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 更新用户偏好设置
-   */
+  // 更新用户偏好设置
   async updatePreferences(
     userId: string,
     preferences: Record<string, any>
@@ -606,9 +566,7 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  /**
-   * 将用户实体映射为API数据格式
-   */
+  // 将用户实体映射为API数据格式
   private mapFromUserEntity(user: User): any {
     return {
       id: user.detail.id,

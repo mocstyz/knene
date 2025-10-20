@@ -1,59 +1,62 @@
 /**
  * @fileoverview API客户端基础设施
  * @description 基础设施层的HTTP客户端实现，提供统一的API请求接口。
- * 包含请求拦截、响应处理、错误处理、重试机制、文件上传下载等完整功能，
- * 为整个应用提供可靠的数据通信基础。
- *
+ *              包含请求拦截、响应处理、错误处理、重试机制、文件上传下载等完整功能。
+ *              为整个应用提供可靠的数据通信基础，支持企业级的网络请求管理。
+ * @created 2025-10-11 12:35:25
+ * @updated 2025-10-19 15:06:15
  * @author mosctz
  * @since 1.0.0
  * @version 1.2.0
  */
 
+// API统一响应格式接口，定义所有API请求的标准返回结构
 export interface ApiResponse<T = unknown> {
-  data: T
-  message: string
-  code: number
-  success: boolean
-  timestamp: string
+  data: T // 响应数据
+  message: string // 响应消息
+  code: number // 响应状态码
+  success: boolean // 请求是否成功
+  timestamp: string // 响应时间戳
 }
 
+// API错误响应接口，定义错误信息的标准格式
 export interface ApiError {
-  code: number
-  message: string
-  details?: unknown
-  timestamp: string
+  code: number // 错误状态码
+  message: string // 错误消息
+  details?: unknown // 错误详细信息
+  timestamp: string // 错误发生时间戳
 }
 
+// 请求配置接口，定义API请求的可选配置参数
 export interface RequestConfig {
-  headers?: Record<string, string>
-  timeout?: number
-  retries?: number
-  retryDelay?: number
+  headers?: Record<string, string> // 自定义请求头
+  timeout?: number // 请求超时时间（毫秒）
+  retries?: number // 重试次数
+  retryDelay?: number // 重试延迟时间（毫秒）
 }
 
+// 分页参数接口，定义分页查询的标准参数
 export interface PaginationParams {
-  page: number
-  pageSize: number
-  sortBy?: string
-  sortOrder?: 'asc' | 'desc'
+  page: number // 当前页码
+  pageSize: number // 每页条数
+  sortBy?: string // 排序字段
+  sortOrder?: 'asc' | 'desc' // 排序方向
 }
 
+// 分页响应接口，定义分页数据的返回格式
 export interface PaginatedResponse<T> {
-  data: T[]
+  data: T[] // 数据列表
   pagination: {
-    page: number
-    pageSize: number
-    total: number
-    totalPages: number
-    hasNext: boolean
-    hasPrev: boolean
+    page: number // 当前页码
+    pageSize: number // 每页条数
+    total: number // 总条数
+    totalPages: number // 总页数
+    hasNext: boolean // 是否有下一页
+    hasPrev: boolean // 是否有上一页
   }
 }
 
-/**
- * API客户端类
- * 基于Fetch API实现，提供RESTful接口调用能力
- */
+// API客户端类，基于Fetch API实现，提供RESTful接口调用能力
 export class ApiClient {
   private baseURL: string
   private defaultHeaders: Record<string, string>
@@ -80,11 +83,9 @@ export class ApiClient {
     this.setupDefaultInterceptors()
   }
 
-  /**
-   * 设置默认拦截器
-   */
+  // 设置默认拦截器 - 包括认证、响应处理和错误记录
   private setupDefaultInterceptors(): void {
-    // 请求拦截器：添加认证token
+    // 请求拦截器 - 自动添加认证token
     this.addRequestInterceptor(config => {
       const token = this.getAuthToken()
       if (token) {
@@ -96,7 +97,7 @@ export class ApiClient {
       return config
     })
 
-    // 响应拦截器：处理401未授权
+    // 响应拦截器 - 处理401未授权响应
     this.addResponseInterceptor(async response => {
       if (response.status === 401) {
         this.handleUnauthorized()
@@ -104,43 +105,35 @@ export class ApiClient {
       return response
     })
 
-    // 错误拦截器：记录错误日志
+    // 错误拦截器 - 记录错误日志
     this.addErrorInterceptor(error => {
       console.error('API Error:', error)
       this.logError(error)
     })
   }
 
-  /**
-   * 添加请求拦截器
-   */
+  // 添加请求拦截器 - 在请求发送前对配置进行处理
   addRequestInterceptor(
     interceptor: (config: RequestInit) => RequestInit | Promise<RequestInit>
   ): void {
     this.interceptors.request.push(interceptor)
   }
 
-  /**
-   * 添加响应拦截器
-   */
+  // 添加响应拦截器 - 在响应返回后对结果进行处理
   addResponseInterceptor(
     interceptor: (response: Response) => Response | Promise<Response>
   ): void {
     this.interceptors.response.push(interceptor)
   }
 
-  /**
-   * 添加错误拦截器
-   */
+  // 添加错误拦截器 - 统一处理API错误
   addErrorInterceptor(
     interceptor: (error: ApiError) => void | Promise<void>
   ): void {
     this.interceptors.error.push(interceptor)
   }
 
-  /**
-   * 执行HTTP请求
-   */
+  // 执行HTTP请求 - 核心请求方法，支持拦截器、重试机制和超时控制
   private async request<T>(
     endpoint: string,
     options: RequestInit = {},
@@ -151,7 +144,7 @@ export class ApiClient {
     const retries = config.retries || 0
     const retryDelay = config.retryDelay || 1000
 
-    // 合并请求配置
+    // 合并请求配置 - 优先级：用户配置 > 默认配置
     let requestConfig: RequestInit = {
       ...options,
       headers: {
@@ -161,12 +154,12 @@ export class ApiClient {
       },
     }
 
-    // 应用请求拦截器
+    // 应用请求拦截器 - 按顺序执行所有请求拦截器
     for (const interceptor of this.interceptors.request) {
       requestConfig = await interceptor(requestConfig)
     }
 
-    // 执行请求（带重试机制）
+    // 执行请求（带重试机制） - 支持指数退避重试
     for (let attempt = 0; attempt <= retries; attempt++) {
       try {
         const controller = new AbortController()
@@ -179,13 +172,13 @@ export class ApiClient {
 
         clearTimeout(timeoutId)
 
-        // 应用响应拦截器
+        // 应用响应拦截器 - 按顺序执行所有响应拦截器
         let processedResponse = response
         for (const interceptor of this.interceptors.response) {
           processedResponse = await interceptor(processedResponse)
         }
 
-        // 处理响应
+        // 处理响应错误 - 统一处理HTTP错误状态
         if (!processedResponse.ok) {
           const errorData = await this.parseErrorResponse(processedResponse)
           const apiError: ApiError = {
@@ -195,7 +188,7 @@ export class ApiClient {
             timestamp: new Date().toISOString(),
           }
 
-          // 应用错误拦截器
+          // 应用错误拦截器 - 按顺序执行所有错误拦截器
           for (const interceptor of this.interceptors.error) {
             await interceptor(apiError)
           }
@@ -219,7 +212,7 @@ export class ApiClient {
           throw error
         }
 
-        // 等待后重试
+        // 等待后重试 - 使用指数退避算法
         await this.delay(retryDelay * Math.pow(2, attempt))
       }
     }
@@ -227,9 +220,7 @@ export class ApiClient {
     throw new Error('请求失败')
   }
 
-  /**
-   * GET请求
-   */
+  // GET请求方法 - 支持查询参数和自定义配置
   async get<T>(
     endpoint: string,
     params?: Record<string, unknown>,
@@ -241,9 +232,7 @@ export class ApiClient {
     return this.request<T>(url, { method: 'GET' }, config)
   }
 
-  /**
-   * POST请求
-   */
+  // POST请求方法 - 支持请求体数据和自定义配置
   async post<T>(
     endpoint: string,
     data?: unknown,
@@ -259,9 +248,7 @@ export class ApiClient {
     )
   }
 
-  /**
-   * PUT请求
-   */
+  // PUT请求方法 - 支持完整资源更新和自定义配置
   async put<T>(
     endpoint: string,
     data?: unknown,
@@ -277,9 +264,7 @@ export class ApiClient {
     )
   }
 
-  /**
-   * PATCH请求
-   */
+  // PATCH请求方法 - 支持部分资源更新和自定义配置
   async patch<T>(
     endpoint: string,
     data?: unknown,
@@ -295,9 +280,7 @@ export class ApiClient {
     )
   }
 
-  /**
-   * DELETE请求
-   */
+  // DELETE请求方法 - 支持资源删除和自定义配置
   async delete<T>(
     endpoint: string,
     config?: RequestConfig
@@ -305,9 +288,7 @@ export class ApiClient {
     return this.request<T>(endpoint, { method: 'DELETE' }, config)
   }
 
-  /**
-   * 分页查询
-   */
+  // 分页查询方法 - 支持标准分页参数和自定义过滤条件
   async getPaginated<T>(
     endpoint: string,
     params: PaginationParams & Record<string, unknown> = {
@@ -319,9 +300,7 @@ export class ApiClient {
     return this.get<PaginatedResponse<T>>(endpoint, params, config)
   }
 
-  /**
-   * 文件上传
-   */
+  // 文件上传方法 - 支持单文件上传和额外表单数据
   async upload<T>(
     endpoint: string,
     file: File,
@@ -339,7 +318,7 @@ export class ApiClient {
       })
     }
 
-    // 移除Content-Type头，让浏览器自动设置
+    // 移除Content-Type头 - 让浏览器自动设置multipart/form-data边界
     const headers = { ...config?.headers }
     delete headers['Content-Type']
 
@@ -356,9 +335,7 @@ export class ApiClient {
     )
   }
 
-  /**
-   * 文件下载
-   */
+  // 文件下载方法 - 支持自定义文件名和浏览器下载
   async download(
     endpoint: string,
     filename?: string,
@@ -383,39 +360,29 @@ export class ApiClient {
     window.URL.revokeObjectURL(url)
   }
 
-  /**
-   * 设置认证token
-   */
+  // 设置认证token - 将token存储到本地存储中
   setAuthToken(token: string): void {
     localStorage.setItem('auth_token', token)
   }
 
-  /**
-   * 获取认证token
-   */
+  // 获取认证token - 从本地存储中获取认证token
   private getAuthToken(): string | null {
     return localStorage.getItem('auth_token')
   }
 
-  /**
-   * 清除认证token
-   */
+  // 清除认证token - 从本地存储中移除认证token
   clearAuthToken(): void {
     localStorage.removeItem('auth_token')
   }
 
-  /**
-   * 处理未授权响应
-   */
+  // 处理未授权响应 - 清除token并触发重新认证事件
   private handleUnauthorized(): void {
     this.clearAuthToken()
     // 触发登录页面跳转事件
     window.dispatchEvent(new CustomEvent('auth:unauthorized'))
   }
 
-  /**
-   * 构建查询字符串
-   */
+  // 构建查询字符串 - 将对象转换为URL查询参数格式
   private buildQueryString(params: Record<string, unknown>): string {
     const searchParams = new URLSearchParams()
 
@@ -432,9 +399,7 @@ export class ApiClient {
     return searchParams.toString()
   }
 
-  /**
-   * 解析错误响应
-   */
+  // 解析错误响应 - 尝试从响应中提取错误信息
   private async parseErrorResponse(
     response: Response
   ): Promise<{ message?: string; [key: string]: unknown }> {
@@ -445,9 +410,7 @@ export class ApiClient {
     }
   }
 
-  /**
-   * 从响应头提取文件名
-   */
+  // 从响应头提取文件名 - 解析Content-Disposition头获取文件名
   private extractFilenameFromResponse(response: Response): string {
     const contentDisposition = response.headers.get('Content-Disposition')
     if (contentDisposition) {
@@ -461,16 +424,12 @@ export class ApiClient {
     return 'download'
   }
 
-  /**
-   * 延迟函数
-   */
+  // 延迟函数 - 创建指定延迟的Promise
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
 
-  /**
-   * 记录错误日志
-   */
+  // 记录错误日志 - 记录API错误信息用于调试和监控
   private logError(error: ApiError): void {
     // 这里可以集成第三方日志服务
     console.error('API Error logged:', {

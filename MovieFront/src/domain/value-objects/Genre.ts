@@ -1,7 +1,19 @@
+/**
+ * @fileoverview 电影类型值对象
+ * @description 电影类型值对象，提供电影类型的创建、验证、比较和展示功能，确保类型名称的规范性和唯一性，支持多种格式的类型显示和搜索
+ * @created 2025-10-09 13:10:49
+ * @updated 2025-10-19 10:30:00
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
+// 电影类型值对象，提供电影类型的创建、验证、比较和展示功能
 export class Genre {
   private readonly _name: string
   private readonly _slug: string
 
+  // 构造函数，验证类型名称并生成标准化slug
   constructor(name: string) {
     const trimmed = name.trim()
 
@@ -17,89 +29,78 @@ export class Genre {
     this._slug = this.createSlug(trimmed)
   }
 
+  // 获取类型名称
   get name(): string {
     return this._name
   }
 
+  // 获取类型slug（用于URL）
   get slug(): string {
     return this._slug
   }
 
+  // 创建URL友好的slug
   private createSlug(name: string): string {
     return name
       .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim()
+      .replace(/[^\w\s-]/g, '') // 移除特殊字符
+      .replace(/[\s_-]+/g, '-') // 替换空格和下划线为连字符
+      .replace(/^-+|-+$/g, '') // 移除首尾连字符
   }
 
+  // 比较两个类型是否相等
   equals(other: Genre): boolean {
     return this._name === other._name
   }
 
+  // 检查类型名称是否包含关键词
+  contains(keyword: string): boolean {
+    return this._name.toLowerCase().includes(keyword.toLowerCase())
+  }
+
+  // 获取类型名称长度
+  get length(): number {
+    return this._name.length
+  }
+
+  // 转换为字符串
   toString(): string {
     return this._name
   }
 
-  // 预定义的电影类型
-  static readonly ACTION = new Genre('动作')
-  static readonly ADVENTURE = new Genre('冒险')
-  static readonly ANIMATION = new Genre('动画')
-  static readonly COMEDY = new Genre('喜剧')
-  static readonly CRIME = new Genre('犯罪')
-  static readonly DOCUMENTARY = new Genre('纪录片')
-  static readonly DRAMA = new Genre('剧情')
-  static readonly FAMILY = new Genre('家庭')
-  static readonly FANTASY = new Genre('奇幻')
-  static readonly HISTORY = new Genre('历史')
-  static readonly HORROR = new Genre('恐怖')
-  static readonly MUSIC = new Genre('音乐')
-  static readonly MYSTERY = new Genre('悬疑')
-  static readonly ROMANCE = new Genre('爱情')
-  static readonly SCIENCE_FICTION = new Genre('科幻')
-  static readonly THRILLER = new Genre('惊悚')
-  static readonly WAR = new Genre('战争')
-  static readonly WESTERN = new Genre('西部')
-
-  // 获取所有预定义类型
-  static getAllGenres(): Genre[] {
-    return [
-      Genre.ACTION,
-      Genre.ADVENTURE,
-      Genre.ANIMATION,
-      Genre.COMEDY,
-      Genre.CRIME,
-      Genre.DOCUMENTARY,
-      Genre.DRAMA,
-      Genre.FAMILY,
-      Genre.FANTASY,
-      Genre.HISTORY,
-      Genre.HORROR,
-      Genre.MUSIC,
-      Genre.MYSTERY,
-      Genre.ROMANCE,
-      Genre.SCIENCE_FICTION,
-      Genre.THRILLER,
-      Genre.WAR,
-      Genre.WESTERN,
-    ]
+  // 转换为JSON格式
+  toJSON(): { name: string; slug: string } {
+    return {
+      name: this._name,
+      slug: this._slug
+    }
   }
 
-  // 根据名称查找类型
-  static findByName(name: string): Genre | undefined {
-    return Genre.getAllGenres().find(
-      genre => genre.name.toLowerCase() === name.toLowerCase()
-    )
+  // ========== 静态工厂方法 ==========
+
+  // 创建类型对象
+  static create(name: string): Genre {
+    return new Genre(name)
   }
 
-  // 根据slug查找类型
-  static findBySlug(slug: string): Genre | undefined {
-    return Genre.getAllGenres().find(genre => genre.slug === slug.toLowerCase())
+  // 从slug创建类型对象
+  static fromSlug(slug: string): Genre {
+    const name = slug
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, l => l.toUpperCase())
+    return new Genre(name)
   }
 
-  // 验证类型名称
-  static validate(name: string): boolean {
+  // 从JSON创建类型对象
+  static fromJSON(json: { name: string; slug?: string }): Genre {
+    if (json.slug) {
+      return Genre.fromSlug(json.slug)
+    }
+    return new Genre(json.name)
+  }
+
+  // 验证类型名称是否有效
+  static isValid(name: string): boolean {
     try {
       new Genre(name)
       return true
@@ -108,61 +109,63 @@ export class Genre {
     }
   }
 
-  // 创建自定义类型
-  static fromString(name: string): Genre {
-    return new Genre(name)
+  // 创建预设的常见电影类型
+  static commonGenres(): Genre[] {
+    const genres = [
+      '动作', '喜剧', '剧情', '爱情', '科幻', '恐怖', '悬疑', '动画',
+      '纪录片', '战争', '犯罪', '冒险', '家庭', '奇幻', '音乐', '传记',
+      '历史', '西部', '运动', '惊悚'
+    ]
+    return genres.map(genre => new Genre(genre))
   }
 
-  // 安全创建类型
-  static createSafe(name: string): Genre | null {
-    try {
-      return new Genre(name)
-    } catch {
-      return null
-    }
+  // 搜索类型
+  static search(genres: Genre[], keyword: string): Genre[] {
+    const lowerKeyword = keyword.toLowerCase()
+    return genres.filter(genre =>
+      genre._name.toLowerCase().includes(lowerKeyword) ||
+      genre._slug.includes(lowerKeyword)
+    )
   }
 
-  // 类型分组
-  static getGenresByCategory(): Record<string, Genre[]> {
-    return {
-      动作冒险: [Genre.ACTION, Genre.ADVENTURE, Genre.THRILLER],
-      剧情文艺: [Genre.DRAMA, Genre.ROMANCE, Genre.HISTORY],
-      喜剧家庭: [Genre.COMEDY, Genre.FAMILY, Genre.ANIMATION],
-      科幻奇幻: [Genre.SCIENCE_FICTION, Genre.FANTASY, Genre.HORROR],
-      其他: [
-        Genre.DOCUMENTARY,
-        Genre.MUSIC,
-        Genre.MYSTERY,
-        Genre.CRIME,
-        Genre.WAR,
-        Genre.WESTERN,
-      ],
-    }
+  // 按名称排序
+  static sortByName(genres: Genre[]): Genre[] {
+    return [...genres].sort((a, b) => a._name.localeCompare(b._name))
   }
 
-  // 获取类型颜色（用于UI显示）
-  getColor(): string {
-    const colorMap: Record<string, string> = {
-      动作: 'bg-red-100 text-red-800',
-      冒险: 'bg-orange-100 text-orange-800',
-      动画: 'bg-pink-100 text-pink-800',
-      喜剧: 'bg-yellow-100 text-yellow-800',
-      犯罪: 'bg-gray-100 text-gray-800',
-      纪录片: 'bg-green-100 text-green-800',
-      剧情: 'bg-blue-100 text-blue-800',
-      家庭: 'bg-purple-100 text-purple-800',
-      奇幻: 'bg-indigo-100 text-indigo-800',
-      历史: 'bg-amber-100 text-amber-800',
-      恐怖: 'bg-red-100 text-red-800',
-      音乐: 'bg-cyan-100 text-cyan-800',
-      悬疑: 'bg-slate-100 text-slate-800',
-      爱情: 'bg-rose-100 text-rose-800',
-      科幻: 'bg-emerald-100 text-emerald-800',
-      惊悚: 'bg-zinc-100 text-zinc-800',
-      战争: 'bg-stone-100 text-stone-800',
-      西部: 'bg-orange-100 text-orange-800',
+  // 获取所有类型的名称列表
+  static getNames(genres: Genre[]): string[] {
+    return genres.map(genre => genre._name)
+  }
+
+  // 查找重复的类型
+  static findDuplicates(genres: Genre[]): Genre[] {
+    const seen = new Set<string>()
+    const duplicates: Genre[] = []
+
+    for (const genre of genres) {
+      const key = genre._name.toLowerCase()
+      if (seen.has(key)) {
+        duplicates.push(genre)
+      } else {
+        seen.add(key)
+      }
     }
 
-    return colorMap[this._name] || 'bg-gray-100 text-gray-800'
+    return duplicates
+  }
+
+  // 合并重复的类型
+  static mergeDuplicates(genres: Genre[]): Genre[] {
+    const unique = new Map<string, Genre>()
+
+    for (const genre of genres) {
+      const key = genre._name.toLowerCase()
+      if (!unique.has(key)) {
+        unique.set(key, genre)
+      }
+    }
+
+    return Array.from(unique.values())
   }
 }

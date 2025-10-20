@@ -1,8 +1,8 @@
 /**
  * @fileoverview Query Client配置服务
- * @description 应用层的数据获取配置服务，基于TanStack Query提供统一的数据缓存、
- * 重试机制和错误处理策略。为整个应用提供高效、可靠的数据管理能力。
- *
+ * @description 应用层数据获取配置服务，基于TanStack Query提供统一缓存、重试与错误处理
+ * @created 2025-10-09 13:10:49
+ * @updated 2025-10-19 12:55:27
  * @author mosctz
  * @since 1.0.0
  * @version 1.2.0
@@ -11,11 +11,7 @@
 import type { MovieFilters } from '@application/stores/movieStore'
 import { QueryClient } from '@tanstack/react-query'
 
-/**
- * 创建Query Client实例
- *
- * 配置全局的查询和变更选项，包括缓存策略、重试机制和错误处理
- */
+// 创建Query Client实例，配置全局查询与变更选项（缓存、重试、错误处理）
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -23,19 +19,19 @@ export const queryClient = new QueryClient({
       staleTime: 5 * 60 * 1000,
       // 缓存保持时间（10分钟）
       gcTime: 10 * 60 * 1000,
-      // 重试配置
+  // 智能重试配置 - 4xx客户端错误不重试，5xx服务器错误最多重试3次
       retry: (failureCount, error) => {
-        // 对于4xx错误不重试
+        // HTTP状态码检查 - 客户端错误（4xx）不进行重试
         if ('status' in error) {
           const status = (error as { status?: number }).status
           if (status && status >= 400 && status < 500) {
             return false
           }
         }
-        // 最多重试3次
+        // 重试次数限制 - 最多重试3次避免无限重试
         return failureCount < 3
       },
-      // 重试延迟（指数退避）
+      // 指数退避重试延迟 - 避免服务器过载，最大延迟30秒
       retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
       // 窗口重新获得焦点时重新获取数据
       refetchOnWindowFocus: false,
@@ -53,11 +49,7 @@ export const queryClient = new QueryClient({
   },
 })
 
-/**
- * Query Keys 常量
- *
- * 定义所有查询键，确保查询键的一致性和可维护性
- */
+// 查询键常量，统一约定查询键格式，确保一致性与可维护性
 export const QUERY_KEYS = {
   // 用户相关
   USER: {
@@ -120,37 +112,31 @@ export const QUERY_KEYS = {
   },
 } as const
 
-/**
- * 错误处理函数
- * @param error 查询错误对象
- * @returns {string} 返回用户友好的错误消息
- */
+// 错误处理函数 - 将技术错误转换为用户友好的错误消息
 export const handleQueryError = (error: unknown): string => {
+  // 错误日志记录 - 用于开发和调试
   console.error('Query error:', error)
 
   if (error instanceof Error) {
-    // 网络错误
+    // 网络连接错误识别 - 检测fetch相关错误并提供网络问题指导
     if (error.message.includes('fetch')) {
       return '网络连接失败，请检查网络设置'
     }
 
-    // 超时错误
+    // 请求超时错误识别 - 检测timeout相关错误并提供重试建议
     if (error.message.includes('timeout')) {
       return '请求超时，请稍后重试'
     }
 
+    // 直接返回已知的用户友好错误消息
     return error.message
   }
 
+  // 兜底错误处理 - 对于未知错误类型提供通用错误消息
   return '未知错误，请稍后重试'
 }
 
-/**
- * 成功处理函数
- * @param data 查询返回的数据
- * @param message 可选的成功消息
- * @returns {unknown} 返回原始数据
- */
+// 成功处理函数，记录可选成功消息并返回原始数据
 export const handleQuerySuccess = (
   data: unknown,
   message?: string
@@ -161,11 +147,7 @@ export const handleQuerySuccess = (
   return data
 }
 
-/**
- * 预定义的查询选项
- *
- * 提供不同场景下的查询配置模板
- */
+// 预定义查询选项，提供不同场景的查询配置模板
 export const createQueryOptions = {
   // 实时数据查询（短缓存时间）
   realtime: {

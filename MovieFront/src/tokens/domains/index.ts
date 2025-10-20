@@ -10,12 +10,8 @@ export * from './movie-variants'
 export * from './download-variants'
 
 // 类型重新导出，保持向后兼容
+// 注意：MovieCard、MovieGrid相关类型已被内容渲染器系统替代
 export type {
-  MovieCardVariant,
-  MovieCardSize,
-  MovieItemVariant,
-  MovieItemSize,
-  MovieGridVariant,
   MovieDetailVariant,
   MovieDetailLayout,
   RatingVariant,
