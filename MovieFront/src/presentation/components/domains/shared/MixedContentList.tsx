@@ -1,6 +1,7 @@
 /**
  * @fileoverview 统一的混合内容列表组件
- * @description 基于内容渲染器抽象层的统一列表组件，支持多种内容类型的混合展示，使用内容渲染器工厂自动选择最佳渲染器，实现真正的内容类型无关渲染
+ * @description 基于内容渲染器抽象层的统一列表组件，支持多种内容类型的混合展示，使用内容渲染器工厂自动选择最佳渲染器。
+ *              实现真正的内容类型无关渲染，提供完整的错误处理、调试信息和性能优化特性。
  * @created 2025-10-20 15:43:22
  * @updated 2025-10-20 16:30:00
  * @author mosctz
@@ -19,10 +20,6 @@ import { contentRendererFactory } from '@components/domains/shared/content-rende
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { cn } from '@utils/cn'
 import React, { useEffect, useState, useMemo } from 'react'
-
-// ============================================================================
-// 接口定义
-// ============================================================================
 
 // 混合内容列表组件属性接口，定义混合内容列表的所有配置选项
 export interface MixedContentListProps {
@@ -55,6 +52,7 @@ export interface MixedContentListProps {
   debug?: boolean // 调试模式，默认false
 }
 
+// 接口定义
 // 渲染状态接口，管理组件的渲染状态和统计信息
 interface RenderState {
   initialized: boolean // 是否已初始化
@@ -68,10 +66,7 @@ interface RenderState {
   missingRenderers: string[] // 缺失渲染器的内容类型
 }
 
-// ============================================================================
 // 组件实现
-// ============================================================================
-
 // 混合内容列表组件，支持多种内容类型的统一渲染和展示，基于内容渲染器工厂实现自动化的渲染器选择和配置管理
 const MixedContentList: React.FC<MixedContentListProps> = ({
   items,
@@ -207,7 +202,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
       rendererStats: stats,
       missingRenderers: Array.from(missingTypes),
     }))
-  }, [processedItems, renderState.initialized])
+  }, [processedItems, renderState.initialized, renderState.rendererStats])
 
   // 获取渲染器配置 - 合并默认配置和内容类型特定配置
   const getRendererConfig = (item: BaseContentItem): RendererConfig => {

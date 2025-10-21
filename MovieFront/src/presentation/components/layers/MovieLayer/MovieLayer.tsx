@@ -140,6 +140,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
             size="sm"
             maxLines={1}
             color="primary"
+            weight="bold"
             clickable={!!onPlay}
             onClick={() => onPlay?.(movie.id)}
           />
@@ -264,6 +265,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
           size="lg"
           maxLines={1}
           color="primary"
+          weight="bold"
           clickable={!!onPlay}
           onClick={() => onPlay?.(movie.id)}
         />

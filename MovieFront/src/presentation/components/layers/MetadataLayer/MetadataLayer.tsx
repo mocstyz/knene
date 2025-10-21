@@ -50,20 +50,10 @@ const MetadataLayer: React.FC<MetadataLayerProps> = ({
 
   // 渲染类型标签
   const renderGenres = () => {
-    // 如果没有genres数据，使用默认的分类数据
-    const defaultGenres = [
-      '动作',
-      '科幻',
-      '剧情',
-      '喜剧',
-      '惊悚',
-      '恐怖',
-      '爱情',
-      '动画',
-    ]
+    // 如果没有genres数据，使用默认的第一个分类，避免随机生成导致的闪烁
     const genresToDisplay =
       !genres || !Array.isArray(genres) || genres.length === 0
-        ? [defaultGenres[Math.floor(Math.random() * defaultGenres.length)]] // 随机选择1个默认分类
+        ? ['剧情'] // 使用固定的默认分类，避免随机闪烁
         : genres.slice(0, 1) // 只显示第一个分类
 
     return (

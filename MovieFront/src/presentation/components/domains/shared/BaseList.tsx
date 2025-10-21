@@ -1,7 +1,3 @@
-import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
-import { cn } from '@utils/cn'
-import React from 'react'
-
 /**
  * @fileoverview 基础列表组件
  * @description 提供统一的列表布局和响应式网格功能，支持加载状态和空状态，遵循自包含组件设计原则
@@ -11,6 +7,10 @@ import React from 'react'
  * @since 1.0.0
  * @version 1.0.0
  */
+
+import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
+import { cn } from '@utils/cn'
+import React from 'react'
 
 // 响应式列数配置接口，定义各断点下的列数配置格式
 export interface ResponsiveColumnsConfig {

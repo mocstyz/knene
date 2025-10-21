@@ -128,6 +128,7 @@ const PhotoLayer: React.FC<PhotoLayerProps> = ({
             size="sm"
             maxLines={1}
             color="primary"
+            weight="bold"
             clickable={!!onView}
             onClick={() => onView?.(photo.id)}
           />
@@ -252,6 +253,7 @@ const PhotoLayer: React.FC<PhotoLayerProps> = ({
             size="lg"
             maxLines={1}
             color="primary"
+            weight="bold"
             clickable={!!onView}
             onClick={() => onView?.(photo.id)}
             hoverEffect={{

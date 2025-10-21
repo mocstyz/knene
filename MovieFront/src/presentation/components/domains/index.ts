@@ -1,27 +1,9 @@
 /**
  * @fileoverview Domains领域模块统一导出
  * @description 导出所有领域组件和类型，统一管理domains层的对外接口。
- *
- * 架构说明：
- * - latestupdate: 最新更新内容领域(24小时内的更新)
- * - hot: 24小时热门内容领域
- * - collections: 影片合集领域
- * - photo: 写真图片领域
- * - shared: 共享基础组件和内容渲染器系统
- *
- * 迁移说明：
- * - home目录已删除，组件已迁移到对应领域
- * - LatestSection → @components/domains/latestupdate
- * - TopSection → @components/domains/hot (原top已重命名为hot)
- * - CollectionSection → @components/domains/collections
- * - PhotoSection → @components/domains/photo
- *
- * 重构说明：
- * - movie目录已删除，已被内容渲染器系统替代
- * - MovieList、MovieCard等组件已被MixedContentList替代
- * - 热门和最新更新模块现在支持混合内容展示
- * @created 2025-10-20 14:18:34
- * @updated 2025-10-20 16:35:00
+ *              架构说明：latestupdate为最新更新内容领域(24小时内的更新)，hot为24小时热门内容领域，collections为影片合集领域，photo为写真图片领域，shared为共享基础组件和内容渲染器系统。
+ * @created 2025-10-21 11:28:44
+ * @updated 2025-10-21 11:30:05
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
