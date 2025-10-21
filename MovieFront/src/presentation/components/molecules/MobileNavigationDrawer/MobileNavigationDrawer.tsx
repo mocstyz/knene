@@ -212,7 +212,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
 
   return (
     <>
-      {/* 背景遮罩 - 只在移动端显示 */}
+      {/* 背景遮罩层 - 只在移动端显示，支持点击关闭 */}
       <div
         ref={backdropRef}
         className={`fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity duration-200 ease-in-out ${isOpen ? 'opacity-100' : 'opacity-0'} lg:hidden`}
@@ -220,7 +220,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
         aria-hidden="true"
       />
 
-      {/* 导航抽屉 - 只在移动端显示 */}
+      {/* 导航抽屉主体 - 只在移动端显示，从右侧滑出 */}
       <div
         ref={drawerRef}
         id="mobile-navigation-menu"
@@ -230,7 +230,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
         aria-labelledby="mobile-nav-title"
         tabIndex={-1}
       >
-        {/* 抽屉头部 */}
+        {/* 抽屉头部区域 - 包含标题和关闭按钮 */}
         <div className="flex items-center justify-between border-b border-gray-200 p-4 dark:border-gray-700">
           <h2
             id="mobile-nav-title"
@@ -248,7 +248,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
           </button>
         </div>
 
-        {/* 导航列表 */}
+        {/* 导航列表区域 - 包含所有导航菜单项 */}
         <nav className="flex-1 overflow-y-auto p-4">
           <ul className="space-y-1" role="menu">
             {navigationItems.map(item => (
@@ -276,9 +276,9 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
           </ul>
         </nav>
 
-        {/* 底部功能区 */}
+        {/* 底部功能区 - 包含搜索、认证、主题切换等功能 */}
         <div className="space-y-4 border-t border-gray-200 p-4 dark:border-gray-700">
-          {/* 搜索框 */}
+          {/* 搜索功能区域 - 提供全局搜索输入框 */}
           {showSearch && (
             <div className="relative">
               <Icon
@@ -295,7 +295,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
             </div>
           )}
 
-          {/* 认证区域 */}
+          {/* 用户认证区域 - 提供登录和注册按钮 */}
           {showAuth && (
             <div className="space-y-3">
               <a
@@ -310,7 +310,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
             </div>
           )}
 
-          {/* 主题切换 */}
+          {/* 主题切换区域 - 提供明暗主题切换功能 */}
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
               主题模式

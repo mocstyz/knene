@@ -1,3 +1,13 @@
+/**
+ * @fileoverview 主导航菜单复合组件
+ * @description 整合所有子菜单组件的主导航菜单，提供VIP、最近更新、普通分类等完整导航功能，支持hover触发和复合组件模式
+ * @created 2025-10-20 18:09:35
+ * @updated 2025-10-21 11:12:43
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Icon } from '@components/atoms/Icon'
 import {
   HomeMenuItem,
@@ -12,34 +22,30 @@ import {
 import featuredImage from '@images/heroes/0049.jpg'
 import React from 'react'
 
-// 延迟导入避免循环依赖
+// 延迟导入避免循环依赖 - 使用React.lazy进行代码分割
 const HomeMenu = React.lazy(() => import('./HomeMenu'))
 const MediaMenu = React.lazy(() => import('./MediaMenu'))
 const MoreMenu = React.lazy(() => import('./MoreMenu'))
 
-// 主导航菜单属性
+// 主导航菜单组件属性接口，定义主题、尺寸和页面配置
 export interface NavigationMenuProps {
-  theme?: NavigationTheme
-  size?: NavigationSize
-  currentPage?: keyof typeof pageConfigs
-  className?: string
+  theme?: NavigationTheme // 主题配置，默认auto
+  size?: NavigationSize // 尺寸配置，默认lg
+  currentPage?: keyof typeof pageConfigs // 当前页面配置
+  className?: string // 自定义CSS类名
 }
 
-/**
- * NavigationMenu复合组件
- *
- * 特点：
- * - 整合所有子菜单组件
- * - 使用hover触发方式
- * - 复合组件模式
- * - 高度可复用性
- */
+// 主导航菜单复合组件，整合所有子菜单组件并提供完整的导航功能
 export const NavigationMenu: React.FC<NavigationMenuProps> & {
-  Home: typeof HomeMenu
-  Media: typeof MediaMenu
-  More: typeof MoreMenu
-} = ({ theme = 'auto', size = 'lg', className = '' }) => {
-  // 预定义的菜单配置
+  Home: typeof HomeMenu // 首页菜单子组件
+  Media: typeof MediaMenu // 媒体菜单子组件
+  More: typeof MoreMenu // 更多菜单子组件
+} = ({
+  theme = 'auto', // 主题配置，默认自动主题
+  size = 'lg', // 尺寸配置，默认大尺寸
+  className = '' // 自定义CSS类名，默认空字符串
+}) => {
+  // 预定义的首页菜单配置 - 包含特色内容和菜单项列表
   const homeMenuConfig: {
     featuredContent: FeaturedContent
     menuItems: HomeMenuItem[]
@@ -74,6 +80,7 @@ export const NavigationMenu: React.FC<NavigationMenuProps> & {
     ],
   }
 
+  // 预定义的媒体菜单配置 - 左右两列布局的菜单项
   const tvShowsMenuConfig: MediaMenuConfig = {
     leftColumn: [
       {
@@ -115,7 +122,7 @@ export const NavigationMenu: React.FC<NavigationMenuProps> & {
     <nav
       className={`hidden items-center space-x-6 text-sm font-medium lg:flex ${className}`}
     >
-      {/* VIP Dropdown - 1024px及以上显示 */}
+      {/* VIP下拉菜单 - 1024px及以上显示 */}
       <div className="relative group">
         <a
           className="flex h-9 items-center space-x-1 text-gray-700 transition-colors duration-200 group-hover:text-[#6EE7B7] dark:text-gray-300"
@@ -153,7 +160,7 @@ export const NavigationMenu: React.FC<NavigationMenuProps> & {
         最近更新
       </a>
 
-      {/* 普通 Dropdown - 1024px及以上显示 */}
+          {/* 普通分类下拉菜单 - 1024px及以上显示 */}
       <div className="relative group">
         <a
           className="flex h-9 items-center space-x-1 text-gray-700 transition-colors duration-200 group-hover:text-[#6EE7B7] dark:text-gray-300"
@@ -222,7 +229,7 @@ export const NavigationMenu: React.FC<NavigationMenuProps> & {
   )
 }
 
-// 复合组件模式 - 允许单独使用子组件
+// 复合组件模式 - 允许单独使用子组件，提供更好的组件复用性
 NavigationMenu.Home = React.lazy(() => import('./HomeMenu'))
 NavigationMenu.Media = React.lazy(() => import('./MediaMenu'))
 NavigationMenu.More = React.lazy(() => import('./MoreMenu'))

@@ -1,3 +1,13 @@
+/**
+ * @fileoverview 更多选项导航菜单组件
+ * @description More选项专用的简洁列表样式二级菜单组件，支持图标显示和紧凑布局，适用于网站更多功能的导航展示
+ * @created 2025-10-21 10:23:00
+ * @updated 2025-10-21 11:12:43
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Icon } from '@components/atoms/Icon'
 import {
   createNavigationStyles,
@@ -6,36 +16,29 @@ import {
 } from '@components/molecules/NavigationMenu/designTokens'
 import React from 'react'
 
-// 菜单项接口
+// 更多菜单项接口，定义菜单项的基本信息和可选图标
 export interface MoreMenuItem {
-  title: string
-  href: string
-  icon?: string
+  title: string // 菜单项标题
+  href: string // 菜单项链接地址
+  icon?: string // 可选的菜单项图标名称
 }
 
-// MoreMenu组件属性
+// 更多菜单组件属性接口，定义组件的完整配置参数
 export interface MoreMenuProps {
-  menuItems: MoreMenuItem[]
-  theme?: NavigationTheme
-  size?: NavigationSize
-  className?: string
+  menuItems: MoreMenuItem[] // 菜单项列表
+  theme?: NavigationTheme // 主题配置，默认auto
+  size?: NavigationSize // 尺寸配置，默认md
+  className?: string // 自定义CSS类名
 }
 
-/**
- * MoreMenu组件 - More选项专用二级菜单
- *
- * 特点：
- * - 简洁的列表样式
- * - 支持图标显示
- * - 紧凑布局
- * - 支持主题和尺寸变体
- */
+// 更多选项导航菜单组件，提供简洁的列表样式菜单布局
 export const MoreMenu: React.FC<MoreMenuProps> = ({
-  menuItems,
-  theme = 'auto',
-  size = 'md',
-  className = '',
+  menuItems, // 菜单项列表
+  theme = 'auto', // 主题配置，默认自动主题
+  size = 'md', // 尺寸配置，默认中等尺寸
+  className = '', // 自定义CSS类名，默认空字符串
 }) => {
+  // 根据主题和尺寸生成导航样式
   const styles = createNavigationStyles('default', theme, size)
 
   return (

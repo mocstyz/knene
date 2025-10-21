@@ -1,21 +1,22 @@
 /**
- * 导航菜单设计令牌系统
- * 实现样式变体和主题配置，支持不同页面的灵活复用
+ * @fileoverview 导航菜单设计令牌系统
+ * @description 实现导航菜单的样式变体和主题配置，支持不同页面和场景的灵活复用，提供完整的设计系统配置
+ * @created 2025-10-21 10:20:13
+ * @updated 2025-10-21 11:12:43
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
 
-// 导航菜单样式变体
+// 导航菜单样式变体配置 - 定义不同场景下的导航菜单样式风格
 export const navigationVariants = {
-  // 默认样式 - 首页使用
-  default: 'default-style',
-  // 紧凑样式 - 其他页面使用
-  minimal: 'minimal-style',
-  // 详细样式 - 包含更多信息的页面
-  detailed: 'detailed-style',
-  // 侧边栏样式
-  sidebar: 'sidebar-style',
+  default: 'default-style', // 默认样式，适用于首页使用
+  minimal: 'minimal-style', // 紧凑样式，适用于其他页面使用
+  detailed: 'detailed-style', // 详细样式，适用于包含更多信息的页面
+  sidebar: 'sidebar-style', // 侧边栏样式，适用于侧边导航场景
 } as const
 
-// 导航菜单主题配置
+// 导航菜单主题配置 - 定义明暗主题和自动主题的颜色样式
 export const navigationThemes = {
   light: {
     background: 'bg-white',
@@ -49,7 +50,7 @@ export const navigationThemes = {
   },
 } as const
 
-// 导航菜单尺寸配置
+// 导航菜单尺寸配置 - 定义不同尺寸下的容器宽度和内边距
 export const navigationSizes = {
   sm: {
     container: 'w-56',
@@ -77,14 +78,14 @@ export const navigationSizes = {
   },
 } as const
 
-// 动画配置
+// 导航菜单动画配置 - 定义不同类型的过渡动画效果
 export const navigationAnimations = {
-  fadeIn: 'transition-opacity duration-200',
-  slideIn: 'transition-transform duration-200',
-  scaleIn: 'transition-all duration-200',
+  fadeIn: 'transition-opacity duration-200', // 淡入动画效果
+  slideIn: 'transition-transform duration-200', // 滑入动画效果
+  scaleIn: 'transition-all duration-200', // 缩放动画效果
 } as const
 
-// 页面配置示例
+// 页面配置示例 - 为不同页面提供预设的导航配置方案
 export const pageConfigs = {
   home: {
     variant: 'default' as const,
@@ -112,15 +113,17 @@ export const pageConfigs = {
   },
 } as const
 
-// 组件样式生成器
+// 组件样式生成器 - 根据指定的变体、主题和尺寸生成完整的导航样式
 export const createNavigationStyles = (
-  _variant: keyof typeof navigationVariants,
-  theme: keyof typeof navigationThemes,
-  size: keyof typeof navigationSizes
+  _variant: keyof typeof navigationVariants, // 导航变体类型
+  theme: keyof typeof navigationThemes, // 主题类型
+  size: keyof typeof navigationSizes // 尺寸类型
 ) => {
+  // 获取主题和尺寸配置
   const themeConfig = navigationThemes[theme]
   const sizeConfig = navigationSizes[size]
 
+  // 组合生成完整的样式配置
   return {
     container: `${themeConfig.shadow} ${sizeConfig.container} ${sizeConfig.padding} rounded-lg`,
     text: `${themeConfig.text} ${sizeConfig.fontSize}`,
@@ -130,7 +133,8 @@ export const createNavigationStyles = (
   }
 }
 
-export type NavigationVariant = keyof typeof navigationVariants
-export type NavigationTheme = keyof typeof navigationThemes
-export type NavigationSize = keyof typeof navigationSizes
-export type NavigationAnimation = keyof typeof navigationAnimations
+// 导航相关类型定义 - 基于配置对象的键类型生成联合类型
+export type NavigationVariant = keyof typeof navigationVariants // 导航变体类型
+export type NavigationTheme = keyof typeof navigationThemes // 导航主题类型
+export type NavigationSize = keyof typeof navigationSizes // 导航尺寸类型
+export type NavigationAnimation = keyof typeof navigationAnimations // 导航动画类型
