@@ -1,3 +1,13 @@
+/**
+ * @fileoverview 移动端导航抽屉组件
+ * @description 提供完整的移动端导航功能，支持侧滑抽屉式导航菜单，包含VIP、最近更新、普通分类等导航项，以及搜索、认证、主题切换等底部功能
+ * @created 2025-10-20 18:04:13
+ * @updated 2025-10-21 11:12:43
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Button } from '@components/atoms/Button'
 import { Icon } from '@components/atoms/Icon'
 import { SimpleThemeToggle } from '@components/molecules'
@@ -7,61 +17,36 @@ import {
 } from '@components/molecules/NavigationMenuItem'
 import React, { useEffect, useRef, useState } from 'react'
 
-/**
- * 移动端导航抽屉组件属性
- */
+// 移动端导航抽屉组件属性接口，定义抽屉的显示状态和功能配置
 export interface MobileNavigationDrawerProps {
-  /** 是否打开抽屉 */
-  isOpen: boolean
-  /** 关闭回调函数 */
-  onClose: () => void
-  /** 是否显示搜索功能 */
-  showSearch?: boolean
-  /** 是否显示认证区域 */
-  showAuth?: boolean
-  /** 搜索占位符 */
-  searchPlaceholder?: string
-  /** 登录按钮文字 */
-  loginText?: string
-  /** 注册按钮文字 */
-  registerText?: string
-  /** 当前页面标识 */
-  currentPage?: string
-  /** 自定义类名 */
-  className?: string
+  isOpen: boolean // 抽屉开启状态
+  onClose: () => void // 关闭抽屉回调函数
+  showSearch?: boolean // 是否显示搜索框
+  showAuth?: boolean // 是否显示认证区域
+  searchPlaceholder?: string // 搜索框占位符文本
+  loginText?: string // 登录按钮文本
+  registerText?: string // 注册按钮文本
+  currentPage?: string // 当前页面标识符
+  className?: string // 自定义CSS类名
 }
 
-/**
- * 移动端导航抽屉分子组件
- *
- * 功能：
- * - 右侧滑出式抽屉，宽度320px
- * - 包含完整导航列表：VIP、最近更新、普通、求片、公告、帮助、APP
- * - 底部功能区包含搜索、认证、主题切换
- * - 支持点击背景关闭菜单
- *
- * 规范：
- * - 使用固定定位覆盖整个屏幕
- * - 支持点击外部区域关闭菜单
- * - 动画：slide-in from right，300ms ease-out
- * - 背景遮罩：fade-in/out，200ms ease-in-out
- */
+// 移动端导航抽屉组件，支持侧滑式导航菜单和完整的功能区域
 export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
-  isOpen,
-  onClose,
-  showSearch = true,
-  showAuth = true,
-  searchPlaceholder = 'Search...',
-  loginText = 'Log In',
-  registerText = 'Register',
-  currentPage = 'home',
-  className = '',
+  isOpen, // 抽屉开启状态
+  onClose, // 关闭抽屉回调函数
+  showSearch = true, // 是否显示搜索框，默认显示
+  showAuth = true, // 是否显示认证区域，默认显示
+  searchPlaceholder = 'Search...', // 搜索框占位符，默认英文
+  loginText = 'Log In', // 登录按钮文本，默认英文
+  registerText = 'Register', // 注册按钮文本，默认英文
+  currentPage = 'home', // 当前页面标识，默认主页
+  className = '', // 自定义CSS类名，默认空字符串
 }) => {
-  const drawerRef = useRef<HTMLDivElement>(null)
-  const backdropRef = useRef<HTMLDivElement>(null)
-  const [expandedItem, setExpandedItem] = useState<string | null>(null)
+  const drawerRef = useRef<HTMLDivElement>(null) // 抽屉容器引用
+  const backdropRef = useRef<HTMLDivElement>(null) // 背景遮罩引用
+  const [expandedItem, setExpandedItem] = useState<string | null>(null) // 当前展开的菜单项
 
-  // VIP子菜单配置
+  // VIP子菜单配置 - 包含特效字幕、原盘DIY、原盘压制、专题等VIP专享内容
   const vipSubmenuItems = [
     {
       title: '特效字幕',
@@ -85,7 +70,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
     },
   ]
 
-  // 普通子菜单配置
+  // 普通子菜单配置 - 包含最新剧集、热门系列、回归剧集、剧集类型等普通内容
   const normalSubmenuItems = [
     {
       title: 'New Episodes',
@@ -119,7 +104,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
     },
   ]
 
-  // 导航菜单项配置 - 与主导航保持一致
+  // 导航菜单项配置 - 与桌面端主导航保持一致的完整导航结构
   const navigationItems = [
     {
       title: 'VIP',
@@ -177,12 +162,12 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
     },
   ]
 
-  // 处理菜单项展开/收起
+  // 处理菜单项展开/收起 - 切换指定菜单项的展开状态
   const handleMenuItemToggle = (href: string) => {
     setExpandedItem(expandedItem === href ? null : href)
   }
 
-  // 处理背景点击关闭
+  // 处理背景点击关闭 - 点击背景遮罩时关闭抽屉并重置展开状态
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === backdropRef.current) {
       setExpandedItem(null)
@@ -190,7 +175,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
     }
   }
 
-  // 处理ESC键关闭
+  // ESC键关闭处理 - 监听键盘事件，按下ESC键时关闭抽屉
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isOpen) {
@@ -201,8 +186,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
 
     if (isOpen) {
       document.addEventListener('keydown', handleKeyDown)
-      // 焦点管理：菜单打开时聚焦到抽屉容器而不是第一个导航项
-      // 这样可以避免自动选中第一个菜单项导致的绿色边框
+      // 焦点管理：菜单打开时聚焦到抽屉容器而不是第一个导航项，避免自动选中第一个菜单项导致的绿色边框
       drawerRef.current?.focus()
     }
 
@@ -211,7 +195,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
     }
   }, [isOpen, onClose])
 
-  // 阻止背景滚动
+  // 阻止背景滚动 - 抽屉打开时禁用body滚动，关闭时恢复
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'

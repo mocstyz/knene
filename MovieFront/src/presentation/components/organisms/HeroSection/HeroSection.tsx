@@ -10,28 +10,70 @@
 
 import { Icon } from '@components/atoms/Icon'
 import { heroData } from '@data/home/heroData'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 
 const HeroSection = React.forwardRef<HTMLElement>((_, ref) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  // 启动自动轮播
+  const startAutoPlay = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+    }
+    
+    intervalRef.current = setInterval(() => {
+      if (!isPaused) {
+        setIsTransitioning(true)
+        setTimeout(() => {
+          setCurrentIndex(prevIndex => (prevIndex + 1) % heroData.length)
+          setIsTransitioning(false)
+        }, 50)
+      }
+    }, 5000)
+  }, [isPaused])
+
+  // 暂停自动轮播
+  const pauseAutoPlay = useCallback(() => {
+    setIsPaused(true)
+    
+    // 清除之前的恢复定时器
+    if (pauseTimeoutRef.current) {
+      clearTimeout(pauseTimeoutRef.current)
+    }
+    
+    // 3秒后恢复自动轮播
+    pauseTimeoutRef.current = setTimeout(() => {
+      setIsPaused(false)
+    }, 3000)
+  }, [])
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsTransitioning(true)
-      setTimeout(() => {
-        setCurrentIndex(prevIndex => (prevIndex + 1) % heroData.length)
-        setIsTransitioning(false)
-      }, 50)
-    }, 5000)
+    startAutoPlay()
+    
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current)
+      }
+      if (pauseTimeoutRef.current) {
+        clearTimeout(pauseTimeoutRef.current)
+      }
+    }
+  }, [startAutoPlay])
 
-    return () => clearInterval(interval)
-  }, [])
+  // 当isPaused状态改变时，重新启动自动轮播
+  useEffect(() => {
+    startAutoPlay()
+  }, [isPaused, startAutoPlay])
 
   // 使用当前索引获取英雄项
   const currentHero = heroData[currentIndex]
 
   const goToPrevious = () => {
+    pauseAutoPlay() // 暂停自动轮播
     setIsTransitioning(true)
     setTimeout(() => {
       setCurrentIndex(
@@ -42,6 +84,7 @@ const HeroSection = React.forwardRef<HTMLElement>((_, ref) => {
   }
 
   const goToNext = () => {
+    pauseAutoPlay() // 暂停自动轮播
     setIsTransitioning(true)
     setTimeout(() => {
       setCurrentIndex(prevIndex => (prevIndex + 1) % heroData.length)
@@ -51,6 +94,7 @@ const HeroSection = React.forwardRef<HTMLElement>((_, ref) => {
 
   const goToSlide = (index: number) => {
     if (index === currentIndex) return
+    pauseAutoPlay() // 暂停自动轮播
     setIsTransitioning(true)
     setTimeout(() => {
       setCurrentIndex(index)
