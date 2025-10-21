@@ -1,3 +1,15 @@
+/**
+ * @fileoverview 账户设置页面组件
+ * @description 账户设置页面主组件，提供完整的账户管理功能，包括个人资料编辑、
+ *              偏好设置配置、安全设置管理、通知设置等功能模块，支持多标签页
+ *              切换和实时保存，为用户提供全面的账户个性化配置体验
+ * @created 2025-10-09 13:10:50
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import {
   useCurrentUser,
   useUpdateProfile,
@@ -14,34 +26,39 @@ import {
 import { UserTemplate } from '@components/templates'
 import React, { useState } from 'react'
 
+// 密码表单数据接口 - 定义密码修改所需的字段
 interface PasswordFormData {
-  currentPassword: string
-  newPassword: string
-  confirmPassword: string
+  currentPassword: string // 当前密码
+  newPassword: string // 新密码
+  confirmPassword: string // 确认新密码
 }
 
+// 个人资料表单数据接口 - 定义个人资料编辑所需的字段
 interface ProfileFormData {
-  username: string
-  email: string
-  avatar?: string
+  username: string // 用户名
+  email: string // 邮箱地址
+  avatar?: string // 头像URL
 }
 
+// 偏好设置表单数据接口 - 定义用户偏好配置选项
 interface PreferencesFormData {
-  language: 'zh-CN' | 'en-US'
-  theme: 'light' | 'dark' | 'system'
-  emailNotifications: boolean
-  pushNotifications: boolean
-  downloadQuality: 'low' | 'medium' | 'high' | 'ultra'
-  autoDownload: boolean
-  downloadPath: string
+  language: 'zh-CN' | 'en-US' // 界面语言设置
+  theme: 'light' | 'dark' | 'system' // 主题模式设置
+  emailNotifications: boolean // 邮件通知开关
+  pushNotifications: boolean // 推送通知开关
+  downloadQuality: 'low' | 'medium' | 'high' | 'ultra' // 默认下载质量
+  autoDownload: boolean // 自动下载开关
+  downloadPath: string // 下载路径设置
 }
 
+// 账户设置页面组件 - 提供完整的账户管理功能，支持多个设置模块
 const SettingsPage: React.FC = () => {
   const { user, isLoading: userLoading } = useCurrentUser()
   const updateProfile = useUpdateProfile()
   const updatePreferences = useUpdatePreferences()
   const changePassword = useChangePassword()
 
+  // 当前激活的标签页状态 - 控制显示哪个设置模块
   const [activeTab, setActiveTab] = useState<
     'profile' | 'preferences' | 'security' | 'notifications'
   >('profile')
@@ -65,7 +82,7 @@ const SettingsPage: React.FC = () => {
     downloadPath: user?.preferences?.downloadPath || '',
   })
 
-  // 更新表单数据当用户数据加载完成时
+  // 同步用户数据到表单 - 当用户数据加载完成时自动填充表单
   React.useEffect(() => {
     if (user) {
       setProfileForm({
@@ -85,6 +102,7 @@ const SettingsPage: React.FC = () => {
     }
   }, [user])
 
+  // 个人资料提交处理 - 处理个人资料表单的提交和更新
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
@@ -95,6 +113,7 @@ const SettingsPage: React.FC = () => {
     }
   }
 
+  // 密码修改提交处理 - 处理密码修改表单的提交和验证
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
@@ -123,6 +142,7 @@ const SettingsPage: React.FC = () => {
     }
   }
 
+  // 偏好设置提交处理 - 处理偏好设置表单的提交和更新
   const handlePreferencesSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
@@ -159,6 +179,7 @@ const SettingsPage: React.FC = () => {
     { id: 'notifications', name: '通知设置', icon: 'bell' },
   ]
 
+  // 标签页内容渲染函数 - 根据当前激活的标签页渲染对应的设置内容
   const renderTabContent = () => {
     switch (activeTab) {
       case 'profile':

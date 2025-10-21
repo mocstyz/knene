@@ -1,5 +1,17 @@
+/**
+ * @fileoverview 影片搜索页面组件
+ * @description 影片搜索页面主组件，提供强大的影片搜索功能，支持关键词搜索、
+ *              高级筛选、搜索建议、搜索历史等功能，帮助用户快速找到目标影片
+ * @created 2025-10-09 13:10:50
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import React from 'react'
 
+// 影片搜索页面组件 - 提供影片搜索和相关功能，当前为待实现状态
 const MovieSearchPage: React.FC = () => {
   return (
     <div className="p-6">

@@ -13,6 +13,9 @@ import { apiClient } from '@infrastructure/api/ApiClient'
 import { buildUrlWithParams } from '@infrastructure/api/endpoints'
 import { generateRandomRating } from '@utils/formatters'
 import { MOVIE_ENDPOINTS } from '@infrastructure/api/endpoints'
+import { mockDataService } from '@application/services/MockDataService'
+import { ContentTransformationService } from '@application/services/ContentTransformationService'
+import { toCollectionItems } from '@utils/data-converters'
 import type { 
   TopicItem, 
   PhotoItem, 
@@ -96,12 +99,34 @@ export class HomeRepository implements IHomeRepository {
         console.error('Error fetching home data:', error)
       }
 
-      // 如果API调用失败，返回空数据
+      // 如果API调用失败，使用Mock数据服务
+      const mockData = mockDataService.generateMockHomeData()
+      
+      // 将TopicItem[]转换为CollectionItem[]
+      const collections = toCollectionItems(
+        ContentTransformationService.transformUnifiedListToTopics(
+          ContentTransformationService.transformCollectionListToUnified(
+            mockDataService.generateMockCollections(topicsLimit)
+          )
+        ).map(topic => ({
+          id: topic.id,
+          title: topic.title,
+          contentType: 'collection' as const,
+          description: topic.description,
+          imageUrl: topic.imageUrl,
+          alt: topic.alt,
+          isNew: topic.isNew,
+          newType: topic.newType,
+          isVip: topic.isVip,
+          tags: topic.tags
+        }))
+      )
+      
       return {
-        collections: [],
-        photos: [],
-        latestUpdates: [],
-        hotDaily: [],
+        collections,
+        photos: mockDataService.getMockPhotos(photosLimit),
+        latestUpdates: mockDataService.getMockLatestUpdates(latestLimit),
+        hotDaily: mockDataService.getMockHotDaily(hotLimit),
       }
     }
   }
@@ -131,7 +156,25 @@ export class HomeRepository implements IHomeRepository {
       } else {
         console.error('Error fetching topics:', error)
       }
-      return []
+      // 使用正确的数据转换流程
+      return toCollectionItems(
+        ContentTransformationService.transformUnifiedListToTopics(
+          ContentTransformationService.transformCollectionListToUnified(
+            mockDataService.generateMockCollections(limit)
+          )
+        ).map(topic => ({
+          id: topic.id,
+          title: topic.title,
+          contentType: 'collection' as const,
+          description: topic.description,
+          imageUrl: topic.imageUrl,
+          alt: topic.alt,
+          isNew: topic.isNew,
+          newType: topic.newType,
+          isVip: topic.isVip,
+          tags: topic.tags
+        }))
+      )
     }
   }
 
@@ -160,7 +203,8 @@ export class HomeRepository implements IHomeRepository {
       } else {
         console.error('Error fetching photos:', error)
       }
-      return []
+      // 使用Mock数据服务作为回退
+      return mockDataService.getMockPhotos(limit)
     }
   }
 
@@ -189,7 +233,8 @@ export class HomeRepository implements IHomeRepository {
       } else {
         console.error('Error fetching latest updates:', error)
       }
-      return []
+      // 使用Mock数据服务作为回退
+      return mockDataService.getMockLatestUpdates(limit)
     }
   }
 
@@ -217,7 +262,8 @@ export class HomeRepository implements IHomeRepository {
       } else {
         console.error('Error fetching hot daily:', error)
       }
-      return []
+      // 使用Mock数据服务作为回退
+      return mockDataService.getMockHotDaily(limit)
     }
   }
 

@@ -1,5 +1,17 @@
+/**
+ * @fileoverview 影片分类页面组件
+ * @description 影片分类页面主组件，提供影片按类型、年代、地区等维度的分类浏览功能
+ *              支持多种筛选条件和排序方式，为用户提供便捷的影片发现和浏览体验
+ * @created 2025-10-09 13:10:50
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import React from 'react'
 
+// 影片分类页面组件 - 提供影片分类浏览功能，当前为待实现状态
 const MovieCategoryPage: React.FC = () => {
   return (
     <div className="p-6">

@@ -17,11 +17,10 @@ import type { PaginationConfig } from '@components/domains/collection'
 import { BaseSection } from '@components/domains/shared'
 import { NavigationHeader } from '@components/organisms'
 import type { CollectionItem } from '@types-movie'
+import type { BaseMovieItem } from '@types-movie'
 import { cn } from '@utils/cn'
 import React, { useState, useMemo, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-
-import type { BaseMovieItem } from '@types-movie'
 
 // 合集详情页面组件属性接口，定义页面组件的配置选项
 interface CollectionDetailPageProps {

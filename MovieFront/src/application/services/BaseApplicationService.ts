@@ -24,11 +24,11 @@ export abstract class BaseApplicationService {
   protected mockDataService = mockDataService
 
   constructor(config: Partial<ServiceConfig> = {}) {
-    // 默认配置合并 - 提供合理的默认值
+    // 默认配置合并 - 提供合理的默认值，支持环境变量配置
     this.config = {
-      useMockData: process.env.NODE_ENV === 'development', // 开发环境默认使用Mock数据
-      apiTimeout: 10000, // 10秒超时
-      retryAttempts: 3, // 重试3次
+      useMockData: import.meta.env.VITE_ENABLE_MOCK === 'true', // 使用环境变量控制Mock数据
+      apiTimeout: parseInt(import.meta.env.VITE_API_TIMEOUT || '10000'), // 环境变量配置超时时间
+      retryAttempts: parseInt(import.meta.env.VITE_RETRY_ATTEMPTS || '3'), // 环境变量配置重试次数
       enableFallback: true, // 启用回退机制
       ...config
     }

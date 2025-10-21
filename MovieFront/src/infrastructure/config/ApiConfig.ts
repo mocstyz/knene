@@ -19,10 +19,10 @@ export enum Environment {
 // 默认API配置
 const DEFAULT_CONFIG: ApiConfig = {
   baseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api',
-  timeout: 10000,
+  timeout: parseInt(import.meta.env.VITE_API_TIMEOUT || '10000'),
   enableMock: import.meta.env.VITE_ENABLE_MOCK === 'true',
   mockDelay: parseInt(import.meta.env.VITE_MOCK_DELAY || '500'),
-  retryAttempts: 3,
+  retryAttempts: parseInt(import.meta.env.VITE_RETRY_ATTEMPTS || '3'),
   retryDelay: 1000
 }
 

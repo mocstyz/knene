@@ -1,3 +1,15 @@
+/**
+ * @fileoverview 用户仪表板页面组件
+ * @description 用户仪表板主组件，提供个人中心的全功能展示，包括用户统计信息、
+ *              最近观看记录、下载管理、收藏管理等核心功能，支持标签页切换和
+ *              响应式布局，为用户提供完整的个人数据管理体验
+ * @created 2025-10-14 12:07:55
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { useCurrentUser } from '@application/hooks'
 import { Button, Icon } from '@components/atoms'
 import { UserTemplate } from '@components/templates'
@@ -9,7 +21,7 @@ import {
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-// 模拟数据
+// 模拟数据 - 用于开发和演示的用户仪表板数据
 const mockRecentMovies = [
   {
     id: '1',
@@ -35,6 +47,7 @@ const mockRecentMovies = [
   },
 ]
 
+// 模拟下载数据 - 展示不同下载状态的影片列表
 const mockDownloads = [
   {
     id: '1',
@@ -59,12 +72,14 @@ const mockDownloads = [
   },
 ]
 
+// 用户仪表板页面组件 - 提供个人中心的全功能展示和管理
 const DashboardPage: React.FC = () => {
   const { user, isAuthenticated, isLoading } = useCurrentUser()
   const [activeTab, setActiveTab] = useState<
     'overview' | 'recent' | 'downloads' | 'favorites'
   >('overview')
 
+  // 加载状态处理 - 显示加载动画和提示信息
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -76,6 +91,7 @@ const DashboardPage: React.FC = () => {
     )
   }
 
+  // 认证状态检查 - 未登录用户显示登录引导界面
   if (!isAuthenticated || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -91,6 +107,7 @@ const DashboardPage: React.FC = () => {
     )
   }
 
+  // 页面头部内容 - 包含用户信息展示和快捷操作按钮
   const headerContent = (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -121,6 +138,7 @@ const DashboardPage: React.FC = () => {
     </div>
   )
 
+  // 侧边栏导航内容 - 提供功能模块的快速切换
   const sidebarContent = (
     <nav className="space-y-2">
       <button
@@ -170,9 +188,10 @@ const DashboardPage: React.FC = () => {
     </nav>
   )
 
+  // 概览页面渲染函数 - 展示用户统计信息和快速操作
   const renderOverview = () => (
     <div className="space-y-6">
-      {/* 统计卡片 */}
+      {/* 统计卡片 - 展示观看时长、收藏数量、下载数量、会员等级 */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg border bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between">
@@ -225,7 +244,7 @@ const DashboardPage: React.FC = () => {
         </div>
       </div>
 
-      {/* 快速操作 */}
+      {/* 快速操作区域 - 提供常用功能的快捷入口 */}
       <div className="rounded-lg border bg-white p-6 shadow-sm">
         <h3 className="mb-4 text-lg font-semibold text-gray-900">快速操作</h3>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -258,6 +277,7 @@ const DashboardPage: React.FC = () => {
     </div>
   )
 
+  // 最近观看页面渲染函数 - 展示用户最近观看的影片列表和观看进度
   const renderRecentMovies = () => (
     <div className="rounded-lg border bg-white shadow-sm">
       <div className="border-b p-6">
@@ -299,6 +319,7 @@ const DashboardPage: React.FC = () => {
     </div>
   )
 
+  // 下载管理页面渲染函数 - 展示下载任务列表和控制操作
   const renderDownloads = () => (
     <div className="rounded-lg border bg-white shadow-sm">
       <div className="border-b p-6">
@@ -364,6 +385,7 @@ const DashboardPage: React.FC = () => {
     </div>
   )
 
+  // 我的收藏页面渲染函数 - 展示用户收藏的影片列表
   const renderFavorites = () => (
     <div className="rounded-lg border bg-white shadow-sm">
       <div className="border-b p-6">
@@ -385,6 +407,7 @@ const DashboardPage: React.FC = () => {
     </div>
   )
 
+  // 内容渲染控制函数 - 根据当前选中的标签页渲染对应内容
   const renderContent = () => {
     switch (activeTab) {
       case 'overview':

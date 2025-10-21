@@ -17,7 +17,7 @@ import { Duration } from '@domain/value-objects/Duration'
 import { Genre } from '@domain/value-objects/Genre'
 import { MovieQuality } from '@domain/value-objects/MovieQuality'
 import { ContentTransformationService } from '@application/services/ContentTransformationService'
-import type { TopicItem, PhotoItem, LatestItem, BaseMovieItem } from '@types-movie'
+import type { TopicItem, PhotoItem, LatestItem, BaseMovieItem, CollectionItem } from '@types-movie'
 import type { HotItem } from '@infrastructure/repositories/HomeRepository'
 
 // Mock数据管理服务，提供统一的Mock数据生成和缓存机制，支持环境配置切换
@@ -180,6 +180,34 @@ export class MockDataService {
 
     this.mockDataCache.set(cacheKey, photos)
     return photos
+  }
+
+  // 获取转换后的Mock合集数据，返回CollectionItem格式用于前端展示
+  public getMockCollections(count: number = 12): CollectionItem[] {
+    const collections = this.generateMockCollections(count)
+    return collections.map(collection => {
+      const unifiedItem = ContentTransformationService.transformCollectionToUnified(collection)
+      // 直接使用toCollectionItem转换函数
+      return {
+        id: unifiedItem.id,
+        title: unifiedItem.title,
+        type: 'Collection' as const,
+        contentType: 'collection' as const,
+        description: unifiedItem.description || '',
+        imageUrl: unifiedItem.imageUrl,
+        alt: unifiedItem.alt || unifiedItem.title,
+        isNew: unifiedItem.isNew || false,
+        newType: unifiedItem.newType || 'latest',
+        isVip: unifiedItem.isVip || false,
+        rating: unifiedItem.rating?.toString() || '0',
+        movieCount: unifiedItem.viewCount || 0,
+        category: '默认分类',
+        tags: unifiedItem.tags || [],
+        createdAt: unifiedItem.createdAt || new Date().toISOString(),
+        updatedAt: unifiedItem.updatedAt || new Date().toISOString(),
+        isFeatured: unifiedItem.isFeatured || false
+      }
+    })
   }
 
   // 获取转换后的Mock专题数据，返回TopicItem格式用于前端展示
