@@ -1,8 +1,9 @@
 /**
  * @fileoverview 新片标签层组件
- * @description 提供统一的新片标签显示逻辑，遵循DRY原则。
- * 支持多种新片标识类型和样式变体，可在各种卡片组件中复用。
- *
+ * @description 提供统一的新片标签显示逻辑，遵循DRY原则，支持多种新片标识类型和样式变体，可在各种卡片组件中复用
+ *              使用组件变体Token系统统一样式管理，支持动画效果和自定义文本，响应式设计，移动端优先
+ * @created 2025-10-20 17:29:24
+ * @updated 2025-10-21 16:21:08
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -17,46 +18,28 @@ import {
 import { cn } from '@utils/cn'
 import React from 'react'
 
-/**
- * 新片类型枚举
- */
-export type NewBadgeType = 
-  | 'hot' // 热门
-  | 'latest' // 最新
-  | 'exclusive' // 独家
+// 新片类型枚举，定义新片标签的类型分类
+export type NewBadgeType =
+  | 'hot' // 热门内容
+  | 'latest' // 最新内容
+  | 'exclusive' // 独家内容
   | null // 无标签
 
-/**
- * 新片标签层组件属性接口
- */
+// 新片标签层组件属性接口，定义新片标签的配置选项
 export interface NewBadgeLayerProps {
-  /** 是否显示新片标签 */
-  isNew?: boolean
-  /** 新片类型 */
-  newType?: NewBadgeType
-  /** 自定义CSS类名 */
-  className?: string
-  /** 标签位置 */
-  position?: BadgeLayerPosition
-  /** 标签尺寸 */
-  size?: BadgeLayerSize
-  /** 标签变体 */
-  variant?: BadgeLayerVariant
-  /** 自定义标签文本 */
-  text?: string
-  /** 是否显示动画效果 */
-  animated?: boolean
-  /** 动画类型 */
-  animationType?: 'pulse' | 'bounce' | 'none'
-  /** 背景颜色变体 */
-  colorVariant?: 'red' | 'blue' | 'green' | 'purple' | 'orange' | 'gradient'
+  isNew?: boolean // 是否显示新片标签，默认true
+  newType?: NewBadgeType // 新片类型，默认'latest'
+  className?: string // 自定义CSS类名
+  position?: BadgeLayerPosition // 标签位置，默认'top-left'
+  size?: BadgeLayerSize // 标签尺寸，默认'responsive'
+  variant?: BadgeLayerVariant // 标签变体
+  text?: string // 自定义标签文本
+  animated?: boolean // 是否显示动画效果，默认true
+  animationType?: 'pulse' | 'bounce' | 'none' // 动画类型，默认'pulse'
+  colorVariant?: 'red' | 'blue' | 'green' | 'purple' | 'orange' | 'gradient' // 背景颜色变体
 }
 
-/**
- * 新片标签层组件
- *
- * 提供统一的新片标签显示，支持多种位置、样式和动画效果。
- */
+// 新片标签层组件，提供统一的新片标签显示，支持多种位置、样式和动画效果，使用组件变体Token系统管理样式
 const NewBadgeLayer: React.FC<NewBadgeLayerProps> = ({
   isNew = true,
   newType = 'latest',

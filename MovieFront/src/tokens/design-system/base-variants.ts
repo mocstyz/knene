@@ -202,7 +202,7 @@ export type SwitchSize = 'sm' | 'md' | 'lg'
 // ============================================================================
 
 export const textLinkVariants = {
-  base: 'inline-flex items-center transition-all duration-200 cursor-pointer focus:outline-none',
+  base: 'inline-flex items-center transition-all duration-200 cursor-pointer focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0',
   variant: {
     primary: 'text-primary hover:text-primary/80 hover:opacity-80',
     secondary:

@@ -177,7 +177,12 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     if (!renderState.initialized) return
 
     const missingTypes = new Set<string>()
-    const stats = { ...renderState.rendererStats }
+    const stats = {
+      total: 0,
+      successful: 0,
+      failed: 0,
+      byContentType: {} as Record<string, number>,
+    }
 
     processedItems.forEach(item => {
       const hasRenderer = contentRendererFactory.isRegistered(
@@ -202,7 +207,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
       rendererStats: stats,
       missingRenderers: Array.from(missingTypes),
     }))
-  }, [processedItems, renderState.initialized, renderState.rendererStats])
+  }, [processedItems, renderState.initialized])
 
   // 获取渲染器配置 - 合并默认配置和内容类型特定配置
   const getRendererConfig = (item: BaseContentItem): RendererConfig => {

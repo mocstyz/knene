@@ -13,6 +13,7 @@
 import { PhotoList, type PhotoItem } from '@components/domains/photo'
 import { BaseSection } from '@components/domains/shared'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
+import { UI_TEXT } from '@tokens/text-constants'
 import type { PhotoSectionProps } from '@types-unified'
 import { cn } from '@utils/cn'
 import React from 'react'
@@ -24,7 +25,7 @@ const PhotoSection: React.FC<PhotoSectionProps> = ({
   title = '写真',
   showMoreLink = false,
   moreLinkUrl,
-  moreLinkText = '查看更多',
+  moreLinkText, // 移除硬编码默认值，使用BaseSection的默认值
   cardConfig,
   columns,
   onPhotoClick,

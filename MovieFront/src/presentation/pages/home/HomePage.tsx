@@ -143,14 +143,12 @@ const HomePage: React.FC = () => {
             data={processedCollectionsData}
             showMoreLink={true}
             moreLinkUrl={ROUTES.SPECIAL.COLLECTIONS}
-            moreLinkText="More >"
           />
 
           {/* 首页写真区块 */}
           <PhotoSection
             data={processedTrendingMovies}
             showMoreLink={true}
-            moreLinkText="More >"
             cardConfig={{
               showNewBadge: true,
               showVipBadge: true,
@@ -165,7 +163,6 @@ const HomePage: React.FC = () => {
           <LatestUpdateSection
             data={processedPopularMovies}
             showMoreLink={true}
-            moreLinkText="More >"
           />
 
           {/* 首页24小时热门区块 */}

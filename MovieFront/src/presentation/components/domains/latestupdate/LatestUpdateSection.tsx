@@ -23,7 +23,7 @@ const LatestUpdateSection: React.FC<LatestUpdateSectionProps> = ({
   title = "最新更新",
   showMoreLink = false,
   moreLinkUrl = '#',
-  moreLinkText = 'More >',
+  moreLinkText, // 移除硬编码默认值，使用BaseSection的默认值
   onItemClick: onLatestClick,
   className,
   cardConfig = {

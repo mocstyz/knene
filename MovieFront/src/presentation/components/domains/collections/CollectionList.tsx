@@ -92,7 +92,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
   title,
   showMoreLink,
   moreLinkUrl,
-  moreLinkText = '查看更多',
+  moreLinkText, // 移除硬编码默认值，使用BaseSection的默认值
   pagination,
 }) => {
   // 添加调试日志

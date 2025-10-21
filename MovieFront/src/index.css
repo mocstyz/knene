@@ -187,14 +187,21 @@ svg[class*='w-'] {
   @apply no-underline !important;
 }
 
-/* 全局a标签重置 - 确保所有链接默认无下划线 */
+/* 全局a标签重置 - 确保所有链接默认无下划线和无focus边框 */
 a {
   @apply no-underline;
   @apply transition-colors duration-200;
+  @apply focus:outline-none focus:ring-0 focus:ring-offset-0;
 }
 
 a:hover {
   @apply no-underline;
+}
+
+a:focus {
+  @apply outline-none ring-0 ring-offset-0;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* 针对具有特定颜色的链接，保持hover时的主题色效果 */

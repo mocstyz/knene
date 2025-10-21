@@ -14,6 +14,7 @@
 import { BaseSection } from '@components/domains/shared'
 import type { HotItem } from '@infrastructure/repositories/HomeRepository'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
+import { UI_TEXT } from '@tokens/text-constants'
 
 import { HotList } from './HotList'
 
@@ -39,7 +40,7 @@ export const HotSection: React.FC<HotSectionProps> = ({
       title={title}
       showMoreLink={showViewMore}
       moreLinkUrl="#"
-      moreLinkText="查看更多 >"
+      // 移除硬编码的moreLinkText，使用BaseSection的默认值
       onMoreLinkClick={onViewMore}
       className={className}
     >

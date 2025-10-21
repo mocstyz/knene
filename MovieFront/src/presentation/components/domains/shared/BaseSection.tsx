@@ -11,6 +11,7 @@
 
 import { TextLink } from '@components/atoms'
 import { cn } from '@utils/cn'
+import { UI_TEXT } from '@tokens/text-constants'
 import type { ReactNode } from 'react'
 import React from 'react'
 
@@ -20,7 +21,7 @@ export interface BaseSectionComponentProps {
   children: ReactNode // 子元素内容
   showMoreLink?: boolean // 是否显示更多链接，默认false
   moreLinkUrl?: string // 更多链接URL，默认'#'
-  moreLinkText?: string // 更多链接文本，默认'More >'
+  moreLinkText?: string // 更多链接文本，默认来自UI_TEXT.ACTIONS.MORE
   onMoreLinkClick?: () => void // 更多链接点击回调
   className?: string // 自定义CSS类名
   headerClassName?: string // 标题区域自定义类名
@@ -33,7 +34,7 @@ const BaseSection: React.FC<BaseSectionComponentProps> = ({
   children,
   showMoreLink = false,
   moreLinkUrl = '#',
-  moreLinkText = 'More >',
+  moreLinkText = UI_TEXT.ACTIONS.MORE,
   onMoreLinkClick,
   className,
   headerClassName,
@@ -56,7 +57,7 @@ const BaseSection: React.FC<BaseSectionComponentProps> = ({
         {showMoreLink && (
           <TextLink
             href={moreLinkUrl}
-            variant="primary"
+            variant="secondary"
             size="sm"
             onClick={onMoreLinkClick}
           >

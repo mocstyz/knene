@@ -1,8 +1,9 @@
 /**
  * @fileoverview 评分标签层组件
- * @description 提供统一的评分标签显示逻辑，遵循DRY原则和组件变体Token系统。
- * 支持多种评分颜色和样式变体，可在各种卡片组件中复用。响应式设计，移动端优先。
- *
+ * @description 提供统一的评分标签显示逻辑，遵循DRY原则和组件变体Token系统，支持多种评分颜色和样式变体
+ *              可在各种卡片组件中复用，响应式设计，移动端优先，使用组件变体Token系统统一样式管理
+ * @created 2025-10-20 17:37:48
+ * @updated 2025-10-21 16:21:08
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -19,9 +20,7 @@ import { cn } from '@utils/cn'
 import { formatAndValidateRating } from '@utils/formatters'
 import React from 'react'
 
-/**
- * 获取评分颜色样式函数 - 使用组件变体Token系统
- */
+// 获取评分颜色样式函数，根据评分返回对应的颜色类型，使用组件变体Token系统
 const getRatingColorClass = (rating: number): BadgeLayerRatingColor => {
   if (rating >= 8.5) return 'green'
   if (rating >= 7.5) return 'blue'
@@ -30,32 +29,18 @@ const getRatingColorClass = (rating: number): BadgeLayerRatingColor => {
   return 'red'
 }
 
-/**
- * 评分标签层组件属性接口
- */
+// 评分标签层组件属性接口，定义评分标签的配置选项
 export interface RatingBadgeLayerProps {
-  /** 评分值 (0-10) 或字符串评分 */
-  rating?: number | string
-  /** 自定义CSS类名 */
-  className?: string
-  /** 标签位置 */
-  position?: BadgeLayerPosition
-  /** 标签尺寸 */
-  size?: BadgeLayerSize
-  /** 标签变体 */
-  variant?: BadgeLayerVariant
-  /** 强制指定文本颜色类型 (覆盖自动计算的评分颜色) */
-  textColor?: BadgeLayerRatingColor
-  /** 自定义背景色 */
-  backgroundColor?: string
+  rating?: number | string // 评分值 (0-10) 或字符串评分，默认0
+  className?: string // 自定义CSS类名
+  position?: BadgeLayerPosition // 标签位置，默认'bottom-left'
+  size?: BadgeLayerSize // 标签尺寸，默认'responsive'
+  variant?: BadgeLayerVariant // 标签变体，默认'default'
+  textColor?: BadgeLayerRatingColor // 强制指定文本颜色类型，覆盖自动计算的评分颜色
+  backgroundColor?: string // 自定义背景色
 }
 
-/**
- * 评分标签层组件
- *
- * 提供统一的评分标签显示，使用组件变体Token系统，支持多种位置和样式变体。
- * 响应式设计，移动端优先。
- */
+// 评分标签层组件，提供统一的评分标签显示，使用组件变体Token系统，支持多种位置和样式变体，响应式设计，移动端优先
 const RatingBadgeLayer: React.FC<RatingBadgeLayerProps> = ({
   rating = 0,
   className,

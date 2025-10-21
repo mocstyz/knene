@@ -1,8 +1,9 @@
 /**
  * @fileoverview 影片质量标签层组件
- * @description 提供统一的影片质量标签显示逻辑，遵循DRY原则和组件变体Token系统。
- * 支持多种质量标识和样式变体，可在各种卡片组件中复用。响应式设计，移动端优先。
- *
+ * @description 提供统一的影片质量标签显示逻辑，遵循DRY原则和组件变体Token系统，支持多种质量标识和样式变体
+ *              可在各种卡片组件中复用，响应式设计，移动端优先，支持layer和badge两种展示类型
+ * @created 2025-10-20 17:32:16
+ * @updated 2025-10-21 16:21:08
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -18,34 +19,19 @@ import {
 import { cn } from '@utils/cn'
 import React from 'react'
 
-/**
- * 影片质量标签层组件属性接口
- */
+// 影片质量标签层组件属性接口，定义质量标签的配置选项
 export interface QualityBadgeLayerProps {
-  /** 影片质量 */
-  quality?: string
-  /** 自定义CSS类名 */
-  className?: string
-  /** 标签位置 */
-  position?: BadgeLayerPosition
-  /** 标签尺寸 */
-  size?: BadgeLayerSize
-  /** 标签变体 */
-  variant?: BadgeLayerVariant
-  /** 标签展示类型 */
-  displayType?: 'layer' | 'badge'
-  /** Badge组件变体 (仅当displayType为'badge'时使用) */
-  badgeVariant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
-  /** Badge组件大小 (仅当displayType为'badge'时使用) */
-  badgeSize?: 'sm' | 'md' | 'lg'
+  quality?: string // 影片质量信息
+  className?: string // 自定义CSS类名
+  position?: BadgeLayerPosition // 标签位置，默认'top-left'
+  size?: BadgeLayerSize // 标签尺寸，默认'responsive'
+  variant?: BadgeLayerVariant // 标签变体，默认'default'
+  displayType?: 'layer' | 'badge' // 标签展示类型，默认'layer'
+  badgeVariant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' // Badge组件变体，仅当displayType为'badge'时使用
+  badgeSize?: 'sm' | 'md' | 'lg' // Badge组件大小，仅当displayType为'badge'时使用
 }
 
-/**
- * 影片质量标签层组件
- *
- * 提供统一的影片质量标签显示，使用组件变体Token系统，支持多种位置和样式变体。
- * 响应式设计，移动端优先。
- */
+// 影片质量标签层组件，提供统一的影片质量标签显示，使用组件变体Token系统，支持多种位置和样式变体，响应式设计，移动端优先
 const QualityBadgeLayer: React.FC<QualityBadgeLayerProps> = ({
   quality,
   className,

@@ -1,3 +1,13 @@
+/**
+ * @fileoverview 下载进度条组件
+ * @description 提供完整的下载进度显示功能，支持紧凑、默认、详细三种显示模式，包含进度条、状态管理、操作按钮等功能
+ * @created 2025-10-20 17:58:14
+ * @updated 2025-10-21 11:12:43
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Button, Icon, Badge } from '@components/atoms'
 import { cn } from '@utils/cn'
 import {
@@ -7,49 +17,52 @@ import {
 } from '@utils/formatters'
 import React from 'react'
 
+// 下载项数据接口，定义单个下载任务的完整信息和状态
 export interface DownloadItem {
-  id: string
-  movieTitle: string
-  fileName: string
-  fileSize: number
-  downloadedSize: number
-  progress: number
-  speed: number
-  status:
-    | 'pending'
-    | 'downloading'
-    | 'paused'
-    | 'completed'
-    | 'error'
-    | 'cancelled'
-  estimatedTime?: number
-  error?: string
+  id: string // 下载任务唯一标识
+  movieTitle: string // 影片标题
+  fileName: string // 文件名
+  fileSize: number // 文件大小（字节）
+  downloadedSize: number // 已下载大小（字节）
+  progress: number // 下载进度（0-100）
+  speed: number // 下载速度（字节/秒）
+  status: // 下载状态
+    | 'pending' // 等待中
+    | 'downloading' // 下载中
+    | 'paused' // 已暂停
+    | 'completed' // 已完成
+    | 'error' // 下载失败
+    | 'cancelled' // 已取消
+  estimatedTime?: number // 预估剩余时间（秒）
+  error?: string // 错误信息
 }
 
+// 下载进度组件属性接口，支持三种显示模式和完整的操作控制
 export interface DownloadProgressProps {
-  download: DownloadItem
-  variant?: 'default' | 'compact' | 'detailed'
-  showActions?: boolean
-  onPause?: (downloadId: string) => void
-  onResume?: (downloadId: string) => void
-  onCancel?: (downloadId: string) => void
-  onRetry?: (downloadId: string) => void
-  onRemove?: (downloadId: string) => void
-  className?: string
+  download: DownloadItem // 下载项数据
+  variant?: 'default' | 'compact' | 'detailed' // 显示变体：默认、紧凑、详细
+  showActions?: boolean // 是否显示操作按钮
+  onPause?: (downloadId: string) => void // 暂停下载回调
+  onResume?: (downloadId: string) => void // 恢复下载回调
+  onCancel?: (downloadId: string) => void // 取消下载回调
+  onRetry?: (downloadId: string) => void // 重试下载回调
+  onRemove?: (downloadId: string) => void // 移除下载项回调
+  className?: string // 自定义CSS类名
 }
 
+// 下载进度条组件，支持紧凑、默认、详细三种显示模式
 const DownloadProgress: React.FC<DownloadProgressProps> = ({
-  download,
-  variant = 'default',
-  showActions = true,
-  onPause,
-  onResume,
-  onCancel,
-  onRetry,
-  onRemove,
-  className,
+  download, // 下载项数据
+  variant = 'default', // 显示变体，默认为default模式
+  showActions = true, // 是否显示操作按钮，默认显示
+  onPause, // 暂停下载回调函数
+  onResume, // 恢复下载回调函数
+  onCancel, // 取消下载回调函数
+  onRetry, // 重试下载回调函数
+  onRemove, // 移除下载项回调函数
+  className, // 自定义CSS类名
 }) => {
-  // 获取状态配置
+  // 获取下载状态配置 - 返回对应状态的标签、图标、颜色等配置
   const getStatusConfig = (status: DownloadItem['status']) => {
     const configs = {
       pending: {
@@ -94,7 +107,7 @@ const DownloadProgress: React.FC<DownloadProgressProps> = ({
 
   const statusConfig = getStatusConfig(download.status)
 
-  // 紧凑模式
+  // 紧凑模式渲染 - 显示最小化的下载进度信息
   if (variant === 'compact') {
     return (
       <div
@@ -171,13 +184,13 @@ const DownloadProgress: React.FC<DownloadProgressProps> = ({
     )
   }
 
-  // 详细模式
+  // 详细模式渲染 - 显示完整的下载信息和详细数据
   if (variant === 'detailed') {
     return (
       <div
         className={cn('rounded-xl border bg-white p-6 shadow-sm', className)}
       >
-        {/* 头部信息 */}
+        {/* 头部信息区域 - 显示影片标题、文件名和状态标签 */}
         <div className="mb-4 flex items-start justify-between">
           <div className="flex-1">
             <h3 className="mb-1 font-semibold text-gray-900">
@@ -201,7 +214,7 @@ const DownloadProgress: React.FC<DownloadProgressProps> = ({
           </div>
         </div>
 
-        {/* 进度条 */}
+        {/* 进度条区域 - 显示下载进度的可视化进度条 */}
         <div className="mb-4">
           <div className="h-3 w-full rounded-full bg-gray-200">
             <div
@@ -218,7 +231,7 @@ const DownloadProgress: React.FC<DownloadProgressProps> = ({
           </div>
         </div>
 
-        {/* 详细信息 */}
+        {/* 详细信息区域 - 显示下载速度和剩余时间 */}
         <div className="mb-6 grid grid-cols-2 gap-4 text-sm">
           <div>
             <span className="text-gray-500">下载速度:</span>
@@ -238,7 +251,7 @@ const DownloadProgress: React.FC<DownloadProgressProps> = ({
           </div>
         </div>
 
-        {/* 错误信息 */}
+        {/* 错误信息区域 - 显示下载失败的详细信息 */}
         {download.status === 'error' && download.error && (
           <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3">
             <div className="flex items-center gap-2 text-red-700">
@@ -249,7 +262,7 @@ const DownloadProgress: React.FC<DownloadProgressProps> = ({
           </div>
         )}
 
-        {/* 操作按钮 */}
+        {/* 操作按钮区域 - 根据状态显示相应的操作按钮 */}
         {showActions && (
           <div className="flex gap-3">
             {download.status === 'downloading' && onPause && (
@@ -307,7 +320,7 @@ const DownloadProgress: React.FC<DownloadProgressProps> = ({
     )
   }
 
-  // 默认模式
+  // 默认模式渲染 - 显示标准的下载进度信息布局
   return (
     <div className={cn('rounded-lg border bg-white p-4 shadow-sm', className)}>
       <div className="flex items-center gap-4">

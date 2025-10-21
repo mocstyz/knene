@@ -1,8 +1,9 @@
 /**
  * @fileoverview 标题显示层组件
- * @description 提供统一的标题显示逻辑，遵循DRY原则。
- * 支持多种标题样式、截断处理和交互行为，可在各种卡片组件中复用。
- *
+ * @description 提供统一的标题显示逻辑，遵循DRY原则，支持多种标题样式、截断处理和交互行为，可在各种卡片组件中复用
+ *              包含多种文本变体、尺寸配置、颜色主题、字体权重、最大行数限制和点击交互，提供完整的标题展示解决方案
+ * @created 2025-10-20 17:45:30
+ * @updated 2025-10-21 16:21:08
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -11,58 +12,28 @@
 import { cn } from '@utils/cn'
 import React from 'react'
 
-/**
- * 标题显示层组件属性接口
- */
+// 标题显示层组件属性接口，定义标题显示的完整配置选项
 export interface TitleLayerProps {
-  /** 标题文本 */
-  title: string
-  /** 自定义CSS类名 */
-  className?: string
-  /** 标题变体 */
-  variant?:
-    | 'primary'
-    | 'secondary'
-    | 'overlay'
-    | 'compact'
-    | 'topic'
-    | 'movie'
-    | 'photo'
-    | 'ranking'
-  /** 标题大小 */
-  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl'
-  /** 文本截断行数 */
-  maxLines?: 1 | 2 | 3 | 4
-  /** 文本对齐方式 */
-  align?: 'left' | 'center' | 'right'
-  /** 标题颜色 */
-  color?: 'primary' | 'secondary' | 'white' | 'gray' | 'rating'
-  /** 评分值（用于动态颜色） */
-  rating?: number
-  /** 字体粗细 */
-  weight?: 'normal' | 'medium' | 'semibold' | 'bold'
-  /** 是否可点击 */
-  clickable?: boolean
-  /** 点击事件处理 */
-  onClick?: () => void
-  /** 是否显示渐变遮罩 */
-  showGradient?: boolean
-  /** hover效果配置 */
-  hoverEffect?: {
-    /** 是否启用hover效果 */
-    enabled?: boolean
-    /** hover时的颜色 */
-    hoverColor?: 'red' | 'primary' | 'blue' | 'green'
-    /** 过渡动画时长 */
-    transitionDuration?: string
+  title: string // 标题文本
+  className?: string // 自定义CSS类名
+  variant?: 'primary' | 'secondary' | 'overlay' | 'compact' | 'topic' | 'movie' | 'photo' | 'ranking' // 标题变体，默认'primary'
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' // 标题大小，默认'md'
+  maxLines?: 1 | 2 | 3 | 4 // 文本截断行数，默认1
+  align?: 'left' | 'center' | 'right' // 文本对齐方式，默认'left'
+  color?: 'primary' | 'secondary' | 'white' | 'gray' | 'rating' // 标题颜色，默认'primary'
+  rating?: number // 评分值，用于动态颜色
+  weight?: 'normal' | 'medium' | 'semibold' | 'bold' // 字体粗细，默认'normal'
+  clickable?: boolean // 是否可点击，默认false
+  onClick?: () => void // 点击事件处理
+  showGradient?: boolean // 是否显示渐变遮罩，默认false
+  hoverEffect?: { // hover效果配置
+    enabled?: boolean // 是否启用hover效果
+    hoverColor?: 'red' | 'primary' | 'blue' | 'green' // hover时的颜色
+    transitionDuration?: string // 过渡动画时长
   }
 }
 
-/**
- * 标题显示层组件
- *
- * 提供统一的标题显示功能，支持多种样式变体和交互行为。
- */
+// 标题显示层组件，提供统一的标题显示功能，支持多种样式变体和交互行为
 const TitleLayer: React.FC<TitleLayerProps> = ({
   title,
   className,
@@ -82,7 +53,7 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
     transitionDuration: '200ms',
   },
 }) => {
-  // 字体粗细样式映射
+  // 字体粗细样式映射 - 定义不同字体粗细对应的CSS类名
   const weightClasses = {
     normal: 'font-normal',
     medium: 'font-medium',
@@ -90,7 +61,7 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
     bold: 'font-bold',
   }
 
-  // 变体样式映射
+  // 变体样式映射 - 定义不同标题变体对应的CSS类名
   const variantClasses = {
     primary: 'text-gray-900 dark:text-white',
     secondary: 'text-gray-700 dark:text-gray-300',
@@ -103,7 +74,7 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
     ranking: 'text-primary font-semibold',
   }
 
-  // 大小样式映射
+  // 尺寸样式映射 - 定义不同标题尺寸对应的CSS类名
   const sizeClasses = {
     sm: 'text-sm',
     md: 'text-base',
@@ -112,14 +83,14 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
     '2xl': 'text-2xl',
   }
 
-  // 对齐样式映射
+  // 对齐样式映射 - 定义不同对齐方式对应的CSS类名
   const alignClasses = {
     left: 'text-left',
     center: 'text-center',
     right: 'text-right',
   }
 
-  // 颜色样式映射
+  // 颜色样式映射函数 - 根据颜色配置返回对应的CSS类名
   const getColorClasses = () => {
     switch (color) {
       case 'primary':
@@ -137,7 +108,7 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
     }
   }
 
-  // 评分颜色逻辑（复用现有逻辑）
+  // 评分颜色逻辑函数 - 根据评分返回对应的颜色类名
   const getRatingColorClass = (rating: number): string => {
     if (rating >= 9) return 'text-green-400'
     if (rating >= 8) return 'text-blue-400'
@@ -148,7 +119,7 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
     return 'text-gray-400'
   }
 
-  // 文本截断样式
+  // 文本截断样式映射 - 定义不同行数对应的截断CSS类名
   const truncateClasses = {
     1: 'overflow-hidden text-ellipsis whitespace-nowrap',
     2: 'line-clamp-2',
@@ -156,12 +127,12 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
     4: 'line-clamp-4',
   }
 
-  // 可点击样式
+  // 可点击样式配置 - 根据clickable状态返回对应的CSS类名
   const clickableClasses = clickable
     ? 'cursor-pointer transition-colors duration-200'
     : ''
 
-  // hover效果样式 - 支持父容器hover
+  // hover效果样式函数 - 支持父容器hover，返回对应的CSS类名
   const getHoverClasses = () => {
     if (!hoverEffect?.enabled) return ''
 
@@ -183,7 +154,7 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
     }
   }
 
-  // 组合CSS类名
+  // 组合CSS类名 - 合并所有样式相关的CSS类名
   const titleClasses = cn(
     weightClasses[weight],
     variantClasses[variant],
