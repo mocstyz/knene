@@ -1,32 +1,34 @@
+/**
+ * @fileoverview 用户页面模板组件
+ * @description 提供用户页面的通用布局模板，包含头部、侧边栏、主内容区域和底部，
+ *              支持可折叠侧边栏、响应式设计和移动端适配，为用户中心等页面提供统一布局
+ * @created 2025-10-21 13:46:38
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Icon } from '@components/atoms'
 import { cn } from '@utils/cn'
 import React from 'react'
 
+// 用户模板属性接口，定义用户页面模板的布局配置和样式选项
 export interface UserTemplateProps {
-  /** 头部内容 */
-  header: React.ReactNode
-  /** 侧边栏内容 */
-  sidebar?: React.ReactNode
-  /** 主要内容区域 */
-  main: React.ReactNode
-  /** 底部内容 */
-  footer?: React.ReactNode
-  /** 是否显示侧边栏 */
-  showSidebar?: boolean
-  /** 侧边栏是否可折叠 */
-  collapsibleSidebar?: boolean
-  /** 侧边栏初始状态（展开/折叠） */
-  sidebarCollapsed?: boolean
-  /** 侧边栏折叠状态变化回调 */
-  onSidebarToggle?: (collapsed: boolean) => void
-  /** 自定义样式类名 */
-  className?: string
-  /** 主内容区域样式类名 */
-  mainClassName?: string
-  /** 侧边栏样式类名 */
-  sidebarClassName?: string
+  header: React.ReactNode // 头部内容
+  sidebar?: React.ReactNode // 侧边栏内容
+  main: React.ReactNode // 主要内容区域
+  footer?: React.ReactNode // 底部内容
+  showSidebar?: boolean // 是否显示侧边栏
+  collapsibleSidebar?: boolean // 侧边栏是否可折叠
+  sidebarCollapsed?: boolean // 侧边栏初始状态（展开/折叠）
+  onSidebarToggle?: (collapsed: boolean) => void // 侧边栏折叠状态变化回调
+  className?: string // 自定义样式类名
+  mainClassName?: string // 主内容区域样式类名
+  sidebarClassName?: string // 侧边栏样式类名
 }
 
+// 用户页面模板组件，提供用户页面的通用布局模板，支持可折叠侧边栏、响应式设计和移动端适配
 export const UserTemplate: React.FC<UserTemplateProps> = ({
   header,
   sidebar,

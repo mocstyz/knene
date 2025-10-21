@@ -1,0 +1,342 @@
+全面检查项目架构和数据流动，先让我分析一下当前的项目结构和代码实现。
+        
+  ## 📋 当前项目架构分析
+
+### 1. **项目整体架构评估**
+
+从代码搜索结果来看，你的项目基本遵循了DDD分层架构：
+
+```
+src/
+├── presentation/     ✅ 表现层 - React组件和页面
+├── application/      ✅ 应用层 - 业务逻辑协调
+├── domain/          ✅ 领域层 - 核心业务逻辑  
+├── infrastructure/  ✅ 基础设施层 - 外部接口
+├── tokens/          ✅ 设计令牌
+├── types/           ✅ 类型定义
+└── utils/           ✅ 工具函数
+```
+
+**✅ 优点：**
+- DDD分层架构清晰
+- 组件按原子设计理论组织（atoms/molecules/organisms）
+- 使用了@别名导入系统
+- 实现了BaseApplicationService统一架构
+        
+            
+toolName: todo_write
+            
+status: success
+          
+Todos updated: 5 items
+          
+好的，我来系统性地分析你的前端项目架构，检查规范遵守情况，并帮你理清数据流动思路。
+
+## 📋 当前项目架构分析
+
+### 1. **整体架构评估**
+
+你的项目基本遵循了DDD分层架构，但存在一些关键问题：
+
+**✅ 正确的架构部分：**
+- DDD四层架构清晰：`presentation` → `application` → `domain` → `infrastructure`
+- 组件层次结构合理：`atoms` → `molecules` → `organisms`
+- 使用了`BaseApplicationService`统一架构模式
+- 实现了`MockDataService`统一Mock数据管理
+
+**❌ 违反规范的问题：**
+
+### 2. **Mock数据放置问题分析**
+
+你问得很对！Mock数据确实不应该写在`CollectionApplicationService`里。根据CLAUDE规范第8.2条：
+
+> **强制规则：Mock数据必须在 `@application/services` 中实现**
+
+**当前问题：**
+```typescript
+// ❌ 错误：在CollectionApplicationService中直接生成Mock数据
+async getCollectionDetail(collectionId: string): Promise<CollectionDetail> {
+  return this.fetchWithFallback(
+    // API调用
+    async () => { throw new Error('真实API尚未实现') },
+    // ❌ 直接在这里写Mock逻辑
+    () => {
+      const mockCollection = this.mockDataService.generateMockCollections(1)[0]
+      return { /* 大量Mock数据生成逻辑 */ }
+    }
+  )
+}
+```
+
+**正确做法应该是：**
+```typescript
+// ✅ 正确：Mock数据应该在MockDataService中统一管理
+// CollectionApplicationService只负责调用
+async getCollectionDetail(collectionId: string): Promise<CollectionDetail> {
+  return this.fetchWithFallback(
+    () => this.collectionRepository.getCollectionDetail(collectionId),
+    () => this.mockDataService.getCollectionDetail(collectionId),
+    `获取合集详情[${collectionId}]`
+  )
+}
+```
+
+### 3. **数据流动路径分析**
+
+**首页数据流：**
+```
+HomePage → useHomeData → HomeApplicationService → MockDataService → 组件渲染
+```
+
+**合集详情页数据流：**
+```
+CollectionDetailPage → CollectionApplicationService → 内联Mock逻辑 → 组件渲染
+```
+
+**问题：数据流不统一！**
+- 首页使用了标准的`HomeApplicationService` + `MockDataService`架构
+- 合集页面在`CollectionApplicationService`中混入了Mock逻辑
+        
+            
+toolName: todo_write
+            
+status: success
+          
+Todos updated: 5 items
+          
+
+        
+            
+toolName: todo_write
+            
+status: success
+          
+Todos updated: 5 items
+          
+
+        
+            
+toolName: todo_write
+            
+status: success
+          
+Todos updated: 5 items
+          
+
+        
+            
+toolName: todo_write
+            
+status: success
+          
+Todos updated: 5 items
+          
+好的，我已经完成了对你们前端项目的全面分析。让我来详细汇报检查结果和改进方案：
+
+## 📋 项目架构分析报告
+
+### 1. 当前项目架构评估
+
+**✅ 符合DDD规范的部分：**
+- 基本的分层架构已建立（presentation、application、domain、infrastructure）
+- 组件层次结构基本合理（atoms、molecules、organisms）
+- 使用了@别名导入系统
+- 实现了BaseApplicationService基础架构
+
+**❌ 违反CLAUDE规范的关键问题：**
+
+#### 1.1 Mock数据放置严重违规
+**问题：** Mock数据直接写在`CollectionApplicationService`中，严重违反前后端分离规范
+
+**具体违规：**
+```typescript
+// CollectionApplicationService.ts 中直接生成Mock数据
+const mockCollections = this.mockDataService.generateMockCollections(20)
+```
+
+**规范要求：** 
+> ⚠️ 强制要求：所有前端开发必须基于Mock数据模拟后端响应，确保前后端完全解耦
+> 禁止组件内生成业务数据：所有业务数据必须通过应用层服务获取
+
+#### 1.2 数据流动不统一
+**问题：** 首页和合集详情页使用了不同的数据获取模式
+
+**首页数据流：**
+```
+HomePage → useHomeData → HomeApplicationService → MockDataService
+```
+
+**合集详情页数据流：**
+```
+CollectionDetailPage → CollectionApplicationService → 直接生成Mock数据
+```
+
+#### 1.3 缺少标准API接口层
+**问题：** 没有统一的API接口定义，Mock数据与真实API结构不一致
+
+### 2. 当前数据链路分析
+
+**现状问题：**
+1. **数据源混乱**：有些用MockDataService，有些直接在ApplicationService中生成
+2. **接口不统一**：缺少标准的API接口定义
+3. **类型不完整**：Mock数据类型与实际业务实体类型不匹配
+4. **环境切换困难**：无法简单地从Mock切换到真实API
+
+## 🎯 标准前后端分离架构方案
+
+### 3. 理想的数据流动架构
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    表现层 (Presentation)                     │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │   页面组件   │    │   UI组件    │    │   Hooks     │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+└─────────────────────┬───────────────────────────────────────┘
+                      │ 调用应用服务
+┌─────────────────────▼───────────────────────────────────────┐
+│                    应用层 (Application)                      │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │           ApplicationService (业务协调)                  │ │
+│  └─────────────────────┬───────────────────────────────────┘ │
+└────────────────────────┼─────────────────────────────────────┘
+                         │ 调用Repository接口
+┌────────────────────────▼─────────────────────────────────────┐
+│                  基础设施层 (Infrastructure)                  │
+│  ┌─────────────────┐              ┌─────────────────┐        │
+│  │  Repository实现  │              │   API Client    │        │
+│  │  (环境切换逻辑)   │ ────────────▶ │  (HTTP调用)     │        │
+│  └─────────────────┘              └─────────────────┘        │
+│           │                                 │                │
+│           ▼                                 ▼                │
+│  ┌─────────────────┐              ┌─────────────────┐        │
+│  │  MockDataAPI    │              │   RealBackendAPI │        │
+│  │  (开发环境)      │              │   (生产环境)      │        │
+│  └─────────────────┘              └─────────────────┘        │
+└──────────────────────────────────────────────────────────────┘
+```
+
+### 4. 完善的实施方案
+
+#### 4.1 统一API接口层设计
+
+**创建标准API接口：**
+```typescript
+// @infrastructure/api/interfaces/
+export interface CollectionAPI {
+  getCollections(params: GetCollectionsParams): Promise<CollectionListResponse>
+  getCollectionDetail(id: string): Promise<CollectionDetailResponse>
+  getCollectionMovies(id: string, params: PaginationParams): Promise<MovieListResponse>
+}
+
+export interface HomeAPI {
+  getHomeData(): Promise<HomeDataResponse>
+  getTopics(): Promise<TopicListResponse>
+  getPhotos(): Promise<PhotoListResponse>
+  getLatestUpdates(): Promise<LatestUpdateListResponse>
+  getHotDaily(): Promise<HotDailyListResponse>
+}
+```
+
+#### 4.2 Repository模式实现
+
+**统一Repository接口：**
+```typescript
+// @infrastructure/repositories/
+export interface CollectionRepository {
+  findCollections(params: GetCollectionsParams): Promise<Collection[]>
+  findCollectionById(id: string): Promise<CollectionDetail>
+  findMoviesByCollectionId(id: string, params: PaginationParams): Promise<Movie[]>
+}
+
+// Repository实现类
+export class CollectionRepositoryImpl implements CollectionRepository {
+  constructor(
+    private apiClient: CollectionAPI,
+    private mockDataService: MockDataService,
+    private config: EnvironmentConfig
+  ) {}
+
+  async findCollections(params: GetCollectionsParams): Promise<Collection[]> {
+    if (this.config.useMockData) {
+      return this.mockDataService.getCollections(params)
+    }
+    const response = await this.apiClient.getCollections(params)
+    return response.data.map(item => CollectionMapper.toDomain(item))
+  }
+}
+```
+
+#### 4.3 环境配置切换
+
+**环境配置管理：**
+```typescript
+// @infrastructure/config/
+export interface EnvironmentConfig {
+  useMockData: boolean
+  apiBaseUrl: string
+  mockDataDelay: number
+}
+
+export const environmentConfig: EnvironmentConfig = {
+  useMockData: import.meta.env.VITE_USE_MOCK_DATA === 'true',
+  apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api',
+  mockDataDelay: 500 // 模拟网络延迟
+}
+```
+
+#### 4.4 Mock数据服务重构
+
+**独立的Mock API服务：**
+```typescript
+// @infrastructure/api/mock/
+export class MockCollectionAPI implements CollectionAPI {
+  constructor(private mockDataService: MockDataService) {}
+
+  async getCollections(params: GetCollectionsParams): Promise<CollectionListResponse> {
+    // 模拟网络延迟
+    await new Promise(resolve => setTimeout(resolve, 500))
+    
+    const collections = this.mockDataService.generateCollections(params)
+    return {
+      success: true,
+      data: collections,
+      pagination: {
+        page: params.page,
+        pageSize: params.pageSize,
+        total: 100
+      }
+    }
+  }
+}
+```
+
+### 5. 实施步骤建议
+
+#### 阶段一：基础架构重构
+1. **创建统一API接口定义**
+2. **实现Repository模式**
+3. **重构MockDataService为独立API服务**
+4. **建立环境配置切换机制**
+
+#### 阶段二：数据流统一
+1. **重构CollectionApplicationService**
+2. **统一首页和详情页数据获取模式**
+3. **完善类型定义和数据映射**
+
+#### 阶段三：优化和完善
+1. **添加错误处理和重试机制**
+2. **实现数据缓存策略**
+3. **完善测试覆盖**
+
+### 6. 预期效果
+
+**实施后的优势：**
+1. **无缝切换**：通过环境变量一键切换Mock/真实API
+2. **类型安全**：完整的TypeScript类型定义
+3. **架构清晰**：严格的DDD分层，职责明确
+4. **易于维护**：统一的数据流动模式
+5. **后端对接零成本**：前端代码无需修改
+
+你觉得这个方案如何？我们可以先从哪个部分开始实施？
+        

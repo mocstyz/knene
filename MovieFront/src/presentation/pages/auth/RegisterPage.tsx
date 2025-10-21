@@ -1,3 +1,14 @@
+/**
+ * @fileoverview 用户注册页面
+ * @description 用户账户创建页面，提供完整的用户注册流程，包括用户信息填写、密码强度检测、
+ *              表单验证、用户协议确认等功能，确保新用户账户的安全性和完整性
+ * @created 2025-10-09 13:10:50
+ * @updated 2025-10-09 13:10:50
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { useAuth } from '@application/hooks'
 import { Button, Input, Icon } from '@components/atoms'
 import { AuthTemplate } from '@components/templates'
@@ -5,22 +16,25 @@ import { AuthenticationService } from '@domain/services'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+// 注册表单数据接口，定义用户注册表单的数据结构
 interface RegisterFormData {
-  username: string
-  email: string
-  password: string
-  confirmPassword: string
-  agreeToTerms: boolean
+  username: string // 用户名
+  email: string // 邮箱地址
+  password: string // 密码
+  confirmPassword: string // 确认密码
+  agreeToTerms: boolean // 是否同意用户协议
 }
 
+// 注册表单错误信息接口，定义注册表单验证错误的信息结构
 interface RegisterFormErrors {
-  username?: string
-  email?: string
-  password?: string
-  confirmPassword?: string
-  agreeToTerms?: string
+  username?: string // 用户名错误信息
+  email?: string // 邮箱错误信息
+  password?: string // 密码错误信息
+  confirmPassword?: string // 确认密码错误信息
+  agreeToTerms?: string // 用户协议错误信息
 }
 
+// 用户注册页面组件，提供完整的用户注册流程，包括用户信息填写、密码强度检测和表单验证功能
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate()
   const { register, isLoading } = useAuth()

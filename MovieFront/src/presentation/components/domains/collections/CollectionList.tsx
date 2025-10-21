@@ -21,10 +21,12 @@ import {
 import {
   createRendererConfig,
   type RendererConfig,
+  type BaseContentItem,
 } from '@components/domains/shared/content-renderers'
 import { contentRendererFactory } from '@components/domains/shared/content-renderers'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { cn } from '@utils/cn'
+import type { CollectionItem } from '@types-movie'
 import React from 'react'
 
 // 影片合集数据类型定义，描述合集的基本信息和类型标识
@@ -44,21 +46,6 @@ export interface PaginationConfig {
   totalPages: number
   onPageChange: (page: number) => void // 页码变更回调函数
   itemsPerPage?: number
-}
-
-// 影片合集项目接口，描述单个合集项目的完整信息
-export interface CollectionItem {
-  id: string
-  title: string
-  description?: string
-  imageUrl: string
-  alt?: string
-  isNew?: boolean
-  newType?: 'hot' | 'latest' | null // 新项目类型标识，对齐统一类型系统
-  isVip?: boolean // VIP专享内容标识
-  tags?: string[] // 标签列表
-  isHot?: boolean // 热门内容标识
-  isFeatured?: boolean // 精选内容标识
 }
 
 // 影片合集列表组件属性接口，定义CollectionList组件的所有配置选项，支持多种布局变体、响应式列数配置、卡片样式定制和分页功能，提供完整的影片合集展示和交互能力
@@ -120,7 +107,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
     showQualityBadge: false,
     showRatingBadge: false,
     aspectRatio: cardConfig?.aspectRatio ?? 'square',
-    onClick: onCollectionClick,
+    onClick: onCollectionClick as ((item: BaseContentItem) => void) | undefined,
   })
 
   // 获取当前页显示的数据 - 根据分页配置计算显示范围

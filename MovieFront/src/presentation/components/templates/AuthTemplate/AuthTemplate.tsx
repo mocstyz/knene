@@ -1,17 +1,30 @@
+/**
+ * @fileoverview 认证页面模板组件
+ * @description 提供认证页面的完整布局模板，包含左侧背景展示区域和右侧表单区域，
+ *              支持自定义背景图片、Logo、功能特性展示和响应式设计
+ * @created 2025-10-21 13:38:32
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Icon } from '@components/atoms'
 import { cn } from '@utils/cn'
 import React from 'react'
 
+// 认证模板属性接口，定义认证页面模板的配置选项和内容设置
 export interface AuthTemplateProps {
-  children: React.ReactNode
-  title?: string
-  subtitle?: string
-  showLogo?: boolean
-  backgroundImage?: string
-  className?: string
-  features?: string[]
+  children: React.ReactNode // 表单内容子组件
+  title?: string // 页面标题
+  subtitle?: string // 页面副标题
+  showLogo?: boolean // 是否显示Logo
+  backgroundImage?: string // 背景图片URL
+  className?: string // 自定义CSS类名
+  features?: string[] // 功能特性列表
 }
 
+// 认证页面模板组件，提供认证页面的完整布局模板，包含左侧背景展示区域和右侧表单区域，支持自定义背景图片和响应式设计
 const AuthTemplate: React.FC<AuthTemplateProps> = ({
   children,
   title = '影视资源网站',

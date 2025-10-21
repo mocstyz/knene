@@ -11,8 +11,8 @@
 
 import {
   CollectionList,
-  type CollectionItem,
 } from '@components/domains/collections'
+import type { CollectionItem } from '@types-movie'
 import { BaseSection } from '@components/domains/shared'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { UI_TEXT } from '@tokens/text-constants'

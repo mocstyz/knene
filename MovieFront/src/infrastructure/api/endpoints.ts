@@ -74,6 +74,11 @@ export const MOVIE_ENDPOINTS = {
   MOVIE_BY_ID: (id: string) => `/movies/${id}`, // 根据ID获取影片
   MOVIE_DETAILS: (id: string) => `/movies/${id}/details`, // 获取影片详情
 
+  // 影片合集相关
+  COLLECTIONS: '/collections', // 影片合集列表
+  COLLECTION_BY_ID: (id: string) => `/collections/${id}`, // 根据ID获取合集
+  COLLECTION_MOVIES: (id: string) => `/collections/${id}/movies`, // 获取合集中的影片
+
   // 影片搜索相关
   SEARCH: '/movies/search', // 搜索影片
   SEARCH_SUGGESTIONS: '/movies/search/suggestions', // 搜索建议

@@ -5,7 +5,7 @@
  */
 
 import { HomeApplicationService } from '@application/services/HomeApplicationService'
-import { CollectionList } from '@components/domains'
+import { CollectionList, type CollectionItem } from '@components/domains'
 import { NavigationHeader } from '@components/organisms'
 import { useImageService } from '@presentation/hooks/image'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
@@ -13,22 +13,23 @@ import React, { useState, useMemo } from 'react'
 
 /**
  * 生成专题数据的Hook
- * 使用HomeApplicationService的mock数据，模拟真实的后端数据获取
+ * 使用MockDataService的统一数据源，模拟真实的后端数据获取
  */
 const useSpecialCollections = () => {
   const { getTopicCover } = useImageService()
-  const homeService = useMemo(() => new HomeApplicationService(), [])
 
-  // 使用HomeApplicationService的扩展mock数据
+  // 使用MockDataService的统一数据源
   const topics = useMemo(() => {
-    const mockTopics = homeService.getMockTopicsExtended(120)
+    const { MockDataService } = require('@application/services/MockDataService')
+    const mockDataService = MockDataService.getInstance()
+    const mockTopics = mockDataService.generateMockCollections(120)
     
     // 处理图片URL，使用图片服务
-    return mockTopics.map(topic => ({
+    return mockTopics.map((topic: any) => ({
       ...topic,
       imageUrl: getTopicCover(topic.imageUrl, { width: 400, height: 500 }),
     }))
-  }, [homeService, getTopicCover])
+  }, [getTopicCover])
 
   return topics
 }
@@ -53,7 +54,7 @@ const SpecialCollectionsPage: React.FC = () => {
   }
 
   // 处理专题点击事件
-  const handleTopicClick = (topic: any) => {
+  const handleTopicClick = (topic: CollectionItem) => {
     console.log('点击专题:', topic.id)
   }
 

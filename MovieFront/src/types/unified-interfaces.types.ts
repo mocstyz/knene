@@ -7,7 +7,7 @@
  * @version 1.0.0
  */
 
-import type { CollectionItem } from '@components/domains/collections'
+import type { CollectionItem } from '@types-movie'
 import type { BaseContentItem } from '@components/domains/shared/content-renderers'
 import type { HotItem } from '@infrastructure/repositories/HomeRepository'
 import type { PhotoItem, LatestItem } from '@types-movie'

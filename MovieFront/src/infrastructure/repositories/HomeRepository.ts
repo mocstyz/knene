@@ -1,63 +1,67 @@
 /**
- * @fileoverview 首页数据仓储接口
- * @description 定义首页数据的获取规范，支持专题、写真、最新更新、24小时热门等模块。
- * 遵循DDD架构中的仓储模式，抽象数据访问层。
- * @created 2025-10-15 15:00:00
- * @updated 2025-10-19 10:50:00
+ * @fileoverview 首页数据仓储实现
+ * @description 首页数据仓储实现，遵循DDD Repository模式，通过API服务工厂获取数据源
+ *              提供首页数据的获取和转换功能，包括专题、写真、最新更新、热门内容等模块
+ * @created 2025-10-19 15:42:00
+ * @updated 2025-10-21 15:02:41
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
  */
-
-import { MOVIE_ENDPOINTS } from '@infrastructure/api/endpoints'
-import type {
-  TopicItem,
-  PhotoItem,
-  LatestItem,
-  BaseMovieItem,
-} from '@types-movie'
+import { IHomeRepository } from './IHomeRepository'
+import { apiClient } from '@infrastructure/api/ApiClient'
+import { buildUrlWithParams } from '@infrastructure/api/endpoints'
 import { generateRandomRating } from '@utils/formatters'
+import { MOVIE_ENDPOINTS } from '@infrastructure/api/endpoints'
+import type { 
+  TopicItem, 
+  PhotoItem, 
+  LatestItem, 
+  BaseMovieItem,
+  CollectionItem 
+} from '@types-movie'
+import type { 
+  HomeDataParams as ApiHomeDataParams,
+  TopicsQueryParams, 
+  PhotosQueryParams, 
+  LatestUpdatesQueryParams,
+  HotContentQueryParams
+} from '@infrastructure/api/interfaces/IHomeApi'
 
-
-// 热门项目接口，扩展基础接口，添加排名功能
-export interface HotItem extends BaseMovieItem {
-  rank?: number // 排名
-}
-
-// 首页数据响应接口，使用具体的领域类型，遵循DDD架构原则
-export interface HomeDataResponse {
-  topics: TopicItem[] // 专题数据
-  photos: PhotoItem[] // 写真数据
-  latestUpdates: LatestItem[] // 最新更新数据
-  hotDaily: HotItem[] // 24小时热门数据
-}
-
-// 首页数据获取参数配置接口
+// 首页数据查询参数接口
 export interface HomeDataParams {
-  limit?: number // 每个模块返回的数据数量限制
-  includeRatings?: boolean // 是否包含评分信息
-  imageQuality?: 'low' | 'medium' | 'high' // 图片质量配置
+  topicsLimit?: number
+  photosLimit?: number
+  latestLimit?: number
+  hotLimit?: number
 }
 
-// 首页仓储接口，使用具体的领域类型，遵循DDD架构原则
-export interface IHomeRepository {
-  // 获取首页所有模块数据
-  getHomeData(params?: HomeDataParams): Promise<HomeDataResponse>
-  // 获取专题数据
-  getTopics(limit?: number): Promise<TopicItem[]>
-  // 获取写真数据
-  getPhotos(limit?: number): Promise<PhotoItem[]>
-  // 获取最新更新数据
-  getLatestUpdates(limit?: number): Promise<LatestItem[]>
-  // 获取24小时热门数据
-  getHotDaily(limit?: number): Promise<HotItem[]>
+// 首页数据响应接口
+export interface HomeDataResponse {
+  collections: CollectionItem[]
+  photos: PhotoItem[]
+  latestUpdates: LatestItem[]
+  hotDaily: BaseMovieItem[]
+}
+
+// 热门内容项接口
+export interface HotItem extends BaseMovieItem {
+  rank?: number
+  trendDirection?: 'up' | 'down' | 'stable'
 }
 
 // 首页仓储实现类，提供首页数据的获取和转换功能
 export class HomeRepository implements IHomeRepository {
   // 获取首页所有模块数据，支持配置参数和错误处理
-  async getHomeData(params: HomeDataParams = {}): Promise<HomeDataResponse> {
-    const { limit = 6, includeRatings = true, imageQuality = 'medium' } = params
+  async getHomeData(params: ApiHomeDataParams = {}): Promise<HomeDataResponse> {
+    const { 
+      topicsLimit = 3,
+      photosLimit = 6, 
+      latestLimit = 6,
+      hotLimit = 6,
+      includeRatings = true, 
+      imageQuality = 'medium' 
+    } = params
 
     // 构建API URL
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
@@ -67,7 +71,10 @@ export class HomeRepository implements IHomeRepository {
     )
 
     // 添加查询参数
-    apiUrl.searchParams.append('limit', limit.toString())
+    apiUrl.searchParams.append('topicsLimit', topicsLimit.toString())
+    apiUrl.searchParams.append('photosLimit', photosLimit.toString())
+    apiUrl.searchParams.append('latestLimit', latestLimit.toString())
+    apiUrl.searchParams.append('hotLimit', hotLimit.toString())
     apiUrl.searchParams.append('includeRatings', includeRatings.toString())
     apiUrl.searchParams.append('imageQuality', imageQuality)
 
@@ -91,7 +98,7 @@ export class HomeRepository implements IHomeRepository {
 
       // 如果API调用失败，返回空数据
       return {
-        topics: [],
+        collections: [],
         photos: [],
         latestUpdates: [],
         hotDaily: [],
@@ -100,7 +107,8 @@ export class HomeRepository implements IHomeRepository {
   }
 
   // 获取专题数据，支持数量限制和错误处理
-  async getTopics(limit = 3): Promise<TopicItem[]> {
+  async getTopics(params?: TopicsQueryParams): Promise<CollectionItem[]> {
+    const limit = params?.limit || 3
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
       `${MOVIE_ENDPOINTS.CATEGORIES}/topics`,
@@ -127,8 +135,9 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  // 获取写真数据，支持数量限制和错误处理
-  async getPhotos(limit = 6): Promise<PhotoItem[]> {
+  // 获取写真内容列表
+  async getPhotos(params?: PhotosQueryParams): Promise<PhotoItem[]> {
+    const limit = params?.limit || 6
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
       `${MOVIE_ENDPOINTS.CATEGORIES}/photos`,
@@ -156,7 +165,8 @@ export class HomeRepository implements IHomeRepository {
   }
 
   // 获取最新更新数据，支持数量限制和错误处理
-  async getLatestUpdates(limit = 6): Promise<LatestItem[]> {
+  async getLatestUpdates(params?: LatestUpdatesQueryParams): Promise<LatestItem[]> {
+    const limit = params?.limit || 6
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
       MOVIE_ENDPOINTS.LATEST,
@@ -211,10 +221,142 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
+  // 获取热门内容列表，支持统计周期和评分筛选
+  async getHotContent(params?: HotContentQueryParams): Promise<HotItem[]> {
+    const { limit = 6, period = 'daily', minRating = 0 } = params || {}
+    
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+    const apiUrl = new URL(MOVIE_ENDPOINTS.TRENDING, window.location.origin + baseUrl)
+    
+    apiUrl.searchParams.append('limit', limit.toString())
+    apiUrl.searchParams.append('period', period)
+    apiUrl.searchParams.append('minRating', minRating.toString())
+
+    try {
+      const response = await fetch(apiUrl.toString())
+      if (!response.ok) {
+        throw new Error(`Failed to fetch hot content: ${response.status}`)
+      }
+      const data = await response.json()
+      return this.transformHotDaily(data.items || [])
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.log('Development: API not available, using mock data for hot content')
+      }
+      return []
+    }
+  }
+
+  // 获取每日热门推荐，返回精选的热门内容
+  async getDailyHot(limit = 6): Promise<HotItem[]> {
+    return this.getHotContent({ limit, period: 'daily' })
+  }
+
+  // 获取精选专题，返回编辑推荐的专题合集
+  async getFeaturedTopics(limit = 3): Promise<CollectionItem[]> {
+    return this.getTopics({ limit, featured: true, sortBy: 'featured' })
+  }
+
+  // 获取最新写真，返回最近上传的写真内容
+  async getLatestPhotos(limit = 6): Promise<PhotoItem[]> {
+    return this.getPhotos({ limit, quality: 'all', orientation: 'all' })
+  }
+
+  // 获取轮播图数据，用于首页banner展示
+  async getBannerData(): Promise<{
+    id: string
+    title: string
+    description: string
+    imageUrl: string
+    linkUrl: string
+    priority: number
+  }[]> {
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+    const apiUrl = new URL('/banners', window.location.origin + baseUrl)
+
+    try {
+      const response = await fetch(apiUrl.toString())
+      if (!response.ok) {
+        throw new Error(`Failed to fetch banner data: ${response.status}`)
+      }
+      return await response.json()
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.log('Development: API not available, using mock banner data')
+      }
+      return []
+    }
+  }
+
+  // 获取公告信息，用于首页公告展示
+  async getAnnouncements(): Promise<{
+    id: string
+    title: string
+    content: string
+    type: 'info' | 'warning' | 'success' | 'error'
+    publishTime: string
+    isImportant: boolean
+  }[]> {
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+    const apiUrl = new URL('/announcements', window.location.origin + baseUrl)
+
+    try {
+      const response = await fetch(apiUrl.toString())
+      if (!response.ok) {
+        throw new Error(`Failed to fetch announcements: ${response.status}`)
+      }
+      return await response.json()
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.log('Development: API not available, using mock announcements')
+      }
+      return []
+    }
+  }
+
+  // 获取网站统计信息，用于首页数据展示
+  async getSiteStats(): Promise<{
+    totalMovies: number
+    totalCollections: number
+    totalPhotos: number
+    totalUsers: number
+    todayVisits: number
+  }> {
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+    const apiUrl = new URL('/stats', window.location.origin + baseUrl)
+
+    try {
+      const response = await fetch(apiUrl.toString())
+      if (!response.ok) {
+        throw new Error(`Failed to fetch site stats: ${response.status}`)
+      }
+      return await response.json()
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.log('Development: API not available, using mock stats')
+      }
+      return {
+        totalMovies: 0,
+        totalCollections: 0,
+        totalPhotos: 0,
+        totalUsers: 0,
+        todayVisits: 0
+      }
+    }
+  }
+
+  // 刷新首页缓存，用于数据更新后的缓存清理
+  async refreshCache(): Promise<void> {
+    // 在实际实现中，这里会清理相关的缓存
+    if (import.meta.env.DEV) {
+      console.log('Development: Cache refresh requested')
+    }
+  }
+
   // 转换API响应数据为前端统一格式
   private transformApiResponse(apiData: any): HomeDataResponse {
     return {
-      topics: this.transformTopics(apiData.topics || []),
+      collections: this.transformTopics(apiData.topics || []),
       photos: this.transformPhotos(apiData.photos || []),
       latestUpdates: this.transformLatestUpdates(apiData.latestUpdates || []),
       hotDaily: this.transformHotDaily(apiData.hotDaily || []),
@@ -222,14 +364,22 @@ export class HomeRepository implements IHomeRepository {
   }
 
   // 转换专题数据为TopicItem类型，处理字段映射和默认值
-  private transformTopics(topics: any[]): TopicItem[] {
+  private transformTopics(topics: any[]): CollectionItem[] {
     return topics.map(topic => ({
       id: topic.id || topic._id,
       title: topic.title || topic.name,
       type: 'Collection' as const,
+      contentType: 'collection' as const,
       imageUrl: topic.poster || topic.imageUrl || topic.coverImage,
       description: topic.description || topic.summary,
       alt: topic.alt || `${topic.title || topic.name} poster`,
+      rating: topic.rating?.toString() || '0',
+      movieCount: topic.movieCount || 0,
+      category: topic.category || '默认分类',
+      tags: topic.tags || [],
+      createdAt: topic.createdAt || new Date().toISOString(),
+      updatedAt: topic.updatedAt || new Date().toISOString(),
+      isFeatured: topic.featured || false
     }))
   }
 

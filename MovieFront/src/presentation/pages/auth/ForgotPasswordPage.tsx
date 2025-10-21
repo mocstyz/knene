@@ -1,3 +1,14 @@
+/**
+ * @fileoverview 忘记密码页面
+ * @description 用户忘记密码时的重置页面，提供邮箱验证和重置邮件发送功能，
+ *              包含表单验证、错误处理、成功状态显示等完整的用户密码重置流程
+ * @created 2025-10-09 13:10:50
+ * @updated 2025-10-09 13:10:50
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { useAuth } from '@application/hooks'
 import { Button, Input, Icon } from '@components/atoms'
 import { AuthTemplate } from '@components/templates'
@@ -5,15 +16,18 @@ import { AuthenticationService } from '@domain/services'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+// 表单数据接口，定义忘记密码表单的数据结构
 interface FormData {
-  email: string
+  email: string // 用户邮箱地址
 }
 
+// 表单错误信息接口，定义表单验证错误的信息结构
 interface FormErrors {
-  email?: string
-  general?: string
+  email?: string // 邮箱字段错误信息
+  general?: string // 通用错误信息
 }
 
+// 忘记密码页面组件，提供用户密码重置功能，包含邮箱验证和重置邮件发送流程
 const ForgotPasswordPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     email: '',

@@ -1,3 +1,15 @@
+/**
+ * @fileoverview 首页组件
+ * @description 首页主组件，包含导航栏、英雄区块和各种内容区块的完整首页布局
+ *              使用重构后的数据Hook和统一数据转换API，支持影片合集、写真、
+ *              最新更新和热门内容的展示，具备动态背景效果和响应式布局
+ * @created 2025-10-21 11:01:26
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import {
   CollectionSection,
   PhotoSection,
@@ -12,22 +24,23 @@ import { toCollectionItems, toPhotoItems, toLatestItems, toHotItems } from '@uti
 import React, { useEffect, useRef, useMemo } from 'react'
 
 
+// 首页主组件，包含导航栏、英雄区块和各种内容区块的完整首页布局
 const HomePage: React.FC = () => {
   const headerRef = useRef<HTMLElement>(null)
   const heroRef = useRef<HTMLElement>(null)
 
-  // 使用重构后的数据Hook
+  // 获取首页数据 - 使用重构后的数据Hook
   const { trendingMovies, popularMovies, newReleases, collectionsData, isLoading, error } =
     useHomeData()
 
-  // 添加调试日志
+  // 调试日志 - 输出数据获取情况用于开发调试
   console.log('HomePage - collectionsData:', collectionsData)
   console.log('HomePage - collectionsData length:', collectionsData?.length)
   console.log('HomePage - trendingMovies:', trendingMovies)
   console.log('HomePage - trendingMovies length:', trendingMovies?.length)
 
-  // 数据处理：使用统一数据转换API，将所有数据转换为统一格式
-  // 处理影片合集数据
+  // 数据转换处理 - 使用统一数据转换API，将所有数据转换为统一格式
+  // 影片合集数据处理 - 转换为CollectionItem格式并缓存
   const processedCollectionsData = useMemo(() => {
     console.log('🔍 [HomePage] Processing collectionsData:', {
       length: collectionsData?.length || 0,
@@ -54,7 +67,7 @@ const HomePage: React.FC = () => {
     return result
   }, [collectionsData])
 
-  // 处理写真数据
+  // 写真数据处理 - 转换为PhotoItem格式并缓存
   const processedTrendingMovies = useMemo(() => {
     console.log('🔍 [HomePage] Processing trendingMovies:', {
       length: trendingMovies?.length || 0,
@@ -81,17 +94,19 @@ const HomePage: React.FC = () => {
     return result
   }, [trendingMovies])
 
+  // 最新更新数据处理 - 转换为LatestItem格式并缓存
   const processedPopularMovies = useMemo(() => {
     const unifiedData = (popularMovies || []).map(toUnifiedContentItem)
     return toLatestItems(unifiedData)
   }, [popularMovies])
 
+  // 热门内容数据处理 - 转换为HotItem格式并缓存
   const processedNewReleases = useMemo(() => {
     const unifiedData = (newReleases || []).map(toUnifiedContentItem)
     return toHotItems(unifiedData)
   }, [newReleases])
 
-  // 添加Header动态背景效果，与HTML中的JavaScript逻辑完全一致
+  // Header动态背景效果 - 实现滚动时导航栏背景透明度变化，与HTML设计稿保持一致
   useEffect(() => {
     const header = headerRef.current
     const hero = heroRef.current
@@ -105,26 +120,26 @@ const HomePage: React.FC = () => {
     const updateHeader = () => {
       const heroBottom = hero.getBoundingClientRect().bottom
       if (heroBottom <= 0) {
-        // past hero: ensure default blurred background
+        // 超出英雄区域时 - 显示模糊背景
         header.classList.remove(...transparentClasses.split(' '))
         header.classList.add(...defaultClasses.split(' '))
       } else {
-        // within hero: keep transparent
+        // 在英雄区域内时 - 保持透明背景
         header.classList.remove(...defaultClasses.split(' '))
         header.classList.add(...transparentClasses.split(' '))
       }
     }
 
-    // Initial header state
+    // 初始化Header状态 - 设置为透明背景
     header.classList.add(...transparentClasses.split(' '))
 
-    // Add scroll event listener
+    // 添加滚动事件监听器
     window.addEventListener('scroll', updateHeader)
 
-    // Initial check
+    // 初始检查 - 立即执行一次背景状态更新
     updateHeader()
 
-    // Cleanup
+    // 清理函数 - 移除事件监听器
     return () => {
       window.removeEventListener('scroll', updateHeader)
     }
@@ -138,14 +153,14 @@ const HomePage: React.FC = () => {
         <HeroSection ref={heroRef} />
 
         <div className="container mx-auto space-y-12 px-4 py-12 sm:px-6 lg:px-8">
-          {/* 首页影片合集区块 */}
+          {/* 首页影片合集区块 - 展示精选影片合集内容 */}
           <CollectionSection
             data={processedCollectionsData}
             showMoreLink={true}
             moreLinkUrl={ROUTES.SPECIAL.COLLECTIONS}
           />
 
-          {/* 首页写真区块 */}
+          {/* 首页写真区块 - 展示写真内容，支持VIP标识和新片标识 */}
           <PhotoSection
             data={processedTrendingMovies}
             showMoreLink={true}
@@ -159,13 +174,13 @@ const HomePage: React.FC = () => {
             }}
           />
 
-          {/* 首页最近更新区块 */}
+          {/* 首页最近更新区块 - 展示最新更新的影片内容 */}
           <LatestUpdateSection
             data={processedPopularMovies}
             showMoreLink={true}
           />
 
-          {/* 首页24小时热门区块 */}
+          {/* 首页24小时热门区块 - 展示热门影片内容 */}
           <HotSection
             movies={processedNewReleases}
             showViewMore={true}

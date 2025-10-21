@@ -24,11 +24,11 @@ export type { HotItem } from '@infrastructure/repositories/HomeRepository'
 // Collections领域 - 影片合集内容，CollectionCard已被内容渲染器系统替代
 export { CollectionList, CollectionSection } from './collections'
 export type {
-  CollectionItem,
   PaginationConfig,
   CollectionListProps,
 } from './collections/CollectionList'
 export type { CollectionSectionProps } from './collections/CollectionSection'
+export type { CollectionItem } from '@types-movie'
 
 // Photo领域 - 写真图片，PhotoCard已被内容渲染器系统替代
 export { PhotoList, PhotoSection } from './photo'

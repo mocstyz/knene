@@ -85,9 +85,9 @@ export const useHomeData = (): UseHomeDataReturn => {
       setIsLoading(true)
       setError(null)
 
-      // 并行获取所有模块数据，Repository已返回具体的领域类型
+      // 并行获取所有模块数据，使用重构后的服务方法
       const [collections, photos, latestUpdates, hotDaily] = await Promise.all([
-        homeApplicationService.getCollections(3),
+        homeApplicationService.getTopics(3),
         homeApplicationService.getPhotos(6),
         homeApplicationService.getLatestUpdates(6),
         homeApplicationService.getHotDaily(6),

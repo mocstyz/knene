@@ -1,51 +1,65 @@
+/**
+ * @fileoverview 用户资料组件
+ * @description 提供用户资料展示功能，支持紧凑、默认、详细三种显示模式，包含头像、基本信息、统计数据和操作按钮
+ * @created 2025-10-21 13:16:08
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Avatar, Button, Icon, Badge } from '@components/atoms'
 import { cn } from '@utils/cn'
 import { formatDate, formatNumber } from '@utils/formatters'
 import React, { useState } from 'react'
 
+// 用户数据接口，定义用户的基本信息和统计数据
 export interface User {
-  id: string
-  username: string
-  email: string
-  avatar?: string
-  role: 'user' | 'vip' | 'admin'
-  joinDate: string
-  downloadCount: number
-  favoriteCount: number
-  isOnline?: boolean
+  id: string // 用户唯一标识
+  username: string // 用户名
+  email: string // 邮箱地址
+  avatar?: string // 头像URL
+  role: 'user' | 'vip' | 'admin' // 用户角色
+  joinDate: string // 加入日期
+  downloadCount: number // 下载次数
+  favoriteCount: number // 收藏数量
+  isOnline?: boolean // 在线状态
 }
 
+// 用户资料组件属性接口，定义组件的完整配置参数
 export interface UserProfileProps {
-  user: User
-  variant?: 'default' | 'compact' | 'detailed'
-  showActions?: boolean
-  showStats?: boolean
-  onEdit?: () => void
-  onMessage?: () => void
-  onFollow?: () => void
-  onBlock?: () => void
-  className?: string
+  user: User // 用户数据
+  variant?: 'default' | 'compact' | 'detailed' // 显示变体
+  showActions?: boolean // 是否显示操作按钮
+  showStats?: boolean // 是否显示统计信息
+  onEdit?: () => void // 编辑资料回调函数
+  onMessage?: () => void // 发送消息回调函数
+  onFollow?: () => void // 关注用户回调函数
+  onBlock?: () => void // 屏蔽用户回调函数
+  className?: string // 自定义CSS类名
 }
 
+// 用户资料组件，提供完整的用户资料展示和交互功能
 const UserProfile: React.FC<UserProfileProps> = ({
-  user,
-  variant = 'default',
-  showActions = true,
-  showStats = true,
-  onEdit,
-  onMessage,
-  onFollow,
-  onBlock,
-  className,
+  user, // 用户数据
+  variant = 'default', // 显示变体，默认default
+  showActions = true, // 是否显示操作按钮，默认显示
+  showStats = true, // 是否显示统计信息，默认显示
+  onEdit, // 编辑资料回调函数
+  onMessage, // 发送消息回调函数
+  onFollow, // 关注用户回调函数
+  onBlock, // 屏蔽用户回调函数
+  className, // 自定义CSS类名
 }) => {
-  const [isFollowing, setIsFollowing] = useState(false)
+  const [isFollowing, setIsFollowing] = useState(false) // 关注状态
 
+  // 处理关注按钮点击
   const handleFollow = () => {
-    setIsFollowing(!isFollowing)
-    onFollow?.()
+    setIsFollowing(!isFollowing) // 切换关注状态
+    onFollow?.() // 执行关注回调
   }
 
-  // 角色徽章配置
+  // 获取角色徽章配置 - 根据用户角色返回对应的标签和样式
   const getRoleBadge = (role: User['role']) => {
     const roleConfig = {
       user: { label: '普通用户', variant: 'secondary' as const },
@@ -55,7 +69,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
     return roleConfig[role]
   }
 
-  // 紧凑模式
+  // 紧凑模式渲染 - 显示最小化的用户信息
   if (variant === 'compact') {
     return (
       <div
@@ -71,6 +85,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
             size="md"
             fallback={user.username.charAt(0).toUpperCase()}
           />
+          {/* 在线状态指示器 */}
           {user.isOnline && (
             <div className="absolute -bottom-1 -right-1 h-3 w-3 rounded-full border-2 border-white bg-green-500" />
           )}
@@ -106,13 +121,13 @@ const UserProfile: React.FC<UserProfileProps> = ({
     )
   }
 
-  // 详细模式
+  // 详细模式渲染 - 显示完整的用户信息和统计数据
   if (variant === 'detailed') {
     return (
       <div
         className={cn('rounded-xl border bg-white p-6 shadow-sm', className)}
       >
-        {/* 头部信息 */}
+        {/* 头部信息区域 - 包含头像、用户名、角色徽章和基本信息 */}
         <div className="mb-6 flex items-start gap-4">
           <div className="relative">
             <Avatar
@@ -153,7 +168,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
           </div>
         </div>
 
-        {/* 统计信息 */}
+        {/* 统计信息区域 - 显示下载次数和收藏数量 */}
         {showStats && (
           <div className="mb-6 grid grid-cols-2 gap-4">
             <div className="rounded-lg bg-gray-50 p-4 text-center">
@@ -171,7 +186,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
           </div>
         )}
 
-        {/* 操作按钮 */}
+        {/* 操作按钮区域 - 根据功能显示相应的操作按钮 */}
         {showActions && (
           <div className="flex gap-3">
             {onMessage && (
@@ -216,7 +231,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
     )
   }
 
-  // 默认模式
+  // 默认模式渲染 - 显示标准的用户资料信息布局
   return (
     <div className={cn('rounded-lg border bg-white p-4 shadow-sm', className)}>
       <div className="flex items-center gap-4">
@@ -227,6 +242,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
             size="lg"
             fallback={user.username.charAt(0).toUpperCase()}
           />
+          {/* 在线状态指示器 */}
           {user.isOnline && (
             <div className="absolute -bottom-1 -right-1 h-3 w-3 rounded-full border-2 border-white bg-green-500" />
           )}

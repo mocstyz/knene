@@ -1,3 +1,14 @@
+/**
+ * @fileoverview 导航头部有机体组件
+ * @description 实现网站顶部导航功能，包含网站标识、主导航菜单、搜索功能和用户认证区域，
+ *              采用响应式设计，支持桌面端和移动端不同的布局模式，提供完整的用户导航体验
+ * @created 2025-10-21 13:30:34
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Button, Icon, HamburgerButton } from '@components/atoms'
 import { SimpleThemeToggle } from '@components/molecules'
 import { MobileNavigationDrawer } from '@components/molecules/MobileNavigationDrawer'
@@ -6,34 +17,20 @@ import { pageConfigs } from '@components/molecules/NavigationMenu/designTokens'
 import { useMobileNavigation } from '@hooks/useMobileNavigation'
 import { forwardRef } from 'react'
 
-// NavigationHeader组件属性
+// 导航头部组件属性，定义组件的配置选项和可定制内容
 export interface NavigationHeaderProps {
-  currentPage?: keyof typeof pageConfigs
-  showSearch?: boolean
-  showAuth?: boolean
-  logoText?: string
-  logoIcon?: string
-  searchPlaceholder?: string
-  loginText?: string
-  registerText?: string
-  className?: string
+  currentPage?: keyof typeof pageConfigs // 当前页面标识，用于确定导航激活状态
+  showSearch?: boolean // 是否显示搜索功能
+  showAuth?: boolean // 是否显示用户认证区域
+  logoText?: string // 网站标识文本
+  logoIcon?: string // 网站标识图标名称
+  searchPlaceholder?: string // 搜索框占位符文本
+  loginText?: string // 登录按钮文本
+  registerText?: string // 注册按钮文本
+  className?: string // 自定义CSS类名
 }
 
-/**
- * NavigationHeader有机体组件
- *
- * DDD架构中的有机体组件，管理：
- * - 网站标识区域
- * - 主导航菜单
- * - 搜索功能
- * - 用户认证区域
- *
- * 特点：
- * - 完整的业务功能
- * - 高度可配置
- * - 响应式设计
- * - 组件复用最大化
- */
+// 导航头部有机体组件，DDD架构中的复杂UI区块，管理网站标识、主导航菜单、搜索功能和用户认证区域，具有完整的业务功能和高度可配置性
 export const NavigationHeader = forwardRef<HTMLElement, NavigationHeaderProps>(
   (
     {

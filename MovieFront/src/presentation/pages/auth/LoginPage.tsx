@@ -1,3 +1,14 @@
+/**
+ * @fileoverview 用户登录页面
+ * @description 用户认证的主要登录页面，提供邮箱密码登录、社交登录、忘记密码等功能，
+ *              包含表单验证、登录失败限制、账户安全锁定等完整的用户认证流程
+ * @created 2025-10-09 13:10:50
+ * @updated 2025-10-09 13:10:50
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { useAuth } from '@application/hooks'
 import { Button, Input, Icon } from '@components/atoms'
 import { AuthTemplate } from '@components/templates'
@@ -6,12 +17,14 @@ import { formatTime } from '@utils/formatters'
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 
+// 登录表单数据接口，定义用户登录表单的数据结构
 interface LoginFormData {
-  email: string
-  password: string
-  rememberMe: boolean
+  email: string // 用户邮箱地址
+  password: string // 用户密码
+  rememberMe: boolean // 是否记住登录状态
 }
 
+// 用户登录页面组件，提供邮箱密码登录、社交登录、忘记密码等完整的用户认证功能
 const LoginPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()

@@ -3,8 +3,8 @@
  * @description 基于内容渲染器抽象层的最新更新列表组件，支持多种内容类型的混合展示。
  *              使用MixedContentList实现真正的内容类型无关渲染，支持电影、写真、合集等混合内容。
  *              采用内容渲染器架构设计，自动选择最佳渲染器进行内容展示。
- * @created 2025-10-16 11:21:33
- * @updated 2025-10-20 14:07:15
+ * @created 2025-10-20 14:37:50
+ * @updated 2025-10-21 15:01:43
  * @author mosctz
  * @since 1.0.0
  * @version 2.0.0
@@ -16,7 +16,7 @@ import {
   RendererConfig,
   BaseContentItem,
 } from '@components/domains/shared/content-renderers'
-import { LatestItem } from '@types-movie'
+import type { LatestItem } from '@types-movie'
 import { toUnifiedContentItem } from '@types-movie'
 import type { UnifiedCardConfig } from '@types-unified'
 import React, { useMemo } from 'react'

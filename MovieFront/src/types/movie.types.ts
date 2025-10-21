@@ -1,8 +1,9 @@
 /**
  * @fileoverview Movie相关类型定义
- * @description 定义Movie相关的基础类型和接口，遵循DDD架构的类型设计原则。
- * 将复杂的接口拆分为多个基础接口组合，提高可维护性和扩展性。
- *
+ * @description 定义Movie相关的基础类型和接口，遵循DDD架构的类型设计原则
+ *              将复杂的接口拆分为多个基础接口组合，提高可维护性和扩展性
+ * @created 2025-10-17 10:01:12
+ * @updated 2025-10-21 15:21:44
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -75,6 +76,8 @@ export interface MediaStatusItem {
   isHot?: boolean
   /** 是否为精选内容 */
   isFeatured?: boolean
+  /** 影片数量（用于合集类型） */
+  movieCount?: number
 }
 
 /**
@@ -152,6 +155,129 @@ export interface LatestItem extends BaseMovieItem, MediaStatusItem {}
  * TOP排名专用的接口组合
  */
 export interface TopItem extends BaseMovieItem, MediaRankItem {}
+
+/**
+ * 合集项目接口
+ * 合集专用的接口组合，包含合集的完整信息
+ */
+export interface CollectionItem extends BaseMediaItem, MediaImageItem, MediaStatusItem, MediaRatingItem {
+  /** 合集类型固定为Collection */
+  type: 'Collection'
+  /** 内容类型标识符，用于内容渲染器系统 */
+  contentType: 'collection'
+  /** 合集描述 */
+  description?: string
+  /** 图片alt文本 */
+  alt?: string
+  /** 是否为新内容 */
+  isNew?: boolean
+  /** NEW标签类型 */
+  newType?: 'hot' | 'latest' | null
+  /** 是否为VIP专享内容 */
+  isVip?: boolean
+  /** 标签列表 */
+  tags?: string[]
+  /** 是否为热门内容 */
+  isHot?: boolean
+  /** 是否为精选内容 */
+  isFeatured?: boolean
+  /** 合集包含的影片ID列表 */
+  movieIds?: string[]
+  /** 合集分类 */
+  category?: string
+  /** 创建时间 */
+  createdAt?: string
+  /** 更新时间 */
+  updatedAt?: string
+}
+
+// ============================================================================
+// 详情页面类型定义
+// ============================================================================
+
+/**
+ * 电影详情接口
+ * 电影详情页面专用的完整信息接口
+ */
+export interface MovieDetail extends FullMovieItem {
+  /** 导演 */
+  director?: string
+  /** 演员列表 */
+  cast?: string[]
+  /** 国家/地区 */
+  country?: string
+  /** 语言 */
+  language?: string
+  /** 时长（分钟） */
+  duration?: number
+  /** 发布年份 */
+  year?: number
+  /** 剧情简介 */
+  plot?: string
+  /** 下载链接 */
+  downloadLinks?: DownloadLink[]
+  /** 相关推荐 */
+  recommendations?: BaseMovieItem[]
+  /** 浏览次数 */
+  viewCount?: number
+  /** 下载次数 */
+  downloadCount?: number
+  /** 收藏次数 */
+  favoriteCount?: number
+  /** 评论数量 */
+  commentCount?: number
+}
+
+/**
+ * 下载链接接口
+ */
+export interface DownloadLink {
+  /** 链接ID */
+  id: string
+  /** 链接名称 */
+  name: string
+  /** 下载URL */
+  url: string
+  /** 文件大小 */
+  size?: string
+  /** 文件格式 */
+  format?: string
+  /** 清晰度 */
+  quality?: string
+  /** 是否需要VIP */
+  requiresVip?: boolean
+}
+
+/**
+ * 合集详情接口
+ * 合集详情页面专用的完整信息接口
+ */
+export interface CollectionDetail extends TopicItem {
+  /** 封面图片 */
+  coverImage?: string
+  /** 合集中的电影ID列表 */
+  movieIds?: string[]
+  /** 合集类型/分类 */
+  genre?: string
+  /** 发布日期 */
+  publishDate?: string
+  /** 创建者 */
+  creator?: string
+  /** 合集描述 */
+  collectionDescription?: string
+  /** 项目数量 */
+  itemCount?: number
+  /** 总时长 */
+  totalDuration?: number
+  /** 更新频率 */
+  updateFrequency?: string
+  /** 最后更新时间 */
+  lastUpdated?: string
+  /** 订阅数量 */
+  subscriptionCount?: number
+  /** 合集中的电影列表 */
+  movies?: BaseMovieItem[]
+}
 
 // ============================================================================
 // 内容渲染器类型集成

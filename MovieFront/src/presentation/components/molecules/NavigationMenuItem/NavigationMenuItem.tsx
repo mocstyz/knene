@@ -1,62 +1,52 @@
+/**
+ * @fileoverview 导航菜单项组件
+ * @description 处理单个导航项的展开/收起逻辑，支持二级菜单的显示/隐藏，提供展开/收起的视觉反馈，确保同时只有一个二级菜单展开
+ * @created 2025-10-21 13:02:50
+ * @updated 2025-10-21 13:02:50
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Icon } from '@components/atoms/Icon'
 import React from 'react'
 
-/**
- * 导航菜单项属性
- */
+// 导航菜单项属性接口，定义单个导航项的完整配置参数
 export interface NavigationMenuItemProps {
-  /** 菜单标题 */
-  title: string
-  /** 菜单链接 */
-  href: string
-  /** 菜单描述 */
-  description: string
-  /** 图标名称 */
-  icon?: string
-  /** 是否为可展开菜单项 */
-  hasSubmenu?: boolean
-  /** 子菜单内容 */
-  submenuContent?: React.ReactNode
-  /** 当前页面标识 */
-  currentPage?: string
-  /** 是否展开 */
-  isExpanded?: boolean
-  /** 菜单项点击回调 */
-  onItemClick?: () => void
-  /** 自定义类名 */
-  className?: string
+  title: string // 菜单标题
+  href: string // 菜单链接地址
+  description: string // 菜单描述文本
+  icon?: string // 可选的图标名称
+  hasSubmenu?: boolean // 是否包含子菜单，默认false
+  submenuContent?: React.ReactNode // 子菜单内容组件
+  currentPage?: string // 当前页面标识符
+  isExpanded?: boolean // 是否展开状态，默认false
+  onItemClick?: () => void // 菜单项点击回调函数
+  className?: string // 自定义CSS类名
 }
 
-/**
- * NavigationMenuItem分子组件
- *
- * 功能：
- * - 处理单个导航项的展开/收起逻辑
- * - 支持二级菜单的显示/隐藏
- * - 提供展开/收起的视觉反馈
- * - 确保同时只有一个二级菜单展开
- */
+// 导航菜单项组件，处理单个导航项的展开/收起逻辑和二级菜单显示
 export const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({
-  title,
-  href,
-  description,
-  icon,
-  hasSubmenu = false,
-  submenuContent,
-  currentPage,
-  isExpanded = false,
-  onItemClick,
-  className = '',
+  title, // 菜单标题
+  href, // 菜单链接地址
+  description, // 菜单描述文本
+  icon, // 可选的图标名称
+  hasSubmenu = false, // 是否包含子菜单，默认false
+  submenuContent, // 子菜单内容组件
+  currentPage, // 当前页面标识符
+  isExpanded = false, // 是否展开状态，默认false
+  onItemClick, // 菜单项点击回调函数
+  className = '', // 自定义CSS类名，默认空字符串
 }) => {
-  // 处理菜单项点击
+  // 处理菜单项点击事件 - 有子菜单时阻止默认跳转行为
   const handleClick = (e: React.MouseEvent) => {
     if (hasSubmenu) {
-      e.preventDefault()
+      e.preventDefault() // 阻止链接默认跳转
     }
-    onItemClick?.()
+    onItemClick?.() // 执行点击回调
   }
 
-  // 获取展开图标
+  // 根据展开状态获取对应的展开图标
   const expandIcon = isExpanded ? 'expand_more' : 'chevron_right'
 
   return (
@@ -84,7 +74,7 @@ export const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({
         )}
       </a>
 
-      {/* 二级菜单 */}
+        {/* 二级菜单展开区域 - 根据展开状态显示/隐藏子菜单内容 */}
       {hasSubmenu && submenuContent && (
         <div
           className={`overflow-hidden transition-all duration-200 ease-in-out ${isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} `}

@@ -1,3 +1,13 @@
+/**
+ * @fileoverview 应用路由配置
+ * @description 定义应用的所有路由配置，包含路由守卫、权限控制、懒加载等配置，支持管理员、用户、访客等不同角色的访问控制
+ * @created 2025-10-21 11:01:39
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { ProtectedRoute, AdminRoute, GuestRoute } from '@components/guards'
 import React, { Suspense } from 'react'
 import {
@@ -49,6 +59,11 @@ const MovieCategoryPage = React.lazy(
 // 专题页面
 const SpecialCollectionsPage = React.lazy(
   () => import('@pages/special/SpecialCollectionsPage')
+)
+
+// 合集页面
+const CollectionDetailPage = React.lazy(
+  () => import('@pages/collection/CollectionDetailPage')
 )
 
 // 管理员页面
@@ -220,12 +235,22 @@ const routeConfig: RouteObject[] = [
     ],
   },
 
-  // 专题相关路由
+  // 专题路由
   {
     path: '/special/collections',
     element: (
       <SuspenseWrapper>
         <SpecialCollectionsPage />
+      </SuspenseWrapper>
+    ),
+  },
+
+  // 合集详情路由
+  {
+    path: '/collection/:collectionId',
+    element: (
+      <SuspenseWrapper>
+        <CollectionDetailPage />
       </SuspenseWrapper>
     ),
   },
@@ -347,6 +372,11 @@ export const ROUTES = {
   // 专题路由
   SPECIAL: {
     COLLECTIONS: '/special/collections',
+  },
+
+  // 合集路由
+  COLLECTION: {
+    DETAIL: (id: string) => `/collection/${id}`,
   },
 
   // 管理员路由

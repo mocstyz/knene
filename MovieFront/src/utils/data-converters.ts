@@ -9,7 +9,7 @@
  */
 
 import { ContentTransformationService } from '@application/services/ContentTransformationService'
-import type { CollectionItem } from '@components/domains/collections'
+import type { CollectionItem } from '@types-movie'
 import type { HotItem } from '@infrastructure/repositories/HomeRepository'
 import type { 
   UnifiedContentItem, 
@@ -25,12 +25,21 @@ export function toCollectionItem(item: UnifiedContentItem): CollectionItem {
   return {
     id: item.id,
     title: item.title,
+    type: 'Collection' as const,
+    contentType: 'collection' as const,
     description: item.description || '',
     imageUrl: item.imageUrl,
     alt: item.alt || item.title,
     isNew: item.isNew || false,
     newType: item.newType || 'latest',
     isVip: item.isVip || false,
+    rating: item.rating?.toString() || '0',
+    movieCount: item.viewCount || 0,
+    category: '默认分类',
+    tags: item.tags || [],
+    createdAt: item.createdAt || new Date().toISOString(),
+    updatedAt: item.updatedAt || new Date().toISOString(),
+    isFeatured: item.isFeatured || false
   }
 }
 

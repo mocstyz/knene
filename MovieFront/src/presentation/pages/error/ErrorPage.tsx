@@ -1,13 +1,26 @@
+/**
+ * @fileoverview 通用错误页面
+ * @description 应用程序的通用错误处理页面，根据错误类型显示不同的错误信息和解决方案，
+ *              包含错误详情显示、页面重新加载、返回导航、错误报告等功能
+ * @created 2025-10-09 13:10:50
+ * @updated 2025-10-09 13:10:50
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Button, Icon } from '@components/atoms'
 import React from 'react'
 import { useRouteError, Link } from 'react-router-dom'
 
+// 路由错误接口，定义React Router错误对象的结构
 interface RouteError {
-  statusText?: string
-  message?: string
-  status?: number
+  statusText?: string // 错误状态文本
+  message?: string // 错误消息
+  status?: number // HTTP状态码
 }
 
+// 通用错误页面组件，根据错误类型显示不同的错误信息和解决方案，提供完整的错误处理用户体验
 const ErrorPage: React.FC = () => {
   const error = useRouteError() as RouteError
 

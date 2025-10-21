@@ -1,8 +1,8 @@
 /**
  * @fileoverview 图片服务React Hook
- * @description 提供便捷的图片操作方法，封装图片服务的业务逻辑。
- * 支持电影海报、专题封面、用户头像等多种业务场景。
- *
+ * @description 提供便捷的图片操作方法，封装图片服务的业务逻辑，支持电影海报、专题封面、用户头像等多种业务场景
+ * @created 2025-10-21 13:49:24
+ * @updated 2025-10-21 15:17:14
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -14,85 +14,23 @@ import {
 } from '@infrastructure/services/image'
 import { useMemo } from 'react'
 
-/**
- * 图片服务Hook返回值
- */
+// 图片服务Hook返回值接口，定义图片服务Hook提供的各种图片操作方法
 export interface UseImageServiceReturn {
-  /**
-   * 获取电影海报URL
-   * @param movieId 电影ID
-   * @param options 图片选项
-   * @returns 电影海报URL
-   */
-  getMoviePoster: (movieId: string, options?: ImageOptions) => string
-
-  /**
-   * 获取专题封面URL
-   * @param topicId 专题ID
-   * @param options 图片选项
-   * @returns 专题封面URL
-   */
-  getTopicCover: (topicId: string, options?: ImageOptions) => string
-
-  /**
-   * 获取合集封面URL
-   * @param collectionId 合集ID
-   * @param options 图片选项
-   * @returns 合集封面URL
-   */
-  getCollectionCover: (collectionId: string, options?: ImageOptions) => string
-
-  /**
-   * 获取用户头像URL
-   * @param userId 用户ID
-   * @param options 图片选项
-   * @returns 用户头像URL
-   */
-  getUserAvatar: (userId: string, options?: ImageOptions) => string
-
-  /**
-   * 获取通用图片URL
-   * @param seed 图片种子
-   * @param options 图片选项
-   * @returns 图片URL
-   */
-  getImageUrl: (seed: string, options?: ImageOptions) => string
-
-  /**
-   * 获取优化后的图片URL
-   * @param seed 图片种子
-   * @param options 图片选项
-   * @returns 优化后的图片URL
-   */
-  getOptimizedUrl: (seed: string, options?: ImageOptions) => string
-
-  /**
-   * 获取占位符图片URL
-   * @param width 宽度
-   * @param height 高度
-   * @returns 占位符图片URL
-   */
-  getPlaceholder: (width?: number, height?: number) => string
-
-  /**
-   * 生成响应式图片srcset
-   * @param seed 图片种子
-   * @param options 图片选项
-   * @param sizes 断点配置
-   * @returns srcset字符串
-   */
-  generateSrcSet: (
+  getMoviePoster: (movieId: string, options?: ImageOptions) => string // 获取电影海报URL
+  getTopicCover: (topicId: string, options?: ImageOptions) => string // 获取专题封面URL
+  getCollectionCover: (collectionId: string, options?: ImageOptions) => string // 获取合集封面URL
+  getUserAvatar: (userId: string, options?: ImageOptions) => string // 获取用户头像URL
+  getImageUrl: (seed: string, options?: ImageOptions) => string // 获取通用图片URL
+  getOptimizedUrl: (seed: string, options?: ImageOptions) => string // 获取优化后的图片URL
+  getPlaceholder: (width?: number, height?: number) => string // 获取占位符图片URL
+  generateSrcSet: ( // 生成响应式图片srcset
     seed: string,
     options?: ImageOptions,
     sizes?: number[]
   ) => string
 }
 
-/**
- * 图片服务Hook
- *
- * 提供便捷的图片操作方法，支持多种业务场景。
- */
+// 图片服务Hook，提供便捷的图片操作方法，支持电影海报、专题封面、用户头像等多种业务场景
 export const useImageService = (): UseImageServiceReturn => {
   const imageService = useMemo(() => ImageServiceFactory.getInstance(), [])
 

@@ -1,51 +1,53 @@
+/**
+ * @fileoverview 管理后台模板组件
+ * @description 提供完整的管理后台页面布局模板，包含侧边栏导航、顶部工具栏、用户信息区域、
+ *              通知系统、面包屑导航等功能，支持可折叠侧边栏和响应式设计
+ * @created 2025-10-21 13:33:43
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Icon, Avatar, Badge } from '@components/atoms'
 import { cn } from '@utils/cn'
 import React from 'react'
 
+// 管理员用户信息接口，定义管理员的基本信息和权限配置
 export interface AdminUser {
-  id: string
-  name: string
-  email: string
-  avatar?: string
-  role: 'admin' | 'super_admin'
-  permissions: string[]
+  id: string // 用户唯一标识
+  name: string // 用户姓名
+  email: string // 用户邮箱
+  avatar?: string // 用户头像URL
+  role: 'admin' | 'super_admin' // 用户角色
+  permissions: string[] // 用户权限列表
 }
 
+// 面包屑导航项接口，定义面包屑导航的显示和跳转行为
 export interface BreadcrumbItem {
-  label: string
-  href?: string
-  active?: boolean
+  label: string // 显示文本
+  href?: string // 跳转链接
+  active?: boolean // 是否为当前页面
 }
 
+// 管理后台模板属性接口，定义模板组件的配置选项和内容区域
 export interface AdminTemplateProps {
-  /** 当前管理员用户信息 */
-  user: AdminUser
-  /** 页面标题 */
-  title: string
-  /** 面包屑导航 */
-  breadcrumbs?: BreadcrumbItem[]
-  /** 侧边栏导航菜单 */
-  navigation: React.ReactNode
-  /** 主要内容区域 */
-  main: React.ReactNode
-  /** 页面操作按钮区域 */
-  actions?: React.ReactNode
-  /** 是否显示用户信息 */
-  showUserInfo?: boolean
-  /** 是否显示通知 */
-  showNotifications?: boolean
-  /** 未读通知数量 */
-  notificationCount?: number
-  /** 用户菜单点击回调 */
-  onUserMenuClick?: () => void
-  /** 通知点击回调 */
-  onNotificationClick?: () => void
-  /** 退出登录回调 */
-  onLogout?: () => void
-  /** 自定义样式类名 */
-  className?: string
+  user: AdminUser // 当前管理员用户信息
+  title: string // 页面标题
+  breadcrumbs?: BreadcrumbItem[] // 面包屑导航
+  navigation: React.ReactNode // 侧边栏导航菜单
+  main: React.ReactNode // 主要内容区域
+  actions?: React.ReactNode // 页面操作按钮区域
+  showUserInfo?: boolean // 是否显示用户信息
+  showNotifications?: boolean // 是否显示通知
+  notificationCount?: number // 未读通知数量
+  onUserMenuClick?: () => void // 用户菜单点击回调
+  onNotificationClick?: () => void // 通知点击回调
+  onLogout?: () => void // 退出登录回调
+  className?: string // 自定义样式类名
 }
 
+// 管理后台模板组件，提供完整的管理后台页面布局模板，包含侧边栏导航、顶部工具栏、用户信息区域、通知系统、面包屑导航等功能
 export const AdminTemplate: React.FC<AdminTemplateProps> = ({
   user,
   title,

@@ -1,7 +1,19 @@
+/**
+ * @fileoverview 404页面未找到页面
+ * @description 用户访问不存在页面时显示的404错误页面，提供友好的错误提示和导航选项，
+ *              包含返回首页、返回上一页、帮助中心链接等功能，改善用户体验
+ * @created 2025-10-09 13:10:50
+ * @updated 2025-10-09 13:10:50
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 import { Button, Icon } from '@components/atoms'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+// 404页面未找到组件，用户访问不存在页面时显示的错误页面，提供友好的错误提示和导航选项
 const NotFoundPage: React.FC = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">

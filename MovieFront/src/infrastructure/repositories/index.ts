@@ -2,8 +2,8 @@
  * @fileoverview 仓储层统一导出模块
  * @description 提供仓储层的统一入口，包含基础仓储接口、各领域仓储接口和实现类的导出
  * 遵循DDD架构中的仓储模式，提供数据访问的抽象层
- * @created 2025-10-15 14:55:00
- * @updated 2025-10-19 10:40:00
+ * @created 2025-10-19 15:30:47
+ * @updated 2025-10-21 14:41:39
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -50,3 +50,9 @@ export type { DownloadRepository as IDownloadRepository } from './DownloadReposi
 export const userRepository = new UserRepositoryImpl()
 export const movieRepository = new MovieRepositoryImpl()
 export const downloadRepository = new DownloadRepositoryImpl()
+
+// 仓储层统一导出
+export * from './HomeRepository'
+export * from './ICollectionRepository'
+export * from './IHomeRepository'
+export * from './CollectionRepository'

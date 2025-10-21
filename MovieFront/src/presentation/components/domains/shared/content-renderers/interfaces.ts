@@ -19,6 +19,7 @@ export interface BaseContentItem {
   id: string // 内容唯一标识符
   title: string // 内容标题
   contentType: ContentTypeId // 内容类型标识符
+  type?: string // 内容类型（可选，用于兼容不同的类型系统）
   description?: string // 内容描述（可选）
   imageUrl: string // 主图片URL
   alt?: string // 图片alt文本
