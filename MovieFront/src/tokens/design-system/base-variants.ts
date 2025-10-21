@@ -1,12 +1,16 @@
 /**
- * 基础组件变体配置
- * 按照Claude.md第3.2.4节要求，通过配置驱动实现基础组件复用
+ * @fileoverview 基础组件变体配置
+ * @description 提供统一的基础组件变体配置，包括Button、Input、Badge、Card、Select、
+ *              Switch、TextLink等组件的样式变体定义，按照配置驱动原则实现基础
+ *              组件的复用和一致性，确保所有基础组件都遵循统一的设计规范
+ * @created 2025-10-14 13:20:01
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
 
-// ============================================================================
-// Button 组件变体
-// ============================================================================
-
+// Button组件变体配置 - 定义按钮的基础样式和变体选项
 export const buttonVariants = {
   base: 'inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-0 focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed',
   size: {
@@ -40,22 +44,22 @@ export const buttonVariants = {
   },
 } as const
 
+// Button组件变体类型 - 定义按钮的样式变体选项
 export type ButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'danger'
-  | 'ghost'
-  | 'outline'
-  | 'success'
-  | 'warning'
-  | 'info'
-  | 'link'
+  | 'primary' // 主要按钮
+  | 'secondary' // 次要按钮
+  | 'danger' // 危险操作按钮
+  | 'ghost' // 幽灵按钮
+  | 'outline' // 轮廓按钮
+  | 'success' // 成功操作按钮
+  | 'warning' // 警告操作按钮
+  | 'info' // 信息按钮
+  | 'link' // 链接样式按钮
+
+// Button组件尺寸类型 - 定义按钮的尺寸选项
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
-// ============================================================================
-// Input 组件变体
-// ============================================================================
-
+// Input组件变体配置 - 定义输入框的基础样式和变体选项
 export const inputVariants = {
   base: 'flex w-full rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed',
   size: {
@@ -81,13 +85,13 @@ export const inputVariants = {
   },
 } as const
 
+// Input组件变体类型 - 定义输入框的样式变体
 export type InputVariant = 'default' | 'filled' | 'outlined' | 'underlined'
+
+// Input组件尺寸类型 - 定义输入框的尺寸选项
 export type InputSize = 'sm' | 'md' | 'lg'
 
-// ============================================================================
-// Badge 组件变体
-// ============================================================================
-
+// Badge组件变体配置 - 定义徽章的基础样式和变体选项
 export const badgeVariants = {
   base: 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
   variant: {
@@ -118,10 +122,7 @@ export type BadgeVariant =
   | 'outline'
 export type BadgeSize = 'sm' | 'md' | 'lg'
 
-// ============================================================================
-// Card 组件变体
-// ============================================================================
-
+// Card组件变体配置 - 定义卡片的基础样式和变体选项
 export const cardVariants = {
   base: 'rounded-lg shadow-md transition-all duration-200',
   variant: {
@@ -153,10 +154,7 @@ export type CardVariant =
   | 'featured'
 export type CardSize = 'sm' | 'md' | 'lg' | 'xl'
 
-// ============================================================================
-// Select 组件变体
-// ============================================================================
-
+// Select组件变体配置 - 定义选择器的基础样式和变体选项
 export const selectVariants = {
   base: 'flex w-full rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed bg-white',
   size: {
@@ -175,10 +173,7 @@ export const selectVariants = {
 export type SelectVariant = 'default' | 'filled' | 'outlined'
 export type SelectSize = 'sm' | 'md' | 'lg'
 
-// ============================================================================
-// Switch 组件变体
-// ============================================================================
-
+// Switch组件变体配置 - 定义开关的基础样式和变体选项
 export const switchVariants = {
   base: 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent-7 focus:ring-offset-2',
   size: {
@@ -197,10 +192,7 @@ export const switchVariants = {
 export type SwitchVariant = 'default' | 'success' | 'warning' | 'danger'
 export type SwitchSize = 'sm' | 'md' | 'lg'
 
-// ============================================================================
-// TextLink 组件变体
-// ============================================================================
-
+// TextLink组件变体配置 - 定义文本链接的基础样式和变体选项
 export const textLinkVariants = {
   base: 'inline-flex items-center transition-all duration-200 cursor-pointer focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0',
   variant: {
