@@ -16,6 +16,7 @@ import { MOVIE_ENDPOINTS } from '@infrastructure/api/endpoints'
 import { mockDataService } from '@application/services/MockDataService'
 import { ContentTransformationService } from '@application/services/ContentTransformationService'
 import { toCollectionItems } from '@utils/data-converters'
+import { environmentConfig } from '@infrastructure/config/EnvironmentConfig'
 import type { 
   CollectionItem,
   PhotoItem, 
@@ -40,12 +41,12 @@ export interface HomeDataParams {
   hotLimit?: number
 }
 
-// 首页数据响应接口
+// 首页数据响应接口，与API接口保持一致
 export interface HomeDataResponse {
   collections: CollectionItem[]
   photos: PhotoItem[]
   latestUpdates: LatestItem[]
-  hotDaily: BaseMovieItem[]
+  hotDaily: HotItem[]
 }
 
 // 首页仓储实现类，提供首页数据的获取和转换功能
@@ -61,40 +62,11 @@ export class HomeRepository implements IHomeRepository {
       imageQuality = 'medium' 
     } = params
 
-    // 构建API URL
-    const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL(
-      MOVIE_ENDPOINTS.HOT,
-      window.location.origin + baseUrl
-    )
-
-    // 添加查询参数
-    apiUrl.searchParams.append('collectionsLimit', collectionsLimit.toString())
-    apiUrl.searchParams.append('photosLimit', photosLimit.toString())
-    apiUrl.searchParams.append('latestLimit', latestLimit.toString())
-    apiUrl.searchParams.append('hotLimit', hotLimit.toString())
-    apiUrl.searchParams.append('includeRatings', includeRatings.toString())
-    apiUrl.searchParams.append('imageQuality', imageQuality)
-
-    try {
-      const response = await fetch(apiUrl.toString())
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch home data: ${response.status}`)
-      }
-
-      const data = await response.json()
-
-      // 后端API数据格式转换
-      return this.transformApiResponse(data)
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.log('Development: API not available, using mock data for home data')
-      } else {
-        console.error('Error fetching home data:', error)
-      }
-
-      // 如果API调用失败，使用Mock数据服务
+    // 检查是否启用Mock数据
+    if (environmentConfig.isMockEnabled()) {
+      console.log('🔧 使用Mock数据模式 - getHomeData')
+      
+      // 使用Mock数据服务
       const mockData = mockDataService.generateMockHomeData()
       
       // 将CollectionItem[]转换为CollectionItem[]
@@ -117,24 +89,112 @@ export class HomeRepository implements IHomeRepository {
         }))
       )
       
-      return {
+      const result = {
         collections,
         photos: mockDataService.getMockPhotos(photosLimit),
         latestUpdates: mockDataService.getMockLatestUpdates(latestLimit),
         hotDaily: mockDataService.getMockHotDaily(hotLimit),
       }
+      
+      console.log('📦 [HomeRepository] Mock数据准备完成:', {
+        collections: result.collections?.length || 0,
+        photos: result.photos?.length || 0,
+        latestUpdates: result.latestUpdates?.length || 0,
+        hotDaily: result.hotDaily?.length || 0
+      })
+      
+      return result
+    }
+
+    // 构建API URL
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL(MOVIE_ENDPOINTS.HOT, fullBaseUrl)
+
+    // 添加查询参数
+    apiUrl.searchParams.append('collectionsLimit', collectionsLimit.toString())
+    apiUrl.searchParams.append('photosLimit', photosLimit.toString())
+    apiUrl.searchParams.append('latestLimit', latestLimit.toString())
+    apiUrl.searchParams.append('hotLimit', hotLimit.toString())
+    apiUrl.searchParams.append('includeRatings', includeRatings.toString())
+    apiUrl.searchParams.append('imageQuality', imageQuality)
+
+    try {
+      const response = await fetch(apiUrl.toString())
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch home data: ${response.status}`)
+      }
+
+      const data = await response.json()
+
+      // 后端API数据格式转换
+      return this.transformApiResponse(data)
+    } catch (error) {
+      console.error('Error fetching home data:', error)
+      
+      // API调用失败时的回退处理
+      if (environmentConfig.isDevelopment()) {
+        console.log('Development: API调用失败，回退到Mock数据')
+        
+        // 使用Mock数据服务作为回退
+        const mockData = mockDataService.generateMockHomeData()
+        
+        // 将CollectionItem[]转换为CollectionItem[]
+        const collections = toCollectionItems(
+          ContentTransformationService.transformUnifiedListToCollections(
+            ContentTransformationService.transformCollectionListToUnified(
+              mockDataService.generateMockCollections(collectionsLimit)
+            )
+          ).map(collection => ({
+            id: collection.id,
+            title: collection.title,
+            contentType: 'collection' as const,
+            description: collection.description,
+            imageUrl: collection.imageUrl,
+            alt: collection.alt,
+            isNew: collection.isNew,
+            newType: collection.newType,
+            isVip: collection.isVip,
+            tags: collection.tags
+          }))
+        )
+        
+        return {
+          collections,
+          photos: mockDataService.getMockPhotos(photosLimit),
+          latestUpdates: mockDataService.getMockLatestUpdates(latestLimit),
+          hotDaily: mockDataService.getMockHotDaily(hotLimit),
+        }
+      }
+      
+      // 生产环境抛出错误
+      throw error
     }
   }
 
-  // 获取专题数据，支持数量限制和错误处理
+  // 获取专题合集数据，支持分页和筛选参数
   async getCollections(params?: CollectionsQueryParams): Promise<CollectionItem[]> {
-    const limit = params?.limit || 3
+    const { 
+      limit = 8, 
+      offset = 0, 
+      category, 
+      featured = false, 
+      sortBy = 'latest' 
+    } = params || {}
+    
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL(
-      `${MOVIE_ENDPOINTS.CATEGORIES}/collections`,
-      window.location.origin + baseUrl
-    )
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL(MOVIE_ENDPOINTS.COLLECTIONS, fullBaseUrl)
+    
+    // 添加查询参数
     apiUrl.searchParams.append('limit', limit.toString())
+    apiUrl.searchParams.append('offset', offset.toString())
+    if (category) apiUrl.searchParams.append('category', category)
+    if (featured) apiUrl.searchParams.append('featured', 'true')
+    if (sortBy) apiUrl.searchParams.append('sortBy', sortBy)
 
     try {
       const response = await fetch(apiUrl.toString())
@@ -144,44 +204,64 @@ export class HomeRepository implements IHomeRepository {
       }
 
       const data = await response.json()
+
+      // 后端API数据格式转换
       return this.transformCollections(data)
     } catch (error) {
-      if (import.meta.env.DEV) {
-        console.log('Development: API not available, using mock data for collections')
-      } else {
-        console.error('Error fetching collections:', error)
+      console.error('Error fetching collections:', error)
+      
+      // API调用失败时的回退处理
+      if (environmentConfig.isDevelopment()) {
+        console.log('Development: API调用失败，回退到Mock数据 - Collections')
+        
+        // 使用Mock数据服务作为回退
+        const mockCollections = mockDataService.generateMockCollections(limit)
+        
+        // 转换为CollectionItem[]格式
+        return toCollectionItems(
+          ContentTransformationService.transformUnifiedListToCollections(
+            ContentTransformationService.transformCollectionListToUnified(mockCollections)
+          ).map(collection => ({
+            id: collection.id,
+            title: collection.title,
+            contentType: 'collection' as const,
+            description: collection.description,
+            imageUrl: collection.imageUrl,
+            alt: collection.alt,
+            isNew: collection.isNew,
+            newType: collection.newType,
+            isVip: collection.isVip,
+            tags: collection.tags
+          }))
+        )
       }
-      // 使用正确的数据转换流程
-      return toCollectionItems(
-        ContentTransformationService.transformUnifiedListToCollections(
-          ContentTransformationService.transformCollectionListToUnified(
-            mockDataService.generateMockCollections(limit)
-          )
-        ).map(collection => ({
-          id: collection.id,
-          title: collection.title,
-          contentType: 'collection' as const,
-          description: collection.description,
-          imageUrl: collection.imageUrl,
-          alt: collection.alt,
-          isNew: collection.isNew,
-          newType: collection.newType,
-          isVip: collection.isVip,
-          tags: collection.tags
-        }))
-      )
+      
+      // 生产环境抛出错误
+      throw error
     }
   }
 
-  // 获取写真内容列表
+  // 获取写真内容数据，支持质量和方向筛选
   async getPhotos(params?: PhotosQueryParams): Promise<PhotoItem[]> {
-    const limit = params?.limit || 6
+    const { 
+      limit = 12, 
+      offset = 0, 
+      category, 
+      quality = 'all', 
+      orientation = 'all' 
+    } = params || {}
+    
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL(
-      `${MOVIE_ENDPOINTS.CATEGORIES}/photos`,
-      window.location.origin + baseUrl
-    )
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL(MOVIE_ENDPOINTS.PHOTOS, fullBaseUrl)
+    
+    // 添加查询参数
     apiUrl.searchParams.append('limit', limit.toString())
+    apiUrl.searchParams.append('offset', offset.toString())
+    if (category) apiUrl.searchParams.append('category', category)
+    if (quality !== 'all') apiUrl.searchParams.append('quality', quality)
+    if (orientation !== 'all') apiUrl.searchParams.append('orientation', orientation)
 
     try {
       const response = await fetch(apiUrl.toString())
@@ -191,15 +271,22 @@ export class HomeRepository implements IHomeRepository {
       }
 
       const data = await response.json()
+
+      // 后端API数据格式转换
       return this.transformPhotos(data)
     } catch (error) {
-      if (import.meta.env.DEV) {
-        console.log('Development: API not available, using mock data for photos')
-      } else {
-        console.error('Error fetching photos:', error)
+      console.error('Error fetching photos:', error)
+      
+      // API调用失败时的回退处理
+      if (environmentConfig.isDevelopment()) {
+        console.log('Development: API调用失败，回退到Mock数据 - Photos')
+        
+        // 使用Mock数据服务作为回退
+        return mockDataService.getMockPhotos(limit)
       }
-      // 使用Mock数据服务作为回退
-      return mockDataService.getMockPhotos(limit)
+      
+      // 生产环境抛出错误
+      throw error
     }
   }
 
@@ -207,9 +294,11 @@ export class HomeRepository implements IHomeRepository {
   async getLatestUpdates(params?: LatestUpdatesQueryParams): Promise<LatestItem[]> {
     const limit = params?.limit || 6
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
     const apiUrl = new URL(
       MOVIE_ENDPOINTS.LATEST,
-      window.location.origin + baseUrl
+      fullBaseUrl
     )
     apiUrl.searchParams.append('limit', limit.toString())
 
@@ -236,9 +325,11 @@ export class HomeRepository implements IHomeRepository {
   // 获取24小时热门数据，支持数量限制和错误处理
   async getHotDaily(limit = 6): Promise<HotItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
     const apiUrl = new URL(
       `${MOVIE_ENDPOINTS.HOT}/daily`,
-      window.location.origin + baseUrl
+      fullBaseUrl
     )
     apiUrl.searchParams.append('limit', limit.toString())
 
@@ -267,7 +358,9 @@ export class HomeRepository implements IHomeRepository {
     const { limit = 6, period = 'daily', minRating = 0 } = params || {}
     
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL(MOVIE_ENDPOINTS.HOT, window.location.origin + baseUrl)
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL(MOVIE_ENDPOINTS.HOT, fullBaseUrl)
     
     apiUrl.searchParams.append('limit', limit.toString())
     apiUrl.searchParams.append('period', period)
@@ -283,8 +376,11 @@ export class HomeRepository implements IHomeRepository {
     } catch (error) {
       if (import.meta.env.DEV) {
         console.log('Development: API not available, using mock data for hot content')
+      } else {
+        console.error('Error fetching hot content:', error)
       }
-      return []
+      // 使用Mock数据服务作为回退
+      return mockDataService.getMockHotDaily(limit)
     }
   }
 
@@ -313,7 +409,9 @@ export class HomeRepository implements IHomeRepository {
     priority: number
   }[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL('/banners', window.location.origin + baseUrl)
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL('/banners', fullBaseUrl)
 
     try {
       const response = await fetch(apiUrl.toString())
@@ -339,7 +437,9 @@ export class HomeRepository implements IHomeRepository {
     isImportant: boolean
   }[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL('/announcements', window.location.origin + baseUrl)
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL('/announcements', fullBaseUrl)
 
     try {
       const response = await fetch(apiUrl.toString())
@@ -364,7 +464,9 @@ export class HomeRepository implements IHomeRepository {
     todayVisits: number
   }> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL('/stats', window.location.origin + baseUrl)
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL('/stats', fullBaseUrl)
 
     try {
       const response = await fetch(apiUrl.toString())

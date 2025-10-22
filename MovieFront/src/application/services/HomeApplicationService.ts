@@ -9,14 +9,16 @@
  * @version 1.0.0
  */
 import { IHomeRepository, HomeRepository } from '@infrastructure/repositories'
-import type { CollectionItem, PhotoItem, LatestItem, BaseMovieItem } from '@/types/movie.types'
+import { environmentConfig } from '@infrastructure/config/EnvironmentConfig'
+import type { CollectionItem, PhotoItem, LatestItem, HotItem } from '@/types/movie.types'
+import type { HomeDataResponse as ApiHomeDataResponse } from '@infrastructure/api/interfaces/IHomeApi'
 
-// 首页数据响应接口
+// 首页数据响应接口，与API接口保持一致
 export interface HomeDataResponse {
   collections: CollectionItem[]
   photos: PhotoItem[]
   latestUpdates: LatestItem[]
-  hotDaily: BaseMovieItem[]
+  hotDaily: HotItem[]
 }
 
 // 首页数据查询参数接口
@@ -25,6 +27,8 @@ export interface HomeDataParams {
   photosLimit?: number
   latestLimit?: number
   hotLimit?: number
+  latestUpdatesLimit?: number
+  hotDailyLimit?: number
 }
 
 // 首页应用服务类，通过Repository层访问数据，遵循DDD架构
@@ -35,18 +39,47 @@ export class HomeApplicationService {
     this.homeRepository = new HomeRepository()
   }
 
-  // 获取完整首页数据，通过Repository层访问数据
-  async getHomeData(params?: HomeDataParams): Promise<HomeDataResponse> {
+  /**
+   * 获取首页数据
+   * @param params 查询参数
+   * @returns 首页数据响应
+   */
+  async getHomeData(params: HomeDataParams = {}): Promise<HomeDataResponse> {
+    console.log('🏠 HomeApplicationService.getHomeData 开始执行', {
+      params,
+      isMockEnabled: environmentConfig.isMockEnabled()
+    })
+    
     try {
-      return await this.homeRepository.getHomeData({
-        collectionsLimit: params?.collectionsLimit || 3,
-        photosLimit: params?.photosLimit || 6,
-        latestLimit: params?.latestLimit || 6,
-        hotLimit: params?.hotLimit || 6
+      const data = await this.homeRepository.getHomeData({
+        collectionsLimit: params.collectionsLimit || 8,
+        photosLimit: params.photosLimit || 12,
+        latestLimit: params.latestUpdatesLimit || params.latestLimit || 10,
+        hotLimit: params.hotDailyLimit || params.hotLimit || 10,
       })
+
+      console.log('🏠 HomeApplicationService.getHomeData 数据获取成功', {
+        collectionsCount: data.collections?.length || 0,
+        photosCount: data.photos?.length || 0,
+        latestUpdatesCount: data.latestUpdates?.length || 0,
+        hotDailyCount: data.hotDaily?.length || 0,
+        bannerDataExists: false,
+        dataStructure: {
+          collections: data.collections ? 'array' : 'undefined',
+          photos: data.photos ? 'array' : 'undefined', 
+          latestUpdates: data.latestUpdates ? 'array' : 'undefined',
+          hotDaily: data.hotDaily ? 'array' : 'undefined'
+        }
+      })
+
+      return data
     } catch (error) {
-      console.error('Failed to get home data:', error)
-      throw new Error('无法获取首页数据')
+      console.error('🏠 HomeApplicationService.getHomeData 执行失败', {
+        error: error instanceof Error ? error.message : error,
+        stack: error instanceof Error ? error.stack : undefined,
+        params
+      })
+      throw error
     }
   }
 
@@ -73,19 +106,47 @@ export class HomeApplicationService {
   // 获取最新更新数据，通过Repository层访问数据
   async getLatestUpdates(limit = 6): Promise<LatestItem[]> {
     try {
-      return await this.homeRepository.getLatestUpdates({ limit })
+      console.log('🔄 HomeApplicationService.getLatestUpdates 开始执行', { limit })
+      
+      // 在Mock模式下，直接从统一的getHomeData方法获取数据
+      const homeData = await this.homeRepository.getHomeData({ 
+        latestLimit: limit 
+      })
+      
+      console.log('🔄 HomeApplicationService.getLatestUpdates 数据获取成功', {
+        count: homeData.latestUpdates?.length || 0
+      })
+      
+      return homeData.latestUpdates || []
     } catch (error) {
-      console.error('Failed to get latest updates:', error)
+      console.error('🔄 HomeApplicationService.getLatestUpdates 执行失败', {
+        error: error instanceof Error ? error.message : error,
+        limit
+      })
       throw new Error('无法获取最新更新数据')
     }
   }
 
   // 获取24小时热门数据，通过Repository层访问数据
-  async getHotDaily(limit = 6): Promise<BaseMovieItem[]> {
+  async getHotDaily(limit = 6): Promise<HotItem[]> {
     try {
-      return await this.homeRepository.getHotContent({ limit })
+      console.log('🔥 HomeApplicationService.getHotDaily 开始执行', { limit })
+      
+      // 在Mock模式下，直接从统一的getHomeData方法获取数据
+      const homeData = await this.homeRepository.getHomeData({ 
+        hotLimit: limit 
+      })
+      
+      console.log('🔥 HomeApplicationService.getHotDaily 数据获取成功', {
+        count: homeData.hotDaily?.length || 0
+      })
+      
+      return homeData.hotDaily || []
     } catch (error) {
-      console.error('Failed to get hot daily:', error)
+      console.error('🔥 HomeApplicationService.getHotDaily 执行失败', {
+        error: error instanceof Error ? error.message : error,
+        limit
+      })
       throw new Error('无法获取24小时热门数据')
     }
   }

@@ -1,8 +1,8 @@
 /**
  * @fileoverview 数据转换工具函数
- * @description 提供各种数据格式之间的转换功能，支持统一内容项到各种特定类型的转换
- * @created 2025-01-25 14:30:00
- * @updated 2025-01-25 14:30:00
+ * @description 提供各种数据格式之间的转换功能，支持统一内容项到各种特定类型的转换，包含合集、写真、最新更新、热门等类型的数据转换工具，以及批量转换和过滤转换功能
+ * @created 2025-10-20 14:07:15
+ * @updated 2025-10-22 10:39:39
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
@@ -18,9 +18,7 @@ import type {
   UnifiedContentItem
 } from '@types-movie'
 
-/**
- * 将UnifiedContentItem转换为CollectionItem
- */
+// 将UnifiedContentItem转换为CollectionItem
 export function toCollectionItem(item: UnifiedContentItem): CollectionItem {
   return {
     id: item.id,
@@ -43,27 +41,21 @@ export function toCollectionItem(item: UnifiedContentItem): CollectionItem {
   }
 }
 
-/**
- * 批量转换UnifiedContentItem数组为CollectionItem数组
- */
+// 批量转换UnifiedContentItem数组为CollectionItem数组
 export function toCollectionItems(items: UnifiedContentItem[]): CollectionItem[] {
   return items.map(toCollectionItem)
 }
 
-/**
- * 过滤并转换为CollectionItem数组
- */
+// 过滤并转换为CollectionItem数组，支持自定义过滤条件
 export function filterAndConvertToCollectionItems(
-  items: UnifiedContentItem[],
-  filter?: (item: UnifiedContentItem) => boolean
+  items: UnifiedContentItem[], // 源数据数组
+  filter?: (item: UnifiedContentItem) => boolean // 可选的过滤函数
 ): CollectionItem[] {
   const filteredItems = filter ? items.filter(filter) : items
   return toCollectionItems(filteredItems)
 }
 
-/**
- * 将UnifiedContentItem转换为PhotoItem
- */
+// 将UnifiedContentItem转换为PhotoItem
 export function toPhotoItem(item: UnifiedContentItem): PhotoItem {
   return {
     id: item.id,
@@ -84,16 +76,12 @@ export function toPhotoItem(item: UnifiedContentItem): PhotoItem {
   }
 }
 
-/**
- * 批量转换UnifiedContentItem数组为PhotoItem数组
- */
+// 批量转换UnifiedContentItem数组为PhotoItem数组
 export function toPhotoItems(items: UnifiedContentItem[]): PhotoItem[] {
   return items.map(toPhotoItem)
 }
 
-/**
- * 将UnifiedContentItem转换为LatestItem
- */
+// 将UnifiedContentItem转换为LatestItem
 export function toLatestItem(item: UnifiedContentItem): LatestItem {
   return {
     id: item.id,
@@ -102,10 +90,6 @@ export function toLatestItem(item: UnifiedContentItem): LatestItem {
     description: item.description,
     imageUrl: item.imageUrl,
     alt: item.alt || item.title,
-    // tags: item.tags, // LatestItem不包含tags属性，移除此行
-    // isVip: item.isVip, // LatestItem不包含isVip属性，移除此行
-    // isNew: item.isNew, // HotItem不包含isNew属性，移除此行
-    // newType: item.newType, // HotItem不包含newType属性，移除此行
     rating: item.rating ? String(item.rating) : '',
     ratingColor: item.ratingColor as 'purple' | 'red' | 'white' | 'default' | undefined,
     quality: item.quality,
@@ -114,24 +98,17 @@ export function toLatestItem(item: UnifiedContentItem): LatestItem {
   }
 }
 
-/**
- * 批量转换UnifiedContentItem数组为LatestItem数组
- */
+// 批量转换UnifiedContentItem数组为LatestItem数组
 export function toLatestItems(items: UnifiedContentItem[]): LatestItem[] {
   return items.map(toLatestItem)
 }
 
-/**
- * 将统一内容项转换为HotItem
- * 使用新的内容转换服务进行转换
- */
+// 将统一内容项转换为HotItem，使用新的内容转换服务进行转换
 export function toHotItem(item: UnifiedContentItem): HotItem {
   return ContentTransformationService.transformUnifiedToHot(item)
 }
 
-/**
- * 批量转换UnifiedContentItem数组为HotItem数组
- */
+// 批量转换UnifiedContentItem数组为HotItem数组
 export function toHotItems(items: UnifiedContentItem[]): HotItem[] {
   return items.map(toHotItem)
 }

@@ -1,13 +1,14 @@
 /**
- * 格式化相关的工具函数集
- * 统一管理所有格式化逻辑，遵循DRY原则
+ * @fileoverview 格式化工具函数集
+ * @description 统一管理所有格式化逻辑，遵循DRY原则，提供文件大小、下载速度、时长、时间、评分、百分比、数字、日期等数据格式化功能，以及评分等级判断、颜色样式获取和状态处理等工具函数
+ * @created 2025-10-14 12:07:33
+ * @updated 2025-10-22 10:43:48
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
 
-/**
- * 格式化文件大小
- * @param bytes 字节数
- * @returns 格式化后的文件大小字符串
- */
+// 格式化文件大小，将字节数转换为易读的格式
 export function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 B'
 
@@ -18,20 +19,12 @@ export function formatFileSize(bytes: number): string {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`
 }
 
-/**
- * 格式化下载速度
- * @param bytesPerSecond 每秒字节数
- * @returns 格式化后的速度字符串
- */
+// 格式化下载速度，显示为文件大小/秒的格式
 export function formatDownloadSpeed(bytesPerSecond: number): string {
   return `${formatFileSize(bytesPerSecond)}/s`
 }
 
-/**
- * 格式化时长（分钟）
- * @param minutes 分钟数
- * @returns 格式化后的时长字符串
- */
+// 格式化时长（分钟），支持小时和分钟的组合显示
 export function formatDuration(minutes: number): string {
   if (minutes <= 0) return '0分钟'
 
@@ -45,11 +38,7 @@ export function formatDuration(minutes: number): string {
   return `${hours}小时${remainingMinutes > 0 ? `${remainingMinutes}分钟` : ''}`
 }
 
-/**
- * 格式化时间（秒）
- * @param seconds 秒数
- * @returns 格式化后的时间字符串
- */
+// 格式化时间（秒），支持小时、分钟、秒的组合显示
 export function formatTime(seconds: number): string {
   if (seconds <= 0) return '0秒'
 
@@ -74,12 +63,7 @@ export function formatTime(seconds: number): string {
   return parts.join('')
 }
 
-/**
- * 格式化评分
- * @param rating 评分值
- * @param precision 精度，默认1位小数
- * @returns 格式化后的评分字符串
- */
+// 格式化评分，支持自定义精度
 export function formatRating(rating: number, precision: number = 1): string {
   if (typeof rating !== 'number' || isNaN(rating)) {
     return '0.0'
@@ -88,11 +72,7 @@ export function formatRating(rating: number, precision: number = 1): string {
   return rating.toFixed(precision)
 }
 
-/**
- * 获取评分等级
- * @param rating 评分值 (1-10)
- * @returns 评分等级
- */
+// 获取评分等级，基于评分值返回相应的等级
 export function getRatingLevel(
   rating: number
 ): 'excellent' | 'very-good' | 'good' | 'average' | 'poor' {
@@ -105,11 +85,7 @@ export function getRatingLevel(
   return 'poor'
 }
 
-/**
- * 获取评分颜色（Tailwind CSS类名）
- * @param rating 评分值 (1-10)
- * @returns Tailwind CSS颜色类名
- */
+// 获取评分颜色（Tailwind CSS类名）
 export function getRatingColorClass(rating: number): string {
   const level = getRatingLevel(rating)
 
@@ -124,11 +100,7 @@ export function getRatingColorClass(rating: number): string {
   return colorClasses[level]
 }
 
-/**
- * 获取评分背景颜色（Tailwind CSS类名）
- * @param rating 评分值 (1-10)
- * @returns Tailwind CSS背景色类名
- */
+// 获取评分背景颜色（Tailwind CSS类名）
 export function getRatingBgColorClass(rating: number): string {
   const level = getRatingLevel(rating)
 
@@ -143,11 +115,7 @@ export function getRatingBgColorClass(rating: number): string {
   return bgClasses[level]
 }
 
-/**
- * 获取评分文本
- * @param rating 评分值 (1-10)
- * @returns 评分等级文本
- */
+// 获取评分文本
 export function getRatingText(rating: number): string {
   const level = getRatingLevel(rating)
 
@@ -162,11 +130,7 @@ export function getRatingText(rating: number): string {
   return texts[level]
 }
 
-/**
- * 获取评分颜色（十六进制值）
- * @param rating 评分值 (1-10)
- * @returns 十六进制颜色值
- */
+// 获取评分颜色（十六进制值）
 export function getRatingColor(rating: number): string {
   const level = getRatingLevel(rating)
 
@@ -181,11 +145,7 @@ export function getRatingColor(rating: number): string {
   return colors[level]
 }
 
-/**
- * 获取海报评分颜色类名（根据特殊规则：<9.0白色、>=9.0红色）
- * @param rating 评分值 (1-10)
- * @returns Tailwind CSS颜色类名
- */
+// 获取海报评分颜色类名（根据特殊规则：<9.0白色、>=9.0红色）
 export function getPosterRatingColorClass(rating: number): string {
   const value = Math.max(1, Math.min(10, rating)) // 确保在1-10范围内
 
@@ -196,11 +156,7 @@ export function getPosterRatingColorClass(rating: number): string {
   }
 }
 
-/**
- * 获取电影标题颜色类名（根据特殊规则：<9.0默认色、>=9.0红色）
- * @param rating 评分值 (1-10)
- * @returns Tailwind CSS颜色类名
- */
+// 获取电影标题颜色类名（根据特殊规则：<9.0默认色、>=9.0红色）
 export function getMovieTitleColorClass(rating: number): string {
   const value = Math.max(1, Math.min(10, rating)) // 确保在1-10范围内
 
@@ -211,17 +167,11 @@ export function getMovieTitleColorClass(rating: number): string {
   }
 }
 
-/**
- * 格式化百分比
- * @param value 数值
- * @param total 总数
- * @param precision 精度，默认1位小数
- * @returns 格式化后的百分比字符串
- */
+// 格式化百分比，支持自定义精度
 export function formatPercentage(
-  value: number,
-  total: number,
-  precision: number = 1
+  value: number, // 数值
+  total: number, // 总数
+  precision: number = 1 // 精度，默认1位小数
 ): string {
   if (total === 0) return '0%'
 
@@ -229,20 +179,12 @@ export function formatPercentage(
   return `${percentage.toFixed(precision)}%`
 }
 
-/**
- * 格式化数字（添加千分位分隔符）
- * @param num 数字
- * @returns 格式化后的数字字符串
- */
+// 格式化数字（添加千分位分隔符）
 export function formatNumber(num: number): string {
   return num.toLocaleString('zh-CN')
 }
 
-/**
- * 格式化日期
- * @param date 日期对象或时间戳
- * @returns 格式化后的日期字符串
- */
+// 格式化日期，支持多种日期格式输入
 export function formatDate(date: Date | number | string): string {
   const dateObj =
     typeof date === 'number' || typeof date === 'string' ? new Date(date) : date
@@ -258,11 +200,7 @@ export function formatDate(date: Date | number | string): string {
   })
 }
 
-/**
- * 格式化相对时间
- * @param date 日期对象或时间戳
- * @returns 相对时间字符串
- */
+// 格式化相对时间，显示"刚刚"、"X分钟前"等相对时间格式
 export function formatRelativeTime(date: Date | number | string): string {
   const dateObj =
     typeof date === 'number' || typeof date === 'string' ? new Date(date) : date
@@ -290,11 +228,7 @@ export function formatRelativeTime(date: Date | number | string): string {
   }
 }
 
-/**
- * 格式化短日期（月日格式）
- * @param date 日期对象或时间戳
- * @returns 格式化后的短日期字符串（如"1月15日"）
- */
+// 格式化短日期（月日格式），如"1月15日"
 export function formatDateShort(date: Date | number | string): string {
   const dateObj =
     typeof date === 'number' || typeof date === 'string' ? new Date(date) : date
@@ -309,27 +243,17 @@ export function formatDateShort(date: Date | number | string): string {
   })
 }
 
-/**
- * 生成随机评分
- * @param min 最小值，默认5.0
- * @param max 最大值，默认10.0
- * @param precision 精度，默认1位小数
- * @returns 随机评分字符串
- */
+// 生成随机评分，支持自定义范围和精度
 export function generateRandomRating(
-  min: number = 5.0,
-  max: number = 10.0,
-  precision: number = 1
+  min: number = 5.0, // 最小值，默认5.0
+  max: number = 10.0, // 最大值，默认10.0
+  precision: number = 1 // 精度，默认1位小数
 ): string {
   const rating = Math.random() * (max - min) + min
   return rating.toFixed(precision)
 }
 
-/**
- * 评分验证和格式化函数
- * @param rating 评分值（数字或字符串）
- * @returns 验证和格式化后的结果
- */
+// 评分验证和格式化函数，支持数字和字符串评分的验证处理
 export function formatAndValidateRating(rating: number | string): {
   isValid: boolean
   displayText: string
@@ -382,11 +306,7 @@ export function formatAndValidateRating(rating: number | string): {
   return { isValid: false, displayText: '', numericValue: 0 }
 }
 
-/**
- * 获取状态颜色类名
- * @param status 状态字符串
- * @returns Tailwind CSS颜色类名
- */
+// 获取状态颜色类名，根据状态返回对应的Tailwind CSS颜色类名
 export function getStatusColor(status: string): string {
   switch (status) {
     case 'downloading':
@@ -404,11 +324,7 @@ export function getStatusColor(status: string): string {
   }
 }
 
-/**
- * 获取状态文本
- * @param status 状态字符串
- * @returns 状态的中文名称
- */
+// 获取状态文本，将状态英文转换为中文显示
 export function getStatusText(status: string): string {
   switch (status) {
     case 'downloading':

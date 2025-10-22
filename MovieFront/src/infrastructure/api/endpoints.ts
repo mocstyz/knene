@@ -102,12 +102,15 @@ export const MOVIE_ENDPOINTS = {
   UPDATE_COMMENT: (movieId: string, commentId: string) => `/movies/${movieId}/comments/${commentId}`, // 更新影片评论
   DELETE_COMMENT: (movieId: string, commentId: string) => `/movies/${movieId}/comments/${commentId}`, // 删除影片评论
 
-  // 推荐系统相关
+  // 推荐和热门相关
   RECOMMENDATIONS: '/movies/recommendations', // 获取推荐影片
   SIMILAR_MOVIES: (movieId: string) => `/movies/${movieId}/similar`, // 获取相似影片
   HOT: '/movies/hot', // 获取热门影片
   TOP_RATED: '/movies/top-rated', // 高评分影片
   LATEST: '/movies/latest', // 获取最新影片
+
+  // 写真图片相关
+  PHOTOS: '/photos', // 获取写真图片列表
 
   // 影片资源相关
   DOWNLOAD_LINKS: (movieId: string) => `/movies/${movieId}/download-links`, // 获取下载链接

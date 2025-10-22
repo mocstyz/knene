@@ -28,7 +28,9 @@ export class CollectionRepository implements ICollectionRepository {
     const { page = 1, pageSize = 12, category, sortBy = 'latest', featured } = params || {}
     
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL(MOVIE_ENDPOINTS.COLLECTIONS, window.location.origin + baseUrl)
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL(MOVIE_ENDPOINTS.COLLECTIONS, fullBaseUrl)
     
     // 添加查询参数
     apiUrl.searchParams.append('page', page.toString())
@@ -71,7 +73,9 @@ export class CollectionRepository implements ICollectionRepository {
   // 根据ID获取专题合集详情
   async getCollectionDetail(id: string): Promise<CollectionItem> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL(`${MOVIE_ENDPOINTS.COLLECTIONS}/${id}`, window.location.origin + baseUrl)
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL(`${MOVIE_ENDPOINTS.COLLECTIONS}/${id}`, fullBaseUrl)
 
     try {
       const response = await fetch(apiUrl.toString())
@@ -99,12 +103,14 @@ export class CollectionRepository implements ICollectionRepository {
     collectionId: string, 
     params?: CollectionQueryParams
   ): Promise<PaginatedResponse<MovieDetail>> {
-    const { page = 1, pageSize = 20 } = params || {}
+    const { page = 1, pageSize = 12, sortBy = 'latest' } = params || {}
     
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
     const apiUrl = new URL(
       `${MOVIE_ENDPOINTS.COLLECTIONS}/${collectionId}/movies`, 
-      window.location.origin + baseUrl
+      fullBaseUrl
     )
     
     apiUrl.searchParams.append('page', page.toString())
@@ -144,7 +150,9 @@ export class CollectionRepository implements ICollectionRepository {
   // 获取热门专题合集，按热度排序
   async getHotCollections(limit = 6): Promise<CollectionItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL(`${MOVIE_ENDPOINTS.COLLECTIONS}/hot`, window.location.origin + baseUrl)
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL(`${MOVIE_ENDPOINTS.COLLECTIONS}/hot`, fullBaseUrl)
     apiUrl.searchParams.append('limit', limit.toString())
 
     try {
@@ -169,7 +177,9 @@ export class CollectionRepository implements ICollectionRepository {
   // 获取最新专题合集，按创建时间排序
   async getLatestCollections(limit = 6): Promise<CollectionItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL(`${MOVIE_ENDPOINTS.COLLECTIONS}/latest`, window.location.origin + baseUrl)
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL(`${MOVIE_ENDPOINTS.COLLECTIONS}/latest`, fullBaseUrl)
     apiUrl.searchParams.append('limit', limit.toString())
 
     try {
@@ -196,8 +206,14 @@ export class CollectionRepository implements ICollectionRepository {
     query: string, 
     filters?: CollectionFilterParams
   ): Promise<PaginatedResponse<CollectionItem>> {
+    const { category, sortBy = 'relevance' } = filters || {}
+    const page = 1
+    const pageSize = 12
+    
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL(`${MOVIE_ENDPOINTS.COLLECTIONS}/search`, window.location.origin + baseUrl)
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL(`${MOVIE_ENDPOINTS.COLLECTIONS}/search`, fullBaseUrl)
     
     apiUrl.searchParams.append('q', query)
     if (filters?.category) apiUrl.searchParams.append('category', filters.category)
@@ -237,7 +253,9 @@ export class CollectionRepository implements ICollectionRepository {
   // 获取推荐专题合集，基于用户偏好或编辑推荐
   async getRecommendedCollections(limit = 6): Promise<CollectionItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL(`${MOVIE_ENDPOINTS.COLLECTIONS}/recommended`, window.location.origin + baseUrl)
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL(`${MOVIE_ENDPOINTS.COLLECTIONS}/recommended`, fullBaseUrl)
     apiUrl.searchParams.append('limit', limit.toString())
 
     try {
@@ -292,7 +310,9 @@ export class CollectionRepository implements ICollectionRepository {
     rating: number
   }> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL(`${MOVIE_ENDPOINTS.COLLECTIONS}/${id}/stats`, window.location.origin + baseUrl)
+    // 确保baseUrl是完整的URL或者正确的相对路径
+    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
+    const apiUrl = new URL(`${MOVIE_ENDPOINTS.COLLECTIONS}/${id}/stats`, fullBaseUrl)
 
     try {
       const response = await fetch(apiUrl.toString())

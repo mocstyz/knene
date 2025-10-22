@@ -78,25 +78,25 @@ export const useHomeData = (): UseHomeDataReturn => {
     }))
   }
 
-  // 加载首页数据 - 并行获取所有模块数据并进行图片优化处理
+  // 加载首页数据 - 使用统一的getHomeData方法获取所有模块数据并进行图片优化处理
   const loadHomeData = async () => {
     try {
       setIsLoading(true)
       setError(null)
 
-      // 并行获取所有模块数据，使用重构后的服务方法
-      const [collectionsData, photosData, latestUpdatesData, hotDailyData] = await Promise.all([
-        homeApplicationService.getCollections(3),
-        homeApplicationService.getPhotos(6),
-        homeApplicationService.getLatestUpdates(6),
-        homeApplicationService.getHotDaily(6),
-      ])
+      // 使用统一的getHomeData方法获取所有模块数据
+      const homeData = await homeApplicationService.getHomeData({
+        collectionsLimit: 3,
+        photosLimit: 6,
+        latestLimit: 6,
+        hotLimit: 6,
+      })
 
       // 数据优化和状态更新 - 根据不同模块特点进行图片尺寸优化
-      setCollections(optimizeCollectionImages(collectionsData))
-      setPhotos(optimizePhotoImages(photosData))
-      setLatestUpdates(optimizeLatestImages(latestUpdatesData))
-      setHotDaily(optimizeHotImages(hotDailyData))
+      setCollections(optimizeCollectionImages(homeData.collections))
+      setPhotos(optimizePhotoImages(homeData.photos))
+      setLatestUpdates(optimizeLatestImages(homeData.latestUpdates))
+      setHotDaily(optimizeHotImages(homeData.hotDaily))
     } catch (err) {
       // 错误处理 - 提取错误信息并记录日志
       const errorMessage =
