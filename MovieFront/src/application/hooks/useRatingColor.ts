@@ -6,8 +6,6 @@
  * 
  * @author mosctz
  * @version 1.1.0
- * @created 2025-10-14 14:22:15
- * @updated 2025-10-17 17:00:38
  */
 
 import { useMemo } from 'react'

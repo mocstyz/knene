@@ -2,8 +2,6 @@
  * @fileoverview 评分标签层组件
  * @description 提供统一的评分标签显示逻辑，遵循DRY原则和组件变体Token系统，支持多种评分颜色和样式变体
  *              可在各种卡片组件中复用，响应式设计，移动端优先，使用组件变体Token系统统一样式管理
- * @created 2025-10-20 17:37:48
- * @updated 2025-10-21 16:21:08
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

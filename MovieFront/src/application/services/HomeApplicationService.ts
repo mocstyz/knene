@@ -2,8 +2,6 @@
  * @fileoverview 首页应用服务，处理首页相关的业务逻辑和数据转换
  * @description 首页应用服务，协调Repository层访问数据，提供完整的首页数据管理功能
  *              遵循DDD架构模式，封装首页相关的所有业务逻辑
- * @created 2025-10-19 13:03:50
- * @updated 2025-10-21 14:54:26
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

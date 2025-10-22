@@ -1,8 +1,6 @@
 /**
  * @fileoverview 基础应用服务类
  * @description 提供统一的API调用和Mock数据回退机制，支持环境配置切换，确保前后端分离开发的无缝对接
- * @created 2025-01-21 10:35:00
- * @updated 2025-01-21 10:35:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

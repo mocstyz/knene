@@ -3,8 +3,6 @@
  * @description 提供统一的布局组件变体配置，包括Navigation、Grid、Container、Section等
  *              布局组件的样式变体定义，按照配置驱动原则实现布局组件的复用和一致性，
  *              确保所有布局组件都遵循统一的设计规范和响应式布局标准
- * @created 2025-10-09 13:10:50
- * @updated 2025-10-21 15:17:14
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

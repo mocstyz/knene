@@ -1,8 +1,6 @@
 /**
  * @fileoverview 影片领域实体定义
  * @description 定义影片相关的领域实体和业务逻辑，包含影片详情、分类、评分等核心实体，以及影片实体的完整业务方法
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 13:56:30
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

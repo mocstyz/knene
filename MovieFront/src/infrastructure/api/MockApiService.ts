@@ -1,8 +1,6 @@
 /**
  * @fileoverview Mock API服务实现
  * @description 提供独立的Mock API服务，模拟真实后端API响应，支持Collection和Home相关的所有API操作，遵循前后端分离规范
- * @created 2025-01-21 11:00:00
- * @updated 2025-01-21 11:00:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

@@ -2,8 +2,6 @@
  * @fileoverview 内容渲染器基础抽象类
  * @description 提供内容渲染器的通用实现，减少具体实现类的重复代码。
  *              实现模板方法模式，定义算法骨架，子类实现具体步骤。
- * @created 2025-10-20 14:04:05
- * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

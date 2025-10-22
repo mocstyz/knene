@@ -2,8 +2,6 @@
  * @fileoverview 访客路由守卫组件
  * @description 基于新的状态管理架构，使用TanStack Query管理用户认证状态，专用于保护访客专用页面。
  *              确保已登录用户无法访问登录、注册等访客页面，自动重定向到用户仪表板或原始目标页面。
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-21 11:43:06
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

@@ -2,8 +2,6 @@
  * @fileoverview 卡片悬停效果层组件
  * @description 提供统一的卡片悬停缩放效果，遵循DRY原则，专门处理卡片整体缩放效果，可在各种卡片组件中复用。
  *              支持多种缩放比例、动画时长配置、阴影效果控制和禁用状态，提供高性能的CSS group-hover机制。
- * @created 2025-10-21 11:53:35
- * @updated 2025-10-21 16:21:08
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

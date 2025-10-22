@@ -1,8 +1,6 @@
 /**
  * @fileoverview 环境配置管理器
  * @description 提供统一的环境配置管理，支持开发、测试、生产环境的配置切换，确保配置的一致性和可维护性
- * @created 2025-01-21 12:00:00
- * @updated 2025-01-21 12:00:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

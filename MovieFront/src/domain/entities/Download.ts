@@ -1,8 +1,6 @@
 /**
  * @fileoverview 下载领域实体定义
  * @description 下载管理领域的核心实体，包含下载任务的完整信息和业务逻辑，实现下载任务的完整生命周期管理
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 13:56:30
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

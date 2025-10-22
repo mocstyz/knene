@@ -1,8 +1,6 @@
 /**
  * @fileoverview 更多选项导航菜单组件
  * @description More选项专用的简洁列表样式二级菜单组件，支持图标显示和紧凑布局，适用于网站更多功能的导航展示
- * @created 2025-10-21 10:23:00
- * @updated 2025-10-21 11:12:43
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

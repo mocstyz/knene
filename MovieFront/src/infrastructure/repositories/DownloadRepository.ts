@@ -1,8 +1,6 @@
 /**
  * @fileoverview 下载仓储接口定义
  * @description 定义下载相关的数据访问接口，包含下载任务的创建、查询、更新、删除等操作规范
- * @created 2025-10-15 14:30:00
- * @updated 2025-10-19 10:15:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

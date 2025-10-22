@@ -1,8 +1,6 @@
 /**
  * @fileoverview TextLink组件类型定义
  * @description 定义文本链接组件的属性接口和类型，提供完整的类型安全保障
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 15:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

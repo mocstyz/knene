@@ -1,8 +1,6 @@
 /**
  * @fileoverview 密码值对象
  * @description 密码值对象，提供密码的创建、验证、加密和比较功能，确保密码的安全性和合规性
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

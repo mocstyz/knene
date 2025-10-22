@@ -1,8 +1,6 @@
 /**
  * @fileoverview 文本链接组件
  * @description 提供统一的文本链接样式和交互效果，支持多种变体和尺寸，可渲染为链接或按钮样式
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 15:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

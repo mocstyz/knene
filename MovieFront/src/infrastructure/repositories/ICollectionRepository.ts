@@ -1,8 +1,6 @@
 /**
  * @fileoverview Collection Repository接口定义
  * @description 定义专题合集数据访问层接口，遵循DDD Repository模式，提供数据访问抽象层，支持Mock和真实API的无缝切换
- * @created 2025-01-21 10:40:00
- * @updated 2025-01-21 10:40:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

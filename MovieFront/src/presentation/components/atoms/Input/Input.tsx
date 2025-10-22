@@ -1,8 +1,6 @@
 /**
  * @fileoverview 输入框组件
  * @description 提供多种样式变体的输入框组件，支持标签、图标、错误状态和帮助文本等功能
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 15:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

@@ -1,8 +1,6 @@
 /**
  * @fileoverview 影片合集领域实体定义
  * @description 定义影片合集相关的领域实体和业务逻辑，包含合集详情、分类、标签等核心实体，以及合集实体的完整业务方法
- * @created 2025-01-25 14:30:00
- * @updated 2025-01-25 14:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

@@ -1,8 +1,6 @@
 /**
  * @fileoverview Home API接口定义
  * @description 定义首页相关的API接口，遵循DDD Repository模式和前后端分离规范，提供首页数据获取、专题合集、写真内容、最新更新、热门内容等核心功能
- * @created 2025-01-21 10:35:00
- * @updated 2025-01-21 10:35:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

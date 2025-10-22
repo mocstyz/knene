@@ -1,8 +1,6 @@
 /**
  * @fileoverview 下载速度值对象
  * @description 下载速度值对象，提供速度计算、格式转换、分类判断等功能，支持多种速度单位的转换和比较
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

@@ -2,8 +2,6 @@
  * @fileoverview 管理员路由组件
  * @description 基于新的状态管理架构，使用TanStack Query管理用户认证状态，提供完整的权限验证和访问控制功能。
  *              支持多层级权限检查，包括基础认证、管理员角色验证、特定权限要求以及账户状态验证。
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-21 11:40:59
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

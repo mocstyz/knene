@@ -2,8 +2,6 @@
  * @fileoverview 首页数据仓储实现
  * @description 首页数据仓储实现，遵循DDD Repository模式，通过API服务工厂获取数据源
  *              提供首页数据的获取和转换功能，包括专题、写真、最新更新、热门内容等模块
- * @created 2025-10-19 15:42:00
- * @updated 2025-10-21 15:02:41
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

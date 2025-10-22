@@ -2,8 +2,6 @@
  * @fileoverview 图片服务抽象接口
  * @description 提供统一的图片服务接口，支持多环境配置和自动fallback。
  * 遵循配置化图片服务规范，禁止硬编码图片URL。
- * @created 2025-10-15 15:15:00
- * @updated 2025-10-19 11:05:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

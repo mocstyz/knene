@@ -3,8 +3,6 @@
  * @description 展示特定合集包含的影片列表页面，基于HTML设计稿实现，采用DDD架构和自包含组件设计原则。
  *              使用BaseSection + BaseList + 内容渲染器系统提供统一的列表展示，支持分页导航和响应式布局。
  *              严格遵循前后端分离开发规范，使用Mock数据模拟后端响应。
- * @created 2025-01-21 15:30:00
- * @updated 2025-01-21 15:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

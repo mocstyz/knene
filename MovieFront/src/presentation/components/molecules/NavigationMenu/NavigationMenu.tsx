@@ -1,8 +1,6 @@
 /**
  * @fileoverview 主导航菜单复合组件
  * @description 整合所有子菜单组件的主导航菜单，提供VIP、最近更新、普通分类等完整导航功能，支持hover触发和复合组件模式
- * @created 2025-10-20 18:09:35
- * @updated 2025-10-21 11:12:43
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

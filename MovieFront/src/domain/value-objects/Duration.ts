@@ -1,8 +1,6 @@
 /**
  * @fileoverview 时长值对象
  * @description 时长值对象，提供时长的创建、计算、格式化等功能，支持分钟和小时单位的转换，以及人类可读的时间格式显示
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

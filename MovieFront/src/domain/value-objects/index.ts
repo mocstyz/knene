@@ -1,8 +1,6 @@
 /**
  * @fileoverview 值对象统一导出
  * @description 统一导出所有值对象类，提供模块化的值对象访问入口，确保值对象的一致性和可维护性
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

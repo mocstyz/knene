@@ -1,8 +1,6 @@
 /**
  * @fileoverview 基础按钮原子组件
  * @description 提供统一的按钮功能，支持多种变体、尺寸和状态，集成加载状态和图标显示，遵循组件变体Token系统
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 15:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

@@ -1,8 +1,6 @@
 /**
  * @fileoverview 消息类型值对象
  * @description 消息类型值对象，定义不同类型的消息及其权限属性，提供消息类型的创建、验证和权限管理功能
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

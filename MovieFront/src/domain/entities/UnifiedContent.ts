@@ -1,8 +1,6 @@
 /**
  * @fileoverview 统一内容领域实体定义
  * @description 定义统一内容接口和业务逻辑，为所有内容类型（影片、写真、合集等）提供统一的业务状态计算和标签生成
- * @created 2025-01-25 14:30:00
- * @updated 2025-01-25 14:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

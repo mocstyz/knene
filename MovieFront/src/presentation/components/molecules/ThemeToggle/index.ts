@@ -1,8 +1,6 @@
 /**
  * @fileoverview 主题切换组件模块导出
  * @description 统一导出ThemeToggle和SimpleThemeToggle组件及其相关类型定义，提供完整的主题切换功能模块
- * @created 2025-10-21 13:11:56
- * @updated 2025-10-21 15:17:14
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

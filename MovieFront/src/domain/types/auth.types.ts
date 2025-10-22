@@ -1,8 +1,6 @@
 /**
  * @fileoverview 认证领域类型定义
  * @description 定义用户认证相关的类型接口，包括登录凭证、注册数据、认证响应、密码重置和邮箱验证等核心类型
- * @created 2025-10-02 20:57:29
- * @updated 2025-10-19 13:56:30
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

@@ -1,8 +1,6 @@
 /**
  * @fileoverview 用户头像值对象
  * @description 用户头像值对象，封装头像URL和相关操作方法，支持URL验证、格式检查、默认头像生成等功能
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

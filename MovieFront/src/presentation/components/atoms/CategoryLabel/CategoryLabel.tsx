@@ -1,8 +1,6 @@
 /**
  * @fileoverview 分类标签组件
  * @description 提供统一的分类标签显示功能，支持多种业务场景和样式变体。可用于电影类型、专题分类、内容标签等各种分类场景。
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 15:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

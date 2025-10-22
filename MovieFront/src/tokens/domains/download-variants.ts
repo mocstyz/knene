@@ -4,8 +4,6 @@
  *              DownloadButton、DownloadList、DownloadStatus等组件的样式变体，按照
  *              配置驱动原则实现下载管理领域组件的复用和一致性，确保所有下载相关
  *              组件都遵循统一的设计规范和交互体验
- * @created 2025-10-09 13:10:50
- * @updated 2025-10-21 15:17:14
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

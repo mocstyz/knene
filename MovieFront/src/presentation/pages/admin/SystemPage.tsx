@@ -2,8 +2,6 @@
  * @fileoverview 系统设置页面
  * @description 管理员后台的系统设置页面，提供系统配置管理功能，
  *              包括基础配置、权限设置、系统监控、日志管理、备份恢复等核心系统管理功能
- * @created 2025-10-09 13:10:50
- * @updated 2025-10-09 13:10:50
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

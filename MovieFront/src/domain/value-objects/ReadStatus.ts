@@ -1,8 +1,6 @@
 /**
  * @fileoverview 消息读取状态值对象
  * @description 消息读取状态值对象，管理消息的已读/未读状态，包括读取时间、读取者等信息的跟踪和管理
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

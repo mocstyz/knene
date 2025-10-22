@@ -1,8 +1,6 @@
 /**
  * @fileoverview 影片领域事件定义
  * @description 定义影片相关的所有领域事件类，包括创建、更新、评分、下载、收藏、观看、分类变更、推荐和搜索等事件
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 13:56:30
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

@@ -2,8 +2,6 @@
  * @fileoverview 合集内容渲染器实现
  * @description 基于内容渲染器抽象层的合集内容渲染器。
  *              使用现有的CollectionLayer组件进行渲染，与CollectionCard保持一致的功能。
- * @created 2025-10-19 16:45:28
- * @updated 2025-10-19 16:45:28
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

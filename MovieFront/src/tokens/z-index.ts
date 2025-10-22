@@ -1,8 +1,6 @@
 /**
  * @fileoverview Z-Index层级设计令牌系统
  * @description 定义完整的Z-Index层级系统，确保UI元素层级的正确性和一致性，包含基础层级定义、组件层级映射、层级分组管理、层级工具函数和验证机制
- * @created 2025-10-09 13:10:50
- * @updated 2025-10-22 10:07:09
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

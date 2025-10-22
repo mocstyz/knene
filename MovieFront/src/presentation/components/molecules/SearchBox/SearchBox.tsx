@@ -1,8 +1,6 @@
 /**
  * @fileoverview 搜索框组件
  * @description 提供完整的搜索功能，包含搜索输入、建议列表、清除按钮和提交功能，支持加载状态和外部点击关闭
- * @created 2025-10-21 13:07:11
- * @updated 2025-10-21 13:07:11
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

@@ -2,8 +2,6 @@
  * @fileoverview 认证页面模板组件
  * @description 提供认证页面的完整布局模板，包含左侧背景展示区域和右侧表单区域，
  *              支持自定义背景图片、Logo、功能特性展示和响应式设计
- * @created 2025-10-21 13:38:32
- * @updated 2025-10-21 15:17:14
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

@@ -1,8 +1,6 @@
 /**
  * @fileoverview 领域事件基础框架定义
  * @description 定义领域事件的基本结构、行为和相关接口，提供完整的事件驱动架构基础设施
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 13:56:30
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

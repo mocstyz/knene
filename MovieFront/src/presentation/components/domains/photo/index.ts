@@ -3,8 +3,6 @@
  * @description 导出所有photo领域的组件和类型，包括PhotoSection和PhotoList组件。
  *              提供统一的模块导出入口，方便其他模块引用photo相关的功能组件。
  *              PhotoCard已被内容渲染器系统替代，移除相关导出。
- * @created 2025-10-16 11:21:33
- * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

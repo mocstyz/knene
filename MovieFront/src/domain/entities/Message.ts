@@ -1,8 +1,6 @@
 /**
  * @fileoverview 消息领域实体定义
  * @description 消息管理领域的核心实体，包含消息详情、消息线程和通知等实体，实现完整的消息生命周期管理
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 13:56:30
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

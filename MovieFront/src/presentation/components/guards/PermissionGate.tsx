@@ -2,8 +2,6 @@
  * @fileoverview 权限门控组件
  * @description 基于新的状态管理架构，使用TanStack Query管理用户认证状态，提供细粒度的权限控制功能。
  *              支持基于权限标识符、用户角色、匹配模式的多维度权限验证，以及账户状态检查和自定义回退内容。
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-21 11:48:25
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

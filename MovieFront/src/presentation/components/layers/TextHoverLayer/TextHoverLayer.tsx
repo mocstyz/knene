@@ -2,8 +2,6 @@
  * @fileoverview 文本悬停效果层组件
  * @description 提供统一的文本悬停变色效果，遵循DRY原则，作为包装器组件可在各种文本组件中复用
  *              支持多种颜色变化、过渡动画时长配置、缩放效果控制和禁用状态，配合CardHoverLayer使用
- * @created 2025-10-20 17:40:42
- * @updated 2025-10-21 16:21:08
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

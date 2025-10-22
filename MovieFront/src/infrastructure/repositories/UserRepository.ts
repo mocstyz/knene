@@ -1,8 +1,6 @@
 /**
  * @fileoverview 用户仓储接口定义
  * @description 定义用户相关的数据访问接口，包含用户的创建、查询、更新、删除、认证等操作规范
- * @created 2025-10-15 14:50:00
- * @updated 2025-10-19 10:35:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

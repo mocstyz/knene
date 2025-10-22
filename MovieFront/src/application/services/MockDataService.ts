@@ -1,8 +1,6 @@
 /**
  * @fileoverview 统一Mock数据管理服务
  * @description 提供统一的Mock数据生成和管理功能，支持多种内容类型的Mock数据生成，确保前后端分离开发的数据一致性
- * @created 2025-01-21 10:30:00
- * @updated 2025-01-21 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

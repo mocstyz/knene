@@ -1,8 +1,6 @@
 /**
  * @fileoverview 汉堡菜单按钮组件
  * @description 移动端导航菜单开关按钮，支持开启/关闭状态切换、平滑动画过渡效果和完整的可访问性支持
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 15:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

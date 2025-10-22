@@ -1,8 +1,6 @@
 /**
  * @fileoverview Collection API接口定义
  * @description 定义影片合集相关的API接口，遵循DDD Repository模式和前后端分离规范，提供合集列表获取、详情查询、影片列表管理等核心功能，支持完整的分页和筛选机制
- * @created 2025-01-21 10:30:00
- * @updated 2025-01-21 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

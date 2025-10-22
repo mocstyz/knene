@@ -1,8 +1,6 @@
 /**
  * @fileoverview 下载应用服务
  * @description 协调下载相关业务流程，编排权限校验、配额检查、调度与事件记录
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 12:55:27
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

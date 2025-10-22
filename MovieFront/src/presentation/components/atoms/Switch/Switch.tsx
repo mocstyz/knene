@@ -1,8 +1,6 @@
 /**
  * @fileoverview 开关切换组件
  * @description 提供统一样式的开关切换控件，支持多种尺寸、标签和描述文本
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 15:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

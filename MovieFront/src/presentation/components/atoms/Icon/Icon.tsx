@@ -1,8 +1,6 @@
 /**
  * @fileoverview 图标组件
  * @description 提供统一的SVG图标组件，支持多种尺寸和颜色配置，包含丰富的图标库
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 15:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

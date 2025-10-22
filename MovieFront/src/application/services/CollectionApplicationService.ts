@@ -1,8 +1,6 @@
 /**
  * @fileoverview 合集应用服务
  * @description 处理合集相关的业务逻辑，包括合集详情获取、合集影片列表等功能，遵循DDD架构和Repository模式
- * @created 2025-10-17 10:00:53
- * @updated 2025-01-21 11:10:00
  * @author mosctz
  * @since 1.0.0
  * @version 2.0.0

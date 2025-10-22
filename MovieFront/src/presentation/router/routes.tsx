@@ -1,8 +1,6 @@
 /**
  * @fileoverview 应用路由配置
  * @description 定义应用的所有路由配置，包含路由守卫、权限控制、懒加载等配置，支持管理员、用户、访客等不同角色的访问控制
- * @created 2025-10-21 11:01:39
- * @updated 2025-10-21 15:17:14
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

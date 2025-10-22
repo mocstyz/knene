@@ -1,8 +1,6 @@
 /**
  * @fileoverview 用户资料组件
  * @description 提供用户资料展示功能，支持紧凑、默认、详细三种显示模式，包含头像、基本信息、统计数据和操作按钮
- * @created 2025-10-21 13:16:08
- * @updated 2025-10-21 15:17:14
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

@@ -1,8 +1,6 @@
 /**
  * @fileoverview 用户领域实体定义
  * @description 用户管理领域的核心实体，包含用户的基本信息、偏好设置和业务逻辑，实现完整的用户生命周期管理
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 13:56:30
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

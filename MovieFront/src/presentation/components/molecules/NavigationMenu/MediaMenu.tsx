@@ -1,8 +1,6 @@
 /**
  * @fileoverview 媒体导航菜单组件
  * @description Movies和TV Shows通用的双列布局二级菜单组件，支持高度可复用的配置化菜单项内容，适用于各种媒体分类导航
- * @created 2025-10-21 10:22:09
- * @updated 2025-10-21 11:12:43
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

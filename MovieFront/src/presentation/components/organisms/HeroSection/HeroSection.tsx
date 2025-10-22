@@ -2,8 +2,6 @@
  * @fileoverview 英雄区域轮播组件
  * @description 首页主要展示区域的轮播组件，支持自动轮播、手动切换、指示器导航等功能，
  *              使用所有heroes目录中的图片，提供流畅的视觉体验和用户交互
- * @created 2025-10-21 13:31:32
- * @updated 2025-10-21 15:17:14
  * @author mosctz
  * @since 1.0.0
  * @version 1.1.0

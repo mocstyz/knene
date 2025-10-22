@@ -1,8 +1,6 @@
 /**
  * @fileoverview 消息内容值对象
  * @description 消息内容值对象，封装消息文本内容、附件、提及和话题标签等功能，提供消息内容的创建、验证、格式化和搜索功能
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

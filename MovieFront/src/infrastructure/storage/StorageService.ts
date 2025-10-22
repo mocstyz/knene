@@ -2,8 +2,6 @@
  * @fileoverview 存储服务基础设施
  * @description 提供统一的本地存储、会话存储和IndexedDB接口，支持数据加密和过期管理
  * 包含存储抽象基类、具体实现类以及存储管理器，遵循DDD架构中的基础设施层模式
- * @created 2025-10-15 15:35:00
- * @updated 2025-10-19 11:25:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

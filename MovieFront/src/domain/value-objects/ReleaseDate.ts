@@ -1,8 +1,6 @@
 /**
  * @fileoverview 发布日期值对象
  * @description 发布日期值对象，封装电影或内容的发布日期信息，提供日期的创建、验证、比较和格式化功能
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

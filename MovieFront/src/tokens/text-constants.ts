@@ -1,8 +1,6 @@
 /**
  * @fileoverview 文本常量系统
  * @description 统一管理应用中所有的文本常量，避免重复定义和不一致问题，遵循DDD架构原则，按业务领域组织文本常量
- * @created 2025-10-21 12:25:27
- * @updated 2025-10-22 09:53:05
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

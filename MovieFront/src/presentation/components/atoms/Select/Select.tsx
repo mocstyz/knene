@@ -1,8 +1,6 @@
 /**
  * @fileoverview 下拉选择框组件
  * @description 提供统一样式的下拉选择框，支持标签、错误状态、必填标识等功能
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 15:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

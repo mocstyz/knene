@@ -2,8 +2,6 @@
  * @fileoverview 内容渲染器注册机制
  * @description 自动注册所有内容渲染器到工厂中，提供统一的初始化入口。
  *              支持动态加载和延迟注册，便于模块化管理。
- * @created 2025-10-16 11:30:16
- * @updated 2025-10-20 14:07:15
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

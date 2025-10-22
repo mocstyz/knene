@@ -1,8 +1,6 @@
 /**
  * @fileoverview 移动端导航抽屉组件
  * @description 提供完整的移动端导航功能，支持侧滑抽屉式导航菜单，包含VIP、最近更新、普通分类等导航项，以及搜索、认证、主题切换等底部功能
- * @created 2025-10-20 18:04:13
- * @updated 2025-10-21 11:12:43
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

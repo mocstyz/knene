@@ -2,8 +2,6 @@
  * @fileoverview 悬停交互层组件
  * @description 提供统一的悬停状态管理逻辑，遵循DRY原则，作为hover效果的控制器和状态管理器，可配合其他hover层使用。
  *              支持延迟触发、状态回调、点击外部关闭等高级交互功能，提供灵活的悬停行为控制。
- * @created 2025-10-21 12:03:47
- * @updated 2025-10-21 16:21:08
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

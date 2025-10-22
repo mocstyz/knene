@@ -1,8 +1,6 @@
 /**
  * @fileoverview 评分值对象
  * @description 评分值对象，封装评分数值、评分人数和评分分布等属性，提供评分的创建、验证、计算和展示功能
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

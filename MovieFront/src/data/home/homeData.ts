@@ -2,8 +2,6 @@
  * @fileoverview 首页数据管理Hook
  * @description 使用DDD架构的应用服务层获取首页数据，包含影片合集、写真、最新更新、24小时热门等模块
  *              集成配置化图片服务，支持加载状态、错误处理和数据重新获取功能
- * @created 2025-10-16 10:03:00
- * @updated 2025-10-19 13:24:46
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

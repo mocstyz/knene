@@ -3,8 +3,6 @@
  * @description 提供统一的标签层组件变体配置，支持VIP、评分、质量标签的样式定义
  *              遵循组件变体Token系统原则，保持base-variants.ts简洁性，包含位置、
  *              尺寸、变体类型和评分颜色的完整配置体系
- * @created 2025-10-14 16:15:48
- * @updated 2025-10-21 15:17:14
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

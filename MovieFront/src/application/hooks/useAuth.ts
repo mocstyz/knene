@@ -6,8 +6,6 @@
  * 
  * @author mosctz
  * @version 1.3.0
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-17 17:00:38
  */
 
 import { User } from '@application/stores/userStore'

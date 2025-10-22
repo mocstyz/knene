@@ -2,8 +2,6 @@
  * @fileoverview 首页影片合集模块组件
  * @description 首页影片合集模块的领域组件，使用BaseSection + CollectionList组合架构。
  *              遵循自包含组件设计原则，提供完整的影片合集模块功能。
- * @created 2025-10-16 11:21:33
- * @updated 2025-10-19 16:45:28
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

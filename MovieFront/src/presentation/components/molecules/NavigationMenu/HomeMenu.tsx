@@ -1,8 +1,6 @@
 /**
  * @fileoverview 首页导航菜单组件
  * @description 首页专用的带图片展示的二级菜单组件，左侧展示特色内容图片，右侧显示文本链接列表，支持主题和尺寸变体
- * @created 2025-10-21 10:21:36
- * @updated 2025-10-21 11:12:43
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

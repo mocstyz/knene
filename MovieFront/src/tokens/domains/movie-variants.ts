@@ -3,8 +3,6 @@
  * @description 影片管理领域组件的变体配置定义，包括MovieDetail、RatingBadge、HeroSection等
  *              组件的样式变体，按照配置驱动原则实现影片管理领域组件的复用和一致性
  *              注意：MovieCard、MovieGrid等组件已被内容渲染器系统替代，保留的变体由内容渲染器系统统一管理
- * @created 2025-10-16 12:37:26
- * @updated 2025-10-21 15:17:14
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

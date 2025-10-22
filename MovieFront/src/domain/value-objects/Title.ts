@@ -1,8 +1,6 @@
 /**
  * @fileoverview 标题值对象
  * @description 标题值对象，提供标题的创建、验证、比较和搜索功能，确保标题内容的规范性和一致性
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

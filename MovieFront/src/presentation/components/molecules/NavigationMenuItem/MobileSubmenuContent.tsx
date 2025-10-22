@@ -1,8 +1,6 @@
 /**
  * @fileoverview 移动端子菜单内容组件
  * @description 移动端二级菜单内容渲染组件，提供统一的子菜单样式和交互处理，支持点击关闭菜单功能
- * @created 2025-10-21 10:28:14
- * @updated 2025-10-21 11:12:43
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

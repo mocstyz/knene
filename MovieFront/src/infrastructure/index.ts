@@ -1,8 +1,6 @@
 /**
  * @fileoverview 基础设施层统一导出模块
  * @description 提供API客户端、事件总线、存储服务、缓存管理等基础设施的统一入口，包含配置管理和初始化函数
- * @created 2025-10-13 10:34:00
- * @updated 2025-10-19 11:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

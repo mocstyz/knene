@@ -1,8 +1,6 @@
 /**
  * @fileoverview 基础标签原子组件
  * @description 提供统一的标签显示功能，支持多种变体、尺寸和形状，遵循组件变体Token系统，可在各种场景中复用，使用Tailwind CSS实现样式管理
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-19 15:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

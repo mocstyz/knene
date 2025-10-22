@@ -5,8 +5,6 @@
  * 支持SSR水合、系统主题自动检测、主题持久化存储等高级功能。
  * @author mosctz
  * @version 1.2.0
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-17 17:00:38
  */
 
 import { useTheme as useNextThemes } from 'next-themes'

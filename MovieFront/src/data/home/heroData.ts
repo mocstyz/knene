@@ -1,8 +1,6 @@
 /**
  * @fileoverview 首页英雄区域数据定义
  * @description 定义首页英雄轮播区域的数据结构和内容数据，提供13个精选影片展示内容
- * @created 2025-10-13 10:34:00
- * @updated 2025-10-19 13:24:27
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

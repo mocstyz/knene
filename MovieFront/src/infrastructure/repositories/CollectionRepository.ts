@@ -1,8 +1,6 @@
 /**
  * @fileoverview Collection Repository实现类
  * @description 实现专题合集数据访问层，遵循DDD Repository模式，通过API服务工厂获取数据源
- * @created 2025-01-21 10:50:00
- * @updated 2025-01-21 10:50:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

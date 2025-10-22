@@ -1,8 +1,6 @@
 /**
  * @fileoverview 统一接口类型定义
  * @description 定义统一的Section Props和Card Config接口，消除重复代码，提高一致性，包含基础接口、扩展接口、具体业务接口、类型守卫和工具函数，支持多种布局变体和配置选项
- * @created 2025-10-20 14:07:15
- * @updated 2025-10-22 10:27:02
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

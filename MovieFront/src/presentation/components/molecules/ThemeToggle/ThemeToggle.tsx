@@ -1,8 +1,6 @@
 /**
  * @fileoverview 主题切换组件
  * @description 提供明暗模式切换功能的交互组件，支持浅色模式和深色模式切换，使用Radix UI组件构建，符合DDD架构原则
- * @created 2025-10-21 13:11:20
- * @updated 2025-10-21 13:11:20
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

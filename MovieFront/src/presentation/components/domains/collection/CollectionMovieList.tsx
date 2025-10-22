@@ -3,8 +3,6 @@
  * @description 专用于合集详情页面的影片列表组件，基于BaseList + MixedContentList + 内容渲染器系统实现。
  *              遵循自包含组件设计原则和组件最大化复用原则，复用现有的MixedContentList架构。
  *              提供完整的影片列表展示功能，包括响应式网格布局、分页导航、空状态处理和加载状态管理。
- * @created 2025-01-21 15:45:00
- * @updated 2025-01-21 16:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.1.0

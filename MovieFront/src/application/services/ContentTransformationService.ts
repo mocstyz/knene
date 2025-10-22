@@ -1,8 +1,6 @@
 /**
  * @fileoverview 内容转换应用服务
  * @description 在应用层统一处理业务状态计算和数据转换，将领域实体转换为统一的内容项格式，确保所有业务逻辑集中管理
- * @created 2025-01-25 14:30:00
- * @updated 2025-01-25 14:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

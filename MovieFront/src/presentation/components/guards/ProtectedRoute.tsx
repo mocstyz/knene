@@ -2,8 +2,6 @@
  * @fileoverview 基础受保护路由组件
  * @description 基于新的状态管理架构，使用TanStack Query管理用户认证状态，提供基础的访问控制功能。
  *              支持自定义权限要求、用户状态检查、加载状态显示和权限验证失败时的重定向处理。
- * @created 2025-10-11 12:35:25
- * @updated 2025-10-21 11:50:02
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

@@ -2,8 +2,6 @@
  * @fileoverview 影片管理页面
  * @description 管理员后台的影片管理页面，提供影片内容的增删改查功能，
  *              包括影片信息管理、分类管理、状态审核、批量操作等核心管理功能
- * @created 2025-10-09 13:10:50
- * @updated 2025-10-09 13:10:50
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

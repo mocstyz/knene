@@ -2,8 +2,6 @@
  * @fileoverview 忘记密码页面
  * @description 用户忘记密码时的重置页面，提供邮箱验证和重置邮件发送功能，
  *              包含表单验证、错误处理、成功状态显示等完整的用户密码重置流程
- * @created 2025-10-09 13:10:50
- * @updated 2025-10-09 13:10:50
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

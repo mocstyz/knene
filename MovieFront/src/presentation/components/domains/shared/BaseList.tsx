@@ -1,8 +1,6 @@
 /**
  * @fileoverview 基础列表组件
  * @description 提供统一的列表布局和响应式网格功能，支持加载状态和空状态，遵循自包含组件设计原则
- * @created 2025-10-20 15:36:00
- * @updated 2025-10-20 16:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

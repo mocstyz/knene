@@ -1,8 +1,6 @@
 /**
  * @fileoverview Query Client配置服务
  * @description 应用层数据获取配置服务，基于TanStack Query提供统一缓存、重试与错误处理
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 12:55:27
  * @author mosctz
  * @since 1.0.0
  * @version 1.2.0

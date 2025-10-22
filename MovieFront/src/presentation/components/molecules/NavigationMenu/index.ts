@@ -1,8 +1,6 @@
 /**
  * @fileoverview 导航菜单模块导出
  * @description 统一导出NavigationMenu复合组件及其子组件、类型定义和设计令牌，支持完整的导航菜单功能和灵活的样式配置
- * @created 2025-10-20 18:08:17
- * @updated 2025-10-21 11:12:43
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

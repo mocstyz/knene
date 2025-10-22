@@ -1,8 +1,6 @@
 /**
  * @fileoverview 文件大小值对象
  * @description 文件大小值对象，提供文件大小的创建、计算、格式化等功能，支持多种存储单位的转换和人类可读的大小显示
- * @created 2025-10-09 13:10:49
- * @updated 2025-10-19 10:30:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

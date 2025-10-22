@@ -1,8 +1,6 @@
 /**
  * @fileoverview 图片服务导出模块
  * @description 统一导出图片服务相关接口和实现，提供图片处理的统一入口
- * @created 2025-10-15 15:10:00
- * @updated 2025-10-19 11:00:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

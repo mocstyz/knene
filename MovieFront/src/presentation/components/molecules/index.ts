@@ -1,8 +1,6 @@
 /**
  * @fileoverview 分子组件模块统一导出
  * @description 统一导出所有分子组件，这些组件由多个原子组件组合而成，对应DDD中的实体概念，提供特定的功能和交互逻辑
- * @created 2025-10-21 13:18:44
- * @updated 2025-10-21 15:17:14
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

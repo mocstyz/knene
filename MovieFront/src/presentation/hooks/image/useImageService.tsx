@@ -1,8 +1,6 @@
 /**
  * @fileoverview 图片服务React Hook
  * @description 提供便捷的图片操作方法，封装图片服务的业务逻辑，支持电影海报、专题封面、用户头像等多种业务场景
- * @created 2025-10-21 13:49:24
- * @updated 2025-10-21 15:17:14
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

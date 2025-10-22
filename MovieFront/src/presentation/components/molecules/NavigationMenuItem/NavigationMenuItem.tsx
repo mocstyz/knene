@@ -1,8 +1,6 @@
 /**
  * @fileoverview 导航菜单项组件
  * @description 处理单个导航项的展开/收起逻辑，支持二级菜单的显示/隐藏，提供展开/收起的视觉反馈，确保同时只有一个二级菜单展开
- * @created 2025-10-21 13:02:50
- * @updated 2025-10-21 13:02:50
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

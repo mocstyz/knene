@@ -1,8 +1,6 @@
 /**
  * @fileoverview Home Repository接口定义
  * @description 定义首页数据访问层接口，遵循DDD Repository模式，提供首页各区块数据的访问抽象层，支持Mock和真实API的无缝切换
- * @created 2025-01-21 10:45:00
- * @updated 2025-01-21 10:45:00
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

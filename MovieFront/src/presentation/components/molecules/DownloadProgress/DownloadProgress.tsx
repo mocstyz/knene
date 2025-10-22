@@ -1,8 +1,6 @@
 /**
  * @fileoverview 下载进度条组件
  * @description 提供完整的下载进度显示功能，支持紧凑、默认、详细三种显示模式，包含进度条、状态管理、操作按钮等功能
- * @created 2025-10-20 17:58:14
- * @updated 2025-10-21 11:12:43
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0

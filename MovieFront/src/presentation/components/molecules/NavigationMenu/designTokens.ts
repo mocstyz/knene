@@ -1,8 +1,6 @@
 /**
  * @fileoverview 导航菜单设计令牌系统
  * @description 实现导航菜单的样式变体和主题配置，支持不同页面和场景的灵活复用，提供完整的设计系统配置
- * @created 2025-10-21 10:20:13
- * @updated 2025-10-21 11:12:43
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
