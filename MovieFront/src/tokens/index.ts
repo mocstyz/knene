@@ -9,9 +9,3 @@
 
 // 响应式配置常量
 export * from './responsive-configs'
-
-// 设计系统变体（如果存在）
-// export * from './design-system'
-
-// 业务领域变体（如果存在）
-// export * from './domains'

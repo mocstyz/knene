@@ -9,10 +9,10 @@
  */
 
 import type { ICollectionApi, CollectionQueryParams, CollectionFilterParams, PaginatedResponse, ApiResponse } from './interfaces/ICollectionApi'
-import type { IHomeApi, HomeDataResponse, TopicsQueryParams, PhotosQueryParams, LatestUpdatesQueryParams, HotContentQueryParams } from './interfaces/IHomeApi'
+import type { IHomeApi, HomeDataResponse, CollectionsQueryParams, PhotosQueryParams, LatestUpdatesQueryParams, HotContentQueryParams } from './interfaces/IHomeApi'
 import type { CollectionItem } from '@types-movie'
 import type { PhotoItem, LatestItem, MovieDetail } from '@types-movie'
-import type { HotItem } from '@infrastructure/repositories/HomeRepository'
+import type { HotItem } from '@types-movie'
 import { mockDataService } from '@application/services/MockDataService'
 
 // Mock API延迟配置，模拟真实网络请求延迟
@@ -56,7 +56,7 @@ export class MockCollectionApiService implements ICollectionApi {
       const { page = 1, pageSize = 12, category, sortBy = 'latest', featured } = params || {}
       
       // 生成Mock数据
-      const allCollections = mockDataService.getMockTopics(50) // 生成足够的数据用于分页
+      const allCollections = mockDataService.getMockCollections(50) // 生成足够的数据用于分页
       
       // 筛选逻辑
       let filteredCollections = allCollections
@@ -74,7 +74,7 @@ export class MockCollectionApiService implements ICollectionApi {
       }
       
       // 排序逻辑
-      if (sortBy === 'popular') {
+      if (sortBy === 'top-rated') {
         filteredCollections.sort(() => Math.random() - 0.5) // 随机排序模拟热度
       } else if (sortBy === 'latest') {
         filteredCollections.reverse() // 最新排序
@@ -86,14 +86,14 @@ export class MockCollectionApiService implements ICollectionApi {
       const paginatedData = filteredCollections.slice(startIndex, endIndex)
       
       // 转换为CollectionItem格式
-      const collections: CollectionItem[] = paginatedData.map(topic => ({
-        id: topic.id,
-        title: topic.title,
+      const collections: CollectionItem[] = paginatedData.map(collection => ({
+        id: collection.id,
+        title: collection.title,
         type: 'Collection' as const,
         contentType: 'collection' as const,
-        imageUrl: topic.imageUrl,
-        description: topic.description || '',
-        alt: topic.alt || `${topic.title} poster`,
+        imageUrl: collection.imageUrl,
+        description: collection.description || '',
+        alt: collection.alt || `${collection.title} poster`,
         movieCount: Math.floor(Math.random() * 50) + 10,
         category: category || '默认分类',
         tags: ['热门', '推荐'],
@@ -126,19 +126,19 @@ export class MockCollectionApiService implements ICollectionApi {
     await simulateNetworkDelay()
     
     try {
-      const collections = mockDataService.getMockTopics(1)
+      const collections = mockDataService.getMockCollections(1)
       if (collections.length === 0) {
         return createErrorResponse(`Collection with id ${id} not found`, 404)
       }
       
-      const topic = collections[0]
-      const collection: any = {
+      const collection = collections[0]
+      const collectionDetail: any = {
         id,
-        title: topic.title,
+        title: collection.title,
         type: 'Collection' as const,
-        imageUrl: topic.imageUrl,
-        description: topic.description || `详细描述：${topic.title}`,
-        alt: topic.alt || `${topic.title} poster`,
+        imageUrl: collection.imageUrl,
+        description: collection.description || `详细描述：${collection.title}`,
+        alt: collection.alt || `${collection.title} poster`,
         movieCount: Math.floor(Math.random() * 50) + 10,
         category: '精选合集',
         tags: ['热门', '推荐', '精选'],
@@ -148,12 +148,12 @@ export class MockCollectionApiService implements ICollectionApi {
         viewCount: Math.floor(Math.random() * 10000),
         rating: Math.random() * 4 + 6,
         // CollectionDetail 特有属性
-        coverImage: topic.imageUrl,
+        coverImage: collection.imageUrl,
         movieIds: Array.from({ length: Math.floor(Math.random() * 20) + 5 }, (_, i) => `movie-${i + 1}`),
         genre: '动作/科幻',
         publishDate: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toISOString(),
         creator: '系统管理员',
-        collectionDescription: `${topic.title}的详细描述，包含丰富的内容和背景信息。`,
+        collectionDescription: `${collection.title}的详细描述，包含丰富的内容和背景信息。`,
         itemCount: Math.floor(Math.random() * 50) + 10,
         totalDuration: Math.floor(Math.random() * 500) + 100,
         updateFrequency: '每周更新',
@@ -162,7 +162,7 @@ export class MockCollectionApiService implements ICollectionApi {
         movies: [] // 可以根据需要填充电影数据
       }
       
-      return createSuccessResponse(collection)
+      return createSuccessResponse(collectionDetail)
     } catch (error) {
       return createErrorResponse('Failed to fetch collection detail')
     }
@@ -226,15 +226,15 @@ export class MockCollectionApiService implements ICollectionApi {
     await simulateNetworkDelay()
     
     try {
-      const topics = mockDataService.getMockTopics(limit || 6)
-      const collections: CollectionItem[] = topics.map(topic => ({
-        id: topic.id,
-        title: topic.title,
+      const collections = mockDataService.getMockCollections(limit || 6)
+      const hotCollections: CollectionItem[] = collections.map(collection => ({
+        id: collection.id,
+        title: collection.title,
         type: 'Collection' as const,
         contentType: 'collection' as const,
-        imageUrl: topic.imageUrl,
-        description: topic.description || '',
-        alt: topic.alt || `${topic.title} poster`,
+        imageUrl: collection.imageUrl,
+        description: collection.description || '',
+        alt: collection.alt || `${collection.title} poster`,
         movieCount: Math.floor(Math.random() * 50) + 10,
         category: '热门合集',
         tags: ['热门', '推荐'],
@@ -244,7 +244,7 @@ export class MockCollectionApiService implements ICollectionApi {
         rating: (Math.random() * 2 + 8).toFixed(1) // 热门合集评分更高 8-10
       }))
       
-      return createSuccessResponse(collections)
+      return createSuccessResponse(hotCollections)
     } catch (error) {
       return createErrorResponse('Failed to fetch hot collections')
     }
@@ -255,15 +255,15 @@ export class MockCollectionApiService implements ICollectionApi {
     await simulateNetworkDelay()
     
     try {
-      const topics = mockDataService.getMockTopics(limit || 6)
-      const collections: CollectionItem[] = topics.map(topic => ({
-        id: topic.id,
-        title: topic.title,
+      const collections = mockDataService.getMockCollections(limit || 6)
+      const latestCollections: CollectionItem[] = collections.map(collection => ({
+        id: collection.id,
+        title: collection.title,
         type: 'Collection' as const,
         contentType: 'collection' as const,
-        imageUrl: topic.imageUrl,
-        description: topic.description || '',
-        alt: topic.alt || `${topic.title} poster`,
+        imageUrl: collection.imageUrl,
+        description: collection.description || '',
+        alt: collection.alt || `${collection.title} poster`,
         movieCount: Math.floor(Math.random() * 30) + 5,
         category: '最新合集',
         tags: ['最新', '推荐'],
@@ -273,7 +273,7 @@ export class MockCollectionApiService implements ICollectionApi {
         rating: (Math.random() * 4 + 6).toFixed(1)
       }))
       
-      return createSuccessResponse(collections)
+      return createSuccessResponse(latestCollections)
     } catch (error) {
       return createErrorResponse('Failed to fetch latest collections')
     }
@@ -284,30 +284,30 @@ export class MockCollectionApiService implements ICollectionApi {
     await simulateNetworkDelay()
     
     try {
-      const allTopics = mockDataService.getMockTopics(30)
+      const allCollections = mockDataService.getMockCollections(30)
       
       // 搜索逻辑
-      const filteredTopics = allTopics.filter(topic => 
-        topic.title.toLowerCase().includes(keyword.toLowerCase()) ||
-        topic.description?.toLowerCase().includes(keyword.toLowerCase())
+      const filteredCollections = allCollections.filter(collection => 
+        collection.title.toLowerCase().includes(keyword.toLowerCase()) ||
+        collection.description?.toLowerCase().includes(keyword.toLowerCase())
       )
       
       // 应用筛选条件
-      let finalTopics = filteredTopics
+      let finalCollections = filteredCollections
       if (params?.filters?.category) {
-        finalTopics = finalTopics.filter(topic => 
-          topic.description?.includes(params.filters!.category!)
+        finalCollections = finalCollections.filter(collection => 
+          collection.description?.includes(params.filters!.category!)
         )
       }
       
-      const collections: CollectionItem[] = finalTopics.map(topic => ({
-        id: topic.id,
-        title: topic.title,
+      const searchResults: CollectionItem[] = finalCollections.map(collection => ({
+        id: collection.id,
+        title: collection.title,
         type: 'Collection' as const,
         contentType: 'collection' as const,
-        imageUrl: topic.imageUrl,
-        description: topic.description || '',
-        alt: topic.alt || `${topic.title} poster`,
+        imageUrl: collection.imageUrl,
+        description: collection.description || '',
+        alt: collection.alt || `${collection.title} poster`,
         movieCount: Math.floor(Math.random() * 50) + 10,
         category: params?.filters?.category || '搜索结果',
         tags: ['搜索', '匹配'],
@@ -318,11 +318,11 @@ export class MockCollectionApiService implements ICollectionApi {
       }))
       
       const response: PaginatedResponse<CollectionItem> = {
-        data: collections,
+        data: searchResults,
         pagination: {
           currentPage: 1,
-          pageSize: collections.length,
-          total: collections.length,
+          pageSize: searchResults.length,
+          total: searchResults.length,
           totalPages: 1,
           hasNext: false,
           hasPrev: false
@@ -347,14 +347,14 @@ export class MockHomeApiService implements IHomeApi {
       const homeData = mockDataService.generateMockHomeData()
       
       // 转换为HomeDataResponse格式
-      const collections: CollectionItem[] = homeData.topics.map(topic => ({
-        id: topic.id,
-        title: topic.title,
+      const collections: CollectionItem[] = homeData.collections.map(collection => ({
+        id: collection.id,
+        title: collection.title,
         type: 'Collection' as const,
         contentType: 'collection' as const,
-        imageUrl: topic.imageUrl,
-        description: topic.description || '',
-        alt: topic.alt || `${topic.title} poster`,
+        imageUrl: collection.imageUrl,
+        description: collection.description || '',
+        alt: collection.alt || `${collection.title} poster`,
         movieCount: Math.floor(Math.random() * 50) + 10,
         category: '首页推荐',
         tags: ['推荐', '热门'],
@@ -378,21 +378,21 @@ export class MockHomeApiService implements IHomeApi {
   }
 
   // 获取专题合集列表
-  async getTopics(params?: TopicsQueryParams): Promise<ApiResponse<CollectionItem[]>> {
+  async getCollections(params?: CollectionsQueryParams): Promise<ApiResponse<CollectionItem[]>> {
     await simulateNetworkDelay()
     
     try {
       const { limit = 12, featured, sortBy = 'latest' } = params || {}
-      const topics = mockDataService.getMockTopics(limit)
+      const collections = mockDataService.getMockCollections(limit)
       
-      const collections: CollectionItem[] = topics.map(topic => ({
-        id: topic.id,
-        title: topic.title,
+      const collectionResults: CollectionItem[] = collections.map(collection => ({
+        id: collection.id,
+        title: collection.title,
         type: 'Collection' as const,
         contentType: 'collection' as const,
-        imageUrl: topic.imageUrl,
-        description: topic.description || '',
-        alt: topic.alt || `${topic.title} poster`,
+        imageUrl: collection.imageUrl,
+        description: collection.description || '',
+        alt: collection.alt || `${collection.title} poster`,
         movieCount: Math.floor(Math.random() * 50) + 10,
         category: '专题合集',
         tags: ['专题', '推荐'],
@@ -402,9 +402,9 @@ export class MockHomeApiService implements IHomeApi {
         rating: (Math.random() * 4 + 6).toFixed(1)
       }))
       
-      return createSuccessResponse(collections)
+      return createSuccessResponse(collectionResults)
     } catch (error) {
-      return createErrorResponse('Failed to fetch topics')
+      return createErrorResponse('Failed to fetch collections')
     }
   }
 
@@ -453,8 +453,8 @@ export class MockHomeApiService implements IHomeApi {
   }
 
   // 获取精选专题
-  async getFeaturedTopics(limit?: number): Promise<ApiResponse<CollectionItem[]>> {
-    return this.getTopics({ limit, featured: true })
+  async getFeaturedCollections(limit?: number): Promise<ApiResponse<CollectionItem[]>> {
+    return this.getCollections({ limit, featured: true })
   }
 
   // 获取最新写真

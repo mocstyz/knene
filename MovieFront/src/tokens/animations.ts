@@ -1,9 +1,16 @@
 /**
- * 动画设计令牌 - 定义动画系统
- * 包括缓动函数、持续时间、关键帧动画等
+ * @fileoverview 动画设计令牌配置
+ * @description 动画设计令牌系统定义，包括缓动函数、持续时间、延迟时间、关键帧动画等
+ *              完整的动画系统配置，提供预设动画组合、组件动画和工具函数，确保
+ *              整个应用的动画效果一致性和可维护性
+ * @created 2025-10-09 13:10:50
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
 
-// 缓动函数
+// 缓动函数配置 - 定义各种CSS缓动函数，用于控制动画的时间曲线
 export const easings = {
   // 线性
   linear: 'linear',
@@ -49,26 +56,26 @@ export const easings = {
   easeInOutBack: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
 } as const
 
-// 动画持续时间
+// 动画持续时间配置 - 定义动画的持续时间选项
 export const durations = {
-  instant: '0ms',
-  fast: '150ms',
-  normal: '200ms',
-  slow: '300ms',
-  slower: '500ms',
-  slowest: '1000ms',
+  instant: '0ms', // 瞬间
+  fast: '150ms', // 快速
+  normal: '200ms', // 正常
+  slow: '300ms', // 慢速
+  slower: '500ms', // 更慢
+  slowest: '1000ms', // 最慢
 } as const
 
-// 延迟时间
+// 延迟时间配置 - 定义动画的延迟时间选项
 export const delays = {
-  none: '0ms',
-  short: '100ms',
-  normal: '200ms',
-  long: '500ms',
-  longer: '1000ms',
+  none: '0ms', // 无延迟
+  short: '100ms', // 短延迟
+  normal: '200ms', // 正常延迟
+  long: '500ms', // 长延迟
+  longer: '1000ms', // 更长延迟
 } as const
 
-// 关键帧动画定义
+// 关键帧动画定义 - 定义常用的关键帧动画效果
 export const keyframes = {
   // 淡入淡出
   fadeIn: {
@@ -199,7 +206,7 @@ export const keyframes = {
   },
 } as const
 
-// 预设动画组合
+// 预设动画组合配置 - 定义常用的动画时间函数组合
 export const animationPresets = {
   // 入场动画
   entrance: {
@@ -250,7 +257,7 @@ export const animationPresets = {
   },
 } as const
 
-// 组件动画
+// 组件动画配置 - 定义特定组件的动画效果
 export const componentAnimations = {
   // 按钮动画
   button: {
@@ -299,16 +306,20 @@ export const componentAnimations = {
   },
 } as const
 
-// 动画工具函数
+// 动画工具函数 - 提供动画相关的工具函数
+
+// 解析动画预设函数 - 将预设字符串解析为动画属性
 export const getAnimation = (preset: string): string => {
   const [duration, easing, delay = ''] = preset.split(' ')
   return `${duration} ${easing} ${delay}`.trim()
 }
 
+// 获取关键帧动画函数 - 根据名称返回对应的关键帧动画
 export const getKeyframe = (
   name: keyof typeof keyframes
 ): (typeof keyframes)[keyof typeof keyframes] => keyframes[name]
 
+// 获取组件动画函数 - 根据组件和状态返回对应的动画效果
 export const getComponentAnimation = (
   component: keyof typeof componentAnimations,
   state: string
@@ -317,7 +328,7 @@ export const getComponentAnimation = (
     state as keyof (typeof componentAnimations)[typeof component]
   ] || animationPresets.interaction.hover
 
-// 动态关键帧生成器
+// 动态关键帧生成器 - 根据配置动态生成关键帧动画
 export const createKeyframe = (
   name: string,
   frames: Record<string, Record<string, string>>
@@ -334,9 +345,22 @@ export const createKeyframe = (
   return `@keyframes ${name} {\n${keyframeSteps}\n}`
 }
 
+// 动画相关类型定义 - 定义动画系统的TypeScript类型
+
+// 缓动函数类型 - 定义可用的缓动函数选项
 export type EasingType = keyof typeof easings
+
+// 持续时间类型 - 定义动画持续时间选项
 export type DurationType = keyof typeof durations
+
+// 延迟时间类型 - 定义动画延迟时间选项
 export type DelayType = keyof typeof delays
+
+// 关键帧名称类型 - 定义可用的关键帧动画名称
 export type KeyframeName = keyof typeof keyframes
+
+// 动画预设类型 - 定义可用的动画预设组合
 export type AnimationPreset = keyof typeof animationPresets
+
+// 组件动画类型 - 定义可用的组件动画类型
 export type ComponentAnimationType = keyof typeof componentAnimations

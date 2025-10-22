@@ -433,8 +433,8 @@ export class ReleaseDate {
     return dates.filter(date => date.isPast())
   }
 
-  // 过滤新发布日期
-  static filterNewReleases(dates: ReleaseDate[]): ReleaseDate[] {
+  // 过滤最新发布日期（30天内）
+  static filterLatestReleases(dates: ReleaseDate[]): ReleaseDate[] {
     return dates.filter(date => date.isNewRelease())
   }
 

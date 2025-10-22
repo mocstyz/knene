@@ -268,8 +268,8 @@ export class MovieApplicationService {
     } catch (error) {
       console.error('获取个性化推荐失败:', error)
       // 返回热门电影作为备选
-      const trendingStoreMovies = await this.getTrendingMovies(limit)
-      return this.storeMoviesToDomain(trendingStoreMovies)
+      const hotStoreMovies = await this.getHotMovies(limit)
+      return this.storeMoviesToDomain(hotStoreMovies)
     }
   }
 
@@ -356,14 +356,14 @@ export class MovieApplicationService {
     return Array.from(suggestions).slice(0, 5)
   }
 
-  private static async getTrendingMovies(limit: number): Promise<StoreMovie[]> {
+  private static async getHotMovies(limit: number): Promise<StoreMovie[]> {
     const allStoreMovies = await this.getAllMovies()
     const allDomainMovies = this.storeMoviesToDomain(allStoreMovies)
-    const trendingDomainMovies = MovieCatalogService.getTrendingMovies(
+    const hotDomainMovies = MovieCatalogService.getHotMovies(
       allDomainMovies,
       limit
     )
-    return this.domainMoviesToStore(trendingDomainMovies)
+    return this.domainMoviesToStore(hotDomainMovies)
   }
 
   // 数据转换方法 - Store层到Domain层的对象转换

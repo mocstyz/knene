@@ -60,7 +60,7 @@ export const badgeLayerVariants = {
         'bg-red-500/90 dark:bg-red-600/90 text-white dark:text-gray-100 shadow-lg dark:shadow-xl', // 突出样式
     },
   },
-  // 评分颜色映射配置 - 匹配trending模块样式
+  // 评分颜色映射配置 - 匹配hot模块样式
   ratingColor: {
     green: 'text-green-400 dark:text-green-300',
     blue: 'text-blue-400 dark:text-blue-300',

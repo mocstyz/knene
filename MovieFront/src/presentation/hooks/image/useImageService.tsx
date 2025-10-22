@@ -17,7 +17,6 @@ import { useMemo } from 'react'
 // 图片服务Hook返回值接口，定义图片服务Hook提供的各种图片操作方法
 export interface UseImageServiceReturn {
   getMoviePoster: (movieId: string, options?: ImageOptions) => string // 获取电影海报URL
-  getTopicCover: (topicId: string, options?: ImageOptions) => string // 获取专题封面URL
   getCollectionCover: (collectionId: string, options?: ImageOptions) => string // 获取合集封面URL
   getUserAvatar: (userId: string, options?: ImageOptions) => string // 获取用户头像URL
   getImageUrl: (seed: string, options?: ImageOptions) => string // 获取通用图片URL
@@ -53,25 +52,6 @@ export const useImageService = (): UseImageServiceReturn => {
     return imageService.getOptimizedUrl(`movie-${movieId}`, mergedOptions)
   }
 
-  const getTopicCover = (topicId: string, options?: ImageOptions): string => {
-    // 如果传入的是完整的URL，直接返回
-    if (topicId.startsWith('http://') || topicId.startsWith('https://')) {
-      return topicId
-    }
-
-    // 专题封面默认配置
-    const defaultOptions: ImageOptions = {
-      width: 600,
-      height: 400,
-      quality: 80,
-      format: 'auto',
-      crop: 'cover',
-    }
-
-    const mergedOptions = { ...defaultOptions, ...options }
-    return imageService.getOptimizedUrl(`topic-${topicId}`, mergedOptions)
-  }
-
   const getCollectionCover = (
     collectionId: string,
     options?: ImageOptions
@@ -91,10 +71,7 @@ export const useImageService = (): UseImageServiceReturn => {
     }
 
     const mergedOptions = { ...defaultOptions, ...options }
-    return imageService.getOptimizedUrl(
-      `collection-${collectionId}`,
-      mergedOptions
-    )
+    return imageService.getOptimizedUrl(`collection-${collectionId}`, mergedOptions)
   }
 
   const getUserAvatar = (userId: string, options?: ImageOptions): string => {
@@ -133,7 +110,6 @@ export const useImageService = (): UseImageServiceReturn => {
 
   return {
     getMoviePoster,
-    getTopicCover,
     getCollectionCover,
     getUserAvatar,
     getImageUrl,

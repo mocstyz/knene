@@ -19,7 +19,7 @@ export type {
 // Hot领域 - 24小时热门内容
 export { HotSection, HotList } from './hot'
 export type { HotSectionProps, HotListProps } from './hot'
-export type { HotItem } from '@infrastructure/repositories/HomeRepository'
+export type { HotItem } from '@types-movie'
 
 // Collections领域 - 影片合集内容，CollectionCard已被内容渲染器系统替代
 export { CollectionList, CollectionSection } from './collections'

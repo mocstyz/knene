@@ -9,13 +9,13 @@
  */
 
 import { ContentTransformationService } from '@application/services/ContentTransformationService'
-import type { CollectionItem } from '@types-movie'
-import type { HotItem } from '@infrastructure/repositories/HomeRepository'
 import type { 
-  UnifiedContentItem, 
-  TopicItem, 
+  CollectionItem,
   PhotoItem, 
-  LatestItem 
+  LatestItem, 
+  BaseMovieItem,
+  HotItem,
+  UnifiedContentItem
 } from '@types-movie'
 
 /**

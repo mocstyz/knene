@@ -4,13 +4,14 @@ import { ICollectionApi, IHomeApi } from '@infrastructure/api/interfaces'
 import { MockCollectionApiService, MockHomeApiService } from '@infrastructure/api/MockApiService'
 import type { ApiResponse, PaginatedResponse } from '@infrastructure/api/interfaces/ICollectionApi'
 import type { PhotoItem, LatestItem, CollectionItem } from '@types-movie'
-import type { HotItem } from '@infrastructure/repositories/HomeRepository'
+import type { HotItem } from '@types-movie'
 import type { 
   HotContentQueryParams, 
   HomeDataResponse, 
-  TopicsQueryParams, 
+  CollectionsQueryParams, 
   PhotosQueryParams, 
-  LatestUpdatesQueryParams 
+  LatestUpdatesQueryParams,
+  HomeDataParams 
 } from '@infrastructure/api/interfaces/IHomeApi'
 
 // 真实API服务类（占位符，待实现）
@@ -72,7 +73,7 @@ class RealHomeApiService implements IHomeApi {
     throw new Error('真实API服务尚未实现')
   }
 
-  async getTopics(params?: TopicsQueryParams): Promise<ApiResponse<CollectionItem[]>> {
+  async getCollections(params?: CollectionsQueryParams): Promise<ApiResponse<CollectionItem[]>> {
     // TODO: 实现真实API调用
     throw new Error('真实API服务尚未实现')
   }
@@ -97,7 +98,7 @@ class RealHomeApiService implements IHomeApi {
     throw new Error('真实API服务尚未实现')
   }
 
-  async getFeaturedTopics(limit?: number): Promise<ApiResponse<CollectionItem[]>> {
+  async getFeaturedCollections(limit?: number): Promise<ApiResponse<CollectionItem[]>> {
     // TODO: 实现真实API调用
     throw new Error('真实API服务尚未实现')
   }

@@ -419,8 +419,9 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
         message={emptyState?.message || '暂无内容'}
         description={emptyState?.description}
         className={className}
-        size="lg"
+        size="md"
         variant="center"
+        colorVariant="default"
       />
     )
   }

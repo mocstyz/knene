@@ -9,7 +9,7 @@
  * @version 1.0.0
  */
 import { IHomeRepository, HomeRepository } from '@infrastructure/repositories'
-import type { TopicItem, PhotoItem, LatestItem, BaseMovieItem, CollectionItem } from '@/types/movie.types'
+import type { CollectionItem, PhotoItem, LatestItem, BaseMovieItem } from '@/types/movie.types'
 
 // 首页数据响应接口
 export interface HomeDataResponse {
@@ -21,7 +21,7 @@ export interface HomeDataResponse {
 
 // 首页数据查询参数接口
 export interface HomeDataParams {
-  topicsLimit?: number
+  collectionsLimit?: number
   photosLimit?: number
   latestLimit?: number
   hotLimit?: number
@@ -39,7 +39,7 @@ export class HomeApplicationService {
   async getHomeData(params?: HomeDataParams): Promise<HomeDataResponse> {
     try {
       return await this.homeRepository.getHomeData({
-        topicsLimit: params?.topicsLimit || 3,
+        collectionsLimit: params?.collectionsLimit || 3,
         photosLimit: params?.photosLimit || 6,
         latestLimit: params?.latestLimit || 6,
         hotLimit: params?.hotLimit || 6
@@ -51,22 +51,12 @@ export class HomeApplicationService {
   }
 
   // 获取影片合集数据，通过Repository层访问数据
-  async getCollections(limit = 3): Promise<TopicItem[]> {
+  async getCollections(limit = 3): Promise<CollectionItem[]> {
     try {
-      return await this.homeRepository.getTopics({ limit })
+      return await this.homeRepository.getCollections({ limit })
     } catch (error) {
       console.error('Failed to get collections:', error)
       throw new Error('无法获取影片合集数据')
-    }
-  }
-
-  // 获取专题数据，通过Repository层访问数据
-  async getTopics(limit = 3): Promise<TopicItem[]> {
-    try {
-      return await this.homeRepository.getTopics({ limit })
-    } catch (error) {
-      console.error('Failed to get topics:', error)
-      throw new Error('无法获取专题数据')
     }
   }
 
@@ -100,23 +90,13 @@ export class HomeApplicationService {
     }
   }
 
-  // 获取每日热门内容，通过Repository层访问数据
-  async getDailyHot(limit = 6): Promise<BaseMovieItem[]> {
+  // 获取精选合集，通过Repository层访问数据
+  async getFeaturedCollections(limit = 3): Promise<CollectionItem[]> {
     try {
-      return await this.homeRepository.getDailyHot(limit)
+      return await this.homeRepository.getFeaturedCollections(limit)
     } catch (error) {
-      console.error('Failed to get daily hot:', error)
-      throw new Error('无法获取每日热门内容')
-    }
-  }
-
-  // 获取精选专题，通过Repository层访问数据
-  async getFeaturedTopics(limit = 3): Promise<TopicItem[]> {
-    try {
-      return await this.homeRepository.getFeaturedTopics(limit)
-    } catch (error) {
-      console.error('Failed to get featured topics:', error)
-      throw new Error('无法获取精选专题')
+      console.error('Failed to get featured collections:', error)
+      throw new Error('无法获取精选合集')
     }
   }
 

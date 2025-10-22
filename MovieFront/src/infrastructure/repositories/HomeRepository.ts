@@ -17,15 +17,16 @@ import { mockDataService } from '@application/services/MockDataService'
 import { ContentTransformationService } from '@application/services/ContentTransformationService'
 import { toCollectionItems } from '@utils/data-converters'
 import type { 
-  TopicItem, 
+  CollectionItem,
   PhotoItem, 
   LatestItem, 
   BaseMovieItem,
-  CollectionItem 
+  HotItem,
+  UnifiedContentItem
 } from '@types-movie'
 import type { 
   HomeDataParams as ApiHomeDataParams,
-  TopicsQueryParams, 
+  CollectionsQueryParams, 
   PhotosQueryParams, 
   LatestUpdatesQueryParams,
   HotContentQueryParams
@@ -33,7 +34,7 @@ import type {
 
 // 首页数据查询参数接口
 export interface HomeDataParams {
-  topicsLimit?: number
+  collectionsLimit?: number
   photosLimit?: number
   latestLimit?: number
   hotLimit?: number
@@ -47,18 +48,12 @@ export interface HomeDataResponse {
   hotDaily: BaseMovieItem[]
 }
 
-// 热门内容项接口
-export interface HotItem extends BaseMovieItem {
-  rank?: number
-  trendDirection?: 'up' | 'down' | 'stable'
-}
-
 // 首页仓储实现类，提供首页数据的获取和转换功能
 export class HomeRepository implements IHomeRepository {
   // 获取首页所有模块数据，支持配置参数和错误处理
   async getHomeData(params: ApiHomeDataParams = {}): Promise<HomeDataResponse> {
     const { 
-      topicsLimit = 3,
+      collectionsLimit = 3,
       photosLimit = 6, 
       latestLimit = 6,
       hotLimit = 6,
@@ -69,12 +64,12 @@ export class HomeRepository implements IHomeRepository {
     // 构建API URL
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
-      MOVIE_ENDPOINTS.TRENDING,
+      MOVIE_ENDPOINTS.HOT,
       window.location.origin + baseUrl
     )
 
     // 添加查询参数
-    apiUrl.searchParams.append('topicsLimit', topicsLimit.toString())
+    apiUrl.searchParams.append('collectionsLimit', collectionsLimit.toString())
     apiUrl.searchParams.append('photosLimit', photosLimit.toString())
     apiUrl.searchParams.append('latestLimit', latestLimit.toString())
     apiUrl.searchParams.append('hotLimit', hotLimit.toString())
@@ -102,23 +97,23 @@ export class HomeRepository implements IHomeRepository {
       // 如果API调用失败，使用Mock数据服务
       const mockData = mockDataService.generateMockHomeData()
       
-      // 将TopicItem[]转换为CollectionItem[]
+      // 将CollectionItem[]转换为CollectionItem[]
       const collections = toCollectionItems(
-        ContentTransformationService.transformUnifiedListToTopics(
+        ContentTransformationService.transformUnifiedListToCollections(
           ContentTransformationService.transformCollectionListToUnified(
-            mockDataService.generateMockCollections(topicsLimit)
+            mockDataService.generateMockCollections(collectionsLimit)
           )
-        ).map(topic => ({
-          id: topic.id,
-          title: topic.title,
+        ).map(collection => ({
+          id: collection.id,
+          title: collection.title,
           contentType: 'collection' as const,
-          description: topic.description,
-          imageUrl: topic.imageUrl,
-          alt: topic.alt,
-          isNew: topic.isNew,
-          newType: topic.newType,
-          isVip: topic.isVip,
-          tags: topic.tags
+          description: collection.description,
+          imageUrl: collection.imageUrl,
+          alt: collection.alt,
+          isNew: collection.isNew,
+          newType: collection.newType,
+          isVip: collection.isVip,
+          tags: collection.tags
         }))
       )
       
@@ -132,11 +127,11 @@ export class HomeRepository implements IHomeRepository {
   }
 
   // 获取专题数据，支持数量限制和错误处理
-  async getTopics(params?: TopicsQueryParams): Promise<CollectionItem[]> {
+  async getCollections(params?: CollectionsQueryParams): Promise<CollectionItem[]> {
     const limit = params?.limit || 3
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
-      `${MOVIE_ENDPOINTS.CATEGORIES}/topics`,
+      `${MOVIE_ENDPOINTS.CATEGORIES}/collections`,
       window.location.origin + baseUrl
     )
     apiUrl.searchParams.append('limit', limit.toString())
@@ -145,34 +140,34 @@ export class HomeRepository implements IHomeRepository {
       const response = await fetch(apiUrl.toString())
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch topics: ${response.status}`)
+        throw new Error(`Failed to fetch collections: ${response.status}`)
       }
 
       const data = await response.json()
-      return this.transformTopics(data)
+      return this.transformCollections(data)
     } catch (error) {
       if (import.meta.env.DEV) {
-        console.log('Development: API not available, using mock data for topics')
+        console.log('Development: API not available, using mock data for collections')
       } else {
-        console.error('Error fetching topics:', error)
+        console.error('Error fetching collections:', error)
       }
       // 使用正确的数据转换流程
       return toCollectionItems(
-        ContentTransformationService.transformUnifiedListToTopics(
+        ContentTransformationService.transformUnifiedListToCollections(
           ContentTransformationService.transformCollectionListToUnified(
             mockDataService.generateMockCollections(limit)
           )
-        ).map(topic => ({
-          id: topic.id,
-          title: topic.title,
+        ).map(collection => ({
+          id: collection.id,
+          title: collection.title,
           contentType: 'collection' as const,
-          description: topic.description,
-          imageUrl: topic.imageUrl,
-          alt: topic.alt,
-          isNew: topic.isNew,
-          newType: topic.newType,
-          isVip: topic.isVip,
-          tags: topic.tags
+          description: collection.description,
+          imageUrl: collection.imageUrl,
+          alt: collection.alt,
+          isNew: collection.isNew,
+          newType: collection.newType,
+          isVip: collection.isVip,
+          tags: collection.tags
         }))
       )
     }
@@ -242,7 +237,7 @@ export class HomeRepository implements IHomeRepository {
   async getHotDaily(limit = 6): Promise<HotItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     const apiUrl = new URL(
-      `${MOVIE_ENDPOINTS.TRENDING}/daily`,
+      `${MOVIE_ENDPOINTS.HOT}/daily`,
       window.location.origin + baseUrl
     )
     apiUrl.searchParams.append('limit', limit.toString())
@@ -272,7 +267,7 @@ export class HomeRepository implements IHomeRepository {
     const { limit = 6, period = 'daily', minRating = 0 } = params || {}
     
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
-    const apiUrl = new URL(MOVIE_ENDPOINTS.TRENDING, window.location.origin + baseUrl)
+    const apiUrl = new URL(MOVIE_ENDPOINTS.HOT, window.location.origin + baseUrl)
     
     apiUrl.searchParams.append('limit', limit.toString())
     apiUrl.searchParams.append('period', period)
@@ -299,8 +294,8 @@ export class HomeRepository implements IHomeRepository {
   }
 
   // 获取精选专题，返回编辑推荐的专题合集
-  async getFeaturedTopics(limit = 3): Promise<CollectionItem[]> {
-    return this.getTopics({ limit, featured: true, sortBy: 'featured' })
+  async getFeaturedCollections(limit = 3): Promise<CollectionItem[]> {
+    return this.getCollections({ limit, featured: true, sortBy: 'featured' })
   }
 
   // 获取最新写真，返回最近上传的写真内容
@@ -402,30 +397,30 @@ export class HomeRepository implements IHomeRepository {
   // 转换API响应数据为前端统一格式
   private transformApiResponse(apiData: any): HomeDataResponse {
     return {
-      collections: this.transformTopics(apiData.topics || []),
+      collections: this.transformCollections(apiData.collections || []),
       photos: this.transformPhotos(apiData.photos || []),
       latestUpdates: this.transformLatestUpdates(apiData.latestUpdates || []),
       hotDaily: this.transformHotDaily(apiData.hotDaily || []),
     }
   }
 
-  // 转换专题数据为TopicItem类型，处理字段映射和默认值
-  private transformTopics(topics: any[]): CollectionItem[] {
-    return topics.map(topic => ({
-      id: topic.id || topic._id,
-      title: topic.title || topic.name,
+  // 转换合集数据为CollectionItem类型，处理字段映射和默认值
+  private transformCollections(collections: any[]): CollectionItem[] {
+    return collections.map(collection => ({
+      id: collection.id || collection._id,
+      title: collection.title || collection.name,
       type: 'Collection' as const,
       contentType: 'collection' as const,
-      imageUrl: topic.poster || topic.imageUrl || topic.coverImage,
-      description: topic.description || topic.summary,
-      alt: topic.alt || `${topic.title || topic.name} poster`,
-      rating: topic.rating?.toString() || '0',
-      movieCount: topic.movieCount || 0,
-      category: topic.category || '默认分类',
-      tags: topic.tags || [],
-      createdAt: topic.createdAt || new Date().toISOString(),
-      updatedAt: topic.updatedAt || new Date().toISOString(),
-      isFeatured: topic.featured || false
+      imageUrl: collection.poster || collection.imageUrl || collection.coverImage,
+      description: collection.description || collection.summary,
+      alt: collection.alt || `${collection.title || collection.name} poster`,
+      rating: collection.rating?.toString() || '0',
+      movieCount: collection.movieCount || 0,
+      category: collection.category || '默认分类',
+      tags: collection.tags || [],
+      createdAt: collection.createdAt || new Date().toISOString(),
+      updatedAt: collection.updatedAt || new Date().toISOString(),
+      isFeatured: collection.featured || false
     }))
   }
 

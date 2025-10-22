@@ -1,70 +1,73 @@
 /**
- * 字体配置文件 - DDD设计令牌系统
- *
- * 遵循DDD架构规范，作为基础设施层的字体配置
- * 符合Claude.md第8章设计令牌系统要求
+ * @fileoverview 字体设计令牌配置
+ * @description 字体设计令牌系统定义，包括字体配置、字体权重、字体声明等
+ *              遵循DDD架构规范，作为基础设施层的字体配置，符合设计令牌系统要求
+ *              提供完整的字体系统配置，包括HarmonyOS Sans SC字体系统、字体权重映射
+ *              和字体工具函数，确保整个应用的字体效果一致性和可维护性
+ * @created 2025-10-21 15:17:14
+ * @updated 2025-10-21 15:17:14
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
 
+// 字体配置接口 - 定义字体配置的标准结构
 export interface FontConfig {
-  family: string
-  weights: number[]
-  styles: string[]
-  display: 'auto' | 'block' | 'swap' | 'fallback' | 'optional'
+  family: string // 字体族名称
+  weights: number[] // 支持的字体权重列表
+  styles: string[] // 支持的字体样式列表
+  display: 'auto' | 'block' | 'swap' | 'fallback' | 'optional' // 字体加载策略
 }
 
-/**
- * HarmonyOS Sans SC 字体系统配置
- * 项目统一字体，遵循单一数据源原则
- */
+// 字体系统配置 - 定义项目中使用的各种字体配置，遵循单一数据源原则
 export const fontConfigs = {
-  // 主要字体族 - HarmonyOS Sans SC
+  // 主要字体族配置 - HarmonyOS Sans SC，项目统一字体
   primary: {
-    family: 'HarmonyOS Sans SC',
-    weights: [100, 300, 400, 500, 700, 900], // Thin, Light, Regular, Medium, Bold, Black
-    styles: ['normal'],
-    display: 'swap' as const,
+    family: 'HarmonyOS Sans SC', // 字体族名称
+    weights: [100, 300, 400, 500, 700, 900], // 支持的权重：Thin, Light, Regular, Medium, Bold, Black
+    styles: ['normal'], // 支持的样式
+    display: 'swap' as const, // 字体加载策略
   },
 
-  // 等宽字体 - 保持原有配置
+  // 等宽字体配置 - 用于代码显示、数据表格等场景
   mono: {
-    family: 'JetBrains Mono',
-    weights: [400, 500],
-    styles: ['normal'],
-    display: 'swap' as const,
+    family: 'JetBrains Mono', // 等宽字体族名称
+    weights: [400, 500], // 支持的权重：Regular, Medium
+    styles: ['normal'], // 支持的样式
+    display: 'swap' as const, // 字体加载策略
   },
 
-  // 显示字体 - 特殊场景使用
+  // 显示字体配置 - 用于标题、大字体等特殊显示场景
   display: {
-    family: 'HarmonyOS Sans SC',
-    weights: [100, 300, 400, 500, 700, 900],
-    styles: ['normal'],
-    display: 'swap' as const,
+    family: 'HarmonyOS Sans SC', // 显示字体族名称
+    weights: [100, 300, 400, 500, 700, 900], // 支持的权重
+    styles: ['normal'], // 支持的样式
+    display: 'swap' as const, // 字体加载策略
   },
 } as const
 
+// 字体族类型 - 定义可用的字体族选项
 export type FontFamily = keyof typeof fontConfigs
 
-/**
- * 字体权重映射 - 设计令牌
- */
+// 字体权重映射配置 - 定义语义化的字体权重名称，便于在代码中使用
 export const fontWeights = {
-  thin: 100,
-  light: 300,
-  normal: 400,
-  medium: 500,
-  bold: 700,
-  black: 900,
+  thin: 100, // 极细字体
+  light: 300, // 细字体
+  normal: 400, // 正常字体
+  medium: 500, // 中等字体
+  bold: 700, // 粗字体
+  black: 900, // 极粗字体
 } as const
 
-/**
- * 生成 @font-face 声明的工具函数
- */
+// 字体工具函数 - 提供字体相关的工具函数和声明生成
+
+// 生成@font-face声明 - 根据字体配置生成CSS @font-face声明
 export const generateFontFace = (
-  fontFamily: string,
-  fontPath: string,
-  weight: number = 400,
-  style: string = 'normal',
-  display: string = 'swap'
+  fontFamily: string, // 字体族名称
+  fontPath: string, // 字体文件路径
+  weight: number = 400, // 字体权重
+  style: string = 'normal', // 字体样式
+  display: string = 'swap' // 字体加载策略
 ): string => {
   return `
 @font-face {
@@ -77,10 +80,8 @@ export const generateFontFace = (
 }`
 }
 
-/**
- * HarmonyOS Sans SC 字体声明（当前使用的字体）
- * 注意：字体声明已移至 src/index.css，此处保留作为备份参考
- */
+// HarmonyOS Sans SC字体声明 - 当前项目使用的主要字体声明
+// 注意：字体声明已移至 src/index.css，此处保留作为备份参考
 export const harmonyFontFaceDeclarations = `
 /* === HarmonyOS Sans SC 字体声明 === */
 @font-face {

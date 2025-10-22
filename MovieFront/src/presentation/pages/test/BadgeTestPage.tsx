@@ -123,7 +123,7 @@ const BadgeTestPage: React.FC = () => {
               text-red-500，紫色系调整为 text-purple-400
             </p>
             <p>
-              ✅ <strong>其他颜色</strong>：调整为与trending模块一致的颜色值
+              ✅ <strong>其他颜色</strong>：调整为与hot模块一致的颜色值
             </p>
             <p>
               ✅ <strong>基础样式</strong>：保持 px-2 py-1 rounded-md

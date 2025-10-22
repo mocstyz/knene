@@ -12,7 +12,7 @@
 
 
 import { BaseSection } from '@components/domains/shared'
-import type { HotItem } from '@infrastructure/repositories/HomeRepository'
+import type { HotItem } from '@types-movie'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { UI_TEXT } from '@tokens/text-constants'
 

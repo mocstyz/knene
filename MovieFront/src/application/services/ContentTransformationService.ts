@@ -16,13 +16,13 @@ import {
   UnifiedContentBusinessRules,
   type UnifiedContentItem as DomainUnifiedContentItem 
 } from '@domain/entities/UnifiedContent'
-import type { HotItem } from '@infrastructure/repositories/HomeRepository'
 import type { 
-  UnifiedContentItem, 
-  TopicItem, 
-  PhotoItem, 
-  LatestItem, 
-  TopItem 
+  CollectionItem,
+  PhotoItem,
+  LatestItem,
+  BaseMovieItem,
+  HotItem,
+  UnifiedContentItem
 } from '@types-movie'
 
 /**
@@ -134,20 +134,27 @@ export class ContentTransformationService {
   }
 
   /**
-   * 将统一内容项转换为TopicItem（专题项）
+   * 将统一内容项转换为CollectionItem（合集项）
    */
-  static transformUnifiedToTopic(unified: UnifiedContentItem): TopicItem {
+  static transformUnifiedToCollection(unified: UnifiedContentItem): CollectionItem {
     return {
       id: unified.id,
       title: unified.title,
-      type: 'Collection',
-      description: unified.description,
+      type: 'Collection' as const,
+      contentType: 'collection' as const,
+      description: unified.description || '',
       imageUrl: unified.imageUrl,
-      alt: unified.alt,
-      isNew: unified.isNew,
+      alt: unified.alt || unified.title,
+      isNew: unified.isNew || false,
       newType: unified.newType === 'hot' ? 'latest' : unified.newType === 'latest' ? 'latest' : undefined,
-      isVip: unified.isVip,
-      tags: unified.tags || []
+      isVip: unified.isVip || false,
+      rating: unified.rating?.toString() || '0',
+      movieCount: unified.viewCount || 0,
+      category: '默认分类',
+      tags: unified.tags || [],
+      createdAt: unified.createdAt || new Date().toISOString(),
+      updatedAt: unified.updatedAt || new Date().toISOString(),
+      isFeatured: unified.isFeatured || false
     }
   }
 
@@ -194,13 +201,13 @@ export class ContentTransformationService {
   }
 
   /**
-   * 将统一内容项转换为TopItem（热门内容）
+   * 将统一内容项转换为HotItem（热门内容）
    */
-  static transformUnifiedToHot(unified: UnifiedContentItem): TopItem {
+  static transformUnifiedToHot(unified: UnifiedContentItem): HotItem {
     return {
       id: unified.id,
       title: unified.title,
-      type: 'Movie', // TopItem固定为Movie类型
+      type: 'Movie', // HotItem固定为Movie类型
       description: unified.description,
       imageUrl: unified.imageUrl,
       alt: unified.alt,
@@ -208,25 +215,13 @@ export class ContentTransformationService {
       ratingColor: unified.ratingColor as 'purple' | 'red' | 'white' | 'default',
       quality: unified.quality,
       genres: unified.metadata?.genres || [],
-      rank: unified.metadata?.rank || 1
-    }
-  }
-
-  /**
-   * 将统一内容项转换为TopicItem（合集项）
-   */
-  static transformUnifiedToCollection(unified: UnifiedContentItem): TopicItem {
-    return {
-      id: unified.id,
-      title: unified.title,
-      type: 'Collection',
-      description: unified.description,
-      imageUrl: unified.imageUrl,
-      alt: unified.alt,
       isNew: unified.isNew,
-      newType: unified.newType === 'hot' ? 'latest' : unified.newType === 'latest' ? 'latest' : undefined,
+      newType: unified.newType,
       isVip: unified.isVip,
-      tags: unified.tags || []
+      tags: unified.tags || [],
+      isHot: unified.isHot,
+      isFeatured: unified.isFeatured,
+      movieCount: unified.viewCount || 0
     }
   }
 
@@ -252,12 +247,12 @@ export class ContentTransformationService {
   }
 
   /**
-   * 批量转换统一内容项列表为TopicItem列表
+   * 批量转换统一内容项列表为CollectionItem列表
    */
-  static transformUnifiedListToTopics(unifiedList: UnifiedContentItem[]): TopicItem[] {
+  static transformUnifiedListToCollections(unifiedList: UnifiedContentItem[]): CollectionItem[] {
     return unifiedList
       .filter(item => item.contentType === 'collection')
-      .map(item => this.transformUnifiedToTopic(item))
+      .map(item => this.transformUnifiedToCollection(item))
   }
 
   /**
@@ -323,7 +318,7 @@ export class ContentTransformationService {
       imageUrl: item.imageUrl,
       type: item.contentType === 'movie' ? 'Movie' : 
             item.contentType === 'photo' ? 'Photo' : 
-            item.contentType === 'collection' ? 'Collection' : 'Topic',
+            item.contentType === 'collection' ? 'Collection' : 'Collection',
       viewCount: item.viewCount || 0,
       downloadCount: item.downloadCount || 0,
       rating: item.rating || 0,

@@ -78,9 +78,9 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
       href: '#new-episodes',
     },
     {
-      title: 'Popular Series',
-      description: 'Most watched shows',
-      href: '#popular-series',
+      title: 'Top Rated Series',
+      description: 'Highest rated shows',
+      href: '#top-rated-series',
     },
     {
       title: 'Returning Soon',

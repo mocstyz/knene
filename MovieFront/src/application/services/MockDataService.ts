@@ -17,8 +17,8 @@ import { Duration } from '@domain/value-objects/Duration'
 import { Genre } from '@domain/value-objects/Genre'
 import { MovieQuality } from '@domain/value-objects/MovieQuality'
 import { ContentTransformationService } from '@application/services/ContentTransformationService'
-import type { TopicItem, PhotoItem, LatestItem, BaseMovieItem, CollectionItem } from '@types-movie'
-import type { HotItem } from '@infrastructure/repositories/HomeRepository'
+import type { CollectionItem, PhotoItem, LatestItem, BaseMovieItem } from '@types-movie'
+import type { HotItem } from '@types-movie'
 
 // Mock数据管理服务，提供统一的Mock数据生成和缓存机制，支持环境配置切换
 export class MockDataService {
@@ -38,7 +38,7 @@ export class MockDataService {
     return MockDataService.instance
   }
 
-  // 生成Mock合集数据，创建指定数量的合集实体并转换为TopicItem格式
+  // 生成Mock合集数据，创建指定数量的合集实体并转换为CollectionItem格式
   public generateMockCollections(count: number = 12): Collection[] {
     const cacheKey = `collections_${count}`
     
@@ -187,35 +187,7 @@ export class MockDataService {
     const collections = this.generateMockCollections(count)
     return collections.map(collection => {
       const unifiedItem = ContentTransformationService.transformCollectionToUnified(collection)
-      // 直接使用toCollectionItem转换函数
-      return {
-        id: unifiedItem.id,
-        title: unifiedItem.title,
-        type: 'Collection' as const,
-        contentType: 'collection' as const,
-        description: unifiedItem.description || '',
-        imageUrl: unifiedItem.imageUrl,
-        alt: unifiedItem.alt || unifiedItem.title,
-        isNew: unifiedItem.isNew || false,
-        newType: unifiedItem.newType || 'latest',
-        isVip: unifiedItem.isVip || false,
-        rating: unifiedItem.rating?.toString() || '0',
-        movieCount: unifiedItem.viewCount || 0,
-        category: '默认分类',
-        tags: unifiedItem.tags || [],
-        createdAt: unifiedItem.createdAt || new Date().toISOString(),
-        updatedAt: unifiedItem.updatedAt || new Date().toISOString(),
-        isFeatured: unifiedItem.isFeatured || false
-      }
-    })
-  }
-
-  // 获取转换后的Mock专题数据，返回TopicItem格式用于前端展示
-  public getMockTopics(count: number = 12): TopicItem[] {
-    const collections = this.generateMockCollections(count)
-    return collections.map(collection => {
-      const unifiedItem = ContentTransformationService.transformCollectionToUnified(collection)
-      return ContentTransformationService.transformUnifiedToTopic(unifiedItem)
+      return ContentTransformationService.transformUnifiedToCollection(unifiedItem)
     })
   }
 
@@ -243,11 +215,11 @@ export class MockDataService {
   }
 
   // 获取扩展的Mock专题数据，支持更多配置选项和筛选条件
-  public getExtendedMockTopics(options: {
+  public getExtendedMockCollections(options: {
     count?: number
     category?: string
     includeVipOnly?: boolean
-  } = {}): TopicItem[] {
+  } = {}): CollectionItem[] {
     const { count = 12, category, includeVipOnly = false } = options
     let collections = this.generateMockCollections(count * 2) // 生成更多数据用于筛选
 
@@ -265,12 +237,12 @@ export class MockDataService {
       .slice(0, count)
       .map(collection => {
         const unifiedItem = ContentTransformationService.transformCollectionToUnified(collection)
-        return ContentTransformationService.transformUnifiedToTopic(unifiedItem)
+        return ContentTransformationService.transformUnifiedToCollection(unifiedItem)
       })
   }
 
   // 生成Mock首页完整数据，返回HomeDataResponse格式用于首页展示
-  public generateMockHomeData(): { topics: TopicItem[], photos: PhotoItem[], latestUpdates: LatestItem[], hotDaily: HotItem[] } {
+  public generateMockHomeData(): { collections: CollectionItem[], photos: PhotoItem[], latestUpdates: LatestItem[], hotDaily: HotItem[] } {
     const cacheKey = 'home_data'
     
     if (this.mockDataCache.has(cacheKey)) {
@@ -278,7 +250,7 @@ export class MockDataService {
     }
 
     const homeData = {
-      topics: this.getMockTopics(12),
+      collections: this.getMockCollections(12),
       photos: this.getMockPhotos(15),
       latestUpdates: this.getMockLatestUpdates(20),
       hotDaily: this.getMockHotDaily(18)

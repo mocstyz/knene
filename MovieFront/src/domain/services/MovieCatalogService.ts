@@ -283,7 +283,7 @@ export class MovieCatalogService {
   }
 
   // 获取热门影片，结合观看次数和评分权重计算综合热度
-  static getTrendingMovies(movies: Movie[], limit: number = 10): Movie[] {
+  static getHotMovies(movies: Movie[], limit: number = 10): Movie[] {
     return movies
       .sort((a, b) => {
         // 综合评分：观看次数 + 评分权重

@@ -165,7 +165,7 @@ export class MovieQuality {
   }
 
   // 检查是否热门（种子数多）
-  isPopular(): boolean {
+  isWellSeeded(): boolean {
     return this.seeders !== undefined && this.seeders > 100
   }
 

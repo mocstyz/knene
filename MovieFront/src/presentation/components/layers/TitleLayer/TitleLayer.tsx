@@ -16,7 +16,7 @@ import React from 'react'
 export interface TitleLayerProps {
   title: string // 标题文本
   className?: string // 自定义CSS类名
-  variant?: 'primary' | 'secondary' | 'overlay' | 'compact' | 'topic' | 'movie' | 'photo' | 'ranking' // 标题变体，默认'primary'
+  variant?: 'primary' | 'secondary' | 'overlay' | 'compact' | 'collection' | 'movie' | 'photo' | 'ranking' // 标题变体，默认'primary'
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' // 标题大小，默认'md'
   maxLines?: 1 | 2 | 3 | 4 // 文本截断行数，默认1
   align?: 'left' | 'center' | 'right' // 文本对齐方式，默认'left'
@@ -68,7 +68,7 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
     overlay: 'text-white',
     compact: 'text-gray-900 dark:text-white',
     // 业务领域特定变体
-    topic: 'text-white font-bold',
+    collection: 'text-white font-bold',
     movie: 'text-gray-900 dark:text-white font-medium',
     photo: 'text-gray-800 dark:text-gray-200',
     ranking: 'text-primary font-semibold',

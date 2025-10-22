@@ -10,11 +10,11 @@
 
 import type { CollectionItem } from '@types-movie'
 import type { PhotoItem, LatestItem } from '@/types/movie.types'
-import type { HotItem } from '@infrastructure/repositories/HomeRepository'
-import type { 
+import type { HotItem } from '@types-movie'
+import type {
   HomeDataResponse,
   HomeDataParams,
-  TopicsQueryParams,
+  CollectionsQueryParams,
   PhotosQueryParams,
   LatestUpdatesQueryParams,
   HotContentQueryParams
@@ -26,7 +26,7 @@ export interface IHomeRepository {
   getHomeData(params?: HomeDataParams): Promise<HomeDataResponse>
 
   // 获取专题合集列表，支持筛选和排序
-  getTopics(params?: TopicsQueryParams): Promise<CollectionItem[]>
+  getCollections(params?: CollectionsQueryParams): Promise<CollectionItem[]>
 
   // 获取写真内容列表，支持质量和方向筛选
   getPhotos(params?: PhotosQueryParams): Promise<PhotoItem[]>
@@ -41,7 +41,7 @@ export interface IHomeRepository {
   getDailyHot(limit?: number): Promise<HotItem[]>
 
   // 获取精选专题，返回编辑推荐的专题合集
-  getFeaturedTopics(limit?: number): Promise<CollectionItem[]>
+  getFeaturedCollections(limit?: number): Promise<CollectionItem[]>
 
   // 获取最新写真，返回最近上传的写真内容
   getLatestPhotos(limit?: number): Promise<PhotoItem[]>

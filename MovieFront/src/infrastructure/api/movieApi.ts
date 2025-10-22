@@ -167,11 +167,11 @@ export class MovieApiService {
   }
 
   // 获取热门影片 - 获取当前热门趋势的影片
-  static async getTrendingMovies(limit: number = 10): Promise<Movie[]> {
+  static async getHotMovies(limit: number = 10): Promise<Movie[]> {
     await new Promise(resolve => setTimeout(resolve, 300))
 
     return extractData(
-      apiClient.get<Movie[]>(`/movies/trending?limit=${limit}`)
+      apiClient.get<Movie[]>(`/movies/hot?limit=${limit}`)
     )
   }
 
@@ -182,12 +182,14 @@ export class MovieApiService {
     return extractData(apiClient.get<Movie[]>(`/movies/latest?limit=${limit}`))
   }
 
-  // 获取高分影片 - 获取评分最高的影片列表
-  static async getTopRatedMovies(limit: number = 10): Promise<Movie[]> {
+  // 获取高评分影片 - 根据时间周期获取高评分影片
+  static async getTopRatedMovies(
+    period: 'day' | 'week' | 'month' = 'week'
+  ): Promise<Movie[]> {
     await new Promise(resolve => setTimeout(resolve, 300))
 
     return extractData(
-      apiClient.get<Movie[]>(`/movies/top-rated?limit=${limit}`)
+      apiClient.get<Movie[]>(`/movies/top-rated?period=${period}`)
     )
   }
 
@@ -260,17 +262,6 @@ export class MovieApiService {
     await new Promise(resolve => setTimeout(resolve, 300))
 
     return extractData(apiClient.get<Movie[]>(`/movies/${movieId}/related`))
-  }
-
-  // 获取热门影片 - 根据时间周期获取热门影片
-  static async getPopularMovies(
-    period: 'day' | 'week' | 'month' = 'week'
-  ): Promise<Movie[]> {
-    await new Promise(resolve => setTimeout(resolve, 300))
-
-    return extractData(
-      apiClient.get<Movie[]>(`/movies/popular?period=${period}`)
-    )
   }
 
   // 获取用户评分 - 获取影片的平均评分和用户的个人评分

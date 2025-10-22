@@ -10,7 +10,7 @@
 
 import type { CollectionItem } from '@types-movie'
 import type { PhotoItem, LatestItem } from '@types-movie'
-import type { HotItem } from '@infrastructure/repositories/HomeRepository'
+import type { HotItem } from '@types-movie'
 import type { ApiResponse } from './ICollectionApi'
 
 // 首页数据响应接口，定义首页所有区块的数据结构
@@ -29,9 +29,9 @@ export interface HomeBlockParams {
 }
 
 // 专题合集查询参数接口，继承基础查询参数
-export interface TopicsQueryParams extends HomeBlockParams {
+export interface CollectionsQueryParams extends HomeBlockParams {
   featured?: boolean // 是否只返回精选专题
-  sortBy?: 'latest' | 'popular' | 'featured' // 排序方式
+  sortBy?: 'latest' | 'top-rated' | 'featured' // 排序方式
 }
 
 // 写真内容查询参数接口，继承基础查询参数
@@ -54,7 +54,7 @@ export interface HotContentQueryParams extends HomeBlockParams {
 
 // 首页数据查询参数接口，定义获取首页完整数据时的参数配置
 export interface HomeDataParams {
-  topicsLimit?: number // 专题合集数量限制
+  collectionsLimit?: number // 专题合集数量限制
   photosLimit?: number // 写真内容数量限制
   latestLimit?: number // 最新更新数量限制
   hotLimit?: number // 热门内容数量限制
@@ -68,7 +68,7 @@ export interface IHomeApi {
   getHomeData(params?: HomeDataParams): Promise<ApiResponse<HomeDataResponse>>
 
   // 获取专题合集列表，支持筛选和排序
-  getTopics(params?: TopicsQueryParams): Promise<ApiResponse<CollectionItem[]>>
+  getCollections(params?: CollectionsQueryParams): Promise<ApiResponse<CollectionItem[]>>
 
   // 获取写真内容列表，支持质量和方向筛选
   getPhotos(params?: PhotosQueryParams): Promise<ApiResponse<PhotoItem[]>>
@@ -83,7 +83,7 @@ export interface IHomeApi {
   getDailyHot(limit?: number): Promise<ApiResponse<HotItem[]>>
 
   // 获取精选专题，返回编辑推荐的专题合集
-  getFeaturedTopics(limit?: number): Promise<ApiResponse<CollectionItem[]>>
+  getFeaturedCollections(limit?: number): Promise<ApiResponse<CollectionItem[]>>
 
   // 获取最新写真，返回最近上传的写真内容
   getLatestPhotos(limit?: number): Promise<ApiResponse<PhotoItem[]>>

@@ -30,81 +30,81 @@ const HomePage: React.FC = () => {
   const heroRef = useRef<HTMLElement>(null)
 
   // 获取首页数据 - 使用重构后的数据Hook
-  const { trendingMovies, popularMovies, newReleases, collectionsData, isLoading, error } =
+  const { photos, latestUpdates, hotDaily, collections, isLoading, error } =
     useHomeData()
 
   // 调试日志 - 输出数据获取情况用于开发调试
-  console.log('HomePage - collectionsData:', collectionsData)
-  console.log('HomePage - collectionsData length:', collectionsData?.length)
-  console.log('HomePage - trendingMovies:', trendingMovies)
-  console.log('HomePage - trendingMovies length:', trendingMovies?.length)
+  console.log('HomePage - collections:', collections)
+  console.log('HomePage - collections length:', collections?.length)
+  console.log('HomePage - photos:', photos)
+  console.log('HomePage - photos length:', photos?.length)
 
   // 数据转换处理 - 使用统一数据转换API，将所有数据转换为统一格式
   // 影片合集数据处理 - 转换为CollectionItem格式并缓存
-  const processedCollectionsData = useMemo(() => {
-    console.log('🔍 [HomePage] Processing collectionsData:', {
-      length: collectionsData?.length || 0,
-      data: collectionsData
+  const processedCollections = useMemo(() => {
+    console.log('🔍 [HomePage] Processing collections:', {
+      length: collections?.length || 0,
+      data: collections
     })
     
-    if (!collectionsData || collectionsData.length === 0) {
-      console.log('⚠️ [HomePage] collectionsData is empty or undefined')
+    if (!collections || collections.length === 0) {
+      console.log('⚠️ [HomePage] collections is empty or undefined')
       return []
     }
     
-    const unifiedData = collectionsData.map(toUnifiedContentItem)
-    console.log('🔄 [HomePage] Unified collectionsData:', {
+    const unifiedData = collections.map(toUnifiedContentItem)
+    console.log('🔄 [HomePage] Unified collections:', {
       length: unifiedData.length,
       data: unifiedData
     })
     
     const result = toCollectionItems(unifiedData)
-    console.log('✅ [HomePage] Final processedCollectionsData:', {
+    console.log('✅ [HomePage] Final processedCollections:', {
       length: result.length,
       data: result
     })
     
     return result
-  }, [collectionsData])
+  }, [collections])
 
   // 写真数据处理 - 转换为PhotoItem格式并缓存
-  const processedTrendingMovies = useMemo(() => {
-    console.log('🔍 [HomePage] Processing trendingMovies:', {
-      length: trendingMovies?.length || 0,
-      data: trendingMovies
+  const processedPhotos = useMemo(() => {
+    console.log('🔍 [HomePage] Processing photos:', {
+      length: photos?.length || 0,
+      data: photos
     })
     
-    if (!trendingMovies || trendingMovies.length === 0) {
-      console.log('⚠️ [HomePage] trendingMovies is empty or undefined')
+    if (!photos || photos.length === 0) {
+      console.log('⚠️ [HomePage] photos is empty or undefined')
       return []
     }
     
-    const unifiedData = trendingMovies.map(toUnifiedContentItem)
-    console.log('🔄 [HomePage] Unified trendingMovies:', {
+    const unifiedData = photos.map(toUnifiedContentItem)
+    console.log('🔄 [HomePage] Unified photos:', {
       length: unifiedData.length,
       data: unifiedData
     })
     
     const result = toPhotoItems(unifiedData)
-    console.log('✅ [HomePage] Final processedTrendingMovies:', {
+    console.log('✅ [HomePage] Final processedPhotos:', {
       length: result.length,
       data: result
     })
     
     return result
-  }, [trendingMovies])
+  }, [photos])
 
   // 最新更新数据处理 - 转换为LatestItem格式并缓存
-  const processedPopularMovies = useMemo(() => {
-    const unifiedData = (popularMovies || []).map(toUnifiedContentItem)
+  const processedLatestUpdates = useMemo(() => {
+    const unifiedData = (latestUpdates || []).map(toUnifiedContentItem)
     return toLatestItems(unifiedData)
-  }, [popularMovies])
+  }, [latestUpdates])
 
   // 热门内容数据处理 - 转换为HotItem格式并缓存
-  const processedNewReleases = useMemo(() => {
-    const unifiedData = (newReleases || []).map(toUnifiedContentItem)
+  const processedHotDaily = useMemo(() => {
+    const unifiedData = (hotDaily || []).map(toUnifiedContentItem)
     return toHotItems(unifiedData)
-  }, [newReleases])
+  }, [hotDaily])
 
   // Header动态背景效果 - 实现滚动时导航栏背景透明度变化，与HTML设计稿保持一致
   useEffect(() => {
@@ -155,14 +155,14 @@ const HomePage: React.FC = () => {
         <div className="container mx-auto space-y-12 px-4 py-12 sm:px-6 lg:px-8">
           {/* 首页影片合集区块 - 展示精选影片合集内容 */}
           <CollectionSection
-            data={processedCollectionsData}
+            data={processedCollections}
             showMoreLink={true}
             moreLinkUrl={ROUTES.SPECIAL.COLLECTIONS}
           />
 
           {/* 首页写真区块 - 展示写真内容，支持VIP标识和新片标识 */}
           <PhotoSection
-            data={processedTrendingMovies}
+            data={processedPhotos}
             showMoreLink={true}
             cardConfig={{
               showNewBadge: true,
@@ -176,13 +176,13 @@ const HomePage: React.FC = () => {
 
           {/* 首页最近更新区块 - 展示最新更新的影片内容 */}
           <LatestUpdateSection
-            data={processedPopularMovies}
+            data={processedLatestUpdates}
             showMoreLink={true}
           />
 
           {/* 首页24小时热门区块 - 展示热门影片内容 */}
           <HotSection
-            movies={processedNewReleases}
+            movies={processedHotDaily}
             showViewMore={true}
           />
         </div>

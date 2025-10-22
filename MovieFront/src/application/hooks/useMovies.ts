@@ -147,7 +147,7 @@ export const useRelatedMovies = (movieId: string) => {
 export const usePopularMovies = (period: 'day' | 'week' | 'month' = 'week') => {
   return useQuery({
     queryKey: MOVIE_QUERY_KEYS.POPULAR(period),
-    queryFn: () => MovieApiService.getPopularMovies(period),
+    queryFn: () => MovieApiService.getTopRatedMovies(period),
     staleTime: 30 * 60 * 1000, // 缓存策略 - 30分钟内数据保持新鲜
     gcTime: 2 * 60 * 60 * 1000, // 垃圾回收 - 2小时后清理未使用缓存
   })

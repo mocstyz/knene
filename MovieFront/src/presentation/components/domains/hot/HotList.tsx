@@ -16,7 +16,7 @@ import {
   RendererConfig,
   BaseContentItem,
 } from '@components/domains/shared/content-renderers'
-import { HotItem } from '@infrastructure/repositories/HomeRepository'
+import { HotItem } from '@types-movie'
 import { toUnifiedContentItem } from '@types-movie'
 import type { UnifiedCardConfig } from '@types-unified'
 import React, { useMemo } from 'react'
@@ -188,8 +188,7 @@ const HotList: React.FC<HotListProps> = ({
       showContentTypeLabels={showContentTypeLabels}
       debug={debug}
       emptyState={{
-        message: '暂无热门内容',
-        description: '目前没有24小时内的热门内容，请稍后再来查看',
+        message: '暂无数据',
       }}
     />
   )

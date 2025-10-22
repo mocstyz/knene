@@ -105,8 +105,8 @@ export const MOVIE_ENDPOINTS = {
   // 推荐系统相关
   RECOMMENDATIONS: '/movies/recommendations', // 获取推荐影片
   SIMILAR_MOVIES: (movieId: string) => `/movies/${movieId}/similar`, // 获取相似影片
-  TRENDING: '/movies/trending', // 获取热门影片
-  POPULAR: '/movies/popular', // 获取流行影片
+  HOT: '/movies/hot', // 获取热门影片
+  TOP_RATED: '/movies/top-rated', // 高评分影片
   LATEST: '/movies/latest', // 获取最新影片
 
   // 影片资源相关
@@ -302,8 +302,8 @@ export const SEARCH_ENDPOINTS = {
   CLEAR_HISTORY: '/search/history', // 清空历史
 
   // 热门搜索相关
-  TRENDING: '/search/trending', // 热门搜索
-  POPULAR: '/search/popular', // 流行搜索
+  HOT: '/search/hot', // 热门搜索
+  TOP_RATED: '/search/top-rated', // 搜索高评分内容
 } as const
 
 // 统计相关端点配置 - 包含全局统计、用户统计、影片统计、下载统计和系统统计

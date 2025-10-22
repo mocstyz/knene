@@ -51,14 +51,14 @@ export interface CollectionFilterParams {
     startDate: string // 开始日期
     endDate: string // 结束日期
   }
-  sortBy?: 'latest' | 'popular' | 'rating' | 'title' // 排序方式
+  sortBy?: 'latest' | 'top-rated' | 'rating' | 'title' // 排序方式
   sortOrder?: 'asc' | 'desc' // 排序方向
 }
 
 // 合集查询参数接口，结合分页和筛选参数
 export interface CollectionQueryParams extends PaginationParams {
   category?: string // 分类筛选
-  sortBy?: 'latest' | 'popular' | 'rating' | 'title' // 排序方式
+  sortBy?: 'latest' | 'top-rated' | 'rating' | 'title' // 排序方式
   featured?: boolean // 是否为精选合集
   filters?: CollectionFilterParams // 筛选条件
 }

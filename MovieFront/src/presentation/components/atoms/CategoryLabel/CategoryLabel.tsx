@@ -17,7 +17,7 @@ export interface CategoryLabelProps {
   className?: string // 自定义CSS类名
   variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'outline' // 标签变体样式
   size?: 'xs' | 'sm' | 'md' | 'lg' // 标签大小
-  business?: 'movie' | 'topic' | 'photo' | 'ranking' | 'vip' // 业务场景类型，覆盖variant样式
+  business?: 'movie' | 'collection' | 'photo' | 'ranking' | 'vip' // 业务场景类型，覆盖variant样式
   bordered?: boolean // 是否显示边框
   clickable?: boolean // 是否可点击
   onClick?: () => void // 点击事件处理函数
@@ -63,7 +63,7 @@ const CategoryLabel: React.FC<CategoryLabelProps> = ({
   // 业务场景样式映射表 - 定义特定业务场景的专用样式
   const businessClasses = {
     movie: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
-    topic: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200',
+    collection: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200',
     photo: 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200',
     ranking: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
     vip: 'bg-gradient-to-r from-yellow-400 to-amber-500 text-white font-medium',

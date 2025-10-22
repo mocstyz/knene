@@ -167,8 +167,7 @@ const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
         showContentTypeLabels={showContentTypeLabels}
         debug={debug}
         emptyState={{
-          message: '暂无最新更新内容',
-          description: '目前没有最新的更新内容，请稍后再来查看',
+          message: '暂无数据',
         }}
       />
     )
@@ -197,8 +196,7 @@ const LatestUpdateList: React.FC<LatestUpdateListProps> = ({
       showContentTypeLabels={showContentTypeLabels}
       debug={debug}
       emptyState={{
-        message: '暂无最新更新内容',
-        description: '目前没有最新的更新内容，请稍后再来查看',
+        message: '暂无数据',
       }}
     />
   )

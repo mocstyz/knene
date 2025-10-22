@@ -1,13 +1,16 @@
 /**
- * 文本常量系统
- * 
- * 统一管理应用中所有的文本常量，避免重复定义和不一致问题
- * 遵循DDD架构原则，按业务领域组织文本常量
+ * @fileoverview 文本常量系统
+ * @description 统一管理应用中所有的文本常量，避免重复定义和不一致问题，遵循DDD架构原则，按业务领域组织文本常量
+ * @created 2025-10-21 12:25:27
+ * @updated 2025-10-22 09:53:05
+ * @author mosctz
+ * @since 1.0.0
+ * @version 1.0.0
  */
 
-// ==================== 通用UI文本 ====================
+// 通用UI文本常量，包含操作按钮、状态文本、导航文本等通用界面文本
 export const UI_TEXT = {
-  // 操作按钮
+  // 操作按钮相关文本
   ACTIONS: {
     MORE: '更多 >',
     VIEW_MORE: '查看更多',
@@ -28,7 +31,7 @@ export const UI_TEXT = {
     SORT: '排序',
   },
 
-  // 状态文本
+  // 状态相关文本
   STATUS: {
     LOADING: '加载中...',
     EMPTY: '暂无数据',
@@ -40,7 +43,7 @@ export const UI_TEXT = {
     PENDING: '待处理',
   },
 
-  // 导航文本
+  // 导航相关文本
   NAVIGATION: {
     HOME: '首页',
     BACK: '返回',
@@ -51,9 +54,7 @@ export const UI_TEXT = {
   },
 } as const
 
-// ==================== 业务领域文本 ====================
-
-// 影片相关文本
+// 影片相关文本常量，包含影片标签、操作和状态文本
 export const MOVIE_TEXT = {
   LABELS: {
     TITLE: '影片标题',
@@ -66,7 +67,8 @@ export const MOVIE_TEXT = {
     ACTORS: '演员',
     TAGS: '标签',
   },
-  
+
+  // 影片操作相关文本
   ACTIONS: {
     WATCH: '观看',
     DOWNLOAD: '下载',
@@ -76,6 +78,7 @@ export const MOVIE_TEXT = {
     COMMENT: '评论',
   },
 
+  // 影片状态相关文本
   STATUS: {
     NEW: '最新',
     HOT: '热门',
@@ -86,7 +89,7 @@ export const MOVIE_TEXT = {
   },
 } as const
 
-// 用户相关文本
+// 用户相关文本常量，包含用户资料、操作和状态文本
 export const USER_TEXT = {
   PROFILE: {
     USERNAME: '用户名',
@@ -99,6 +102,7 @@ export const USER_TEXT = {
     GENDER: '性别',
   },
 
+  // 用户操作相关文本
   ACTIONS: {
     LOGIN: '登录',
     LOGOUT: '退出登录',
@@ -108,6 +112,7 @@ export const USER_TEXT = {
     UPDATE_PROFILE: '更新资料',
   },
 
+  // 用户状态相关文本
   STATUS: {
     ONLINE: '在线',
     OFFLINE: '离线',
@@ -117,7 +122,7 @@ export const USER_TEXT = {
   },
 } as const
 
-// 下载相关文本
+// 下载相关文本常量，包含下载标签、状态和操作文本
 export const DOWNLOAD_TEXT = {
   LABELS: {
     DOWNLOAD_HISTORY: '下载历史',
@@ -127,6 +132,7 @@ export const DOWNLOAD_TEXT = {
     PROGRESS: '下载进度',
   },
 
+  // 下载状态相关文本
   STATUS: {
     DOWNLOADING: '下载中',
     PAUSED: '已暂停',
@@ -135,6 +141,7 @@ export const DOWNLOAD_TEXT = {
     WAITING: '等待中',
   },
 
+  // 下载操作相关文本
   ACTIONS: {
     START_DOWNLOAD: '开始下载',
     PAUSE_DOWNLOAD: '暂停下载',
@@ -144,7 +151,7 @@ export const DOWNLOAD_TEXT = {
   },
 } as const
 
-// 消息相关文本
+// 消息相关文本常量，包含消息标签、状态和操作文本
 export const MESSAGE_TEXT = {
   LABELS: {
     INBOX: '收件箱',
@@ -158,6 +165,7 @@ export const MESSAGE_TEXT = {
     SEND_TIME: '发送时间',
   },
 
+  // 消息状态相关文本
   STATUS: {
     UNREAD: '未读',
     READ: '已读',
@@ -166,6 +174,7 @@ export const MESSAGE_TEXT = {
     ARCHIVED: '已归档',
   },
 
+  // 消息操作相关文本
   ACTIONS: {
     SEND: '发送',
     REPLY: '回复',
@@ -177,7 +186,7 @@ export const MESSAGE_TEXT = {
   },
 } as const
 
-// ==================== 页面标题文本 ====================
+// 页面标题文本常量，定义所有页面的标题文本
 export const PAGE_TITLES = {
   HOME: '首页',
   MOVIES: '影片',
@@ -192,8 +201,9 @@ export const PAGE_TITLES = {
   ABOUT: '关于我们',
 } as const
 
-// ==================== 错误消息文本 ====================
+// 错误消息文本常量，包含网络、验证和业务相关错误文本
 export const ERROR_TEXT = {
+  // 网络相关错误文本
   NETWORK: {
     CONNECTION_FAILED: '网络连接失败，请检查网络设置',
     TIMEOUT: '请求超时，请稍后重试',
@@ -203,6 +213,7 @@ export const ERROR_TEXT = {
     FORBIDDEN: '权限不足，无法访问',
   },
 
+  // 验证相关错误文本
   VALIDATION: {
     REQUIRED_FIELD: '此字段为必填项',
     INVALID_EMAIL: '请输入有效的邮箱地址',
@@ -213,6 +224,7 @@ export const ERROR_TEXT = {
     INVALID_FILE_TYPE: '不支持的文件类型',
   },
 
+  // 业务相关错误文本
   BUSINESS: {
     DOWNLOAD_LIMIT_EXCEEDED: '下载次数已达上限',
     VIP_REQUIRED: '此功能需要VIP会员',
@@ -222,8 +234,9 @@ export const ERROR_TEXT = {
   },
 } as const
 
-// ==================== 成功消息文本 ====================
+// 成功消息文本常量，包含用户、下载、消息和通用成功文本
 export const SUCCESS_TEXT = {
+  // 用户相关成功文本
   USER: {
     LOGIN_SUCCESS: '登录成功',
     REGISTER_SUCCESS: '注册成功',
@@ -231,18 +244,21 @@ export const SUCCESS_TEXT = {
     PASSWORD_CHANGED: '密码修改成功',
   },
 
+  // 下载相关成功文本
   DOWNLOAD: {
     DOWNLOAD_STARTED: '下载已开始',
     DOWNLOAD_COMPLETED: '下载完成',
     DOWNLOAD_PAUSED: '下载已暂停',
   },
 
+  // 消息相关成功文本
   MESSAGE: {
     MESSAGE_SENT: '消息发送成功',
     MESSAGE_DELETED: '消息删除成功',
     MESSAGE_ARCHIVED: '消息归档成功',
   },
 
+  // 通用成功文本
   GENERAL: {
     OPERATION_SUCCESS: '操作成功',
     SAVE_SUCCESS: '保存成功',
@@ -251,12 +267,20 @@ export const SUCCESS_TEXT = {
   },
 } as const
 
-// ==================== 类型导出 ====================
+// 类型导出
+// UI文本键类型，确保类型安全
 export type UITextKeys = keyof typeof UI_TEXT
+// 影片文本键类型，确保类型安全
 export type MovieTextKeys = keyof typeof MOVIE_TEXT
+// 用户文本键类型，确保类型安全
 export type UserTextKeys = keyof typeof USER_TEXT
+// 下载文本键类型，确保类型安全
 export type DownloadTextKeys = keyof typeof DOWNLOAD_TEXT
+// 消息文本键类型，确保类型安全
 export type MessageTextKeys = keyof typeof MESSAGE_TEXT
+// 页面标题键类型，确保类型安全
 export type PageTitleKeys = keyof typeof PAGE_TITLES
+// 错误文本键类型，确保类型安全
 export type ErrorTextKeys = keyof typeof ERROR_TEXT
+// 成功文本键类型，确保类型安全
 export type SuccessTextKeys = keyof typeof SUCCESS_TEXT

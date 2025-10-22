@@ -35,7 +35,7 @@ export interface UnifiedContentBase {
   /** 封面图片URL */
   imageUrl: string
   /** 内容类型 */
-  type: 'Movie' | 'Photo' | 'Collection' | 'Topic'
+  type: 'Movie' | 'Photo' | 'Collection'
   /** 浏览次数 */
   viewCount: number
   /** 下载次数 */
@@ -271,7 +271,7 @@ export class UnifiedContentFactory {
   /**
    * 创建空的统一内容项（用于占位或默认值）
    */
-  static createEmpty(type: 'Movie' | 'Photo' | 'Collection' | 'Topic'): UnifiedContentItem {
+  static createEmpty(type: 'Movie' | 'Photo' | 'Collection'): UnifiedContentItem {
     const now = new Date()
     return {
       id: '',
