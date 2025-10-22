@@ -1,11 +1,3 @@
-/**
- * @fileoverview 值对象统一导出
- * @description 统一导出所有值对象类，提供模块化的值对象访问入口，确保值对象的一致性和可维护性
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // 用户相关值对象
 export { Title } from './Title'
 export { Email } from './Email'

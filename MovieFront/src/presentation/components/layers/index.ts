@@ -1,12 +1,3 @@
-/**
- * @fileoverview 可复用层组件统一导出
- * @description 统一导出所有可复用层组件，遵循DDD架构的分层设计原则，提供完整的视觉元素展示功能。
- *              包含基础UI元素、交互效果、元数据展示和电影专用组件，支持模块化组合和复用。
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // 导出业务层组件 - 提供完整的基础视觉元素集合
 export { VipBadgeLayer } from './VipBadgeLayer'
 export { RatingBadgeLayer } from './RatingBadgeLayer'

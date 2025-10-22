@@ -64,6 +64,7 @@ export interface CollectionListProps {
   showMoreLink?: boolean
   moreLinkUrl?: string
   moreLinkText?: string
+  loading?: boolean // 加载状态，用于显示加载指示器
 }
 
 // 影片合集列表组件，提供影片合集的完整列表功能，使用内容渲染器系统支持多种布局和交互，使用BaseList提供统一布局，使用CollectionContentRenderer提供影片合集卡片渲染，支持响应式列数配置，自包含的交互和视觉效果，使用统一的内容渲染器架构，支持扩展和定制
@@ -79,6 +80,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
   moreLinkUrl,
   moreLinkText, // 移除硬编码默认值，使用BaseSection的默认值
   pagination,
+  loading = false, // 加载状态，默认为false
 }) => {
   // 添加调试日志
   console.log('🎬 [CollectionList] Received collections:', {
@@ -142,6 +144,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
         items={getCurrentPageCollections()}
         variant={variant}
         columns={columns}
+        loading={loading} // 传递加载状态给BaseList
         className="collection-list-container"
         renderItem={(collection) => {
           // 数据转换 - 将CollectionItem转换为CollectionContentItem格式

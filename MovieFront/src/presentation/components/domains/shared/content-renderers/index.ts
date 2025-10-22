@@ -1,13 +1,3 @@
-/**
- * @fileoverview 内容渲染器模块入口文件
- * @description 导出内容渲染器系统的所有公共接口和实现。
- *              提供统一的访问入口，简化模块导入。
- *              包含渲染器导出、工厂实现、注册表实现、工具函数等完整模块功能。
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // 渲染器导出
 export { BaseContentRenderer } from './base'
 

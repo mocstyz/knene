@@ -1,11 +1,3 @@
-/**
- * @fileoverview 导航菜单模块导出
- * @description 统一导出NavigationMenu复合组件及其子组件、类型定义和设计令牌，支持完整的导航菜单功能和灵活的样式配置
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // 导出主要导航组件 - 使用复合组件模式，支持完整导航菜单和单独子组件使用
 export { default as NavigationMenu } from './NavigationMenu'
 export { default as HomeMenu } from './HomeMenu'

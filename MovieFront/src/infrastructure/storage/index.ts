@@ -1,12 +1,3 @@
-/**
- * @fileoverview 存储基础设施层统一导出模块
- * @description 提供存储层的统一入口，包含本地存储、会话存储、内存存储等多种存储方式的抽象和实现
- * 遵循DDD架构中的基础设施层模式，提供数据持久化的抽象层
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // 存储基础设施层统一导出
 import { LocalStorageManager } from './localStorage'
 import { SessionStorageManager } from './sessionStorage'

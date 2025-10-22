@@ -1,11 +1,3 @@
-/**
- * @fileoverview 原子组件统一导出文件
- * @description 集中导出所有原子组件，提供统一的组件访问入口，原子组件是UI系统中最基础的、不可分割的元素
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // 原子组件统一导出
 export * from './Button'
 export * from './Input'

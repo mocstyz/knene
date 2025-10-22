@@ -1,11 +1,3 @@
-/**
- * @fileoverview 导航菜单项模块导出
- * @description 统一导出NavigationMenuItem和MobileSubmenuContent组件及其相关类型定义，提供完整的导航菜单项功能模块
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // 导出导航菜单项组件
 export { NavigationMenuItem } from './NavigationMenuItem'
 

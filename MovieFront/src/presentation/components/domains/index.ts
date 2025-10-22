@@ -1,12 +1,3 @@
-/**
- * @fileoverview Domains领域模块统一导出
- * @description 导出所有领域组件和类型，统一管理domains层的对外接口。
- *              架构说明：latestupdate为最新更新内容领域(24小时内的更新)，hot为24小时热门内容领域，collections为影片合集领域，photo为写真图片领域，shared为共享基础组件和内容渲染器系统。
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // LatestUpdate领域 - 最新更新内容(24小时内的更新)
 export { LatestUpdateSection, LatestUpdateList } from './latestupdate'
 export type {

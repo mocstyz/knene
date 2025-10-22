@@ -1,11 +1,3 @@
-/**
- * @fileoverview 领域事件统一导出
- * @description 统一导出领域事件相关的类、接口和类型定义，包括基础事件框架和影片相关事件
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 export { DomainEvent } from './DomainEvent'
 export type {
   IDomainEvent,

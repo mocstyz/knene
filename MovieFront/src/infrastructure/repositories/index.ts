@@ -1,12 +1,3 @@
-/**
- * @fileoverview 仓储层统一导出模块
- * @description 提供仓储层的统一入口，包含基础仓储接口、各领域仓储接口和实现类的导出
- * 遵循DDD架构中的仓储模式，提供数据访问的抽象层
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // 基础仓储接口，定义通用的CRUD操作
 export interface Repository<T, ID = string> {
   findById(id: ID): Promise<T | null>

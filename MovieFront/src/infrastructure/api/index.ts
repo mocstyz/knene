@@ -1,11 +1,3 @@
-/**
- * @fileoverview API基础设施层统一导出入口
- * @description 统一导出所有API服务类、工具函数和类型定义，提供清晰的模块化接口
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // API服务类统一导出
 export { MovieApiService } from './movieApi'
 export { apiClient } from './ApiClient'

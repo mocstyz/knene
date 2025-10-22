@@ -1,13 +1,3 @@
-/**
- * @fileoverview Photo领域模块导出
- * @description 导出所有photo领域的组件和类型，包括PhotoSection和PhotoList组件。
- *              提供统一的模块导出入口，方便其他模块引用photo相关的功能组件。
- *              PhotoCard已被内容渲染器系统替代，移除相关导出。
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // 导出组件
 export { PhotoList } from './PhotoList'
 export { PhotoSection } from './PhotoSection'

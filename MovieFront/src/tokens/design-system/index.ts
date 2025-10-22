@@ -1,13 +1,3 @@
-/**
- * @fileoverview 设计系统变体配置统一导出
- * @description 设计系统变体配置的统一导出入口，按照分层导出原则提供所有变体配置
- *              包括基础组件变体、布局组件变体、标签层组件变体、渐变变体配置等，
- *              提供完整的类型定义和向后兼容性支持
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // 基础组件变体导出 - 导出Button、Input、Badge、Card、Select、Switch、TextLink等基础组件的变体配置
 export * from './base-variants'
 

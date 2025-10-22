@@ -98,6 +98,8 @@ export interface CollectionItem extends BaseMediaItem, MediaImageItem, MediaStat
   category?: string // 合集分类
   createdAt?: string // 创建时间
   updatedAt?: string // 更新时间
+  downloadCount?: number // 下载次数
+  publishDate?: string // 发布日期
 }
 
 // 电影详情接口，电影详情页面专用的完整信息接口

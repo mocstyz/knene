@@ -1,11 +1,3 @@
-/**
- * @fileoverview 基础设施层统一导出模块
- * @description 提供API客户端、事件总线、存储服务、缓存管理等基础设施的统一入口，包含配置管理和初始化函数
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // API服务
 export * from './api'
 

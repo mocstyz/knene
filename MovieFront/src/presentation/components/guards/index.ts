@@ -1,12 +1,3 @@
-/**
- * @fileoverview 路由守卫和权限管理模块统一导出
- * @description 统一导出所有路由守卫组件、权限常量和权限检查工具函数，提供完整的访问控制解决方案。
- *              包含基础认证守卫、管理员权限守卫、访客专用守卫、细粒度权限控制守卫以及权限检查工具函数。
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
-
 // 导出路由守卫组件
 export { default as ProtectedRoute } from './ProtectedRoute'
 export { default as AdminRoute } from './AdminRoute'

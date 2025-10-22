@@ -56,8 +56,8 @@ export const BaseList = <T,>({
     return classes.join(' ')
   }
 
-  // 加载状态 - 显示骨架屏占位
-  if (loading) {
+  // 加载状态 - 只在初次加载且无数据时显示骨架屏，分页时保持数据显示
+  if (loading && (!items || items.length === 0)) {
     return (
       <div className={cn(
         "grid gap-4 sm:gap-6",
