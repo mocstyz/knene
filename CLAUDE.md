@@ -4,7 +4,7 @@
 
 **必须遵守的7条核心规则：**
 
-1. **Chrome错误捕获**：每次写完代码后强制使用chrome mcp捕获错误，如有错误立即修复。
+1. **Chrome错误捕获**：每次写完代码后强制使用chrome devtools mcp工具查看页面内容或者捕获错误，如有错误立即修复。
 
 2. **JSDoc中文注释**：
    - 文件头注释必须说明文件功能
@@ -315,20 +315,61 @@ export interface ImageService {
 export default defineConfig({
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-      "@components": path.resolve(__dirname, "./src/presentation/components"),
-      "@pages": path.resolve(__dirname, "./src/presentation/pages"),
-      "@hooks": path.resolve(__dirname, "./src/presentation/hooks"),
-      "@services": path.resolve(__dirname, "./src/application/services"),
-      "@domain": path.resolve(__dirname, "./src/domain"),
-      "@infrastructure": path.resolve(__dirname, "./src/infrastructure"),
-      "@types": path.resolve(__dirname, "./src/types"),
-      "@utils": path.resolve(__dirname, "./src/utils"),
-      "@assets": path.resolve(__dirname, "./src/assets"),
-      "@tokens": path.resolve(__dirname, "./src/tokens"),
-      "@data": path.resolve(__dirname, "./src/data")
-    }
-  }
+      '@': path.resolve(__dirname, './src'),
+
+      // DDD架构主要层级别名
+      '@presentation': path.resolve(__dirname, './src/presentation'),
+      '@components': path.resolve(__dirname, './src/presentation/components'),
+      '@pages': path.resolve(__dirname, './src/presentation/pages'),
+      '@domain': path.resolve(__dirname, './src/domain'),
+      '@application': path.resolve(__dirname, './src/application'),
+      '@infrastructure': path.resolve(__dirname, './src/infrastructure'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+      '@tokens': path.resolve(__dirname, './src/tokens'),
+      '@data': path.resolve(__dirname, './src/data'),
+      '@types': path.resolve(__dirname, './src/types'),
+      '@types-movie': path.resolve(__dirname, './src/types/movie.types'),
+      '@types-unified': path.resolve(
+        __dirname,
+        './src/types/unified-interfaces.types'
+      ),
+
+      // 高频使用的子目录别名（基于项目实际需求）
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@application/hooks': path.resolve(__dirname, './src/application/hooks'),
+      '@application/stores': path.resolve(
+        __dirname,
+        './src/application/stores'
+      ),
+      '@application/services': path.resolve(
+        __dirname,
+        './src/application/services'
+      ),
+      '@domain/services': path.resolve(__dirname, './src/domain/services'),
+      '@domain/entities': path.resolve(__dirname, './src/domain/entities'),
+      '@domain/value-objects': path.resolve(
+        __dirname,
+        './src/domain/value-objects'
+      ),
+      '@domain/events': path.resolve(__dirname, './src/domain/events'),
+      '@infrastructure/api': path.resolve(
+        __dirname,
+        './src/infrastructure/api'
+      ),
+      '@infrastructure/repositories': path.resolve(
+        __dirname,
+        './src/infrastructure/repositories'
+      ),
+      '@infrastructure/storage': path.resolve(
+        __dirname,
+        './src/infrastructure/storage'
+      ),
+      '@presentation/router': path.resolve(
+        __dirname,
+        './src/presentation/router'
+      ),
+    },
+  },
 })
 ```
 
@@ -345,9 +386,9 @@ import { NavigationHeader, HeroSection } from '@components/organisms'
 import { AuthenticationService } from '@domain/services'
 import { MovieApplicationService } from '@application/services'
 
-// 类型导入
-import type { MovieItem, PhotoItem } from '@types/movie.types'
-import type { UnifiedContentItem } from '@types/unified.types'
+// 类型导入（更新：避免与第三方 @types 冲突）
+import type { BaseMovieItem, PhotoItem } from '@types-movie'
+import type { UnifiedContentItem } from '@types-unified'
 ```
 
 **❌ 禁止方式：**
@@ -587,661 +628,104 @@ chore: 构建工具或辅助工具的变动
 ## 13. 代码注释规范 (强制执行)
 
 ### 13.1 注释规范原则
-
-**⚠️ 强制要求：所有代码文件必须遵循统一的注释规范，提高代码可读性和维护性。**
-
-#### 13.1.1 注释风格原则
-
-- **简洁美观**：避免冗余的装饰性注释，追求简洁清晰
-- **行内优先**：参数、属性等使用行内注释，避免块注释
-- **内容为王**：注释内容要准确、有用，避免无意义的重复
-- **统一格式**：全项目使用统一的注释格式和风格
-
-#### 13.1.2 注释长度规则
-
-**⚠️ 强制要求：**
-- **所有函数、接口、组件、类型定义**：统一使用单行注释 `//`，不允许使用多行JSDoc注释
-- **文件头注释**：使用块注释 `/** */`
-- **禁止多行单行注释**：不允许出现连续的 `//` 注释行
-
-**注释原则说明：**
-- 简化注释格式，提高代码可读性
-- 所有业务代码注释统一使用单行格式
-- 只有文件头保留JSDoc格式用于文档生成
-
-**✅ 正确的单行注释格式：**
-```typescript
-// 响应式列数配置接口，统一各模块的列数配置格式
-export interface ResponsiveColumnsConfig {
-  // 处理用户登录逻辑，验证凭据并返回认证状态
-  handleLogin(credentials: LoginCredentials): Promise<AuthResult>
-}
-```
-
-**❌ 错误的注释格式：**
-```typescript
-// ❌ 禁止：多行单行注释
-// 响应式列数配置接口
-// 统一各模块的列数配置格式
-export interface ResponsiveColumnsConfig {
-  // 处理用户登录逻辑
-  // 验证凭据并返回认证状态
-  handleLogin(credentials: LoginCredentials): Promise<AuthResult>
-}
-
-// ❌ 禁止：JSDoc格式
-/**
- * 响应式列数配置接口
- * 统一各模块的列数配置格式
- */
-export interface ResponsiveColumnsConfig {
-  /**
-   * 处理用户登录逻辑
-   * @param credentials 登录凭据
-   * @returns 认证结果
-   */
-  handleLogin(credentials: LoginCredentials): Promise<AuthResult>
-}
-```
-```
+- 简洁美观，避免冗余，突出关键信息
+- 参数、属性、字段不添加注释（含函数参数、接口字段、对象属性、常量键值）
+- 内容为王，注释必须准确、有用，避免重复代码含义
+- 统一格式，全项目统一使用单行注释 `//`
+- 长度规则：函数、接口、组件、类型统一使用单行注释；文件头使用块注释 `/** */`
+- 单行注释最多连续 3 行；超过 3 行不允许使用 `//`
 
 ### 13.2 文件头注释规范
-
-#### 13.2.1 标准文件头格式
-
+- 标准文件头格式：
 ```typescript
 /**
  * @fileoverview 文件功能简述
- * @description 详细描述文件的作用和主要功能，解释设计思路。
- *              文件头的@description可以是多行详细描述，不受单行注释规则限制。
- *              可以包含文件的核心功能、设计理念、架构说明等详细信息。
- * @created 2025-10-17 10:00:53
- * @updated 2025-10-17 16:21:08
+ * @description 详细描述文件作用与设计思路，可多行。
  * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
  */
 ```
-
-#### 13.2.2 文件头字段说明
-
-- **@fileoverview**：文件功能的简短概述（必填）
-- **@description**：详细描述文件作用、设计思路（必填）
-  - 文件头的@description可以是多行详细描述，不受单行注释规则限制
-  - 可以包含文件的核心功能、设计理念、架构说明等详细信息
-  - 与业务代码注释不同，文件头@description允许换行和详细说明
-- **@created**：文件系统创建时间，格式：YYYY-MM-DD HH:mm:ss（必填）
-  - 使用文件系统的实际创建时间，而非Git提交时间
-  - PowerShell获取命令：`(Get-Item "文件路径").CreationTime.ToString("yyyy-MM-dd HH:mm:ss")`
-- **@updated**：当前修改时间，格式：YYYY-MM-DD HH:mm:ss（必填）
-  - 每次修改文件时更新为当前时间，而非历史修改时间
-  - PowerShell获取当前时间：`Get-Date -Format "yyyy-MM-dd HH:mm:ss"`
-- **@author**：文件作者（必填）
-- **@since**：首次引入的版本号（必填）
-- **@version**：当前版本号（必填）
-
-#### 13.2.3 文件头示例
-
+- 字段说明：`@fileoverview` 概述；`@description` 可多行详细说明；`@author` 作者；`@since` 首次版本；`@version` 当前版本
+- index 文件不需要文件头注释：文件名为 `index.ts(x)|js(x)`，仅做导入导出聚合时禁止文件头注释
 ```typescript
-/**
- * @fileoverview 统一接口类型定义
- * @description 定义统一的Section Props和Card Config接口，消除重复代码，提高一致性
- * @created 2025-10-17 10:00:53
- * @updated 2025-10-17 16:21:08
- * @author mosctz
- * @since 1.0.0
- * @version 1.0.0
- */
+// ✅ 正确：index文件直接开始导入导出
+export * from './Button'
+export * from './Input'
+export { default as Card } from './Card'
 ```
-
-**时间戳说明：**
-- `@created` 使用文件系统实际创建时间
-- `@updated` 使用当前修改时间，每次修改文件时都应更新此字段
+- 例外：index 文件包含实际业务逻辑时需要文件头注释
 
 ### 13.3 接口和类型注释规范
-
-#### 13.3.1 接口注释格式
-
-**⚠️ 强制要求：所有接口和类型必须使用单行注释格式，不允许使用多行JSDoc注释。**
-
+- 接口与类型上方单行用途说明；字段不添加任何注释
 ```typescript
-// 响应式列数配置接口，统一各模块的列数配置格式
+// 响应式列数配置接口，统一各模块列数配置
 export interface ResponsiveColumnsConfig {
-  xs?: number // 超小屏幕断点配置
-  sm?: number // 小屏幕断点配置
-  md?: number // 中等屏幕断点配置
-  lg?: number // 大屏幕断点配置
-  xl?: number // 超大屏幕断点配置
-  xxl?: number // 超超大屏幕断点配置
+  xs?: number
+  sm?: number
+  md?: number
+  lg?: number
+  xl?: number
+  xxl?: number
 }
-
-// 统一卡片配置接口，定义所有卡片组件的通用配置选项，支持多种布局变体和显示选项
-export interface UnifiedCardConfig {
-  variant?: 'grid' | 'list' | 'carousel' // 布局变体
-  columns?: ResponsiveColumnsConfig // 响应式列数配置
-  showVipBadge?: boolean // 是否显示VIP标签
-  showNewBadge?: boolean // 是否显示新片标签
-  aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape' // 卡片宽高比
-  hoverEffect?: boolean // 悬停效果开关
-  className?: string // 自定义CSS类名
-}
-```
 ```
 
 ### 13.4 函数和方法注释规范
-
-#### 13.4.1 函数注释格式
-
-**⚠️ 强制要求：所有函数和方法必须使用单行注释格式，不允许使用多行JSDoc注释。**
-
+- 函数上方单行描述；参数不添加注释；简单自解释函数不强制注释
 ```typescript
-// 检查是否为有效的响应式列数配置
-export function isValidColumnsConfig(config: any): config is ResponsiveColumnsConfig {
-  return (
-    config &&
-    typeof config === 'object' &&
-    Object.keys(config).every(key => 
-      ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'].includes(key) &&
-      typeof config[key] === 'number' &&
-      config[key] > 0
-    )
-  )
-}
-
-// 合并Section Props配置，将默认配置和用户配置进行深度合并，确保配置的完整性和一致性
+// 合并Section Props配置，保证完整性与一致性
 export function mergeSectionProps<T>(
-  defaultProps: Partial<BaseSectionProps<T>>, // 默认配置
-  userProps: Partial<BaseSectionProps<T>> // 用户自定义配置
+  defaultProps: Partial<BaseSectionProps<T>>,
+  userProps: Partial<BaseSectionProps<T>>
 ): BaseSectionProps<T> {
-  return {
-    ...defaultProps,
-    ...userProps,
-    cardConfig: {
-      ...createDefaultCardConfig(),
-      ...defaultProps.cardConfig,
-      ...userProps.cardConfig,
-    },
-    columns: {
-      ...createDefaultColumnsConfig(),
-      ...defaultProps.columns,
-      ...userProps.columns,
-    },
-  } as BaseSectionProps<T>
-}
-
-// 计算折扣价格
-export function calculateDiscount(price: number, percentage: number): number {
-  return price * (percentage / 100)
-}
-
-// 处理支付请求，支持多种货币和支付选项配置
-export function processPayment(
-  amount: number, // 支付金额，单位：分
-  currency: string, // 货币代码，如 'CNY', 'USD'
-  options?: PaymentOptions // 支付选项配置
-): Promise<PaymentResult> {
-  // 实现...
+  // ...实现
 }
 ```
 
-### 13.5 组件注释规范
-
-#### 13.5.1 React组件注释
-
-**⚠️ 强制要求：所有React组件必须使用单行注释格式，不允许使用多行JSDoc注释。**
-
+### 13.5 组件与Hook注释规范
+- React 组件统一使用单行注释，突出用途与关键行为
 ```typescript
-// 影片卡片组件，支持多种布局变体和交互效果
-export const MovieCard: React.FC<MovieCardProps> = ({
-  movie, // 影片数据
-  variant = 'grid', // 布局变体，默认网格布局
-  showRating = true, // 是否显示评分
-  onClick, // 点击事件处理器
-  className // 自定义样式类名
-}) => {
-  // 组件实现...
-}
-
-// 基础按钮组件
-export const Button: React.FC<ButtonProps> = ({
-  children,
-  type = 'button',
-  disabled = false,
-  onClick
-}) => {
-  // 组件实现...
-}
-
-// 影片合集列表组件，提供影片合集的完整列表功能，使用内容渲染器系统支持多种布局和交互
-const CollectionList: React.FC<CollectionListProps> = ({
-  collections,
-  pagination,
-  onCollectionClick,
-  className,
-  // 其他props...
-}) => {
-  // 组件实现...
+// 影片卡片组件，支持多布局与交互
+export const MovieCard: React.FC<MovieCardProps> = ({ movie, variant = 'grid' }) => {
+  // ...组件实现
 }
 ```
-
-#### 13.5.2 Hook注释
-
-**所有Hook必须使用单行注释格式：**
-
+- Hook 统一使用单行注释，标注核心功能
 ```typescript
-// 影片数据管理Hook，提供影片列表的获取、搜索、筛选功能
-export const useMovies = (
-  category?: string, // 影片分类
-  searchTerm?: string // 搜索关键词
-) => {
-  // Hook实现...
-}
-
 // 切换状态Hook
-export const useToggle = (initialValue: boolean = false) => {
-  const [value, setValue] = useState(initialValue)
-  const toggle = useCallback(() => setValue(prev => !prev), [])
-  return [value, toggle] as const
-}
-
-// 统一内容管理Hook，提供统一的内容数据管理功能，支持多种内容类型和缓存机制
-export const useUnifiedContent = <T>(
-  contentType: ContentType, // 内容类型
-  options?: ContentOptions // 配置选项
-) => {
-  // Hook实现...
+export const useToggle = (initialValue = false) => {
+  // ...Hook实现
 }
 ```
 
-### 13.6 常量和变量注释规范
-
-#### 13.6.1 常量注释
-
+### 13.6 常量与枚举注释规范
+- 常量对象上方单行注释，字段不添加注释
 ```typescript
 // API接口地址配置
 export const API_ENDPOINTS = {
-  MOVIES: '/api/movies', // 影片列表接口
-  MOVIE_DETAIL: '/api/movies/:id', // 影片详情接口
-  SEARCH: '/api/search', // 搜索接口
-  USER_PROFILE: '/api/user/profile' // 用户资料接口
+  MOVIES: '/api/movies',
+  MOVIE_DETAIL: '/api/movies/:id',
+  SEARCH: '/api/search',
 } as const
-
-// 默认分页配置
-export const DEFAULT_PAGINATION = {
-  page: 1, // 当前页码
-  pageSize: 20, // 每页条数
-  total: 0 // 总条数
-}
 ```
-
-#### 13.6.2 枚举注释
-
+- 枚举上方单行注释，枚举项不添加注释
 ```typescript
 // 影片状态枚举
 export enum MovieStatus {
-  DRAFT = 'draft', // 草稿状态
-  PUBLISHED = 'published', // 已发布
-  ARCHIVED = 'archived', // 已归档
-  DELETED = 'deleted' // 已删除
+  DRAFT = 'draft',
+  PUBLISHED = 'published',
+  ARCHIVED = 'archived',
 }
 ```
 
-### 13.7 注释禁用规则
-
-#### 13.7.1 禁止使用的注释格式
-
-**❌ 禁止：所有函数、接口、组件、类型使用JSDoc块注释**
-
-```typescript
-// ❌ 错误示例 - 任何业务代码都不应使用JSDoc块注释
-/**
- * 响应式列数配置接口
- */
-export interface ResponsiveColumnsConfig {
-  xs?: number
-}
-
-/**
- * 处理用户登录
- * @param credentials 登录凭据
- * @returns 认证结果
- */
-export function handleLogin(credentials: LoginCredentials): Promise<AuthResult> {
-  // 实现...
-}
-
-// ✅ 正确示例 - 统一使用单行注释
-// 响应式列数配置接口
-export interface ResponsiveColumnsConfig {
-  xs?: number // 超小屏幕 (< 640px)
-}
-
-// 处理用户登录，验证凭据并返回认证状态
-export function handleLogin(credentials: LoginCredentials): Promise<AuthResult> {
-  // 实现...
-}
-```
-
-**❌ 禁止：多行单行注释**
-
-```typescript
-// ❌ 错误示例 - 不允许多行单行注释
-// 影片合集列表组件
-// 提供影片合集的完整列表功能，使用内容渲染器系统
-// 使用BaseList提供统一布局
-// 使用CollectionContentRenderer提供影片合集卡片渲染
-const CollectionList: React.FC<CollectionListProps> = ({ ... }) => { ... }
-
-// ✅ 正确示例 - 使用单行注释
-// 影片合集列表组件，提供影片合集的完整列表功能，使用内容渲染器系统支持多种布局和交互
-const CollectionList: React.FC<CollectionListProps> = ({ ... }) => { ... }
-```
-
-#### 13.7.2 参数注释规则
-
-**⚠️ 强制要求：参数、属性、字段的注释遵循以下规则：**
-
-**注释原则：**
-1. **简单明了的参数**：一看就懂的参数不需要添加注释
-2. **重要和关键参数**：必须使用行内注释格式说明
-3. **避免过度注释**：不要为每个参数都添加注释，只注释真正需要说明的
-
-**需要注释的参数类型：**
-- **业务逻辑相关**：涉及特定业务规则或约束的参数
-- **可选参数**：需要说明默认行为或使用场景的可选参数
-- **复杂类型**：自定义类型或复杂配置对象
-- **有歧义的参数**：参数名称可能引起误解的
-- **重要回调函数**：关键的事件处理函数
-- **配置选项**：影响组件行为的重要配置
-
-**不需要注释的参数类型：**
-- **基础类型**：如 `title: string`、`id: number` 等显而易见的参数
-- **标准属性**：如 `className`、`style` 等通用属性
-- **简单布尔值**：如 `disabled: boolean`、`visible: boolean` 等
-
-```typescript
-// ✅ 正确的参数注释格式 - 只注释重要和关键参数
-export interface UserProfile {
-  id: string
-  username: string
-  email: string
-  avatar?: string // 头像URL，可选
-  role: 'admin' | 'user' | 'vip' // 用户角色，影响权限控制
-  createdAt: Date
-  updatedAt: Date
-  preferences?: UserPreferences // 用户偏好设置，可选
-}
-
-// ✅ 组件Props注释示例 - 只注释关键配置
-export interface MovieCardProps {
-  title: string
-  year: number
-  rating: number
-  poster: string
-  isVip?: boolean // VIP专享内容标识
-  onPlay?: (movieId: string) => void // 播放按钮点击回调
-  variant?: 'compact' | 'detailed' // 卡片显示变体
-  downloadUrl?: string // 下载链接，仅VIP用户可见
-}
-
-// ✅ 函数参数注释示例 - 只注释复杂参数
-export function formatRating(
-  rating: number,
-  precision = 1 // 小数位数，默认1位
-): string {
-  return rating.toFixed(precision)
-}
-
-// ✅ 简单函数参数不需要注释
-export function calculateTotal(price: number, quantity: number): number {
-  return price * quantity
-}
-```
-
-**判断标准：**
-- **需要注释**：参数含义不明确、有特殊格式要求、有默认值说明、可选参数的用途
-- **不需要注释**：参数名称已经清楚表达含义，如 `title`、`name`、`id`、`url` 等
-
-### 13.8 注释内容规范
-
-#### 13.8.1 注释内容要求
-
-- **准确性**：注释内容必须与代码实际功能一致
-- **完整性**：重要的参数、返回值、副作用都要说明
-- **简洁性**：避免冗余描述，突出关键信息，显而易见的内容不需要注释
-- **时效性**：代码修改时同步更新注释
-- **3行规则**：描述超过3行的接口、函数、组件必须使用块注释 `/** */`，3行及以下使用单行注释 `//`
-- **必要性原则**：只对真正需要说明的内容添加注释，避免过度注释
-
-#### 13.8.2 注释语言规范
-
-- **统一语言**：项目内统一使用中文注释
-- **专业术语**：使用准确的技术术语
-- **标点符号**：注释结尾不加句号，除非是完整句子
-
-#### 13.8.3 注释格式规范详细说明
-
-**统一注释格式：**
-- **文件头注释**：使用JSDoc格式 `/** */`，用于文档生成
-- **所有业务代码注释**：统一使用单行注释 `//`，包括函数、接口、组件、类型等
-- **参数注释**：使用行内单行注释 `//`
-- **功能性注释**：使用单行注释 `//`
-
-**注释长度处理：**
-- 无论描述多长，都使用单行注释格式
-- 将多行描述合并为一行，用逗号或句号分隔
-- 保持注释简洁明了，突出关键信息
-
-**示例对比：**
-
-```typescript
-// ✅ 正确格式 - 统一使用单行注释
-// 用户配置接口，包含基本的用户偏好设置和主题配置
-export interface UserConfig {
-  theme: 'light' | 'dark' // 主题模式
-}
-
-// 复杂的影片搜索配置接口，支持多维度搜索条件包括分类年份评分等筛选，提供高级搜索功能支持模糊匹配和精确匹配
-export interface MovieSearchConfig {
-  // 接口定义...
-}
-
-// ❌ 错误格式 - 不再使用JSDoc块注释
-/**
- * 复杂的影片搜索配置接口
- * 
- * 支持多维度搜索条件，包括分类、年份、评分等筛选。
- * 提供高级搜索功能，支持模糊匹配和精确匹配。
- */
-export interface MovieSearchConfig {
-  // 接口定义...
-}
-```
-
-### 13.9 功能性注释规范
-
-#### 13.9.1 功能性注释定义
-
-**功能性注释**是对代码块、逻辑段落或关键操作的目的和作用进行说明的注释，采用"功能描述 - 具体说明"的格式。
-
-**格式规范：**
-```typescript
-// [功能描述] - [具体说明/条件/结果]
-```
-
-#### 13.9.2 功能性注释使用场景
-
-**⚠️ 强制要求：以下场景必须添加功能性注释**
-
-1. **防御性检查**：数据验证、边界条件处理
-2. **数据转换**：格式转换、结构映射、标准化处理
-3. **配置构建**：复杂配置对象的创建和合并
-4. **业务逻辑段落**：关键业务流程的各个步骤
-5. **性能优化**：缓存、懒加载、批处理等优化操作
-6. **状态管理**：状态更新、副作用处理
-7. **条件分支**：复杂的条件判断逻辑
-
-#### 13.9.3 功能性注释示例
-
-**防御性检查：**
-```typescript
-// 防御性检查 - 如果collections是undefined或空数组，显示空状态
-if (!collections || !Array.isArray(collections) || collections.length === 0) {
-  return <EmptyState message="暂无数据" />
-}
-
-// 参数验证 - 确保必需的配置项存在
-if (!config.apiUrl || !config.apiKey) {
-  throw new Error('缺少必需的API配置')
-}
-```
-
-**数据转换：**
-```typescript
-// 数据标准化和默认值设置 - 只设置BaseContentItem中存在的属性
-const standardizedData = movies.map(movie => ({
-  id: movie.id,
-  title: movie.title || '未知标题',
-  imageUrl: movie.poster || '/default-poster.jpg'
-}))
-
-// 转换最新更新数据为统一内容项格式 - 使用useMemo缓存
-const contentItems = useMemo(() => 
-  latestUpdates.map(item => createMovieContentItem(item)),
-  [latestUpdates]
-)
-```
-
-**配置构建：**
-```typescript
-// 根据配置创建渲染器配置
-const rendererConfig = createRendererConfig({
-  hoverEffect: cardConfig?.hoverEffect ?? true,
-  showVipBadge: cardConfig?.showVipBadge ?? true,
-  aspectRatio: cardConfig?.aspectRatio ?? 'square'
-})
-
-// 构建渲染器配置 - 使用useMemo缓存
-const config = useMemo(() => ({
-  layout: getLayoutConfig(variant),
-  theme: getThemeConfig(mode),
-  responsive: getResponsiveConfig(breakpoint)
-}), [variant, mode, breakpoint])
-```
-
-**业务逻辑段落：**
-```typescript
-// 获取当前页显示的数据（如果有分页）
-const getCurrentPageCollections = () => {
-  if (!pagination) return collections
-  
-  const { currentPage, itemsPerPage = 12 } = pagination
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const endIndex = startIndex + itemsPerPage
-  return collections.slice(startIndex, endIndex)
-}
-
-// 键盘事件处理 - ESC键关闭菜单
-useEffect(() => {
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      setIsOpen(false)
-    }
-  }
-  // ...
-}, [])
-```
-
-**性能优化：**
-```typescript
-// 懒加载图片 - 使用Intersection Observer优化性能
-const [isVisible, setIsVisible] = useState(false)
-const imgRef = useRef<HTMLImageElement>(null)
-
-useEffect(() => {
-  const observer = new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting) {
-      setIsVisible(true)
-      observer.disconnect()
-    }
-  })
-  // ...
-}, [])
-
-// 缓存计算结果 - 避免重复计算
-const expensiveValue = useMemo(() => {
-  return complexCalculation(data)
-}, [data])
-```
-
-#### 13.9.4 功能性注释最佳实践
-
-**✅ 推荐做法：**
-- 使用动词开头，描述具体动作：`获取`、`转换`、`验证`、`构建`
-- 说明处理的条件和预期结果
-- 对复杂逻辑进行分段注释
-- 使用统一的术语和表达方式
-
-**❌ 避免的做法：**
-- 过于简单的描述：`// 设置变量`
-- 重复代码内容：`// 调用fetchData函数`
-- 模糊不清的描述：`// 处理数据`
-- 过时或错误的描述
-
-#### 13.9.5 功能性注释检查清单
-
-**代码审查时检查：**
-- [ ] 关键业务逻辑是否有功能性注释？
-- [ ] 防御性检查是否说明了处理条件？
-- [ ] 数据转换是否说明了转换目的？
-- [ ] 复杂配置是否说明了构建逻辑？
-- [ ] 注释格式是否符合"功能描述 - 具体说明"规范？
-
-### 13.10 特殊注释标记
-
-#### 13.10.1 标记类型
-
-```typescript
-// TODO: 待实现的功能
-// FIXME: 需要修复的问题
-// HACK: 临时解决方案
-// NOTE: 重要说明
-// WARNING: 警告信息
-// DEPRECATED: 已废弃的代码
-```
-
-#### 13.10.2 标记使用示例
-
-```typescript
-// TODO: 添加缓存机制提升性能
-export const fetchMovies = async (params: MovieParams) => {
-  // FIXME: 错误处理需要优化
-  try {
-    const response = await api.get('/movies', { params })
-    return response.data
-  } catch (error) {
-    // WARNING: 临时使用console.error，后续需要接入日志系统
-    console.error('获取影片列表失败:', error)
-    throw error
-  }
-}
-
-// DEPRECATED: 使用新的 useMoviesQuery Hook 替代
-export const useMoviesList = () => {
-  // 已废弃的实现...
-}
-```
-
-### 13.11 注释检查和维护
-
-#### 13.11.1 自动化检查
-
-- **ESLint规则**：配置注释相关的ESLint规则
-- **代码审查**：PR审查时检查注释质量
-- **文档生成**：使用工具自动生成API文档
-
-#### 13.11.2 注释维护原则
-
-- **同步更新**：代码修改时必须同步更新注释
-- **定期清理**：定期清理过时和无用的注释
-- **质量保证**：确保注释的准确性和有用性
+### 13.7 注释禁用与参数注释规则
+- 禁止在业务代码（函数、接口、组件、类型）中使用 JSDoc 块注释
+- 单行注释最多连续 3 行；超过 3 行请精简说明，不允许使用 `//`
+- 禁止参数/字段/常量键值的注释：函数参数、接口字段、对象属性、常量键值一律不添加注释
+
+### 13.8 注释内容与格式要求
+- 准确性与时效性：与代码功能一致，修改同步更新
+- 简洁性与必要性：只为真正需要说明的内容添加注释，质量优先
+- 语言规范：统一中文注释，专业术语准确，标点规范
+- 统一格式：文件头使用 JSDoc；其余业务代码统一单行 `//`
+- 长度处理：允许最多连续 3 行 `//` 描述；超过 3 行请改用精简说明

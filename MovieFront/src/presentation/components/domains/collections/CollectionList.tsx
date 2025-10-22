@@ -65,6 +65,7 @@ export interface CollectionListProps {
   moreLinkUrl?: string
   moreLinkText?: string
   loading?: boolean // 加载状态，用于显示加载指示器
+  serverPaginated?: boolean // 新增：由服务端/Hook已完成分页时不再二次切片
 }
 
 // 影片合集列表组件，提供影片合集的完整列表功能，使用内容渲染器系统支持多种布局和交互，使用BaseList提供统一布局，使用CollectionContentRenderer提供影片合集卡片渲染，支持响应式列数配置，自包含的交互和视觉效果，使用统一的内容渲染器架构，支持扩展和定制
@@ -81,6 +82,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
   moreLinkText, // 移除硬编码默认值，使用BaseSection的默认值
   pagination,
   loading = false, // 加载状态，默认为false
+  serverPaginated = false, // 新增：默认关闭，保持原行为
 }) => {
   // 添加调试日志
   console.log('🎬 [CollectionList] Received collections:', {
@@ -112,7 +114,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
 
   // 获取当前页显示的数据 - 根据分页配置计算显示范围
   const getCurrentPageCollections = () => {
-    if (!pagination) return collections
+    if (!pagination || serverPaginated) return collections
 
     const { currentPage, itemsPerPage = 12 } = pagination
     const startIndex = (currentPage - 1) * itemsPerPage

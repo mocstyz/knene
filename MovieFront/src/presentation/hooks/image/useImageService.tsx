@@ -10,7 +10,7 @@ import {
   ImageServiceFactory,
   type ImageOptions,
 } from '@infrastructure/services/image'
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 
 // 图片服务Hook返回值接口，定义图片服务Hook提供的各种图片操作方法
 export interface UseImageServiceReturn {
@@ -31,7 +31,7 @@ export interface UseImageServiceReturn {
 export const useImageService = (): UseImageServiceReturn => {
   const imageService = useMemo(() => ImageServiceFactory.getInstance(), [])
 
-  const getMoviePoster = (movieId: string, options?: ImageOptions): string => {
+  const getMoviePoster = useCallback((movieId: string, options?: ImageOptions): string => {
     // 如果传入的是完整的URL，直接返回
     if (movieId.startsWith('http://') || movieId.startsWith('https://')) {
       return movieId
@@ -48,9 +48,9 @@ export const useImageService = (): UseImageServiceReturn => {
 
     const mergedOptions = { ...defaultOptions, ...options }
     return imageService.getOptimizedUrl(`movie-${movieId}`, mergedOptions)
-  }
+  }, [imageService])
 
-  const getCollectionCover = (
+  const getCollectionCover = useCallback((
     collectionId: string,
     options?: ImageOptions
   ): string => {
@@ -70,41 +70,43 @@ export const useImageService = (): UseImageServiceReturn => {
 
     const mergedOptions = { ...defaultOptions, ...options }
     return imageService.getOptimizedUrl(`collection-${collectionId}`, mergedOptions)
-  }
+  }, [imageService])
 
-  const getUserAvatar = (userId: string, options?: ImageOptions): string => {
-    // 用户头像默认配置
+  const getUserAvatar = useCallback((userId: string, options?: ImageOptions): string => {
+    if (userId.startsWith('http://') || userId.startsWith('https://')) {
+      return userId
+    }
     const defaultOptions: ImageOptions = {
       width: 200,
       height: 200,
-      quality: 90,
+      quality: 80,
       format: 'auto',
       crop: 'cover',
     }
-
     const mergedOptions = { ...defaultOptions, ...options }
-    return imageService.getOptimizedUrl(`avatar-${userId}`, mergedOptions)
-  }
+    return imageService.getOptimizedUrl(`user-${userId}`, mergedOptions)
+  }, [imageService])
 
-  const getImageUrl = (seed: string, options?: ImageOptions): string => {
+  const getImageUrl = useCallback((seed: string, options?: ImageOptions): string => {
+    // 修正：底层服务接口为 getUrl，这里做别名映射
     return imageService.getUrl(seed, options)
-  }
+  }, [imageService])
 
-  const getOptimizedUrl = (seed: string, options?: ImageOptions): string => {
+  const getOptimizedUrl = useCallback((seed: string, options?: ImageOptions): string => {
     return imageService.getOptimizedUrl(seed, options)
-  }
+  }, [imageService])
 
-  const getPlaceholder = (width?: number, height?: number): string => {
+  const getPlaceholder = useCallback((width?: number, height?: number): string => {
     return imageService.getPlaceholder(width, height)
-  }
+  }, [imageService])
 
-  const generateSrcSet = (
+  const generateSrcSet = useCallback((
     seed: string,
     options?: ImageOptions,
     sizes?: number[]
   ): string => {
     return imageService.generateSrcSet(seed, options, sizes)
-  }
+  }, [imageService])
 
   return {
     getMoviePoster,

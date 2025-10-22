@@ -7,15 +7,6 @@
  * @author MovieFront Team
  * @version 2.0.0
  * @since 2025-01-01
- *
- * @example
- * ```tsx
- * import SpecialCollectionsPage from '@pages/special/SpecialCollectionsPage'
- * 
- * function App() {
- *   return <SpecialCollectionsPage />
- * }
- * ```
  */
 
 import { useSpecialCollections } from '@application/hooks/useSpecialCollections'
@@ -98,6 +89,7 @@ const SpecialCollectionsPage: React.FC = () => {
             onPageChange: handlePageChange,
             itemsPerPage: ITEMS_PER_PAGE,
           }}
+          serverPaginated={true}
           onCollectionClick={handleCollectionClick}
           variant="grid"
           cardConfig={{
