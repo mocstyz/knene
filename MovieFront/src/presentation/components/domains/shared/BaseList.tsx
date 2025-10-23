@@ -6,6 +6,7 @@
  * @version 1.0.0
  */
 
+import { SkeletonCard } from '@components/atoms/Skeleton'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { cn } from '@utils/cn'
 import React from 'react'
@@ -25,6 +26,7 @@ interface BaseListProps<T = any> {
   columns?: ResponsiveColumnsConfig // 响应式列数配置，默认使用RESPONSIVE_CONFIGS.baseList
   variant?: 'grid' | 'list' // 列表变体，默认网格布局
   loading?: boolean // 是否显示加载状态，默认false
+  isPageChanging?: boolean // 页面切换状态标志，用于优先显示骨架屏
   showEmptyState?: boolean // 是否显示空状态，默认true
   emptyText?: string // 空状态文本，默认"暂无数据"
   className?: string // 自定义CSS类名
@@ -37,6 +39,7 @@ export const BaseList = <T,>({
   columns = RESPONSIVE_CONFIGS.baseList,
   variant = 'grid',
   loading = false,
+  isPageChanging = false,
   showEmptyState = true,
   emptyText = "暂无数据",
   className,
@@ -56,19 +59,16 @@ export const BaseList = <T,>({
     return classes.join(' ')
   }
 
-  // 加载状态 - 只在初次加载且无数据时显示骨架屏，分页时保持数据显示
-  if (loading && (!items || items.length === 0)) {
+  // 加载状态 - 页面切换时或初次加载且无数据时显示骨架屏
+  if (isPageChanging || (loading && (!items || items.length === 0))) {
     return (
       <div className={cn(
         "grid gap-4 sm:gap-6",
         generateColumnsClasses(columns),
         className
       )}>
-        {Array.from({ length: 8 }).map((_, index) => (
-          <div
-            key={index}
-            className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg aspect-[3/4]"
-          />
+        {Array.from({ length: 12 }).map((_, index) => (
+          <SkeletonCard key={index} aspectRatio="portrait" />
         ))}
       </div>
     )

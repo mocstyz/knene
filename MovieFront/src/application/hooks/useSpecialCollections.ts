@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { SpecialCollectionApplicationService, type SpecialCollectionQueryOptions } from '@application/services/SpecialCollectionApplicationService'
 import { useImageService } from '@presentation/hooks/image'
 import type { CollectionItem } from '@types-movie'
@@ -20,6 +20,7 @@ export interface UseSpecialCollectionsState {
   error: string | null // 错误信息
   total: number // 总数量
   hasMore: boolean // 是否还有更多数据
+  isPageChanging: boolean // 页面切换状态标志
 }
 
 // 专题合集Hook操作接口，定义Hook返回的操作方法
@@ -30,7 +31,7 @@ export interface UseSpecialCollectionsActions {
 }
 
 // 专题合集Hook返回值接口，组合状态和操作
-export interface UseSpecialCollectionsReturn extends UseSpecialCollectionsState, UseSpecialCollectionsActions {}
+export interface UseSpecialCollectionsReturn extends UseSpecialCollectionsState, UseSpecialCollectionsActions { }
 
 // 专题合集Hook选项接口，定义Hook的配置参数
 export interface UseSpecialCollectionsOptions extends SpecialCollectionQueryOptions {
@@ -50,24 +51,6 @@ export interface UseSpecialCollectionsOptions extends SpecialCollectionQueryOpti
  * 
  * @param options Hook配置选项
  * @returns UseSpecialCollectionsReturn Hook状态和操作方法
- * 
- * @example
- * ```typescript
- * // 基础用法
- * const { collections, loading, error, refresh } = useSpecialCollections()
- * 
- * // 带分页和筛选
- * const { collections, loading, loadMore, hasMore } = useSpecialCollections({
- *   pageSize: 12,
- *   category: '热门',
- *   sortBy: 'latest'
- * })
- * 
- * // 禁用自动加载
- * const { collections, loading, refresh } = useSpecialCollections({
- *   autoLoad: false
- * })
- * ```
  */
 export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}): UseSpecialCollectionsReturn => {
   const {
@@ -82,16 +65,17 @@ export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}
 
   // 应用服务实例 - 使用单例模式确保服务一致性
   const applicationService = useMemo(() => new SpecialCollectionApplicationService(), [])
-  
+
   // 图片服务Hook - 用于图片URL优化
   const { getCollectionCover } = useImageService()
 
   // Hook状态管理
   const [collections, setCollections] = useState<CollectionItem[]>([])
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(autoLoad) // 如果自动加载，初始状态为 loading
   const [error, setError] = useState<string | null>(null)
   const [total, setTotal] = useState<number>(0)
   const [currentPage, setCurrentPage] = useState<number>(initialPage)
+  const [isPageChanging, setIsPageChanging] = useState<boolean>(autoLoad) // 如果自动加载，初始状态为页面切换中
   const [queryOptions, setQueryOptions] = useState<SpecialCollectionQueryOptions>({
     page: initialPage,
     pageSize,
@@ -100,51 +84,94 @@ export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}
     includeVipOnly
   })
 
+  // 使用 useRef 存储稳定的查询参数引用，避免触发不必要的 useEffect
+  const queryOptionsRef = useRef<SpecialCollectionQueryOptions>(queryOptions)
+
+  // 请求取消控制器，用于取消过时的请求
+  const abortControllerRef = useRef<AbortController | null>(null)
+
   // 计算是否还有更多数据
   const hasMore = useMemo(() => {
     return collections.length < total && collections.length > 0
   }, [collections.length, total])
 
   /**
-   * 获取专题合集数据
+   * 获取专题合集数据（重构版本）
    * 
-   * @param options 查询选项
+   * 支持请求取消和状态管理，防止竞态条件
+   * 
+   * @param fetchOptions 查询选项
    * @param append 是否追加到现有数据（用于分页加载）
    */
-  const fetchCollections = useCallback(async (
+  const fetchCollectionsWithOptions = useCallback(async (
     fetchOptions: SpecialCollectionQueryOptions,
     append: boolean = false
   ) => {
     try {
+      // 创建新的 AbortController 并存储到 ref
+      const abortController = new AbortController()
+      abortControllerRef.current = abortController
+
+      // 在数据加载前设置 loading=true、error=null 和 isPageChanging=true（如果不是追加模式）
       setLoading(true)
       setError(null)
+      if (!append) {
+        setIsPageChanging(true)
+        setCollections([]) // 清空现有数据，确保骨架屏显示
+      }
 
       console.log('🎬 [useSpecialCollections] 开始获取专题合集数据', {
         fetchOptions,
         append,
-        currentCollectionsCount: collections.length
+        isPageChanging: !append
       })
 
+      // 记录开始时间，确保骨架屏至少显示 500ms
+      const startTime = Date.now()
+      const minLoadingTime = 500 // 最小加载时间（毫秒）
+
       // 通过应用服务获取数据
+      // 注意：当前 applicationService 可能不支持 signal，这里为未来扩展预留
       const fetchedCollections = await applicationService.getSpecialCollections(fetchOptions)
-      
+
+      // 计算已经过去的时间
+      const elapsedTime = Date.now() - startTime
+      const remainingTime = Math.max(0, minLoadingTime - elapsedTime)
+
+      // 如果加载太快，等待剩余时间以确保骨架屏可见
+      if (remainingTime > 0) {
+        console.log(`🎬 [useSpecialCollections] 等待 ${remainingTime}ms 以确保骨架屏可见`)
+        await new Promise(resolve => setTimeout(resolve, remainingTime))
+      }
+
+      // 检查请求是否被取消，如果是则提前返回
+      if (abortController.signal.aborted) {
+        console.log('🎬 [useSpecialCollections] 请求已取消')
+        return
+      }
+
       // 图片优化处理
-      const optimizedCollections = enableImageOptimization 
+      const optimizedCollections = enableImageOptimization
         ? fetchedCollections.map(collection => ({
-            ...collection,
-            imageUrl: getCollectionCover(collection.imageUrl, { 
-              width: 400, 
-              height: 500,
-              quality: 85
-            })
-          }))
+          ...collection,
+          imageUrl: getCollectionCover(collection.imageUrl, {
+            width: 400,
+            height: 500,
+            quality: 85
+          })
+        }))
         : fetchedCollections
 
-      // 更新状态
+      // 数据加载成功后更新 collections 和 currentPage
       if (append) {
         setCollections(prev => [...prev, ...optimizedCollections])
       } else {
         setCollections(optimizedCollections)
+      }
+
+      // 更新当前页码
+      if (fetchOptions.page) {
+        setCurrentPage(fetchOptions.page)
       }
 
       // 获取总数（仅在首次加载时）
@@ -159,29 +186,37 @@ export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}
       console.log('🎬 [useSpecialCollections] 数据获取成功', {
         fetchedCount: fetchedCollections.length,
         optimizedCount: optimizedCollections.length,
-        totalCollections: append ? collections.length + optimizedCollections.length : optimizedCollections.length,
-        totalCount: total
+        currentPage: fetchOptions.page
       })
 
     } catch (err) {
+      // 捕获 AbortError 并忽略，其他错误正常处理
+      if (err instanceof Error && err.name === 'AbortError') {
+        console.log('🎬 [useSpecialCollections] 请求被取消')
+        return
+      }
+
       const errorMessage = err instanceof Error ? err.message : '获取专题合集数据失败'
       setError(errorMessage)
       console.error('🎬 [useSpecialCollections] 数据获取失败', err)
     } finally {
+      // 在 finally 块中设置 loading=false 和 isPageChanging=false
       setLoading(false)
+      setIsPageChanging(false)
+      abortControllerRef.current = null
     }
-  }, [applicationService, getCollectionCover, enableImageOptimization])
+  }, [applicationService, getCollectionCover, enableImageOptimization, total])
 
   /**
    * 刷新数据 - 重新加载第一页数据
    */
   const refresh = useCallback(async () => {
-    const refreshOptions = { ...queryOptions, page: 1 }
+    const refreshOptions = { ...queryOptionsRef.current, page: 1 }
     setCurrentPage(1)
     setCollections([]) // 清空现有数据
     setTotal(0)
-    await fetchCollections(refreshOptions, false)
-  }, [queryOptions, fetchCollections])
+    await fetchCollectionsWithOptions(refreshOptions, false)
+  }, [fetchCollectionsWithOptions])
 
   /**
    * 加载更多数据 - 加载下一页数据
@@ -193,41 +228,70 @@ export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}
     }
 
     const nextPage = currentPage + 1
-    const loadMoreOptions = { ...queryOptions, page: nextPage }
+    const loadMoreOptions = { ...queryOptionsRef.current, page: nextPage }
     setCurrentPage(nextPage)
-    await fetchCollections(loadMoreOptions, true)
-  }, [loading, hasMore, currentPage, queryOptions, fetchCollections])
+    await fetchCollectionsWithOptions(loadMoreOptions, true)
+  }, [loading, hasMore, currentPage, fetchCollectionsWithOptions])
 
   /**
    * 更新查询选项 - 更新筛选、排序等参数并重新加载数据
    */
   const updateOptions = useCallback((newOptions: Partial<SpecialCollectionQueryOptions>) => {
-    const updatedOptions = { ...queryOptions, ...newOptions }
-    setQueryOptions(updatedOptions)
-    
-    // 只有在非分页参数变化时才重置页码和数据
-    if (newOptions.category !== undefined || newOptions.sortBy !== undefined || newOptions.includeVipOnly !== undefined) {
-      setCurrentPage(1)
-      setCollections([]) // 清空现有数据
-      setTotal(0)
-    } else if (newOptions.page !== undefined) {
-      // 分页变化时只更新页码
-      setCurrentPage(newOptions.page)
+    // 取消之前的请求
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+      console.log('🎬 [useSpecialCollections] 取消之前的请求')
     }
-    
+
+    const updatedOptions = { ...queryOptionsRef.current, ...newOptions }
+
+    // 检测是否是页面切换操作（page 参数变化）
+    const isPageChange = newOptions.page !== undefined &&
+      newOptions.page !== queryOptionsRef.current.page
+
+    if (isPageChange) {
+      // 页面切换：更新页码（数据清空由 fetchCollectionsWithOptions 处理）
+      console.log('🎬 [useSpecialCollections] 页面切换', {
+        oldPage: queryOptionsRef.current.page,
+        newPage: newOptions.page
+      })
+      if (newOptions.page !== undefined) {
+        setCurrentPage(newOptions.page)
+      }
+    } else if (newOptions.category !== undefined ||
+      newOptions.sortBy !== undefined ||
+      newOptions.includeVipOnly !== undefined) {
+      // 筛选/排序变化：重置页码和总数（数据清空由 fetchCollectionsWithOptions 处理）
+      console.log('🎬 [useSpecialCollections] 筛选/排序变化', {
+        category: newOptions.category,
+        sortBy: newOptions.sortBy,
+        includeVipOnly: newOptions.includeVipOnly
+      })
+      updatedOptions.page = 1
+      setCurrentPage(1)
+      setTotal(0)
+    }
+
+    // 更新 queryOptionsRef.current 而不是触发 state 更新
+    queryOptionsRef.current = updatedOptions
+
     console.log('🎬 [useSpecialCollections] 更新查询选项', {
-      oldOptions: queryOptions,
+      oldOptions: queryOptionsRef.current,
       newOptions,
       updatedOptions
     })
-  }, [queryOptions])
 
-  // 自动加载数据 - 当查询选项变化时自动重新加载
+    // 手动调用 fetchCollectionsWithOptions 触发数据加载
+    fetchCollectionsWithOptions(updatedOptions, false)
+  }, [fetchCollectionsWithOptions])
+
+  // 自动加载数据 - 只在组件挂载时执行一次初始加载
   useEffect(() => {
     if (autoLoad) {
-      fetchCollections(queryOptions, false)
+      fetchCollectionsWithOptions(queryOptionsRef.current, false)
     }
-  }, [queryOptions, fetchCollections, autoLoad])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // 返回Hook状态和操作方法
   return {
@@ -237,6 +301,7 @@ export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}
     error,
     total,
     hasMore,
+    isPageChanging,
     // 操作方法
     refresh,
     loadMore,

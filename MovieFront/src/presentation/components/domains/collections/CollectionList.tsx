@@ -66,6 +66,7 @@ export interface CollectionListProps {
   moreLinkText?: string
   loading?: boolean // 加载状态，用于显示加载指示器
   serverPaginated?: boolean // 新增：由服务端/Hook已完成分页时不再二次切片
+  isPageChanging?: boolean // 页面切换状态标志，用于优先显示骨架屏
 }
 
 // 影片合集列表组件，提供影片合集的完整列表功能，使用内容渲染器系统支持多种布局和交互，使用BaseList提供统一布局，使用CollectionContentRenderer提供影片合集卡片渲染，支持响应式列数配置，自包含的交互和视觉效果，使用统一的内容渲染器架构，支持扩展和定制
@@ -83,18 +84,10 @@ const CollectionList: React.FC<CollectionListProps> = ({
   pagination,
   loading = false, // 加载状态，默认为false
   serverPaginated = false, // 新增：默认关闭，保持原行为
+  isPageChanging = false, // 页面切换状态，默认为false
 }) => {
-  // 添加调试日志
-  console.log('🎬 [CollectionList] Received collections:', {
-    length: collections?.length || 0,
-    collections,
-    isArray: Array.isArray(collections),
-    isEmpty: !collections || collections.length === 0
-  })
-
-  // 防御性检查
-  if (!collections || !Array.isArray(collections) || collections.length === 0) {
-    console.log('🎬 [CollectionList] Showing empty state - no collections')
+  // 防御性检查 - 只在非加载状态且数据为空时显示空状态
+  if (!loading && !isPageChanging && (!collections || !Array.isArray(collections) || collections.length === 0)) {
     return <EmptyState message="暂无数据" />
   }
 
@@ -114,6 +107,9 @@ const CollectionList: React.FC<CollectionListProps> = ({
 
   // 获取当前页显示的数据 - 根据分页配置计算显示范围
   const getCurrentPageCollections = () => {
+    // 如果正在加载或页面切换，返回空数组以触发骨架屏
+    if (loading || isPageChanging) return []
+    
     if (!pagination || serverPaginated) return collections
 
     const { currentPage, itemsPerPage = 12 } = pagination
@@ -147,6 +143,7 @@ const CollectionList: React.FC<CollectionListProps> = ({
         variant={variant}
         columns={columns}
         loading={loading} // 传递加载状态给BaseList
+        isPageChanging={isPageChanging} // 传递页面切换状态给BaseList
         className="collection-list-container"
         renderItem={(collection) => {
           // 数据转换 - 将CollectionItem转换为CollectionContentItem格式
@@ -177,8 +174,11 @@ const CollectionList: React.FC<CollectionListProps> = ({
             variant="ghost"
             size="sm"
             onClick={() => pagination.onPageChange(pagination.currentPage - 1)}
-            disabled={pagination.currentPage === 1}
-            className="h-8 w-8 rounded-full p-0 focus:ring-0 focus:ring-offset-0 sm:h-10 sm:w-10"
+            disabled={pagination.currentPage === 1 || loading || isPageChanging}
+            className={cn(
+              "h-8 w-8 rounded-full p-0 focus:ring-0 focus:ring-offset-0 sm:h-10 sm:w-10",
+              (loading || isPageChanging) && "opacity-50 cursor-not-allowed"
+            )}
           >
             <svg
               className="h-4 w-4 sm:h-4.5 sm:w-4.5"
@@ -198,11 +198,13 @@ const CollectionList: React.FC<CollectionListProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={() => pagination.onPageChange(page)}
+                  disabled={loading || isPageChanging}
                   className={cn(
                     'h-8 w-8 rounded-full p-0 text-xs focus:ring-0 focus:ring-offset-0 sm:h-10 sm:w-10 sm:text-sm',
                     pagination.currentPage === page
                       ? 'bg-green-100 text-green-900 hover:bg-green-200 dark:bg-green-900 dark:text-green-100 dark:hover:bg-green-800'
-                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
+                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800',
+                    (loading || isPageChanging) && "opacity-50 cursor-not-allowed"
                   )}
                 >
                   {page}
@@ -216,8 +218,11 @@ const CollectionList: React.FC<CollectionListProps> = ({
             variant="ghost"
             size="sm"
             onClick={() => pagination.onPageChange(pagination.currentPage + 1)}
-            disabled={pagination.currentPage === pagination.totalPages}
-            className="h-8 w-8 rounded-full p-0 focus:ring-0 focus:ring-offset-0 sm:h-10 sm:w-10"
+            disabled={pagination.currentPage === pagination.totalPages || loading || isPageChanging}
+            className={cn(
+              "h-8 w-8 rounded-full p-0 focus:ring-0 focus:ring-offset-0 sm:h-10 sm:w-10",
+              (loading || isPageChanging) && "opacity-50 cursor-not-allowed"
+            )}
           >
             <svg
               className="h-4 w-4 sm:h-4.5 sm:w-4.5"

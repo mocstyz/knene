@@ -23,7 +23,7 @@ const SpecialCollectionsPage: React.FC = () => {
   const ITEMS_PER_PAGE = 12
 
   // 获取专题合集数据 - 使用标准化Hook，遵循DDD架构
-  const { collections, loading, error, total, refresh, updateOptions } = useSpecialCollections({
+  const { collections, loading, error, total, refresh, updateOptions, isPageChanging } = useSpecialCollections({
     page: currentPage,
     pageSize: ITEMS_PER_PAGE,
     sortBy: 'latest',
@@ -34,11 +34,20 @@ const SpecialCollectionsPage: React.FC = () => {
   // 计算总页数 - 根据数据总数动态计算
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE)
 
+  // 平滑滚动到页面顶部
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
   // 页面切换处理 - 更新查询选项以获取对应页面的数据
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages && page !== currentPage) {
       setCurrentPage(page)
       updateOptions({ page })
+      scrollToTop()
     }
   }
 
@@ -62,7 +71,7 @@ const SpecialCollectionsPage: React.FC = () => {
               <h2 className="text-2xl font-bold text-text-primary mb-4">加载失败</h2>
               <p className="text-text-secondary mb-6">{error}</p>
               <button 
-                onClick={() => window.location.reload()} 
+                onClick={refresh} 
                 className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
               >
                 重新加载
@@ -83,6 +92,7 @@ const SpecialCollectionsPage: React.FC = () => {
           collections={collections}
           title="专题合集"
           loading={loading}
+          isPageChanging={isPageChanging}
           pagination={{
             currentPage,
             totalPages,
