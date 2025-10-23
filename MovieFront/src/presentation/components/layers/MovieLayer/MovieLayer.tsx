@@ -24,9 +24,9 @@ import {
 import { cn } from '@utils/cn'
 import React from 'react'
 
-// 电影层组件属性接口，定义电影展示的完整配置选项
+// 电影层组件属性接口
 export interface MovieLayerProps {
-  movie: { // 电影数据对象
+  movie: {
     id: string
     title: string
     poster: string
@@ -42,19 +42,19 @@ export interface MovieLayerProps {
     downloadCount?: number
     alt?: string
   }
-  className?: string // 自定义CSS类名
-  variant?: 'default' | 'detailed' | 'featured' | 'list' // 电影显示变体，默认'default'
-  onPlay?: (movieId: string) => void // 播放按钮点击回调
-  onDownload?: (movieId: string) => void // 下载按钮点击回调
-  onFavorite?: (movieId: string) => void // 收藏按钮点击回调
-  isFavorited?: boolean // 是否已收藏，默认false
-  showHover?: boolean // 是否显示悬停效果，默认true
-  showVipBadge?: boolean // 是否显示VIP标签，默认true
-  showQualityBadge?: boolean // 是否显示质量标签，默认true
-  showRatingBadge?: boolean // 是否显示评分标签，默认true
-  showNewBadge?: boolean // 是否显示新片标签，默认true
-  newBadgeType?: 'hot' | 'latest' | null // 新片类型，对齐统一类型系统
-  qualityText?: string // 自定义质量标签文本
+  className?: string
+  variant?: 'default' | 'detailed' | 'featured' | 'list'
+  onPlay?: (movieId: string) => void
+  onDownload?: (movieId: string) => void
+  onFavorite?: (movieId: string) => void
+  isFavorited?: boolean
+  showHover?: boolean
+  showVipBadge?: boolean
+  showQualityBadge?: boolean
+  showRatingBadge?: boolean
+  showNewBadge?: boolean
+  newBadgeType?: 'hot' | 'latest' | null
+  qualityText?: string
 }
 
 // 电影层组件，提供电影特化的内容展示功能，组合多个Layer组件实现完整的电影卡片效果

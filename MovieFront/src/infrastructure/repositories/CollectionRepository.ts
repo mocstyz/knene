@@ -17,11 +17,11 @@ import type {
 import { createCollectionApiService } from '@infrastructure/services/ApiServiceFactory'
 import { MOVIE_ENDPOINTS } from '@infrastructure/api/endpoints'
 
-// Collection Repository实现类，通过API服务工厂获取数据源
+// Collection Repository实现类
 export class CollectionRepository implements ICollectionRepository {
   private apiService = createCollectionApiService()
   
-  // 获取专题合集列表，支持分页和筛选
+  // 获取专题合集列表
   async getCollections(params?: CollectionQueryParams): Promise<PaginatedResponse<CollectionItem>> {
     const { page = 1, pageSize = 12, category, sortBy = 'latest', featured } = params || {}
     
@@ -68,7 +68,7 @@ export class CollectionRepository implements ICollectionRepository {
     }
   }
 
-  // 根据ID获取专题合集详情
+  // 获取专题合集详情
   async getCollectionDetail(id: string): Promise<CollectionItem> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     // 确保baseUrl是完整的URL或者正确的相对路径
@@ -96,7 +96,7 @@ export class CollectionRepository implements ICollectionRepository {
     }
   }
 
-  // 获取专题合集中的影片列表，支持分页
+  // 获取专题合集中的影片列表
   async getCollectionMovies(
     collectionId: string, 
     params?: CollectionQueryParams
@@ -145,7 +145,7 @@ export class CollectionRepository implements ICollectionRepository {
     }
   }
 
-  // 获取热门专题合集，按热度排序
+  // 获取热门专题合集
   async getHotCollections(limit = 6): Promise<CollectionItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     // 确保baseUrl是完整的URL或者正确的相对路径
@@ -172,7 +172,7 @@ export class CollectionRepository implements ICollectionRepository {
     }
   }
 
-  // 获取最新专题合集，按创建时间排序
+  // 获取最新专题合集
   async getLatestCollections(limit = 6): Promise<CollectionItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     // 确保baseUrl是完整的URL或者正确的相对路径
@@ -199,7 +199,7 @@ export class CollectionRepository implements ICollectionRepository {
     }
   }
 
-  // 搜索专题合集，支持关键词和筛选条件
+  // 搜索专题合集
   async searchCollections(
     query: string, 
     filters?: CollectionFilterParams
@@ -248,7 +248,7 @@ export class CollectionRepository implements ICollectionRepository {
     }
   }
 
-  // 获取推荐专题合集，基于用户偏好或编辑推荐
+  // 获取推荐专题合集
   async getRecommendedCollections(limit = 6): Promise<CollectionItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     // 确保baseUrl是完整的URL或者正确的相对路径
@@ -275,7 +275,7 @@ export class CollectionRepository implements ICollectionRepository {
     }
   }
 
-  // 获取分类专题合集，按分类筛选
+  // 获取分类专题合集
   async getCollectionsByCategory(
     category: string, 
     params?: CollectionQueryParams
@@ -337,7 +337,7 @@ export class CollectionRepository implements ICollectionRepository {
     }
   }
 
-  // 转换API响应为分页集合响应格式
+  // 转换API响应为分页集合响应
   private transformCollectionsResponse(apiData: any): PaginatedResponse<CollectionItem> {
     return {
       data: (apiData.data || apiData.collections || []).map((item: any) => 
@@ -354,7 +354,7 @@ export class CollectionRepository implements ICollectionRepository {
     }
   }
 
-  // 转换API响应为分页影片响应格式
+  // 转换API响应为分页影片响应
   private transformMoviesResponse(apiData: any): PaginatedResponse<MovieDetail> {
     return {
       data: (apiData.data || apiData.movies || []).map((item: any) => ({
@@ -386,7 +386,7 @@ export class CollectionRepository implements ICollectionRepository {
     }
   }
 
-  // 转换单个集合项为CollectionItem格式
+  // 转换单个集合项为CollectionItem
   private transformCollectionItem(item: any): CollectionItem {
     return {
       id: item.id || item._id,

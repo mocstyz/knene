@@ -39,7 +39,7 @@ export interface HomeDataParams {
   hotLimit?: number
 }
 
-// 首页数据响应接口，与API接口保持一致
+// 首页数据响应接口
 export interface HomeDataResponse {
   collections: CollectionItem[]
   photos: PhotoItem[]
@@ -47,9 +47,9 @@ export interface HomeDataResponse {
   hotDaily: HotItem[]
 }
 
-// 首页仓储实现类，提供首页数据的获取和转换功能
+// 首页仓储实现类
 export class HomeRepository implements IHomeRepository {
-  // 获取首页所有模块数据，支持配置参数和错误处理
+  // 获取首页所有模块数据
   async getHomeData(params: ApiHomeDataParams = {}): Promise<HomeDataResponse> {
     const { 
       collectionsLimit = 3,
@@ -172,7 +172,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  // 获取专题合集数据，支持分页和筛选参数
+  // 获取专题合集数据
   async getCollections(params?: CollectionsQueryParams): Promise<CollectionItem[]> {
     const { 
       limit = 8, 
@@ -239,7 +239,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  // 获取写真内容数据，支持质量和方向筛选
+  // 获取写真内容数据
   async getPhotos(params?: PhotosQueryParams): Promise<PhotoItem[]> {
     const { 
       limit = 12, 
@@ -288,7 +288,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  // 获取最新更新数据，支持数量限制和错误处理
+  // 获取最新更新数据
   async getLatestUpdates(params?: LatestUpdatesQueryParams): Promise<LatestItem[]> {
     const limit = params?.limit || 6
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
@@ -320,7 +320,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  // 获取24小时热门数据，支持数量限制和错误处理
+  // 获取24小时热门数据
   async getHotDaily(limit = 6): Promise<HotItem[]> {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     // 确保baseUrl是完整的URL或者正确的相对路径
@@ -351,7 +351,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  // 获取热门内容列表，支持统计周期和评分筛选
+  // 获取热门内容列表
   async getHotContent(params?: HotContentQueryParams): Promise<HotItem[]> {
     const { limit = 6, period = 'daily', minRating = 0 } = params || {}
     
@@ -382,22 +382,22 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  // 获取每日热门推荐，返回精选的热门内容
+  // 获取每日热门推荐
   async getDailyHot(limit = 6): Promise<HotItem[]> {
     return this.getHotContent({ limit, period: 'daily' })
   }
 
-  // 获取精选专题，返回编辑推荐的专题合集
+  // 获取精选专题
   async getFeaturedCollections(limit = 3): Promise<CollectionItem[]> {
     return this.getCollections({ limit, featured: true, sortBy: 'featured' })
   }
 
-  // 获取最新写真，返回最近上传的写真内容
+  // 获取最新写真
   async getLatestPhotos(limit = 6): Promise<PhotoItem[]> {
     return this.getPhotos({ limit, quality: 'all', orientation: 'all' })
   }
 
-  // 获取轮播图数据，用于首页banner展示
+  // 获取轮播图数据
   async getBannerData(): Promise<{
     id: string
     title: string
@@ -425,7 +425,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  // 获取公告信息，用于首页公告展示
+  // 获取公告信息
   async getAnnouncements(): Promise<{
     id: string
     title: string
@@ -453,7 +453,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  // 获取网站统计信息，用于首页数据展示
+  // 获取网站统计信息
   async getSiteStats(): Promise<{
     totalMovies: number
     totalCollections: number
@@ -486,7 +486,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  // 刷新首页缓存，用于数据更新后的缓存清理
+  // 刷新首页缓存
   async refreshCache(): Promise<void> {
     // 在实际实现中，这里会清理相关的缓存
     if (import.meta.env.DEV) {
@@ -494,7 +494,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  // 转换API响应数据为前端统一格式
+  // 转换API响应数据
   private transformApiResponse(apiData: any): HomeDataResponse {
     return {
       collections: this.transformCollections(apiData.collections || []),
@@ -504,7 +504,7 @@ export class HomeRepository implements IHomeRepository {
     }
   }
 
-  // 转换合集数据为CollectionItem类型，处理字段映射和默认值
+  // 转换合集数据为CollectionItem类型
   private transformCollections(collections: any[]): CollectionItem[] {
     return collections.map(collection => ({
       id: collection.id || collection._id,
@@ -524,7 +524,7 @@ export class HomeRepository implements IHomeRepository {
     }))
   }
 
-  // 转换写真数据为PhotoItem类型，处理评分、质量、类型等字段
+  // 转换写真数据为PhotoItem类型
   private transformPhotos(photos: any[]): PhotoItem[] {
     return photos.map((photo, index) => ({
       id: photo.id || photo._id,
@@ -545,7 +545,7 @@ export class HomeRepository implements IHomeRepository {
     }))
   }
 
-  // 转换最新更新数据为LatestItem类型，处理新片状态和更新类型
+  // 转换最新更新数据为LatestItem类型
   private transformLatestUpdates(latest: any[]): LatestItem[] {
     return latest.map((item, index) => ({
       id: item.id || item._id,
@@ -564,7 +564,7 @@ export class HomeRepository implements IHomeRepository {
     }))
   }
 
-  // 转换热门数据为HotItem类型，添加排名信息
+  // 转换热门数据为HotItem类型
   private transformHotDaily(hotItems: any[]): HotItem[] {
     return hotItems.map((item, index) => ({
       id: item.id || item._id,
@@ -582,13 +582,13 @@ export class HomeRepository implements IHomeRepository {
 
 
 
-  // 获取随机的影片质量标识，作为数据缺失时的fallback
+  // 获取随机的影片质量标识
   private getRandomQuality(): string {
     const qualities = ['4K HDR', 'HD', 'Dolby Vision', 'SD', '4K', 'IMAX']
     return qualities[Math.floor(Math.random() * qualities.length)]
   }
 
-  // 获取随机的影片类型列表，作为数据缺失时的fallback
+  // 获取随机的影片类型列表
   private getRandomGenres(): string[] {
     const allGenres = [
       '动作',

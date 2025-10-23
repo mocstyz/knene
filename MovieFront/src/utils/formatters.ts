@@ -70,16 +70,8 @@ export function formatRating(rating: number, precision: number = 1): string {
   return rating.toFixed(precision)
 }
 
-/**
- * 根据评分获取颜色类型（用于Badge Layer）
- * @description 评分颜色规则：
- *              - 评分 ≥ 9.0：红色（高分）
- *              - 8.0 ≤ 评分 < 9.0：紫色（优秀）
- *              - 7.0 ≤ 评分 < 8.0：白色（良好）
- *              - 评分 < 7.0：灰色（一般）
- * @param rating 评分值 (0-10)
- * @returns 颜色类型，用于 BadgeLayerRatingColor
- */
+// 根据评分获取颜色类型，用于Badge Layer
+// 评分规则：≥9.0红色、≥8.0紫色、≥7.0白色、<7.0灰色
 export function getRatingColorType(
   rating: number
 ): 'red' | 'purple' | 'white' | 'gray' {
@@ -91,16 +83,8 @@ export function getRatingColorType(
   return 'gray' // 一般 - 灰色
 }
 
-/**
- * 根据评分获取文本颜色类名（用于Title Layer）
- * @description 评分颜色规则：
- *              - 评分 ≥ 9.0：红色（高分）
- *              - 8.0 ≤ 评分 < 9.0：紫色（优秀）
- *              - 7.0 ≤ 评分 < 8.0：白色（良好）
- *              - 评分 < 7.0：灰色（一般）
- * @param rating 评分值 (0-10)
- * @returns Tailwind CSS类名
- */
+// 根据评分获取文本颜色类名，用于Title Layer
+// 评分规则：≥9.0红色、≥8.0紫色、≥7.0白色、<7.0灰色
 export function getRatingTextColorClass(rating: number): string {
   const value = Math.max(0, Math.min(10, rating)) // 确保在0-10范围内
 
@@ -112,9 +96,9 @@ export function getRatingTextColorClass(rating: number): string {
 
 // 格式化百分比，支持自定义精度
 export function formatPercentage(
-  value: number, // 数值
-  total: number, // 总数
-  precision: number = 1 // 精度，默认1位小数
+  value: number,
+  total: number,
+  precision: number = 1
 ): string {
   if (total === 0) return '0%'
 
@@ -188,9 +172,9 @@ export function formatDateShort(date: Date | number | string): string {
 
 // 生成随机评分，支持自定义范围和精度
 export function generateRandomRating(
-  min: number = 5.0, // 最小值，默认5.0
-  max: number = 10.0, // 最大值，默认10.0
-  precision: number = 1 // 精度，默认1位小数
+  min: number = 5.0,
+  max: number = 10.0,
+  precision: number = 1
 ): string {
   const rating = Math.random() * (max - min) + min
   return rating.toFixed(precision)

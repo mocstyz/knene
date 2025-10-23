@@ -18,15 +18,15 @@ import { cn } from '@utils/cn'
 import { formatAndValidateRating, getRatingColorType } from '@utils/formatters'
 import React from 'react'
 
-// 评分标签层组件属性接口，定义评分标签的配置选项
+// 评分标签层组件属性接口
 export interface RatingBadgeLayerProps {
-  rating?: number | string // 评分值 (0-10) 或字符串评分，默认0
-  className?: string // 自定义CSS类名
-  position?: BadgeLayerPosition // 标签位置，默认'bottom-left'
-  size?: BadgeLayerSize // 标签尺寸，默认'responsive'
-  variant?: BadgeLayerVariant // 标签变体，默认'default'
-  textColor?: BadgeLayerRatingColor // 强制指定文本颜色类型，覆盖自动计算的评分颜色
-  backgroundColor?: string // 自定义背景色
+  rating?: number | string
+  className?: string
+  position?: BadgeLayerPosition
+  size?: BadgeLayerSize
+  variant?: BadgeLayerVariant
+  textColor?: BadgeLayerRatingColor
+  backgroundColor?: string
 }
 
 // 评分标签层组件，提供统一的评分标签显示，使用组件变体Token系统，支持多种位置和样式变体，响应式设计，移动端优先

@@ -23,14 +23,9 @@ import type {
   UnifiedContentItem
 } from '@types-movie'
 
-/**
- * 内容转换应用服务类
- * 负责在应用层进行统一的业务状态计算和数据转换
- */
+// 内容转换应用服务类，负责在应用层进行统一的业务状态计算和数据转换
 export class ContentTransformationService {
-  /**
-   * 将Movie领域实体转换为统一内容项
-   */
+  // 将Movie领域实体转换为统一内容项
   static transformMovieToUnified(movie: Movie): UnifiedContentItem {
     return {
       id: movie.id,
@@ -65,9 +60,7 @@ export class ContentTransformationService {
     }
   }
 
-  /**
-   * 将Photo领域实体转换为统一内容项
-   */
+  // 将Photo领域实体转换为统一内容项
   static transformPhotoToUnified(photo: Photo): UnifiedContentItem {
     return {
       id: photo.id,
@@ -98,9 +91,7 @@ export class ContentTransformationService {
     }
   }
 
-  /**
-   * 将Collection领域实体转换为统一内容项
-   */
+  // 将Collection领域实体转换为统一内容项
   static transformCollectionToUnified(collection: Collection): UnifiedContentItem {
     return {
       id: collection.id,
@@ -131,9 +122,7 @@ export class ContentTransformationService {
     }
   }
 
-  /**
-   * 将统一内容项转换为CollectionItem（合集项）
-   */
+  // 将统一内容项转换为CollectionItem
   static transformUnifiedToCollection(unified: UnifiedContentItem): CollectionItem {
     return {
       id: unified.id,
@@ -156,9 +145,7 @@ export class ContentTransformationService {
     }
   }
 
-  /**
-   * 将统一内容项转换为PhotoItem（写真）
-   */
+  // 将统一内容项转换为PhotoItem
   static transformUnifiedToPhoto(unified: UnifiedContentItem): PhotoItem {
     return {
       id: unified.id,
@@ -178,9 +165,7 @@ export class ContentTransformationService {
     }
   }
 
-  /**
-   * 将统一内容项转换为LatestItem（最新更新）
-   */
+  // 将统一内容项转换为LatestItem
   static transformUnifiedToLatest(unified: UnifiedContentItem): LatestItem {
     return {
       id: unified.id,
@@ -198,9 +183,7 @@ export class ContentTransformationService {
     }
   }
 
-  /**
-   * 将统一内容项转换为HotItem（热门内容）
-   */
+  // 将统一内容项转换为HotItem
   static transformUnifiedToHot(unified: UnifiedContentItem): HotItem {
     return {
       id: unified.id,
@@ -223,48 +206,36 @@ export class ContentTransformationService {
     }
   }
 
-  /**
-   * 批量转换Movie实体列表为统一内容项列表
-   */
+  // 批量转换Movie实体列表为统一内容项列表
   static transformMovieListToUnified(movies: Movie[]): UnifiedContentItem[] {
     return movies.map(movie => this.transformMovieToUnified(movie))
   }
 
-  /**
-   * 批量转换Photo实体列表为统一内容项列表
-   */
+  // 批量转换Photo实体列表为统一内容项列表
   static transformPhotoListToUnified(photos: Photo[]): UnifiedContentItem[] {
     return photos.map(photo => this.transformPhotoToUnified(photo))
   }
 
-  /**
-   * 批量转换Collection实体列表为统一内容项列表
-   */
+  // 批量转换Collection实体列表为统一内容项列表
   static transformCollectionListToUnified(collections: Collection[]): UnifiedContentItem[] {
     return collections.map(collection => this.transformCollectionToUnified(collection))
   }
 
-  /**
-   * 批量转换统一内容项列表为CollectionItem列表
-   */
+  // 批量转换统一内容项列表为CollectionItem列表
   static transformUnifiedListToCollections(unifiedList: UnifiedContentItem[]): CollectionItem[] {
     return unifiedList
       .filter(item => item.contentType === 'collection')
       .map(item => this.transformUnifiedToCollection(item))
   }
 
-  /**
-   * 批量转换统一内容项列表为PhotoItem列表
-   */
+  // 批量转换统一内容项列表为PhotoItem列表
   static transformUnifiedListToPhotos(unifiedList: UnifiedContentItem[]): PhotoItem[] {
     return unifiedList
       .filter(item => item.contentType === 'photo')
       .map(item => this.transformUnifiedToPhoto(item))
   }
 
-  /**
-   * 批量转换统一内容项列表为LatestItem列表
-   */
+  // 批量转换统一内容项列表为LatestItem列表
   static transformUnifiedListToLatest(unifiedList: UnifiedContentItem[]): LatestItem[] {
     return unifiedList
       .filter(item => item.isNew)
@@ -272,9 +243,7 @@ export class ContentTransformationService {
       .map(item => this.transformUnifiedToLatest(item))
   }
 
-  /**
-   * 批量转换统一内容项列表为HotItem列表
-   */
+  // 批量转换统一内容项列表为HotItem列表
   static transformUnifiedListToHot(unifiedList: UnifiedContentItem[]): HotItem[] {
     return unifiedList
       .filter(item => item.contentType === 'movie' && item.isHot)
@@ -296,9 +265,7 @@ export class ContentTransformationService {
 
 
 
-  /**
-   * 验证转换结果的完整性
-   */
+  // 验证转换结果的完整性
   static validateTransformation(item: UnifiedContentItem): boolean {
     // 将类型层的UnifiedContentItem转换为领域层的UnifiedContentItem
     const domainItem: DomainUnifiedContentItem = {
@@ -327,9 +294,7 @@ export class ContentTransformationService {
     return UnifiedContentBusinessRules.validateUnifiedContent(domainItem)
   }
 
-  /**
-   * 混合内容转换 - 将不同类型的领域实体转换为统一格式
-   */
+  // 混合内容转换，将不同类型的领域实体转换为统一格式
   static transformMixedContent(entities: (Movie | Photo | Collection)[]): UnifiedContentItem[] {
     return entities
       .map(entity => {
@@ -347,9 +312,7 @@ export class ContentTransformationService {
       .filter((item): item is UnifiedContentItem => item !== null && this.validateTransformation(item))
   }
 
-  /**
-   * 根据业务规则过滤内容
-   */
+  // 根据业务规则过滤内容
   static filterByBusinessRules(
     items: UnifiedContentItem[],
     filters: {
@@ -372,9 +335,7 @@ export class ContentTransformationService {
     })
   }
 
-  /**
-   * 根据业务规则排序内容
-   */
+  // 根据业务规则排序内容
   static sortByBusinessRules(
     items: UnifiedContentItem[],
     sortBy: 'publishDate' | 'rating' | 'viewCount' | 'downloadCount' = 'publishDate',

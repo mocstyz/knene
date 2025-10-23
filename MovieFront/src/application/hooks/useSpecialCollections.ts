@@ -13,45 +13,35 @@ import { SpecialCollectionApplicationService, type SpecialCollectionQueryOptions
 import { useImageService } from '@presentation/hooks/image'
 import type { CollectionItem } from '@types-movie'
 
-// 专题合集Hook状态接口，定义Hook返回的状态结构
+// 专题合集Hook状态接口
 export interface UseSpecialCollectionsState {
-  collections: CollectionItem[] // 合集列表数据
-  loading: boolean // 加载状态
-  error: string | null // 错误信息
-  total: number // 总数量
-  hasMore: boolean // 是否还有更多数据
-  isPageChanging: boolean // 页面切换状态标志
+  collections: CollectionItem[]
+  loading: boolean
+  error: string | null
+  total: number
+  hasMore: boolean
+  isPageChanging: boolean
 }
 
-// 专题合集Hook操作接口，定义Hook返回的操作方法
+// 专题合集Hook操作接口
 export interface UseSpecialCollectionsActions {
-  refresh: () => Promise<void> // 刷新数据
-  loadMore: () => Promise<void> // 加载更多数据
-  updateOptions: (newOptions: Partial<SpecialCollectionQueryOptions>) => void // 更新查询选项
+  refresh: () => Promise<void>
+  loadMore: () => Promise<void>
+  updateOptions: (newOptions: Partial<SpecialCollectionQueryOptions>) => void
 }
 
-// 专题合集Hook返回值接口，组合状态和操作
+// 专题合集Hook返回值接口
 export interface UseSpecialCollectionsReturn extends UseSpecialCollectionsState, UseSpecialCollectionsActions { }
 
-// 专题合集Hook选项接口，定义Hook的配置参数
+// 专题合集Hook选项接口
 export interface UseSpecialCollectionsOptions extends SpecialCollectionQueryOptions {
-  autoLoad?: boolean // 是否自动加载数据，默认true
-  enableImageOptimization?: boolean // 是否启用图片优化，默认true
+  autoLoad?: boolean
+  enableImageOptimization?: boolean
 }
 
-/**
- * 专题合集数据获取Hook
- * 
- * 提供专题合集数据的获取、状态管理和操作方法，遵循以下设计原则：
- * - 通过应用服务层获取数据，不直接调用基础设施层
- * - 提供完整的加载状态和错误处理
- * - 支持分页、筛选、排序等查询功能
- * - 集成图片服务优化
- * - 提供刷新和加载更多等操作
- * 
- * @param options Hook配置选项
- * @returns UseSpecialCollectionsReturn Hook状态和操作方法
- */
+// 专题合集数据获取Hook
+// 提供专题合集数据的获取、状态管理和操作方法
+// 通过应用服务层获取数据，支持分页、筛选、排序等功能
 export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}): UseSpecialCollectionsReturn => {
   const {
     page: initialPage = 1,
@@ -95,14 +85,7 @@ export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}
     return collections.length < total && collections.length > 0
   }, [collections.length, total])
 
-  /**
-   * 获取专题合集数据（重构版本）
-   * 
-   * 支持请求取消和状态管理，防止竞态条件
-   * 
-   * @param fetchOptions 查询选项
-   * @param append 是否追加到现有数据（用于分页加载）
-   */
+  // 获取专题合集数据，支持请求取消和状态管理，防止竞态条件
   const fetchCollectionsWithOptions = useCallback(async (
     fetchOptions: SpecialCollectionQueryOptions,
     append: boolean = false
@@ -207,9 +190,7 @@ export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}
     }
   }, [applicationService, getCollectionCover, enableImageOptimization, total])
 
-  /**
-   * 刷新数据 - 重新加载第一页数据
-   */
+  // 刷新数据，重新加载第一页数据
   const refresh = useCallback(async () => {
     const refreshOptions = { ...queryOptionsRef.current, page: 1 }
     setCurrentPage(1)
@@ -218,9 +199,7 @@ export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}
     await fetchCollectionsWithOptions(refreshOptions, false)
   }, [fetchCollectionsWithOptions])
 
-  /**
-   * 加载更多数据 - 加载下一页数据
-   */
+  // 加载更多数据，加载下一页数据
   const loadMore = useCallback(async () => {
     if (loading || !hasMore) {
       console.log('🎬 [useSpecialCollections] 跳过加载更多', { loading, hasMore })
@@ -233,9 +212,7 @@ export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}
     await fetchCollectionsWithOptions(loadMoreOptions, true)
   }, [loading, hasMore, currentPage, fetchCollectionsWithOptions])
 
-  /**
-   * 更新查询选项 - 更新筛选、排序等参数并重新加载数据
-   */
+  // 更新查询选项，更新筛选、排序等参数并重新加载数据
   const updateOptions = useCallback((newOptions: Partial<SpecialCollectionQueryOptions>) => {
     // 取消之前的请求
     if (abortControllerRef.current) {

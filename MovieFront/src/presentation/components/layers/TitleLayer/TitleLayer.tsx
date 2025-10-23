@@ -11,24 +11,24 @@ import { cn } from '@utils/cn'
 import { getRatingTextColorClass } from '@utils/formatters'
 import React from 'react'
 
-// 标题显示层组件属性接口，定义标题显示的完整配置选项
+// 标题显示层组件属性接口
 export interface TitleLayerProps {
-  title: string // 标题文本
-  className?: string // 自定义CSS类名
-  variant?: 'primary' | 'secondary' | 'overlay' | 'compact' | 'collection' | 'movie' | 'photo' | 'ranking' // 标题变体，默认'primary'
-  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' // 标题大小，默认'md'
-  maxLines?: 1 | 2 | 3 | 4 // 文本截断行数，默认1
-  align?: 'left' | 'center' | 'right' // 文本对齐方式，默认'left'
-  color?: 'primary' | 'secondary' | 'white' | 'gray' | 'rating' // 标题颜色，默认'primary'
-  rating?: number // 评分值，用于动态颜色
-  weight?: 'normal' | 'medium' | 'semibold' | 'bold' // 字体粗细，默认'normal'
-  clickable?: boolean // 是否可点击，默认false
-  onClick?: () => void // 点击事件处理
-  showGradient?: boolean // 是否显示渐变遮罩，默认false
-  hoverEffect?: { // hover效果配置
-    enabled?: boolean // 是否启用hover效果
-    hoverColor?: 'red' | 'primary' | 'blue' | 'green' // hover时的颜色
-    transitionDuration?: string // 过渡动画时长
+  title: string
+  className?: string
+  variant?: 'primary' | 'secondary' | 'overlay' | 'compact' | 'collection' | 'movie' | 'photo' | 'ranking'
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+  maxLines?: 1 | 2 | 3 | 4
+  align?: 'left' | 'center' | 'right'
+  color?: 'primary' | 'secondary' | 'white' | 'gray' | 'rating'
+  rating?: number
+  weight?: 'normal' | 'medium' | 'semibold' | 'bold'
+  clickable?: boolean
+  onClick?: () => void
+  showGradient?: boolean
+  hoverEffect?: {
+    enabled?: boolean
+    hoverColor?: 'red' | 'primary' | 'blue' | 'green'
+    transitionDuration?: string
   }
 }
 

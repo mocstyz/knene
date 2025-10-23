@@ -75,34 +75,34 @@ export const badgeLayerVariants = {
   },
 } as const
 
-// Badge Layer组件类型定义 - 定义标签层组件的TypeScript类型
-// 标签层位置类型 - 定义标签在元素中的位置选项
+// Badge Layer组件类型定义
+// 标签层位置类型
 export type BadgeLayerPosition =
-  | 'top-right' // 右上角
-  | 'top-left' // 左上角
-  | 'bottom-right' // 右下角
-  | 'bottom-left' // 左下角
+  | 'top-right'
+  | 'top-left'
+  | 'bottom-right'
+  | 'bottom-left'
 
-// 标签层尺寸类型 - 定义标签的尺寸选项
+// 标签层尺寸类型
 export type BadgeLayerSize = 'sm' | 'md' | 'lg' | 'responsive'
 
-// 标签层变体类型 - 定义标签的显示样式
+// 标签层变体类型
 export type BadgeLayerVariant = 'default' | 'compact' | 'prominent'
 
-// 标签层类型 - 定义标签的功能类型
+// 标签层类型
 export type BadgeLayerType = 'vip' | 'rating' | 'quality' | 'new'
 
-// 评分颜色类型 - 定义评分显示的颜色选项
+// 评分颜色类型
 export type BadgeLayerRatingColor =
-  | 'green' // 绿色 - 高分
-  | 'blue' // 蓝色
-  | 'yellow' // 黄色 - 中等分数
-  | 'orange' // 橙色
-  | 'red' // 红色 - 高分（≥9.0）
-  | 'purple' // 紫色 - 优秀（8.0-8.9）
-  | 'white' // 白色 - 良好（7.0-7.9）
-  | 'gray' // 灰色 - 一般（<7.0）
-  | 'success' // 成功状态
-  | 'warning' // 警告状态
-  | 'danger' // 危险状态
-  | 'info' // 信息状态
+  | 'green'
+  | 'blue'
+  | 'yellow'
+  | 'orange'
+  | 'red'
+  | 'purple'
+  | 'white'
+  | 'gray'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'info'
