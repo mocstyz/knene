@@ -8,6 +8,7 @@
  */
 
 import { cn } from '@utils/cn'
+import { getRatingTextColorClass } from '@utils/formatters'
 import React from 'react'
 
 // 标题显示层组件属性接口，定义标题显示的完整配置选项
@@ -100,21 +101,13 @@ const TitleLayer: React.FC<TitleLayerProps> = ({
       case 'gray':
         return 'text-gray-600 dark:text-gray-400'
       case 'rating':
-        return getRatingColorClass(rating || 0)
+        // 根据评分值动态返回颜色
+        return rating !== undefined
+          ? getRatingTextColorClass(rating)
+          : 'text-white dark:text-white'
       default:
         return 'text-gray-900 dark:text-white'
     }
-  }
-
-  // 评分颜色逻辑函数 - 根据评分返回对应的颜色类名
-  const getRatingColorClass = (rating: number): string => {
-    if (rating >= 9) return 'text-green-400'
-    if (rating >= 8) return 'text-blue-400'
-    if (rating >= 7) return 'text-cyan-400'
-    if (rating >= 6) return 'text-yellow-400'
-    if (rating >= 5) return 'text-orange-400'
-    if (rating >= 4) return 'text-red-400'
-    return 'text-gray-400'
   }
 
   // 文本截断样式映射 - 定义不同行数对应的截断CSS类名

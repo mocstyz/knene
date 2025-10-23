@@ -363,7 +363,7 @@ export class CollectionRepository implements ICollectionRepository {
         type: item.type === 'series' ? 'TV Show' : 'Movie',
         rating: item.rating?.toString() || '0.0',
         imageUrl: item.poster || item.imageUrl || item.coverImage,
-        ratingColor: this.getRatingColor(item.rating),
+        ratingColor: 'white',
         quality: item.quality || 'HD',
         alt: item.alt || `${item.title || item.name} poster`,
         genres: item.genres || [],
@@ -406,11 +406,5 @@ export class CollectionRepository implements ICollectionRepository {
     }
   }
 
-  // 根据评分返回对应的颜色标识
-  private getRatingColor(rating?: number): 'purple' | 'red' | 'white' | 'default' {
-    if (!rating) return 'default'
-    if (rating >= 9) return 'purple'
-    if (rating >= 7) return 'red'
-    return 'white'
-  }
+
 }

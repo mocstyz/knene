@@ -57,7 +57,6 @@ export interface MovieLayerProps {
   showRatingBadge?: boolean // 是否显示评分标签
   showNewBadge?: boolean // 是否显示新片标签
   newBadgeType?: 'hot' | 'latest' | null // 新片类型，对齐统一类型系统
-  ratingColor?: 'purple' | 'red' | 'white' | 'default' // 评分颜色
   qualityText?: string // 质量标签文本
 }
 
@@ -75,26 +74,8 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
   showRatingBadge = true,
   showNewBadge = true,
   newBadgeType = 'latest',
-  ratingColor = 'default',
   qualityText,
 }) => {
-  // 映射评分颜色到RatingBadgeLayer的textColor
-  const mapRatingColor = (
-    color?: 'purple' | 'red' | 'white' | 'default'
-  ): BadgeLayerRatingColor => {
-    switch (color) {
-      case 'purple':
-        return 'purple'
-      case 'red':
-        return 'red'
-      case 'white':
-        return 'white'
-      case 'default':
-      default:
-        return 'white'
-    }
-  }
-
   // 列表变体的特殊处理
   if (variant === 'list') {
     return (
@@ -118,7 +99,8 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
             variant="primary"
             size="sm"
             maxLines={1}
-            color="primary"
+            color="rating"
+            rating={movie.rating}
             weight="bold"
             clickable={!!onPlay}
             onClick={() => onPlay?.(movie.id)}
@@ -228,7 +210,6 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
                 rating={movie.rating}
                 position="bottom-left"
                 variant="default"
-                textColor={mapRatingColor(ratingColor)}
               />
             )}
             {showVipBadge && (
@@ -249,7 +230,8 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
             variant="primary"
             size="lg"
             maxLines={1}
-            color="primary"
+            color="rating"
+            rating={movie.rating}
             weight="bold"
             clickable={!!onPlay}
             onClick={() => onPlay?.(movie.id)}

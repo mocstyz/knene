@@ -70,99 +70,44 @@ export function formatRating(rating: number, precision: number = 1): string {
   return rating.toFixed(precision)
 }
 
-// 获取评分等级，基于评分值返回相应的等级
-export function getRatingLevel(
+/**
+ * 根据评分获取颜色类型（用于Badge Layer）
+ * @description 评分颜色规则：
+ *              - 评分 ≥ 9.0：红色（高分）
+ *              - 8.0 ≤ 评分 < 9.0：紫色（优秀）
+ *              - 7.0 ≤ 评分 < 8.0：白色（良好）
+ *              - 评分 < 7.0：灰色（一般）
+ * @param rating 评分值 (0-10)
+ * @returns 颜色类型，用于 BadgeLayerRatingColor
+ */
+export function getRatingColorType(
   rating: number
-): 'excellent' | 'very-good' | 'good' | 'average' | 'poor' {
-  const value = Math.max(1, Math.min(10, rating)) // 确保在1-10范围内
+): 'red' | 'purple' | 'white' | 'gray' {
+  const value = Math.max(0, Math.min(10, rating)) // 确保在0-10范围内
 
-  if (value >= 9.0) return 'excellent'
-  if (value >= 8.0) return 'very-good'
-  if (value >= 7.0) return 'good'
-  if (value >= 5.0) return 'average'
-  return 'poor'
+  if (value >= 9.0) return 'red' // 高分 - 红色
+  if (value >= 8.0) return 'purple' // 优秀 - 紫色
+  if (value >= 7.0) return 'white' // 良好 - 白色
+  return 'gray' // 一般 - 灰色
 }
 
-// 获取评分颜色（Tailwind CSS类名）
-export function getRatingColorClass(rating: number): string {
-  const level = getRatingLevel(rating)
+/**
+ * 根据评分获取文本颜色类名（用于Title Layer）
+ * @description 评分颜色规则：
+ *              - 评分 ≥ 9.0：红色（高分）
+ *              - 8.0 ≤ 评分 < 9.0：紫色（优秀）
+ *              - 7.0 ≤ 评分 < 8.0：白色（良好）
+ *              - 评分 < 7.0：灰色（一般）
+ * @param rating 评分值 (0-10)
+ * @returns Tailwind CSS类名
+ */
+export function getRatingTextColorClass(rating: number): string {
+  const value = Math.max(0, Math.min(10, rating)) // 确保在0-10范围内
 
-  const colorClasses = {
-    excellent: 'text-green-600',
-    'very-good': 'text-blue-600',
-    good: 'text-yellow-600',
-    average: 'text-orange-600',
-    poor: 'text-red-600',
-  }
-
-  return colorClasses[level]
-}
-
-// 获取评分背景颜色（Tailwind CSS类名）
-export function getRatingBgColorClass(rating: number): string {
-  const level = getRatingLevel(rating)
-
-  const bgClasses = {
-    excellent: 'bg-green-100',
-    'very-good': 'bg-blue-100',
-    good: 'bg-yellow-100',
-    average: 'bg-orange-100',
-    poor: 'bg-red-100',
-  }
-
-  return bgClasses[level]
-}
-
-// 获取评分文本
-export function getRatingText(rating: number): string {
-  const level = getRatingLevel(rating)
-
-  const texts = {
-    excellent: '优秀',
-    'very-good': '很好',
-    good: '良好',
-    average: '一般',
-    poor: '较差',
-  }
-
-  return texts[level]
-}
-
-// 获取评分颜色（十六进制值）
-export function getRatingColor(rating: number): string {
-  const level = getRatingLevel(rating)
-
-  const colors = {
-    excellent: '#10B981',
-    'very-good': '#3B82F6',
-    good: '#F59E0B',
-    average: '#F97316',
-    poor: '#EF4444',
-  }
-
-  return colors[level]
-}
-
-// 获取海报评分颜色类名（根据特殊规则：<9.0白色、>=9.0红色）
-export function getPosterRatingColorClass(rating: number): string {
-  const value = Math.max(1, Math.min(10, rating)) // 确保在1-10范围内
-
-  if (value >= 9.0) {
-    return 'text-red-500' // 红色
-  } else {
-    return 'text-white' // 白色
-  }
-}
-
-// 获取电影标题颜色类名（根据特殊规则：<9.0默认色、>=9.0红色）
-export function getMovieTitleColorClass(rating: number): string {
-  const value = Math.max(1, Math.min(10, rating)) // 确保在1-10范围内
-
-  if (value >= 9.0) {
-    return 'text-red-500' // 红色
-  } else {
-    return '' // 默认颜色
-  }
+  if (value >= 9.0) return 'text-red-500 dark:text-red-400' // 高分 - 红色
+  if (value >= 8.0) return 'text-purple-400 dark:text-purple-300' // 优秀 - 紫色
+  if (value >= 7.0) return 'text-white dark:text-gray-100' // 良好 - 白色
+  return 'text-gray-400 dark:text-gray-500' // 一般 - 灰色（比白色暗）
 }
 
 // 格式化百分比，支持自定义精度

@@ -15,17 +15,8 @@ import {
   type BadgeLayerRatingColor,
 } from '@tokens/design-system'
 import { cn } from '@utils/cn'
-import { formatAndValidateRating } from '@utils/formatters'
+import { formatAndValidateRating, getRatingColorType } from '@utils/formatters'
 import React from 'react'
-
-// 获取评分颜色样式函数，根据评分返回对应的颜色类型，使用组件变体Token系统
-const getRatingColorClass = (rating: number): BadgeLayerRatingColor => {
-  if (rating >= 8.5) return 'green'
-  if (rating >= 7.5) return 'blue'
-  if (rating >= 6.5) return 'yellow'
-  if (rating >= 5.5) return 'orange'
-  return 'red'
-}
 
 // 评分标签层组件属性接口，定义评分标签的配置选项
 export interface RatingBadgeLayerProps {
@@ -56,11 +47,11 @@ const RatingBadgeLayer: React.FC<RatingBadgeLayerProps> = ({
     return null
   }
 
-  // 确定文本颜色 - 使用组件变体Token系统
+  // 确定文本颜色 - 根据评分自动计算颜色，或使用手动指定的颜色
   const finalTextColor =
     textColor ||
-    (ratingResult.numericValue
-      ? getRatingColorClass(ratingResult.numericValue)
+    (ratingResult.numericValue !== undefined
+      ? getRatingColorType(ratingResult.numericValue)
       : 'white')
 
   // 使用组件变体Token系统组合CSS类名

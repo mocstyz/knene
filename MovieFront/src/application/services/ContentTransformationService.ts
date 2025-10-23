@@ -49,7 +49,7 @@ export class ContentTransformationService {
       isHot: movie.isHot(),
       isFeatured: movie.isFeatured,
       rating: movie.rating,
-      ratingColor: this.getRatingColor(movie.rating),
+      ratingColor: 'white',
       quality: movie.quality.length > 0 ? movie.quality[0].resolution : undefined,
       viewCount: movie.downloadCount, // 影片使用下载次数作为浏览次数
       downloadCount: movie.downloadCount,
@@ -86,7 +86,7 @@ export class ContentTransformationService {
       isHot: photo.isHot(),
       isFeatured: photo.isFeatured,
       rating: photo.rating,
-      ratingColor: this.getRatingColor(photo.rating),
+      ratingColor: 'white',
       viewCount: photo.viewCount,
       downloadCount: photo.downloadCount,
       metadata: {
@@ -119,7 +119,7 @@ export class ContentTransformationService {
       isHot: collection.isHot(),
       isFeatured: collection.isFeatured,
       rating: collection.rating,
-      ratingColor: this.getRatingColor(collection.rating),
+      ratingColor: 'white',
       viewCount: collection.viewCount,
       downloadCount: collection.downloadCount,
       metadata: {
@@ -294,15 +294,7 @@ export class ContentTransformationService {
       }))
   }
 
-  /**
-   * 根据评分获取评分颜色
-   */
-  private static getRatingColor(rating: number): string {
-    if (rating >= 9.0) return 'purple'
-    if (rating >= 8.0) return 'red'
-    if (rating >= 7.0) return 'white'
-    return 'default'
-  }
+
 
   /**
    * 验证转换结果的完整性

@@ -532,7 +532,7 @@ export class HomeRepository implements IHomeRepository {
       type: photo.type === 'series' ? 'TV Show' : 'Movie',
       rating: photo.rating?.toString() || generateRandomRating(),
       imageUrl: photo.poster || photo.imageUrl || photo.coverImage,
-      ratingColor: this.getRatingColor(photo.rating),
+      ratingColor: 'white',
       quality: photo.quality || this.getRandomQuality(),
       formatType:
         (photo.formatType as 'JPEG高' | 'PNG' | 'WebP' | 'GIF' | 'BMP') ||
@@ -547,20 +547,20 @@ export class HomeRepository implements IHomeRepository {
 
   // 转换最新更新数据为LatestItem类型，处理新片状态和更新类型
   private transformLatestUpdates(latest: any[]): LatestItem[] {
-    return latest.map(item => ({
+    return latest.map((item, index) => ({
       id: item.id || item._id,
       title: item.title || item.name,
       type: item.type === 'series' ? 'TV Show' : 'Movie',
       rating: item.rating?.toString() || generateRandomRating(),
       imageUrl: item.poster || item.imageUrl || item.coverImage,
-      ratingColor: this.getRatingColor(item.rating),
+      ratingColor: 'white',
       quality: item.quality || this.getRandomQuality(),
       alt: item.alt || `${item.title || item.name} poster`,
       genres: item.genres || this.getRandomGenres(),
-      isNew: item.isNew || Math.random() > 0.7, // 随机设置新片状态
-      newType:
-        (item.newType as 'hot' | 'latest' | null) ||
-        (Math.random() > 0.5 ? 'latest' : 'hot'),
+      // 移除随机逻辑：如果数据中有isNew则使用，否则默认为false
+      isNew: item.isNew || false,
+      // 移除随机逻辑：如果数据中有newType则使用，否则默认为'latest'
+      newType: (item.newType as 'hot' | 'latest' | null) || 'latest',
     }))
   }
 
@@ -572,7 +572,7 @@ export class HomeRepository implements IHomeRepository {
       type: item.type === 'series' ? 'TV Show' : 'Movie',
       rating: item.rating?.toString() || generateRandomRating(),
       imageUrl: item.poster || item.imageUrl || item.coverImage,
-      ratingColor: this.getRatingColor(item.rating),
+      ratingColor: 'white',
       quality: item.quality || this.getRandomQuality(),
       alt: item.alt || `${item.title || item.name} poster`,
       genres: item.genres || this.getRandomGenres(),
@@ -580,15 +580,7 @@ export class HomeRepository implements IHomeRepository {
     }))
   }
 
-  // 根据评分返回对应的颜色标识
-  private getRatingColor(
-    rating?: number
-  ): 'purple' | 'red' | 'white' | 'default' {
-    if (!rating) return 'default'
-    if (rating >= 9) return 'purple'
-    if (rating >= 7) return 'red'
-    return 'white'
-  }
+
 
   // 获取随机的影片质量标识，作为数据缺失时的fallback
   private getRandomQuality(): string {

@@ -67,6 +67,7 @@ export const badgeLayerVariants = {
     red: 'text-red-500 dark:text-red-400',
     purple: 'text-purple-400 dark:text-purple-300',
     white: 'text-white dark:text-gray-100',
+    gray: 'text-gray-400 dark:text-gray-500', // 新增：用于低分评分显示
     success: 'text-green-400 dark:text-green-300',
     warning: 'text-yellow-400 dark:text-yellow-300',
     danger: 'text-red-500 dark:text-red-400',
@@ -97,9 +98,10 @@ export type BadgeLayerRatingColor =
   | 'blue' // 蓝色
   | 'yellow' // 黄色 - 中等分数
   | 'orange' // 橙色
-  | 'red' // 红色 - 低分
-  | 'purple' // 紫色
-  | 'white' // 白色
+  | 'red' // 红色 - 高分（≥9.0）
+  | 'purple' // 紫色 - 优秀（8.0-8.9）
+  | 'white' // 白色 - 良好（7.0-7.9）
+  | 'gray' // 灰色 - 一般（<7.0）
   | 'success' // 成功状态
   | 'warning' // 警告状态
   | 'danger' // 危险状态
