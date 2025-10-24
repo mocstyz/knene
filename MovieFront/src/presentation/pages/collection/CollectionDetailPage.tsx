@@ -13,6 +13,7 @@ import { useCollectionMovies } from '../../../application/hooks/useCollectionMov
 import { NavigationHeader } from '@components/organisms'
 import { BaseSection, BaseList } from '@components/domains/shared'
 import { MovieLayer } from '@components/domains/latestupdate/components'
+import { Pagination } from '@components/atoms'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import type { MovieDetail } from '@types-movie'
 
@@ -131,31 +132,19 @@ const CollectionDetailPage: React.FC = () => {
             )}
           />
 
-          {/* 分页组件 */}
-          {totalPages > 1 && (
-            <div className="mt-8 flex justify-center">
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                >
-                  上一页
-                </button>
-                <span className="px-4 py-2 text-gray-700 dark:text-gray-300">
-                  {currentPage} / {totalPages}
-                </span>
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                >
-                  下一页
-                </button>
-              </div>
-            </div>
-          )}
         </BaseSection>
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          mode="full"
+          variant="default"
+          size="md"
+          showPageInfo={false}
+          loading={loading}
+          disabled={isPageChanging}
+        />
       </main>
     </div>
   )

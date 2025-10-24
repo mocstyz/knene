@@ -82,7 +82,6 @@ export class MovieContentRenderer extends BaseContentRenderer {
           showRatingBadge={config.showRatingBadge}
           showNewBadge={config.showNewBadge}
           newBadgeType={movieItem.newType}
-          ratingColor={movieItem.ratingColor}
           qualityText={movieItem.quality}
         />
       </div>

@@ -38,6 +38,7 @@
       "@types/*": ["./src/types/*"],
       "@types-movie": ["./src/types/movie.types"],
       "@types-unified": ["./src/types/unified-interfaces.types"],
+      "@types-pagination": ["./src/types/pagination.types"],
 
       // 高频使用的子目录别名（基于项目实际需求）
       "@hooks/*": ["./src/hooks/*"],

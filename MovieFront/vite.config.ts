@@ -42,6 +42,7 @@ export default defineConfig({
       '@types': path.resolve(__dirname, './src/types'),
       '@types-movie': path.resolve(__dirname, './src/types/movie.types'),
       '@types-unified': path.resolve(__dirname, './src/types/unified-interfaces.types'),
+      '@types-pagination': path.resolve(__dirname, './src/types/pagination.types'),
 
       // 高频使用的子目录别名（基于项目实际需求）
       '@hooks': path.resolve(__dirname, './src/hooks'),
