@@ -104,48 +104,11 @@ const HomePage: React.FC = () => {
     return toHotItems(unifiedData)
   }, [hotDaily])
 
-  // Header动态背景效果 - 实现滚动时导航栏背景透明度变化，与HTML设计稿保持一致
-  useEffect(() => {
-    const header = headerRef.current
-    const hero = heroRef.current
 
-    if (!header || !hero) return
-
-    const defaultClasses =
-      'bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm'
-    const transparentClasses = 'bg-transparent backdrop-blur-0'
-
-    const updateHeader = () => {
-      const heroBottom = hero.getBoundingClientRect().bottom
-      if (heroBottom <= 0) {
-        // 超出英雄区域时 - 显示模糊背景
-        header.classList.remove(...transparentClasses.split(' '))
-        header.classList.add(...defaultClasses.split(' '))
-      } else {
-        // 在英雄区域内时 - 保持透明背景
-        header.classList.remove(...defaultClasses.split(' '))
-        header.classList.add(...transparentClasses.split(' '))
-      }
-    }
-
-    // 初始化Header状态 - 设置为透明背景
-    header.classList.add(...transparentClasses.split(' '))
-
-    // 添加滚动事件监听器
-    window.addEventListener('scroll', updateHeader)
-
-    // 初始检查 - 立即执行一次背景状态更新
-    updateHeader()
-
-    // 清理函数 - 移除事件监听器
-    return () => {
-      window.removeEventListener('scroll', updateHeader)
-    }
-  }, [])
 
   return (
     <div className="min-h-screen">
-      <NavigationHeader ref={headerRef} />
+      <NavigationHeader ref={headerRef} transparentMode={true} />
 
       <main className="pt-16">
         <HeroSection ref={heroRef} />

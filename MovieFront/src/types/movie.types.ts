@@ -22,7 +22,8 @@ export interface MediaImageItem {
 
 // 媒体评分接口，处理评分相关的属性
 export interface MediaRatingItem {
-  rating: string // 评分值
+  rating: string // Douban评分值（字符串格式，如 "7.5"）
+  doubanRating?: string // Douban评分（明确命名，与rating保持兼容）
   ratingColor?: 'purple' | 'red' | 'white' | 'default' // 评分颜色
 }
 
@@ -104,30 +105,128 @@ export interface CollectionItem extends BaseMediaItem, MediaImageItem, MediaStat
 
 // 电影详情接口，电影详情页面专用的完整信息接口
 export interface MovieDetail extends FullMovieItem {
-  director?: string // 导演
-  cast?: string[] // 演员列表
-  country?: string // 国家/地区
-  language?: string // 语言
-  duration?: number // 时长（分钟）
-  year?: number // 发布年份
-  plot?: string // 剧情简介
-  downloadLinks?: DownloadLink[] // 下载链接
-  recommendations?: BaseMovieItem[] // 相关推荐
-  viewCount?: number // 浏览次数
-  downloadCount?: number // 下载次数
-  favoriteCount?: number // 收藏次数
-  commentCount?: number // 评论数量
+  director?: string
+  cast?: string[]
+  country?: string
+  language?: string
+  duration?: number
+  year?: number
+  plot?: string
+  downloadLinks?: DownloadLink[]
+  recommendations?: BaseMovieItem[]
+  viewCount?: number
+  downloadCount?: number
+  favoriteCount?: number
+  commentCount?: number
+  votes?: number
+  // 多平台评分系统
+  // rating 字段继承自 MediaRatingItem，实际上是 Douban 评分（字符串格式）
+  doubanRating?: string // Douban评分（明确命名，字符串格式如 "7.5"）
+  imdbRating?: number // IMDb评分 (0-10，数字格式)
+  tmdbRating?: number // TMDb评分 (0-10，数字格式)
+  resource?: ResourceInfo
+  fileInfo?: FileInfo
+  screenshots?: Screenshot[]
+  thankYouCount?: number
+  isFavorited?: boolean
+  isThankYouActive?: boolean
 }
 
 // 下载链接接口
 export interface DownloadLink {
-  id: string // 链接ID
-  name: string // 链接名称
-  url: string // 下载URL
-  size?: string // 文件大小
-  format?: string // 文件格式
-  quality?: string // 清晰度
-  requiresVip?: boolean // 是否需要VIP
+  id: string
+  name: string
+  url: string
+  size?: string
+  format?: string
+  quality?: string
+  requiresVip?: boolean
+}
+
+// 资源信息接口
+export interface ResourceInfo {
+  title: string
+  tags: ResourceTag[]
+  stats: ResourceStats
+  uploader: UploaderInfo
+}
+
+// 资源标签接口
+export interface ResourceTag {
+  label: string
+  color: 'green' | 'blue' | 'yellow' | 'purple' | 'red' | 'indigo'
+}
+
+// 资源统计接口
+export interface ResourceStats {
+  views: number
+  downloads: number
+  likes: number
+  dislikes: number
+}
+
+// 上传者信息接口
+export interface UploaderInfo {
+  name: string
+  uploadTime: string
+}
+
+// 文件信息接口
+export interface FileInfo {
+  format: string
+  size: string
+  duration: string
+  video: VideoInfo
+  audio: AudioInfo
+  subtitles: SubtitleInfo[]
+  rawInfo?: string // 原始完整技术信息文本（BDInfo 或 MediaInfo）
+  rawInfoType?: 'bdinfo' | 'mediainfo' // 原始数据类型
+}
+
+// 视频信息接口
+export interface VideoInfo {
+  codec: string
+  resolution: string
+  fps: string
+}
+
+// 音频信息接口
+export interface AudioInfo {
+  codec: string
+  channels: string
+  sampleRate: string
+}
+
+// 字幕信息接口
+export interface SubtitleInfo {
+  language: string
+  isHighlighted: boolean
+}
+
+// 截图接口
+export interface Screenshot {
+  url: string
+  alt: string
+}
+
+// 评论接口
+export interface Comment {
+  id: string
+  userId: string
+  userName: string
+  userAvatar: string
+  content: string
+  timestamp: string
+  likes: number
+  dislikes: number
+  replies?: Comment[]
+}
+
+// 字幕下载源接口
+export interface SubtitleSource {
+  name: string
+  description: string
+  url: string
 }
 
 // 合集详情接口，合集详情页面专用的完整信息接口

@@ -66,9 +66,13 @@ const CollectionDetailPage: React.FC = () => {
   const handleMovieClick = (movie: MovieDetail) => {
     console.log('🎬 [CollectionDetailPage] 点击影片:', {
       id: movie.id,
-      title: movie.title
+      title: movie.title,
+      imageUrl: movie.imageUrl
     })
-    navigate(`/movie/${movie.id}`)
+    // 通过路由状态传递图片URL
+    navigate(`/movie/${movie.id}`, {
+      state: { imageUrl: movie.imageUrl }
+    })
   }
 
   // 错误状态处理
