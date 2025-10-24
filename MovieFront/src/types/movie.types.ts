@@ -56,32 +56,32 @@ export interface MediaRankItem {
 // 基础电影项目接口，组合了基础媒体、图片、评分、质量接口
 export interface BaseMovieItem
   extends BaseMediaItem,
-    MediaImageItem,
-    MediaRatingItem,
-    MediaQualityItem {
+  MediaImageItem,
+  MediaRatingItem,
+  MediaQualityItem {
   genres?: string[] // 电影类型/分类
 }
 
 // 完整电影项目接口，包含所有电影相关属性
 export interface FullMovieItem
   extends BaseMovieItem,
-    MediaStatusItem,
-    MediaFormatItem {}
+  MediaStatusItem,
+  MediaFormatItem { }
 
 // 写真项目接口，写真专用的接口组合
 export interface PhotoItem
   extends BaseMovieItem,
-    MediaStatusItem,
-    MediaFormatItem {}
+  MediaStatusItem,
+  MediaFormatItem { }
 
 // 最新更新项目接口，最新更新专用的接口组合
-export interface LatestItem extends BaseMovieItem, MediaStatusItem {}
+export interface LatestItem extends BaseMovieItem, MediaStatusItem { }
 
 // TOP项目接口，TOP排名专用的接口组合
-export interface TopItem extends BaseMovieItem, MediaRankItem {}
+export interface TopItem extends BaseMovieItem, MediaRankItem { }
 
 // 热门项目接口，继承基础电影项目和状态属性
-export interface HotItem extends BaseMovieItem, MediaStatusItem {}
+export interface HotItem extends BaseMovieItem, MediaStatusItem { }
 
 // 合集项目接口，合集专用的接口组合，包含合集的完整信息
 export interface CollectionItem extends BaseMediaItem, MediaImageItem, MediaStatusItem, MediaRatingItem {

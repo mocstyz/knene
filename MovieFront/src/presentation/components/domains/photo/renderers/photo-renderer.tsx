@@ -93,9 +93,10 @@ export class PhotoContentRenderer extends BaseContentRenderer {
           showVipBadge={config.showVipBadge}
           showQualityBadge={config.showQualityBadge}
           showNewBadge={config.showNewBadge}
+          showMetadata={config.showMetadata}
           newBadgeType={photoItem.newType || 'latest'}
           isVip={photoItem.isVip}
-          isNew={photoItem.isNew || false} // 同时设置PhotoLayer的isNew prop
+          isNew={photoItem.isNew || false}
         />
       </div>
     )

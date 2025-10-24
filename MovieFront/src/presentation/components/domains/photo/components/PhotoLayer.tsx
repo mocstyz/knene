@@ -44,21 +44,22 @@ export interface PhotoLayerProps {
     photographer?: string
     rating?: number
     isNew?: boolean
-    newType?: 'hot' | 'latest' | null // 新项目类型标识，对齐统一类型系统
-  } // 写真数据
-  className?: string // 自定义CSS类名
-  variant?: 'default' | 'detailed' | 'featured' | 'list' // 写真变体
-  onView?: (photoId: string) => void // 查看按钮点击回调
-  onDownload?: (photoId: string) => void // 下载按钮点击回调
-  onFavorite?: (photoId: string) => void // 收藏按钮点击回调
-  isFavorited?: boolean // 是否已收藏
-  showHover?: boolean // 是否显示悬停效果
-  showVipBadge?: boolean // 是否显示VIP标签
-  showQualityBadge?: boolean // 是否显示质量标签
-  showNewBadge?: boolean // 是否显示新片标签
-  newBadgeType?: 'hot' | 'latest' | null // 新片类型，对齐统一类型系统
-  isVip?: boolean // 是否为VIP内容
-  isNew?: boolean // 是否为新内容
+    newType?: 'hot' | 'latest' | null
+  }
+  className?: string
+  variant?: 'default' | 'detailed' | 'featured' | 'list'
+  onView?: (photoId: string) => void
+  onDownload?: (photoId: string) => void
+  onFavorite?: (photoId: string) => void
+  isFavorited?: boolean
+  showHover?: boolean
+  showVipBadge?: boolean
+  showQualityBadge?: boolean
+  showNewBadge?: boolean
+  showMetadata?: boolean
+  newBadgeType?: 'hot' | 'latest' | null
+  isVip?: boolean
+  isNew?: boolean
 }
 
 // 写真层组件，提供写真特化的内容展示功能，组合多个Layer组件，采用分离式布局
@@ -73,6 +74,7 @@ const PhotoLayer: React.FC<PhotoLayerProps> = ({
   showVipBadge = true,
   showQualityBadge = true,
   showNewBadge = true,
+  showMetadata = true,
   newBadgeType = 'latest',
   isVip = false,
   isNew = false,
@@ -262,11 +264,13 @@ const PhotoLayer: React.FC<PhotoLayerProps> = ({
           />
 
           {/* 分类信息 - 使用tags作为分类 */}
-          <MetadataLayer 
-            genres={photo.tags} 
-            variant="compact" 
-            maxGenres={3} 
-          />
+          {showMetadata && (
+            <MetadataLayer 
+              genres={photo.tags} 
+              variant="compact" 
+              maxGenres={3} 
+            />
+          )}
         </div>
       </div>
     </CardHoverLayer>

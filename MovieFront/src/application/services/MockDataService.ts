@@ -239,6 +239,36 @@ export class MockDataService {
       })
   }
 
+  // 获取扩展的Mock写真数据，支持更多配置选项和筛选条件
+  public getExtendedMockPhotos(options: {
+    count?: number
+    category?: string
+    includeVipOnly?: boolean
+  } = {}): PhotoItem[] {
+    const { count = 12, category, includeVipOnly = false } = options
+    let photos = this.generateMockPhotos(count * 2) // 生成更多数据用于筛选
+
+    // 分类筛选 - 根据指定分类过滤写真
+    if (category) {
+      photos = photos.filter((_, index) => {
+        const categories = ['风景', '人物', '建筑', '动物', '艺术']
+        return categories[index % 5] === category
+      })
+    }
+
+    // VIP筛选 - 根据VIP状态过滤
+    if (includeVipOnly) {
+      photos = photos.filter((_, index) => index % 5 === 0) // 简化的VIP筛选逻辑
+    }
+
+    return photos
+      .slice(0, count)
+      .map(photo => {
+        const unifiedItem = ContentTransformationService.transformPhotoToUnified(photo)
+        return ContentTransformationService.transformUnifiedToPhoto(unifiedItem)
+      })
+  }
+
   // 生成Mock首页完整数据，返回HomeDataResponse格式用于首页展示
   public generateMockHomeData(): { collections: CollectionItem[], photos: PhotoItem[], latestUpdates: LatestItem[], hotDaily: HotItem[] } {
     const cacheKey = 'home_data'

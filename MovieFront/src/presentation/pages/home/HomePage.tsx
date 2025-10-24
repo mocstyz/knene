@@ -125,6 +125,7 @@ const HomePage: React.FC = () => {
           <PhotoSection
             data={processedPhotos}
             showMoreLink={true}
+            moreLinkUrl={ROUTES.PHOTO.LIST}
             cardConfig={{
               showNewBadge: true,
               showVipBadge: true,

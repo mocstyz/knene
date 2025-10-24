@@ -13,12 +13,14 @@ import type { Screenshot } from '@types-movie'
 interface MovieScreenshotsProps {
   screenshots: Screenshot[]
   onImageClick?: (index: number) => void
+  title?: string // 可选的标题，默认为"影片截图"
 }
 
 // 影片截图组件，展示截图网格
 export const MovieScreenshots: React.FC<MovieScreenshotsProps> = ({
   screenshots,
   onImageClick,
+  title = '影片截图',
 }) => {
   // 图片加载错误处理
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -29,7 +31,7 @@ export const MovieScreenshots: React.FC<MovieScreenshotsProps> = ({
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-        影片截图
+        {title}
       </h2>
 
       {/* 截图网格 */}

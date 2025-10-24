@@ -54,6 +54,10 @@ const MovieCategoryPage = React.lazy(
   () => import('@pages/movie/MovieCategoryPage')
 )
 
+// 写真页面
+const PhotoDetailPage = React.lazy(() => import('@pages/photo/PhotoDetailPage'))
+const PhotoListPage = React.lazy(() => import('@pages/photo/PhotoListPage'))
+
 // 专题页面
 const SpecialCollectionsPage = React.lazy(
   () => import('@pages/special/SpecialCollectionsPage')
@@ -233,6 +237,29 @@ const routeConfig: RouteObject[] = [
     ],
   },
 
+  // 写真相关路由
+  {
+    path: '/photo',
+    children: [
+      {
+        index: true,
+        element: (
+          <SuspenseWrapper>
+            <PhotoListPage />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: ':id',
+        element: (
+          <SuspenseWrapper>
+            <PhotoDetailPage />
+          </SuspenseWrapper>
+        ),
+      },
+    ],
+  },
+
   // 专题路由
   {
     path: '/special/collections',
@@ -365,6 +392,12 @@ export const ROUTES = {
     DETAIL: (id: string) => `/movie/${id}`,
     SEARCH: '/movie/search',
     CATEGORY: (category: string) => `/movie/category/${category}`,
+  },
+
+  // 写真路由
+  PHOTO: {
+    LIST: '/photo',
+    DETAIL: (id: string) => `/photo/${id}`,
   },
 
   // 专题路由

@@ -59,6 +59,7 @@ export const RESPONSIVE_SPECIAL_PAGE_CONFIG: ResponsiveColumnsConfig = {
 export const RESPONSIVE_CONFIGS = {
   // 内容展示类配置 - 使用6列标准模式，适用于写真、最新更新、热门等内容密集型模块
   photo: RESPONSIVE_6_COLUMN_CONFIG, // 写真内容响应式配置
+  photoPage: RESPONSIVE_SPECIAL_PAGE_CONFIG, // 写真列表页面响应式配置
   latestUpdate: RESPONSIVE_6_COLUMN_CONFIG, // 最新更新内容响应式配置
   hot: RESPONSIVE_6_COLUMN_CONFIG, // 热门内容响应式配置
   mixedContent: RESPONSIVE_6_COLUMN_CONFIG, // 混合内容响应式配置

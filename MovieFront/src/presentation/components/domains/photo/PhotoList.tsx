@@ -33,14 +33,15 @@ export interface PhotoListProps {
   variant?: 'grid' | 'list' // 布局变体
   columns?: ResponsiveColumnsConfig // 响应式列数配置
   cardConfig?: {
-    showVipBadge?: boolean // 是否显示VIP标签
-    showNewBadge?: boolean // 是否显示新片标签
-    showQualityBadge?: boolean // 是否显示质量标签
-    showRatingBadge?: boolean // 是否显示评分标签
-    aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape' // 宽高比
-    hoverEffect?: boolean // 悬停效果
-    titleHoverEffect?: boolean // 标题悬停效果
-  } // 卡片配置
+    showVipBadge?: boolean
+    showNewBadge?: boolean
+    showQualityBadge?: boolean
+    showRatingBadge?: boolean
+    showMetadata?: boolean
+    aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape'
+    hoverEffect?: boolean
+    titleHoverEffect?: boolean
+  }
 }
 
 // 写真列表组件，提供写真的完整列表功能，使用内容渲染器系统和BaseList布局
@@ -76,6 +77,7 @@ const PhotoList: React.FC<PhotoListProps> = ({
     showNewBadge: cardConfig?.showNewBadge ?? true,
     showQualityBadge: cardConfig?.showQualityBadge ?? true,
     showRatingBadge: cardConfig?.showRatingBadge ?? false,
+    showMetadata: cardConfig?.showMetadata ?? true,
     aspectRatio: cardConfig?.aspectRatio ?? 'portrait',
     onClick: item => {
       // 查找与当前BaseContentItem对应的原始PhotoItem
