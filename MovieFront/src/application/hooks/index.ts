@@ -18,6 +18,14 @@ export * from './useTheme'
 // 提供基于评分的颜色计算功能，支持主题适配
 export * from './useRatingColor'
 
+// 专题合集相关Hooks导出
+// 包含专题合集数据获取、筛选、排序等功能
+export * from './useSpecialCollections'
+
+// 合集影片相关Hooks导出
+// 包含合集影片列表获取、分页等功能
+export * from './useCollectionMovies'
+
 // 查询客户端和查询键导出
 // 提供统一的查询客户端配置和查询键管理
 export { queryClient, QUERY_KEYS } from '@application/services/queryClient'

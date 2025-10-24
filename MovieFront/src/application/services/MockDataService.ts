@@ -258,6 +258,70 @@ export class MockDataService {
     return homeData
   }
 
+  // 获取单个合集详情，根据ID返回对应的合集信息
+  public getMockCollectionDetail(collectionId: string): CollectionItem | null {
+    const collections = this.generateMockCollections(50)
+    const collection = collections.find(c => c.id === collectionId)
+    
+    if (!collection) {
+      return null
+    }
+
+    const unifiedItem = ContentTransformationService.transformCollectionToUnified(collection)
+    return ContentTransformationService.transformUnifiedToCollection(unifiedItem)
+  }
+
+  // 获取合集中的影片列表，支持分页
+  public getMockCollectionMovies(options: {
+    collectionId: string
+    page?: number
+    pageSize?: number
+  }): { movies: import('@types-movie').MovieDetail[], total: number } {
+    const { collectionId, page = 1, pageSize = 12 } = options
+    
+    // 为每个合集生成固定的影片列表（基于collectionId生成种子）
+    const collectionIndex = parseInt(collectionId.replace('collection_', '')) || 1
+    const totalMovies = 20 + (collectionIndex % 30) // 每个合集20-50部影片
+    
+    // 生成该合集的所有影片
+    const allMovies = Array.from({ length: totalMovies }, (_, index) => {
+      const movieIndex = collectionIndex * 100 + index + 1
+      const id = `movie_${movieIndex}`
+      const genres = ['动作', '喜剧', '剧情', '科幻', '恐怖', '爱情', '悬疑'][index % 7]
+      const releaseYear = 2024 - Math.floor(Math.random() * 5)
+      const rating = parseFloat((Math.random() * 4 + 6).toFixed(1))
+      
+      return {
+        id,
+        title: `合集${collectionIndex}-影片${index + 1}`,
+        type: 'Movie' as const,
+        rating: rating.toString(),
+        ratingColor: 'white' as const,
+        imageUrl: `https://picsum.photos/400/600?random=${movieIndex}`,
+        quality: ['4K', 'HD', '1080P', '720P'][index % 4],
+        alt: `合集${collectionIndex}-影片${index + 1} 海报`,
+        genres: [genres],
+        year: releaseYear,
+        duration: 90 + Math.floor(Math.random() * 60),
+        description: `这是合集${collectionIndex}中的第${index + 1}部影片`,
+        director: `导演${index + 1}`,
+        cast: [`演员${index + 1}`, `演员${index + 2}`],
+        country: '中国',
+        language: '中文'
+      }
+    })
+
+    // 分页处理
+    const startIndex = (page - 1) * pageSize
+    const endIndex = startIndex + pageSize
+    const paginatedMovies = allMovies.slice(startIndex, endIndex)
+
+    return {
+      movies: paginatedMovies,
+      total: totalMovies
+    }
+  }
+
   // 清除缓存，用于开发环境数据刷新或内存管理
   public clearCache(): void {
     this.mockDataCache.clear()

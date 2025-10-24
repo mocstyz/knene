@@ -84,14 +84,14 @@ export function getRatingColorType(
 }
 
 // 根据评分获取文本颜色类名，用于Title Layer
-// 评分规则：≥9.0红色、≥8.0紫色、≥7.0白色、<7.0灰色
+// 评分规则：≥9.0红色、≥8.0紫色、≥7.0深灰色、<7.0灰色
 export function getRatingTextColorClass(rating: number): string {
   const value = Math.max(0, Math.min(10, rating)) // 确保在0-10范围内
 
   if (value >= 9.0) return 'text-red-500 dark:text-red-400' // 高分 - 红色
-  if (value >= 8.0) return 'text-purple-400 dark:text-purple-300' // 优秀 - 紫色
-  if (value >= 7.0) return 'text-white dark:text-gray-100' // 良好 - 白色
-  return 'text-gray-400 dark:text-gray-500' // 一般 - 灰色（比白色暗）
+  if (value >= 8.0) return 'text-purple-500 dark:text-purple-300' // 优秀 - 紫色
+  if (value >= 7.0) return 'text-gray-900 dark:text-gray-100' // 良好 - 深灰色/浅灰色
+  return 'text-gray-600 dark:text-gray-400' // 一般 - 灰色
 }
 
 // 格式化百分比，支持自定义精度

@@ -87,11 +87,36 @@ export class CollectionRepository implements ICollectionRepository {
     } catch (error) {
       if (import.meta.env.DEV) {
         console.log(`Development: API not available, using mock data for collection ${id}`)
+        
+        // 使用Mock数据服务
+        const { mockDataService } = await import('@application/services/MockDataService')
+        const mockCollection = mockDataService.getMockCollectionDetail(id)
+        
+        if (mockCollection) {
+          return mockCollection
+        }
+        
+        // 如果mock数据中也没有，返回默认合集
+        return {
+          id,
+          title: `合集 ${id}`,
+          type: 'Collection' as const,
+          contentType: 'collection' as const,
+          imageUrl: 'https://picsum.photos/400/600?random=1',
+          description: '这是一个示例合集',
+          alt: `合集 ${id} 封面`,
+          movieCount: 0,
+          category: '默认分类',
+          tags: [],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          isFeatured: false,
+          rating: '0'
+        }
       } else {
         console.error('Error fetching collection detail:', error)
       }
       
-      // 返回默认的空集合项
       throw new Error(`Collection with id ${id} not found`)
     }
   }
@@ -126,6 +151,28 @@ export class CollectionRepository implements ICollectionRepository {
     } catch (error) {
       if (import.meta.env.DEV) {
         console.log(`Development: API not available, using mock data for collection ${collectionId} movies`)
+        
+        // 使用Mock数据服务
+        const { mockDataService } = await import('@application/services/MockDataService')
+        const mockResult = mockDataService.getMockCollectionMovies({
+          collectionId,
+          page,
+          pageSize
+        })
+        
+        const totalPages = Math.ceil(mockResult.total / pageSize)
+        
+        return {
+          data: mockResult.movies,
+          pagination: {
+            currentPage: page,
+            pageSize: pageSize,
+            total: mockResult.total,
+            totalPages: totalPages,
+            hasNext: page < totalPages,
+            hasPrev: page > 1
+          }
+        }
       } else {
         console.error('Error fetching collection movies:', error)
       }

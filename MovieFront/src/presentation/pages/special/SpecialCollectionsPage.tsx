@@ -14,9 +14,11 @@ import { CollectionList, type CollectionItem } from '@components/domains'
 import { NavigationHeader } from '@components/organisms'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import React, { useState, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // 专题合集列表页面组件 - 展示所有精选合集，支持分页和交互功能
 const SpecialCollectionsPage: React.FC = () => {
+  const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState(1)
 
   // 分页配置 - 每页显示的合集数量
@@ -51,13 +53,14 @@ const SpecialCollectionsPage: React.FC = () => {
     }
   }
 
-  // 合集点击处理 - 输出合集信息用于调试
+  // 合集点击处理 - 跳转到合集详情页
   const handleCollectionClick = (collection: CollectionItem) => {
     console.log('🎬 [SpecialCollectionsPage] 点击合集:', {
       id: collection.id,
       title: collection.title,
       type: collection.type
     })
+    navigate(`/collection/${collection.id}`)
   }
 
   // 错误状态处理
