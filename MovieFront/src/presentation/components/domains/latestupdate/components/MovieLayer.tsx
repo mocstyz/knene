@@ -145,7 +145,10 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
     >
       <div className="space-y-3">
         {/* 图片卡片区域 - 独立的阴影卡片 */}
-        <div className="relative aspect-[2/3] overflow-hidden rounded-lg shadow-md">
+        <div 
+          className="relative aspect-[2/3] overflow-hidden rounded-lg shadow-md cursor-pointer"
+          onClick={() => onPlay?.(movie.id)}
+        >
           <ImageLayer
             src={movie.poster}
             alt={movie.alt || movie.title}

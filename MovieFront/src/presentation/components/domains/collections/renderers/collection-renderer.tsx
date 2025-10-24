@@ -60,7 +60,6 @@ export class CollectionContentRenderer extends BaseContentRenderer {
       <div
         className={this.getClassName(config)}
         style={this.getStyle(config)}
-        onClick={this.createClickHandler(collectionItem, config)}
       >
         <CollectionLayer
           collection={{
@@ -77,6 +76,7 @@ export class CollectionContentRenderer extends BaseContentRenderer {
           isVip={collectionItem.isVip}
           isNew={collectionItem.isNew}
           newBadgeType={collectionItem.newType || 'latest'}
+          onClick={config.onClick ? () => config.onClick?.(collectionItem) : undefined}
           hoverEffect={{
             enabled: config.hoverEffect,
             hoverColor: 'red',

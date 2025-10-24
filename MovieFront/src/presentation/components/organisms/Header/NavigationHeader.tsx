@@ -14,6 +14,7 @@ import { NavigationMenu } from '@components/molecules/NavigationMenu'
 import { pageConfigs } from '@components/molecules/NavigationMenu/designTokens'
 import { useMobileNavigation } from '@hooks/useMobileNavigation'
 import { forwardRef } from 'react'
+import { Link } from 'react-router-dom'
 
 // 导航头部组件属性，定义组件的配置选项和可定制内容
 export interface NavigationHeaderProps {
@@ -58,11 +59,14 @@ export const NavigationHeader = forwardRef<HTMLElement, NavigationHeaderProps>(
             <div className="flex h-16 items-center justify-between">
               {/* 左侧：Logo + 桌面端导航菜单 */}
               <div className="flex items-center space-x-8">
-                {/* Logo区域 */}
-                <div className="flex items-center space-x-2">
+                {/* Logo区域 - 点击跳转首页 */}
+                <Link
+                  to="/"
+                  className="flex items-center space-x-2 transition-opacity hover:opacity-80"
+                >
                   <Icon name={logoIcon} className="text-[#6EE7B7]" />
                   <span className="text-xl font-bold">{logoText}</span>
-                </div>
+                </Link>
 
                 {/* 桌面端主导航菜单 - 1024px及以上显示 */}
                 <div className="hidden lg:flex">
