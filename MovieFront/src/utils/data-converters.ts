@@ -55,10 +55,26 @@ export function filterAndConvertToCollectionItems(
 
 // 将UnifiedContentItem转换为PhotoItem
 export function toPhotoItem(item: UnifiedContentItem): PhotoItem {
+  // 根据contentType映射到正确的type
+  let type: 'Movie' | 'TV Show' | 'Collection' | 'Photo' = 'Photo'
+  let contentType: 'movie' | 'photo' | 'collection' = 'photo'
+  
+  if (item.contentType === 'movie') {
+    type = 'Movie'
+    contentType = 'movie'
+  } else if (item.contentType === 'photo') {
+    type = 'Photo'
+    contentType = 'photo'
+  } else if (item.contentType === 'collection') {
+    type = 'Collection'
+    contentType = 'collection'
+  }
+
   return {
     id: item.id,
     title: item.title,
-    type: 'Movie' as const, // 添加必需的type属性
+    type: type, // 根据contentType动态设置
+    contentType: contentType, // 保留contentType字段用于渲染器选择（只包含支持的类型）
     description: item.description,
     imageUrl: item.imageUrl,
     alt: item.alt || item.title,
@@ -81,18 +97,38 @@ export function toPhotoItems(items: UnifiedContentItem[]): PhotoItem[] {
 
 // 将UnifiedContentItem转换为LatestItem
 export function toLatestItem(item: UnifiedContentItem): LatestItem {
+  // 根据contentType映射到正确的type
+  let type: 'Movie' | 'TV Show' | 'Collection' | 'Photo' = 'Movie'
+  let contentType: 'movie' | 'photo' | 'collection' = 'movie'
+  
+  if (item.contentType === 'movie') {
+    type = 'Movie'
+    contentType = 'movie'
+  } else if (item.contentType === 'photo') {
+    type = 'Photo'
+    contentType = 'photo'
+  } else if (item.contentType === 'collection') {
+    type = 'Collection'
+    contentType = 'collection'
+  }
+
   return {
     id: item.id,
     title: item.title,
-    type: 'Movie' as const, // 添加必需的type属性
+    type: type, // 根据contentType设置正确的type
+    contentType: contentType, // 保留contentType字段用于渲染器选择（只包含支持的类型）
     description: item.description,
     imageUrl: item.imageUrl,
     alt: item.alt || item.title,
     rating: item.rating ? String(item.rating) : '',
     ratingColor: item.ratingColor as 'purple' | 'red' | 'white' | 'default' | undefined,
     quality: item.quality,
+    isNew: item.isNew,
+    newType: item.newType,
+    isVip: item.isVip,
     // LatestItem特有属性，从metadata中提取或设置默认值
     genres: item.metadata?.genres || [],
+    movieCount: contentType === 'collection' ? item.viewCount : undefined, // 合集显示影片数量
   }
 }
 

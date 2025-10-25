@@ -45,16 +45,71 @@ export const BaseList = <T,>({
   className,
   renderItem,
 }: BaseListProps<T>) => {
-  // 生成响应式列数CSS类名 - 根据各断点配置生成对应的grid样式类
+  // 生成响应式列数CSS类名 - 使用映射表确保Tailwind JIT能识别
   const generateColumnsClasses = (cols: ResponsiveColumnsConfig): string => {
     const classes: string[] = []
 
-    if (cols.xs) classes.push(`grid-cols-${cols.xs}`)
-    if (cols.sm) classes.push(`sm:grid-cols-${cols.sm}`)
-    if (cols.md) classes.push(`md:grid-cols-${cols.md}`)
-    if (cols.lg) classes.push(`lg:grid-cols-${cols.lg}`)
-    if (cols.xl) classes.push(`xl:grid-cols-${cols.xl}`)
-    if (cols.xxl) classes.push(`xxl:grid-cols-${cols.xxl}`)
+    // 列数到类名的映射表
+    const colsMap: Record<number, string> = {
+      1: 'grid-cols-1',
+      2: 'grid-cols-2',
+      3: 'grid-cols-3',
+      4: 'grid-cols-4',
+      5: 'grid-cols-5',
+      6: 'grid-cols-6',
+    }
+
+    const smColsMap: Record<number, string> = {
+      1: 'sm:grid-cols-1',
+      2: 'sm:grid-cols-2',
+      3: 'sm:grid-cols-3',
+      4: 'sm:grid-cols-4',
+      5: 'sm:grid-cols-5',
+      6: 'sm:grid-cols-6',
+    }
+
+    const mdColsMap: Record<number, string> = {
+      1: 'md:grid-cols-1',
+      2: 'md:grid-cols-2',
+      3: 'md:grid-cols-3',
+      4: 'md:grid-cols-4',
+      5: 'md:grid-cols-5',
+      6: 'md:grid-cols-6',
+    }
+
+    const lgColsMap: Record<number, string> = {
+      1: 'lg:grid-cols-1',
+      2: 'lg:grid-cols-2',
+      3: 'lg:grid-cols-3',
+      4: 'lg:grid-cols-4',
+      5: 'lg:grid-cols-5',
+      6: 'lg:grid-cols-6',
+    }
+
+    const xlColsMap: Record<number, string> = {
+      1: 'xl:grid-cols-1',
+      2: 'xl:grid-cols-2',
+      3: 'xl:grid-cols-3',
+      4: 'xl:grid-cols-4',
+      5: 'xl:grid-cols-5',
+      6: 'xl:grid-cols-6',
+    }
+
+    const xxlColsMap: Record<number, string> = {
+      1: 'xxl:grid-cols-1',
+      2: 'xxl:grid-cols-2',
+      3: 'xxl:grid-cols-3',
+      4: 'xxl:grid-cols-4',
+      5: 'xxl:grid-cols-5',
+      6: 'xxl:grid-cols-6',
+    }
+
+    if (cols.xs && colsMap[cols.xs]) classes.push(colsMap[cols.xs])
+    if (cols.sm && smColsMap[cols.sm]) classes.push(smColsMap[cols.sm])
+    if (cols.md && mdColsMap[cols.md]) classes.push(mdColsMap[cols.md])
+    if (cols.lg && lgColsMap[cols.lg]) classes.push(lgColsMap[cols.lg])
+    if (cols.xl && xlColsMap[cols.xl]) classes.push(xlColsMap[cols.xl])
+    if (cols.xxl && xxlColsMap[cols.xxl]) classes.push(xxlColsMap[cols.xxl])
 
     return classes.join(' ')
   }

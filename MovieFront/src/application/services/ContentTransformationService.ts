@@ -9,12 +9,12 @@
 import { Collection } from '@domain/entities/Collection'
 import { Movie } from '@domain/entities/Movie'
 import { Photo } from '@domain/entities/Photo'
-import { 
-  UnifiedContentFactory, 
+import {
+  UnifiedContentFactory,
   UnifiedContentBusinessRules,
-  type UnifiedContentItem as DomainUnifiedContentItem 
+  type UnifiedContentItem as DomainUnifiedContentItem
 } from '@domain/entities/UnifiedContent'
-import type { 
+import type {
   CollectionItem,
   PhotoItem,
   LatestItem,
@@ -39,15 +39,17 @@ export class ContentTransformationService {
       publishDate: movie.releaseDate.toISOString(),
       tags: movie.generateTags(),
       isVip: movie.isVipContent(),
-      isNew: movie.isNew(),
-      newType: movie.getNewType(),
+      isNew: movie.isNew, // 使用实体的isNew属性
+      newType: movie.newType, // 使用实体的newType属性
       isHot: movie.isHot(),
       isFeatured: movie.isFeatured,
       rating: movie.rating,
       ratingColor: 'white',
       quality: movie.quality.length > 0 ? movie.quality[0].resolution : undefined,
-      viewCount: movie.downloadCount, // 影片使用下载次数作为浏览次数
+      viewCount: movie.detail.viewCount || movie.downloadCount, // 优先使用观看次数
       downloadCount: movie.downloadCount,
+      likeCount: movie.detail.likeCount, // 点赞数
+      favoriteCount: movie.detail.favoriteCount, // 收藏数
       metadata: {
         genres: movie.detail.genres.map(g => g.name),
         director: movie.detail.director,
@@ -62,6 +64,10 @@ export class ContentTransformationService {
 
   // 将Photo领域实体转换为统一内容项
   static transformPhotoToUnified(photo: Photo): UnifiedContentItem {
+    // 随机选择一个图片格式类型
+    const formatTypes = ['JPEG高', 'PNG', 'WebP', 'RAW']
+    const randomFormatType = formatTypes[Math.floor(Math.random() * formatTypes.length)]
+    
     return {
       id: photo.id,
       title: photo.title,
@@ -74,19 +80,23 @@ export class ContentTransformationService {
       publishDate: photo.publishDate.toISOString(),
       tags: photo.generateTags(),
       isVip: photo.isVipContent(),
-      isNew: photo.isNew(),
-      newType: photo.getNewType(),
+      isNew: photo.isNew, // 使用实体的isNew属性
+      newType: photo.newType, // 使用实体的newType属性
       isHot: photo.isHot(),
       isFeatured: photo.isFeatured,
       rating: photo.rating,
       ratingColor: 'white',
+      quality: randomFormatType, // 写真使用图片格式作为质量标识（JPEG高、PNG、WebP、RAW）
       viewCount: photo.viewCount,
       downloadCount: photo.downloadCount,
+      likeCount: photo.detail.likeCount, // 点赞数
+      favoriteCount: photo.detail.favoriteCount, // 收藏数
       metadata: {
         model: photo.model,
         photographer: photo.photographer,
         location: photo.detail.location,
-        imageCount: photo.detail.images.length
+        imageCount: photo.detail.images.length,
+        formatType: randomFormatType // 也存储在metadata中
       }
     }
   }
@@ -105,14 +115,16 @@ export class ContentTransformationService {
       publishDate: collection.publishDate.toISOString(),
       tags: collection.generateTags(),
       isVip: collection.isVipContent(),
-      isNew: collection.isNew(),
-      newType: collection.getNewType(),
+      isNew: collection.detail.isNew || false, // 使用detail的isNew属性
+      newType: collection.detail.newType || null, // 使用detail的newType属性
       isHot: collection.isHot(),
       isFeatured: collection.isFeatured,
       rating: collection.rating,
       ratingColor: 'white',
       viewCount: collection.viewCount,
       downloadCount: collection.downloadCount,
+      likeCount: collection.detail.likeCount, // 点赞数
+      favoriteCount: collection.detail.favoriteCount, // 收藏数
       metadata: {
         movieCount: collection.movieCount,
         curator: collection.curator,
@@ -167,10 +179,21 @@ export class ContentTransformationService {
 
   // 将统一内容项转换为LatestItem
   static transformUnifiedToLatest(unified: UnifiedContentItem): LatestItem {
+    // 根据contentType映射到正确的type
+    let type: 'Movie' | 'Photo' | 'Collection' = 'Movie'
+    if (unified.contentType === 'movie') {
+      type = 'Movie'
+    } else if (unified.contentType === 'photo') {
+      type = 'Photo'
+    } else if (unified.contentType === 'collection') {
+      type = 'Collection'
+    }
+
     return {
       id: unified.id,
       title: unified.title,
-      type: unified.contentType === 'movie' ? 'Movie' : 'Collection', // LatestItem的type字段只支持'Movie' | 'TV Show' | 'Collection'
+      type: type,
+      contentType: unified.contentType, // 添加contentType字段用于跳转逻辑
       description: unified.description,
       imageUrl: unified.imageUrl,
       alt: unified.alt,
@@ -179,16 +202,28 @@ export class ContentTransformationService {
       rating: unified.rating?.toString() || '0',
       ratingColor: unified.ratingColor as 'purple' | 'red' | 'white' | 'default',
       quality: unified.quality,
-      genres: unified.metadata?.genres || []
-    }
+      genres: unified.metadata?.genres || [],
+      movieCount: unified.contentType === 'collection' ? unified.viewCount : undefined // 合集显示影片数量
+    } as LatestItem
   }
 
   // 将统一内容项转换为HotItem
   static transformUnifiedToHot(unified: UnifiedContentItem): HotItem {
+    // 根据contentType映射到正确的type
+    let type: 'Movie' | 'Photo' | 'Collection' = 'Movie'
+    if (unified.contentType === 'movie') {
+      type = 'Movie'
+    } else if (unified.contentType === 'photo') {
+      type = 'Photo'
+    } else if (unified.contentType === 'collection') {
+      type = 'Collection'
+    }
+
     return {
       id: unified.id,
       title: unified.title,
-      type: 'Movie', // HotItem固定为Movie类型
+      type: type,
+      contentType: unified.contentType, // 添加contentType字段用于跳转逻辑
       description: unified.description,
       imageUrl: unified.imageUrl,
       alt: unified.alt,
@@ -202,8 +237,8 @@ export class ContentTransformationService {
       tags: unified.tags || [],
       isHot: unified.isHot,
       isFeatured: unified.isFeatured,
-      movieCount: unified.viewCount || 0
-    }
+      movieCount: unified.contentType === 'collection' ? unified.viewCount : undefined // 合集显示影片数量
+    } as HotItem
   }
 
   // 批量转换Movie实体列表为统一内容项列表
@@ -237,30 +272,19 @@ export class ContentTransformationService {
 
   // 批量转换统一内容项列表为LatestItem列表
   static transformUnifiedListToLatest(unifiedList: UnifiedContentItem[]): LatestItem[] {
-    return unifiedList
-      .filter(item => item.isNew)
-      .sort((a, b) => new Date(b.publishDate || 0).getTime() - new Date(a.publishDate || 0).getTime())
-      .map(item => this.transformUnifiedToLatest(item))
+    // 直接转换，不排序（排序已在调用方完成）
+    return unifiedList.map(item => this.transformUnifiedToLatest(item))
   }
 
-  // 批量转换统一内容项列表为HotItem列表
+  // 批量转换统一内容项列表为HotItem列表（7天最热门）
+  static transformUnifiedListToWeeklyHot(unifiedList: UnifiedContentItem[]): HotItem[] {
+    // 直接转换，不排序（排序已在调用方完成）
+    return unifiedList.map(item => this.transformUnifiedToHot(item))
+  }
+  
+  // 批量转换统一内容项列表为HotItem列表（保留旧方法名以兼容）
   static transformUnifiedListToHot(unifiedList: UnifiedContentItem[]): HotItem[] {
-    return unifiedList
-      .filter(item => item.contentType === 'movie' && item.isHot)
-      .sort((a, b) => (b.viewCount || 0) - (a.viewCount || 0))
-      .map((item, index) => ({
-        id: item.id,
-        title: item.title,
-        type: 'Movie' as const,
-        description: item.description,
-        imageUrl: item.imageUrl,
-        alt: item.alt || item.title,
-        rating: item.rating ? String(item.rating) : '',
-        ratingColor: item.ratingColor as 'purple' | 'red' | 'white' | 'default' | undefined,
-        quality: item.quality,
-        genres: item.metadata?.genres || [],
-        rank: index + 1, // 添加排名信息
-      }))
+    return this.transformUnifiedListToWeeklyHot(unifiedList)
   }
 
 
@@ -273,9 +297,9 @@ export class ContentTransformationService {
       title: item.title,
       description: item.description || '',
       imageUrl: item.imageUrl,
-      type: item.contentType === 'movie' ? 'Movie' : 
-            item.contentType === 'photo' ? 'Photo' : 
-            item.contentType === 'collection' ? 'Collection' : 'Collection',
+      type: item.contentType === 'movie' ? 'Movie' :
+        item.contentType === 'photo' ? 'Photo' :
+          item.contentType === 'collection' ? 'Collection' : 'Collection',
       viewCount: item.viewCount || 0,
       downloadCount: item.downloadCount || 0,
       rating: item.rating || 0,
@@ -290,7 +314,7 @@ export class ContentTransformationService {
       isFeatured: item.isFeatured || false,
       metadata: item.metadata
     }
-    
+
     return UnifiedContentBusinessRules.validateUnifiedContent(domainItem)
   }
 
