@@ -33,12 +33,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // 加载状态处理 - 正在获取用户认证信息时显示加载动画
   if (isLoading && showLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">正在验证身份...</p>
-        </div>
-      </div>
+      <LoadingSpinner 
+        size="lg" 
+        fullscreen 
+        text="正在验证身份..." 
+      />
     )
   }
 

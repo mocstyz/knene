@@ -153,9 +153,11 @@ const SettingsPage: React.FC = () => {
 
   if (userLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <LoadingSpinner size="lg" />
-      </div>
+      <LoadingSpinner 
+        size="lg" 
+        fullscreen 
+        text="加载用户设置..." 
+      />
     )
   }
 

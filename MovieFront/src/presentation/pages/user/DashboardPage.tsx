@@ -9,7 +9,7 @@
  */
 
 import { useCurrentUser } from '@application/hooks'
-import { Button, Icon } from '@components/atoms'
+import { Button, Icon, LoadingSpinner } from '@components/atoms'
 import { UserTemplate } from '@components/templates'
 import {
   formatDateShort,
@@ -80,12 +80,11 @@ const DashboardPage: React.FC = () => {
   // 加载状态处理 - 显示加载动画和提示信息
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="flex items-center gap-2">
-          <Icon name="loading" className="animate-spin" />
-          <span>加载中...</span>
-        </div>
-      </div>
+      <LoadingSpinner 
+        size="lg" 
+        fullscreen 
+        text="加载中..." 
+      />
     )
   }
 

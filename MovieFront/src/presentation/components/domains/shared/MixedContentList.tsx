@@ -15,6 +15,7 @@ import {
   isContentItem,
 } from '@components/domains/shared/content-renderers'
 import { contentRendererFactory } from '@components/domains/shared/content-renderers/renderer-factory'
+import { LoadingSpinner } from '@components/atoms'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { cn } from '@utils/cn'
 import React, { useEffect, useState, useMemo } from 'react'
@@ -330,12 +331,7 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="text-center">
-          <div className="mb-4 flex justify-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-blue-500"></div>
-          </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">加载中...</p>
-        </div>
+        <LoadingSpinner size="md" text="加载中..." />
       </div>
     )
   }

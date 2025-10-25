@@ -7,6 +7,7 @@
  */
 
 import { ProtectedRoute, AdminRoute, GuestRoute } from '@components/guards'
+import { RouteLoader } from '@components/atoms'
 import React, { Suspense } from 'react'
 import {
   createBrowserRouter,
@@ -14,17 +15,10 @@ import {
   type RouteObject,
 } from 'react-router-dom'
 
-// 加载中组件
-const LoadingSpinner: React.FC = () => (
-  <div className="flex min-h-screen items-center justify-center">
-    <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-blue-600"></div>
-  </div>
-)
-
-// Suspense 包装器
+// Suspense 包装器 - 使用统一的 RouteLoader 组件
 const SuspenseWrapper: React.FC<{ children: React.ReactNode }> = ({
   children,
-}) => <Suspense fallback={<LoadingSpinner />}>{children}</Suspense>
+}) => <Suspense fallback={<RouteLoader />}>{children}</Suspense>
 
 // 懒加载页面组件
 const HomePage = React.lazy(() => import('@pages/home/HomePage'))

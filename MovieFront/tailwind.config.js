@@ -9,7 +9,7 @@
  * @version 2.0.0 - 完全迁移到Radix UI Themes架构
  */
 
-/** @type {import('tailwindcss').Config} */
+// @type {import('tailwindcss').Config}
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
