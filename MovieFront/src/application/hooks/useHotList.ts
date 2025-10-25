@@ -100,10 +100,6 @@ export const useHotList = (options: UseHotListOptions = {}): UseHotListReturn =>
         isPageChanging: true
       })
 
-      // 记录开始时间，确保骨架屏至少显示 5000ms
-      const startTime = Date.now()
-      const minLoadingTime = 5000
-
       // 通过应用服务获取数据
       // 注意：获取大量数据用于前端分页，实际应该由后端API支持分页参数
       const allHotItems = await homeApplicationService.getHotDaily(300)
@@ -112,16 +108,6 @@ export const useHotList = (options: UseHotListOptions = {}): UseHotListReturn =>
       const startIndex = ((fetchOptions.page || 1) - 1) * (fetchOptions.pageSize || 12)
       const endIndex = startIndex + (fetchOptions.pageSize || 12)
       const paginatedData = allHotItems.slice(startIndex, endIndex)
-
-      // 计算已经过去的时间
-      const elapsedTime = Date.now() - startTime
-      const remainingTime = Math.max(0, minLoadingTime - elapsedTime)
-
-      // 如果加载太快，等待剩余时间
-      if (remainingTime > 0) {
-        console.log(`🔥 [useHotList] 等待 ${remainingTime}ms 以确保骨架屏可见`)
-        await new Promise(resolve => setTimeout(resolve, remainingTime))
-      }
 
       // 检查请求是否被取消
       if (abortController.signal.aborted) {

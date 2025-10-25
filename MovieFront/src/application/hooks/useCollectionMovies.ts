@@ -100,18 +100,7 @@ export const useCollectionMovies = (options: UseCollectionMoviesOptions): UseCol
         isPageChanging: !append
       })
 
-      const startTime = Date.now()
-      const minLoadingTime = 5000
-
       const result = await applicationService.getCollectionMovies(fetchOptions)
-
-      const elapsedTime = Date.now() - startTime
-      const remainingTime = Math.max(0, minLoadingTime - elapsedTime)
-
-      if (remainingTime > 0) {
-        console.log(`🎬 [useCollectionMovies] 等待 ${remainingTime}ms 以确保骨架屏可见`)
-        await new Promise(resolve => setTimeout(resolve, remainingTime))
-      }
 
       if (abortController.signal.aborted) {
         console.log('🎬 [useCollectionMovies] 请求已取消')

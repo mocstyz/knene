@@ -90,9 +90,6 @@ export const useHomeData = (): UseHomeDataReturn => {
         hotLimit: 6,
       })
 
-      // 添加5秒延迟以便查看骨架屏效果
-      await new Promise(resolve => setTimeout(resolve, 5000))
-
       // 数据优化和状态更新 - 根据不同模块特点进行图片尺寸优化
       setCollections(optimizeCollectionImages(homeData.collections))
       setPhotos(optimizePhotoImages(homeData.photos))
