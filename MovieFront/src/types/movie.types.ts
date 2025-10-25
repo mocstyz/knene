@@ -134,6 +134,7 @@ export interface MovieDetail extends FullMovieItem {
   thankYouCount?: number
   isFavorited?: boolean
   isThankYouActive?: boolean
+  // isVip 字段已经从 FullMovieItem -> MediaStatusItem 继承
 }
 
 // 下载链接接口

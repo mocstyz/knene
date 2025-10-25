@@ -127,6 +127,7 @@ const PhotoDetailPage: React.FC = () => {
         onThankYou={incrementThankYou}
         thankYouCount={photo.thankYouCount || 0}
         isThankYouActive={photo.isThankYouActive || false}
+        isVip={photo.isVip || false}
       />
 
       {/* 主内容区域 */}
@@ -144,8 +145,8 @@ const PhotoDetailPage: React.FC = () => {
 
           {/* 写真图片 */}
           {photo.screenshots && photo.screenshots.length > 0 && (
-            <MovieScreenshots 
-              screenshots={photo.screenshots} 
+            <MovieScreenshots
+              screenshots={photo.screenshots}
               title="写真图片"
             />
           )}

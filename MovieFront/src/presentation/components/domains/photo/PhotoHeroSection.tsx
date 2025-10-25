@@ -20,6 +20,7 @@ interface PhotoHeroSectionProps {
   onThankYou: () => void
   thankYouCount: number
   isThankYouActive: boolean
+  isVip?: boolean
 }
 
 // 写真Hero区域组件，展示写真主要信息和操作按钮
@@ -29,6 +30,7 @@ export const PhotoHeroSection: React.FC<PhotoHeroSectionProps> = ({
   onThankYou,
   thankYouCount,
   isThankYouActive,
+  isVip = false,
 }) => {
   // 格式化感谢数
   const formatThankYouCount = (count: number): string => {
@@ -68,7 +70,7 @@ export const PhotoHeroSection: React.FC<PhotoHeroSectionProps> = ({
           {/* 信息区域 */}
           <div className="w-full md:w-2/3 flex flex-col justify-between">
             {/* 标题 */}
-            <h1 className="text-4xl md:text-6xl font-bold text-white">
+            <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
               {photo.title} ({photo.year})
             </h1>
 
@@ -81,7 +83,17 @@ export const PhotoHeroSection: React.FC<PhotoHeroSectionProps> = ({
               {/* 下载按钮 */}
               <button
                 onClick={onDownload}
-                className="bg-primary text-gray-900 px-6 py-3 rounded-lg font-semibold flex items-center space-x-2 hover:opacity-90 transition"
+                className={`px-6 py-3 rounded-lg font-semibold flex items-center space-x-2 hover:opacity-90 transition ${
+                  isVip ? '' : 'bg-primary text-gray-900'
+                }`}
+                style={
+                  isVip
+                    ? {
+                        background: 'linear-gradient(90deg, #F5E6C8 0%, #F4D03F 100%)',
+                        color: '#5D4E37',
+                      }
+                    : undefined
+                }
               >
                 <span className="material-icons text-xl">download</span>
                 <span>Download</span>

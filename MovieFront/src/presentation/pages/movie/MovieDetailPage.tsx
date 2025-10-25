@@ -146,6 +146,7 @@ const MovieDetailPage: React.FC = () => {
         onThankYou={incrementThankYou}
         thankYouCount={movie.thankYouCount || 0}
         isThankYouActive={movie.isThankYouActive || false}
+        isVip={movie.isVip || false}
       />
 
       {/* 主内容区域 */}

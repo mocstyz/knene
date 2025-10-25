@@ -8,6 +8,7 @@
 
 import React from 'react'
 import type { ResourceInfo } from '@types-movie'
+import { VipBadge } from '@components/atoms'
 
 // MovieResourceInfo组件Props接口
 interface MovieResourceInfoProps {
@@ -84,7 +85,7 @@ export const MovieResourceInfo: React.FC<MovieResourceInfoProps> = ({
           <div>
             {/* 资源标题 */}
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-              {resource.title}
+              {resource.title} <VipBadge />
             </h3>
 
             {/* 标签列表 */}

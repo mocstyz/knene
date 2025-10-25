@@ -36,6 +36,7 @@ export class PhotoDetailApiService {
         thankYouCount: 856,
         isFavorited: false,
         isThankYouActive: false,
+        isVip: true, // 设置为VIP内容
         resource: {
           title: 'Beautiful Sunset Photography Collection 2024 4K HDR',
           tags: [

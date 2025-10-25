@@ -53,6 +53,7 @@ export class MovieDetailApiService {
         duration: 135,
         genres: ['Drama', 'Thriller', 'Crime'],
         quality: '1080p',
+        isVip: true, // 设置为VIP内容
         thankYouCount: 1200,
         isFavorited: false,
         isThankYouActive: false,

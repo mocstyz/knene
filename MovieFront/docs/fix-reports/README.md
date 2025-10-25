@@ -13,6 +13,10 @@
 - **PHOTO_CARD_FIX_SUMMARY.md** - 图片卡片功能修复总结
 - **PHOTO_QUALITY_BADGE_FIX.md** - 图片质量徽章功能修复
 
+### 用户体验优化报告
+- **SPINNER_REMOVAL_SUMMARY.md** - Spinner组件完全移除总结，采用骨架屏替代
+- **SKELETON_DELAY_REMOVAL.md** - 骨架屏测试延迟移除总结，优化加载体验
+
 ## 文档维护
 
 - 每次重大修复后应及时更新相应报告
