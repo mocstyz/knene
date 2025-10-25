@@ -8,14 +8,14 @@
 
 import { usePhotoList } from '@application/hooks/usePhotoList'
 import { PhotoList, type PhotoItem } from '@components/domains/photo'
-import { Pagination } from '@components/atoms'
+import { Pagination, SkeletonListPage } from '@components/atoms'
 import { NavigationHeader } from '@components/organisms'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { ROUTES } from '@presentation/router/routes'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// 写真列表页面组件，展示所有写真内容并支持分页
+// 写真列表页面组件,展示所有写真内容并支持分页
 const PhotoListPage: React.FC = () => {
   const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState(1)
@@ -61,6 +61,20 @@ const PhotoListPage: React.FC = () => {
     navigate(ROUTES.PHOTO.DETAIL(photo.id), {
       state: { imageUrl: photo.imageUrl }
     })
+  }
+
+  // 加载状态处理 - 初次加载或分页切换时显示骨架屏
+  if (loading && photos.length === 0) {
+    return (
+      <div className="min-h-screen bg-background-light dark:bg-background-dark">
+        <NavigationHeader />
+        <SkeletonListPage
+          cardCount={ITEMS_PER_PAGE}
+          columns={RESPONSIVE_CONFIGS.photoPage || RESPONSIVE_CONFIGS.photo}
+          aspectRatio="portrait"
+        />
+      </div>
+    )
   }
 
   // 错误状态处理

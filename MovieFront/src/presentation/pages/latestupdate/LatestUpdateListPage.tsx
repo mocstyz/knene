@@ -8,7 +8,7 @@
 
 import { useLatestUpdateList } from '@application/hooks/useLatestUpdateList'
 import { MixedContentList } from '@components/domains/shared'
-import { Pagination } from '@components/atoms'
+import { Pagination, SkeletonListPage } from '@components/atoms'
 import { NavigationHeader } from '@components/organisms'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { navigateToContentDetail } from '@utils/navigation-helpers'
@@ -16,7 +16,7 @@ import type { BaseContentItem } from '@components/domains/shared/content-rendere
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// 最新更新列表页面组件，展示所有最新更新的混合内容并支持分页
+// 最新更新列表页面组件,展示所有最新更新的混合内容并支持分页
 const LatestUpdateListPage: React.FC = () => {
   const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState(1)
@@ -61,6 +61,20 @@ const LatestUpdateListPage: React.FC = () => {
       contentType: item.contentType
     })
     navigateToContentDetail(item, navigate)
+  }
+
+  // 加载状态处理 - 初次加载或分页切换时显示骨架屏
+  if (loading && items.length === 0) {
+    return (
+      <div className="min-h-screen bg-background-light dark:bg-background-dark">
+        <NavigationHeader />
+        <SkeletonListPage
+          cardCount={ITEMS_PER_PAGE}
+          columns={RESPONSIVE_CONFIGS.latestUpdate}
+          aspectRatio="portrait"
+        />
+      </div>
+    )
   }
 
   // 错误状态处理

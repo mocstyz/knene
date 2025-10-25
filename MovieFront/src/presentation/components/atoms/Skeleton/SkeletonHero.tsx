@@ -1,76 +1,80 @@
 /**
  * @fileoverview Hero 区域骨架屏组件
- * @description 用于首页 Hero 轮播区域的加载占位符
- * @author MovieFront Team
+ * @description 用于首页 Hero 轮播区域的加载占位符,使用统一的 shimmer 动画效果
+ * @author mosctz
  * @since 1.0.0
  * @version 1.0.0
  */
 
-import { Skeleton } from '@radix-ui/themes'
 import { cn } from '@utils/cn'
 import React from 'react'
+import { SkeletonBase } from './SkeletonBase'
+import { SkeletonText } from './SkeletonText'
 
 export interface SkeletonHeroProps {
-  /**
-   * 高度（Tailwind 类名）
-   */
   height?: string
-  
-  /**
-   * 自定义类名
-   */
   className?: string
-  
-  /**
-   * 是否显示标题和描述
-   */
   showContent?: boolean
+  disableAnimation?: boolean
 }
 
-/**
- * Hero 区域骨架屏组件
- * 
- * 用于首页 Hero 轮播区域的加载占位符
- * 
- * @example
- * ```tsx
- * // 基础用法
- * <SkeletonHero />
- * 
- * // 自定义高度
- * <SkeletonHero height="h-96" />
- * 
- * // 带内容区域
- * <SkeletonHero showContent />
- * ```
- */
+// Hero 区域骨架屏组件,用于首页 Hero 轮播区域
 export const SkeletonHero: React.FC<SkeletonHeroProps> = ({
   height = 'h-[500px]',
   className,
   showContent = true,
+  disableAnimation,
 }) => {
   return (
     <div className={cn('relative w-full', height, className)}>
       {/* 背景图骨架屏 */}
-      <Skeleton className="absolute inset-0 rounded-lg" />
+      <SkeletonBase
+        width="100%"
+        height="100%"
+        borderRadius={8}
+        disableAnimation={disableAnimation}
+        className="absolute inset-0"
+      />
       
       {/* 内容区域骨架屏 */}
       {showContent && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="max-w-2xl space-y-4 px-4">
+          <div className="max-w-2xl space-y-4 px-4 w-full">
             {/* 标题 */}
-            <Skeleton className="h-12 w-3/4 rounded" />
+            <SkeletonText
+              width="75%"
+              height={48}
+              disableAnimation={disableAnimation}
+            />
             
             {/* 描述 */}
             <div className="space-y-2">
-              <Skeleton className="h-6 w-full rounded" />
-              <Skeleton className="h-6 w-5/6 rounded" />
+              <SkeletonText
+                width="100%"
+                height={24}
+                disableAnimation={disableAnimation}
+              />
+              <SkeletonText
+                width="85%"
+                height={24}
+                disableAnimation={disableAnimation}
+              />
             </div>
             
             {/* 按钮组 */}
             <div className="flex gap-4">
-              <Skeleton className="h-12 w-32 rounded-lg" />
-              <Skeleton className="h-12 w-32 rounded-lg" />
+              <SkeletonBase
+                width={128}
+                height={48}
+                borderRadius={8}
+                disableAnimation={disableAnimation}
+              />
+              <SkeletonBase
+                width={128}
+                height={48}
+                borderRadius={8}
+                disableAnimation={disableAnimation}
+              />
             </div>
           </div>
         </div>

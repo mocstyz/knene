@@ -31,7 +31,22 @@ export function usePhotoDetail(photoId: string): UsePhotoDetailReturn {
     try {
       setLoading(true)
       setError(null)
+      
+      // 记录开始时间，确保骨架屏至少显示 5000ms
+      const startTime = Date.now()
+      const minLoadingTime = 5000
+      
       const data = await photoDetailApi.getPhotoDetail(photoId)
+      
+      // 计算已经过去的时间
+      const elapsedTime = Date.now() - startTime
+      const remainingTime = Math.max(0, minLoadingTime - elapsedTime)
+      
+      // 如果加载太快，等待剩余时间
+      if (remainingTime > 0) {
+        await new Promise(resolve => setTimeout(resolve, remainingTime))
+      }
+      
       setPhoto(data)
     } catch (err) {
       setError('加载写真详情失败，请稍后重试')

@@ -13,7 +13,7 @@ import { useCollectionMovies } from '../../../application/hooks/useCollectionMov
 import { NavigationHeader } from '@components/organisms'
 import { BaseSection, BaseList } from '@components/domains/shared'
 import { MovieLayer } from '@components/domains/latestupdate/components'
-import { Pagination } from '@components/atoms'
+import { Pagination, SkeletonListPage } from '@components/atoms'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import type { MovieDetail } from '@types-movie'
 
@@ -78,6 +78,20 @@ const CollectionDetailPage: React.FC = () => {
     navigate(`/movie/${movie.id}`, {
       state: { imageUrl: movie.imageUrl }
     })
+  }
+
+  // 加载状态处理 - 初次加载或分页切换时显示骨架屏
+  if (loading && movies.length === 0) {
+    return (
+      <div className="min-h-screen bg-background-light dark:bg-background-dark">
+        <NavigationHeader />
+        <SkeletonListPage
+          cardCount={ITEMS_PER_PAGE}
+          columns={RESPONSIVE_CONFIGS.latestUpdate}
+          aspectRatio="portrait"
+        />
+      </div>
+    )
   }
 
   // 错误状态处理

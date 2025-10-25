@@ -15,6 +15,7 @@ import {
   HotSection,
 } from '@components/domains'
 import { NavigationHeader, HeroSection } from '@components/organisms'
+import { SkeletonHomePage } from '@components/atoms'
 import { useHomeData } from '@data/home/homeData'
 import { ROUTES } from '@presentation/router/routes'
 import { toUnifiedContentItem } from '@types-movie'
@@ -25,14 +26,14 @@ import React, { useRef, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
-// 首页主组件，包含导航栏、英雄区块和各种内容区块的完整首页布局
+// 首页主组件,包含导航栏、英雄区块和各种内容区块的完整首页布局
 const HomePage: React.FC = () => {
   const headerRef = useRef<HTMLElement>(null)
   const heroRef = useRef<HTMLElement>(null)
   const navigate = useNavigate()
 
   // 获取首页数据 - 使用重构后的数据Hook
-  const { photos, latestUpdates, hotDaily, collections } = useHomeData()
+  const { photos, latestUpdates, hotDaily, collections, isLoading } = useHomeData()
 
   // 统一的内容项点击处理器
   const handleContentClick = (item: BaseContentItem) => {
@@ -123,6 +124,18 @@ const HomePage: React.FC = () => {
   }, [hotDaily])
 
 
+
+  // 加载状态 - 显示骨架屏
+  if (isLoading) {
+    return (
+      <div className="min-h-screen">
+        <NavigationHeader ref={headerRef} transparentMode={true} />
+        <main className="pt-16">
+          <SkeletonHomePage showHero={true} sectionCount={4} cardsPerSection={5} />
+        </main>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen">

@@ -1,0 +1,68 @@
+/**
+ * Skeleton Shimmer Animation Styles
+ * 
+ * 提供统一的骨架屏 shimmer 动画效果,支持明暗主题切换
+ * 使用 CSS 变量管理颜色,使用 transform 实现硬件加速
+ */
+
+/* Shimmer 动画关键帧 */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* 骨架屏基础样式 */
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--skeleton-bg);
+  border-radius: inherit;
+}
+
+/* Shimmer 光泽效果 */
+.skeleton-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--skeleton-shimmer) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 明亮主题颜色 */
+:root {
+  --skeleton-bg: #e5e7eb;
+  --skeleton-shimmer: rgba(255, 255, 255, 0.8);
+}
+
+/* 暗黑主题颜色 */
+.dark {
+  --skeleton-bg: #374151;
+  --skeleton-shimmer: rgba(75, 85, 99, 0.8);
+}
+
+/* 尊重用户的减少动画偏好设置 */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer::after {
+    animation: none;
+  }
+}
+
+/* 禁用指针事件和文本选择 */
+.skeleton-shimmer {
+  pointer-events: none;
+  user-select: none;
+}

@@ -6,7 +6,7 @@
  * @version 1.0.0
  */
 
-import { SkeletonCard } from '@components/atoms/Skeleton'
+import { SkeletonCardGrid } from '@components/atoms/Skeleton'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { cn } from '@utils/cn'
 import React from 'react'
@@ -117,15 +117,12 @@ export const BaseList = <T,>({
   // 加载状态 - 页面切换时或初次加载且无数据时显示骨架屏
   if (isPageChanging || (loading && (!items || items.length === 0))) {
     return (
-      <div className={cn(
-        "grid gap-4 sm:gap-6",
-        generateColumnsClasses(columns),
-        className
-      )}>
-        {Array.from({ length: 12 }).map((_, index) => (
-          <SkeletonCard key={index} aspectRatio="portrait" />
-        ))}
-      </div>
+      <SkeletonCardGrid
+        count={12}
+        columns={columns}
+        aspectRatio="portrait"
+        className={className}
+      />
     )
   }
 

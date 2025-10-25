@@ -31,7 +31,22 @@ export function useMovieDetail(movieId: string): UseMovieDetailReturn {
     try {
       setLoading(true)
       setError(null)
+      
+      // 记录开始时间，确保骨架屏至少显示 5000ms
+      const startTime = Date.now()
+      const minLoadingTime = 5000
+      
       const data = await movieDetailApi.getMovieDetail(movieId)
+      
+      // 计算已经过去的时间
+      const elapsedTime = Date.now() - startTime
+      const remainingTime = Math.max(0, minLoadingTime - elapsedTime)
+      
+      // 如果加载太快，等待剩余时间
+      if (remainingTime > 0) {
+        await new Promise(resolve => setTimeout(resolve, remainingTime))
+      }
+      
       setMovie(data)
     } catch (err) {
       setError('加载影片详情失败，请稍后重试')

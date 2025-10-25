@@ -109,9 +109,9 @@ export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}
         isPageChanging: !append
       })
 
-      // 记录开始时间，确保骨架屏至少显示 500ms
+      // 记录开始时间，确保骨架屏至少显示 5000ms
       const startTime = Date.now()
-      const minLoadingTime = 500 // 最小加载时间（毫秒）
+      const minLoadingTime = 5000 // 最小加载时间（毫秒）
 
       // 通过应用服务获取数据
       // 注意：当前 applicationService 可能不支持 signal，这里为未来扩展预留

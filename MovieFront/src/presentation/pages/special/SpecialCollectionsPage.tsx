@@ -11,13 +11,13 @@
 
 import { useSpecialCollections } from '@application/hooks/useSpecialCollections'
 import { CollectionList, type CollectionItem } from '@components/domains'
-import { Pagination } from '@components/atoms'
+import { Pagination, SkeletonListPage } from '@components/atoms'
 import { NavigationHeader } from '@components/organisms'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// 专题合集列表页面组件 - 展示所有精选合集，支持分页和交互功能
+// 专题合集列表页面组件 - 展示所有精选合集,支持分页和交互功能
 const SpecialCollectionsPage: React.FC = () => {
   const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState(1)
@@ -62,6 +62,20 @@ const SpecialCollectionsPage: React.FC = () => {
       type: collection.type
     })
     navigate(`/collection/${collection.id}`)
+  }
+
+  // 加载状态处理 - 初次加载或分页切换时显示骨架屏
+  if (loading && collections.length === 0) {
+    return (
+      <div className="min-h-screen bg-background-light dark:bg-background-dark">
+        <NavigationHeader />
+        <SkeletonListPage
+          cardCount={ITEMS_PER_PAGE}
+          columns={RESPONSIVE_CONFIGS.specialPage}
+          aspectRatio="portrait"
+        />
+      </div>
+    )
   }
 
   // 错误状态处理

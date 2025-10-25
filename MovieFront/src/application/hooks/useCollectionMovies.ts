@@ -101,7 +101,7 @@ export const useCollectionMovies = (options: UseCollectionMoviesOptions): UseCol
       })
 
       const startTime = Date.now()
-      const minLoadingTime = 500
+      const minLoadingTime = 5000
 
       const result = await applicationService.getCollectionMovies(fetchOptions)
 

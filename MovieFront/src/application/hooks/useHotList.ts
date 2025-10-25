@@ -100,9 +100,9 @@ export const useHotList = (options: UseHotListOptions = {}): UseHotListReturn =>
         isPageChanging: true
       })
 
-      // 记录开始时间，确保骨架屏至少显示 500ms
+      // 记录开始时间，确保骨架屏至少显示 5000ms
       const startTime = Date.now()
-      const minLoadingTime = 500
+      const minLoadingTime = 5000
 
       // 通过应用服务获取数据
       // 注意：获取大量数据用于前端分页，实际应该由后端API支持分页参数
