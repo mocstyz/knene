@@ -30,22 +30,19 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
 
   // 初始化标志
   private initialized = false
-  private initializationPromises: Promise<void>[] = []
+  private initializationPromise: Promise<void> | null = null
 
   // 私有构造函数，实现单例模式
   private constructor() {
     // 立即开始初始化
-    this.initializeBuiltinRenderers()
+    this.initializationPromise = this.initializeBuiltinRenderers()
   }
 
   // 确保渲染器已初始化
-  private ensureInitialized(): void {
-    if (!this.initialized) {
-      // 等待所有渲染器加载完成
-      Promise.all(this.initializationPromises).then(() => {
-        this.initialized = true
-        console.log('All built-in renderers initialized')
-      })
+  private async ensureInitialized(): Promise<void> {
+    if (!this.initialized && this.initializationPromise) {
+      await this.initializationPromise
+      this.initialized = true
     }
   }
 
@@ -123,7 +120,11 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
 
   // 根据内容类型获取渲染器
   public getRenderer(contentType: ContentTypeId): ContentRenderer | null {
-    this.ensureInitialized()
+    // 同步检查，如果未初始化则返回 null
+    if (!this.initialized) {
+      console.warn(`Renderer factory not initialized yet, cannot get renderer for '${contentType}'`)
+      return null
+    }
     
     const registration = this.renderers.get(contentType)
 
@@ -136,7 +137,11 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
 
   // 根据内容项自动选择最佳渲染器
   public getBestRenderer(item: BaseContentItem): ContentRenderer | null {
-    this.ensureInitialized()
+    // 同步检查，如果未初始化则返回 null
+    if (!this.initialized) {
+      console.warn(`Renderer factory not initialized yet, cannot get best renderer for '${item.contentType}'`)
+      return null
+    }
     
     // 首先尝试直接匹配内容类型
     const renderer = this.getRenderer(item.contentType)
@@ -165,6 +170,11 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
       `No suitable renderer found for content type '${item.contentType}'`
     )
     return null
+  }
+  
+  // 等待初始化完成的公共方法
+  public async waitForInitialization(): Promise<void> {
+    await this.ensureInitialized()
   }
 
   // 获取所有已注册的渲染器
@@ -256,44 +266,48 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
   }
 
   // 初始化内置渲染器，注册系统默认提供的基础渲染器
-  private initializeBuiltinRenderers(): void {
+  private async initializeBuiltinRenderers(): Promise<void> {
     console.log('Initializing built-in content renderers...')
 
-    // 使用动态导入来避免循环依赖
-    const moviePromise = import('@components/domains/latestupdate/renderers/movie-renderer').then(
-      ({ default: MovieContentRenderer }) => {
-        this.register(new MovieContentRenderer(), {
-          registrar: 'system',
-          enabled: true,
-          priority: 100,
-          override: false,
-        })
-      }
-    )
+    try {
+      // 使用动态导入来避免循环依赖，并行加载所有渲染器
+      const [
+        { default: MovieContentRenderer },
+        { default: PhotoContentRenderer },
+        { default: CollectionContentRenderer }
+      ] = await Promise.all([
+        import('@components/domains/latestupdate/renderers/movie-renderer'),
+        import('@components/domains/photo/renderers/photo-renderer'),
+        import('@components/domains/collections/renderers/collection-renderer')
+      ])
 
-    const photoPromise = import('@components/domains/photo/renderers/photo-renderer').then(
-      ({ default: PhotoContentRenderer }) => {
-        this.register(new PhotoContentRenderer(), {
-          registrar: 'system',
-          enabled: true,
-          priority: 90,
-          override: false,
-        })
-      }
-    )
+      // 注册所有渲染器
+      this.register(new MovieContentRenderer(), {
+        registrar: 'system',
+        enabled: true,
+        priority: 100,
+        override: false,
+      })
 
-    const collectionPromise = import('@components/domains/collections/renderers/collection-renderer').then(
-      ({ default: CollectionContentRenderer }) => {
-        this.register(new CollectionContentRenderer(), {
-          registrar: 'system',
-          enabled: true,
-          priority: 80,
-          override: false,
-        })
-      }
-    )
+      this.register(new PhotoContentRenderer(), {
+        registrar: 'system',
+        enabled: true,
+        priority: 90,
+        override: false,
+      })
 
-    this.initializationPromises = [moviePromise, photoPromise, collectionPromise]
+      this.register(new CollectionContentRenderer(), {
+        registrar: 'system',
+        enabled: true,
+        priority: 80,
+        override: false,
+      })
+
+      console.log('✅ All built-in renderers initialized successfully')
+    } catch (error) {
+      console.error('❌ Failed to initialize built-in renderers:', error)
+      throw error
+    }
   }
 
   // 调试和监控方法

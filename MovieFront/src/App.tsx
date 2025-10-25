@@ -11,6 +11,8 @@
 import { QueryProvider, AppThemeProvider } from '@application/providers'
 import { router } from '@presentation/router/routes'
 import { RouterProvider } from 'react-router-dom'
+import { contentRendererFactory } from '@components/domains/shared/content-renderers'
+import { useEffect, useState } from 'react'
 import '@styles/App.css'
 
 /**
@@ -30,6 +32,32 @@ import '@styles/App.css'
  * @returns {JSX.Element} 完全配置的应用程序组件树
  */
 function App(): JSX.Element {
+  const [renderersReady, setRenderersReady] = useState(false)
+
+  useEffect(() => {
+    // 等待渲染器初始化完成
+    contentRendererFactory.waitForInitialization().then(() => {
+      console.log('✅ Content renderers ready')
+      setRenderersReady(true)
+    }).catch((error) => {
+      console.error('❌ Failed to initialize content renderers:', error)
+      // 即使失败也继续渲染，避免白屏
+      setRenderersReady(true)
+    })
+  }, [])
+
+  // 在渲染器准备好之前显示加载状态
+  if (!renderersReady) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white dark:bg-gray-900">
+        <div className="text-center">
+          <div className="mb-4 inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-green-500 border-r-transparent"></div>
+          <p className="text-gray-600 dark:text-gray-400">加载中...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <QueryProvider>
       <AppThemeProvider
