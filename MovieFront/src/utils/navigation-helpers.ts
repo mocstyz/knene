@@ -25,9 +25,6 @@ export function navigateToContentDetail(
     description: item.description,
   }
 
-  // 修复：在导航前先滚动到顶部，避免回退时先回到页面底部
-  window.scrollTo({ top: 0, behavior: 'instant' })
-
   switch (item.contentType) {
     case 'movie':
       // 跳转到影片详情页，传递图片信息

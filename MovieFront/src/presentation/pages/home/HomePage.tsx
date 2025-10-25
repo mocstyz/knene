@@ -160,6 +160,7 @@ const HomePage: React.FC = () => {
           <LatestUpdateSection
             data={processedLatestUpdates}
             showMoreLink={true}
+            moreLinkUrl={ROUTES.LATEST_UPDATE.LIST}
             onItemClick={(item: any) => {
               // LatestItem转换为BaseContentItem进行导航
               const baseItem: BaseContentItem = {
@@ -177,6 +178,7 @@ const HomePage: React.FC = () => {
             title="7天最热门"
             movies={processedHotDaily}
             showViewMore={true}
+            moreLinkUrl={ROUTES.HOT.LIST}
             onItemClick={(item: any) => {
               // HotItem转换为BaseContentItem进行导航
               const baseItem: BaseContentItem = {

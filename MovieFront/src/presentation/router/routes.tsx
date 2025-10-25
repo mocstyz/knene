@@ -29,6 +29,10 @@ const SuspenseWrapper: React.FC<{ children: React.ReactNode }> = ({
 // 懒加载页面组件
 const HomePage = React.lazy(() => import('@pages/home/HomePage'))
 
+// 最新更新和热门页面
+const LatestUpdateListPage = React.lazy(() => import('@pages/latestupdate/LatestUpdateListPage'))
+const HotListPage = React.lazy(() => import('@pages/hot/HotListPage'))
+
 // 认证页面
 const LoginPage = React.lazy(() => import('@pages/auth/LoginPage'))
 const RegisterPage = React.lazy(() => import('@pages/auth/RegisterPage'))
@@ -260,6 +264,26 @@ const routeConfig: RouteObject[] = [
     ],
   },
 
+  // 最新更新列表路由
+  {
+    path: '/latest-updates',
+    element: (
+      <SuspenseWrapper>
+        <LatestUpdateListPage />
+      </SuspenseWrapper>
+    ),
+  },
+
+  // 热门内容列表路由
+  {
+    path: '/hot-weekly',
+    element: (
+      <SuspenseWrapper>
+        <HotListPage />
+      </SuspenseWrapper>
+    ),
+  },
+
   // 专题路由
   {
     path: '/special/collections',
@@ -398,6 +422,16 @@ export const ROUTES = {
   PHOTO: {
     LIST: '/photo',
     DETAIL: (id: string) => `/photo/${id}`,
+  },
+
+  // 最新更新路由
+  LATEST_UPDATE: {
+    LIST: '/latest-updates',
+  },
+
+  // 热门内容路由
+  HOT: {
+    LIST: '/hot-weekly',
   },
 
   // 专题路由

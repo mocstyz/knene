@@ -11,7 +11,8 @@ import React from 'react'
 // 文本链接组件属性接口，定义链接的各种配置选项
 export interface TextLinkProps {
   children: React.ReactNode // 链接内容
-  href?: string // 链接地址，可选
+  to?: string // React Router内部链接地址，用于应用内导航
+  href?: string // 外部链接地址或普通链接，可选
   variant?: 'primary' | 'secondary' | 'default' | 'accent' | 'muted' | 'inherit' // 链接变体样式
   size?: 'xs' | 'sm' | 'md' | 'lg' // 文字尺寸
   external?: boolean // 是否为外部链接
