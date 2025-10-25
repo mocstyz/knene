@@ -52,8 +52,8 @@ export class MockDataService {
       const daysAgo = Math.random() * 30 // 0-30天前
       const publishDate = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000)
       
-      // 计算是否为新内容（24小时内）
-      const isNew = daysAgo < 1
+      // 计算是否为新内容（24小时内）- 修复：确保只有24小时内的内容显示NEW标签
+      const isNew = daysAgo <= 1
       
       const collectionDetail: CollectionDetail = {
         id,
@@ -106,8 +106,8 @@ export class MockDataService {
       const daysAgo = Math.random() * 30 // 0-30天前
       const publishDate = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000)
       
-      // 计算是否为新内容（24小时内）
-      const isNew = daysAgo < 1
+      // 计算是否为新内容（24小时内）- 修复：确保只有24小时内的内容显示NEW标签
+      const isNew = daysAgo <= 1
       
       const movieDetail: MovieDetail = {
         id,
@@ -169,8 +169,8 @@ export class MockDataService {
       const daysAgo = Math.random() * 30 // 0-30天前
       const publishDate = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000)
       
-      // 计算是否为新内容（24小时内）
-      const isNew = daysAgo < 1
+      // 计算是否为新内容（24小时内）- 修复：确保只有24小时内的内容显示NEW标签
+      const isNew = daysAgo <= 1
       
       const photoDetail: PhotoDetail = {
         id,

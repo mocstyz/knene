@@ -67,7 +67,7 @@ export class ContentTransformationService {
     // 随机选择一个图片格式类型
     const formatTypes = ['JPEG高', 'PNG', 'WebP', 'RAW']
     const randomFormatType = formatTypes[Math.floor(Math.random() * formatTypes.length)]
-    
+
     return {
       id: photo.id,
       title: photo.title,
@@ -159,10 +159,23 @@ export class ContentTransformationService {
 
   // 将统一内容项转换为PhotoItem
   static transformUnifiedToPhoto(unified: UnifiedContentItem): PhotoItem {
+    // 修复：根据contentType映射到正确的type
+    let type: 'Movie' | 'TV Show' | 'Collection' | 'Photo' = 'Photo'
+    if (unified.contentType === 'movie') {
+      type = 'Movie'
+    } else if (unified.contentType === 'photo') {
+      type = 'Photo'
+    } else if (unified.contentType === 'collection') {
+      type = 'Collection'
+    }
+
     return {
       id: unified.id,
       title: unified.title,
-      type: 'Collection', // PhotoItem的type字段只支持'Movie' | 'TV Show' | 'Collection'
+      type: type, // 根据contentType动态设置
+      contentType: unified.contentType === 'movie' || unified.contentType === 'photo' || unified.contentType === 'collection'
+        ? unified.contentType
+        : 'photo', // 修复：添加contentType字段用于跳转逻辑，确保类型安全
       description: unified.description,
       imageUrl: unified.imageUrl,
       alt: unified.alt,
@@ -173,7 +186,7 @@ export class ContentTransformationService {
       ratingColor: unified.ratingColor as 'purple' | 'red' | 'white' | 'default',
       quality: unified.quality,
       genres: unified.metadata?.genres || [],
-      formatType: 'JPEG高' // 默认格式类型
+      formatType: (unified.metadata?.formatType as 'JPEG高' | 'PNG' | 'WebP' | 'GIF' | 'BMP') || 'JPEG高' // 从metadata获取格式类型
     }
   }
 
@@ -281,7 +294,7 @@ export class ContentTransformationService {
     // 直接转换，不排序（排序已在调用方完成）
     return unifiedList.map(item => this.transformUnifiedToHot(item))
   }
-  
+
   // 批量转换统一内容项列表为HotItem列表（保留旧方法名以兼容）
   static transformUnifiedListToHot(unifiedList: UnifiedContentItem[]): HotItem[] {
     return this.transformUnifiedListToWeeklyHot(unifiedList)
