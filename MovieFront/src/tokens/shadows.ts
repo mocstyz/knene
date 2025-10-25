@@ -103,10 +103,6 @@ export const componentShadows = {
     default: shadows.sm, // 头像默认：微弱阴影
   },
 
-  // 加载遮罩阴影 - 定义加载遮罩层的阴影效果
-  loadingOverlay: {
-    default: '0 0 0 9999px rgba(255, 255, 255, 0.8)', // 加载遮罩：白色半透明遮罩
-  },
 } as const
 
 // 层级阴影配置 - Material Design风格的dp（density-independent pixels）层级阴影系统

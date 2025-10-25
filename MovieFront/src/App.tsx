@@ -12,7 +12,6 @@ import { QueryProvider, AppThemeProvider } from '@application/providers'
 import { router } from '@presentation/router/routes'
 import { RouterProvider } from 'react-router-dom'
 import { contentRendererFactory } from '@components/domains/shared/content-renderers'
-import { LoadingSpinner } from '@components/atoms'
 import { useEffect, useState } from 'react'
 import '@styles/App.css'
 
@@ -32,16 +31,8 @@ function App(): JSX.Element {
     })
   }, [])
 
-  // 在渲染器准备好之前显示加载状态
-  if (!renderersReady) {
-    return (
-      <LoadingSpinner 
-        size="lg" 
-        fullscreen 
-        text="加载中..." 
-      />
-    )
-  }
+  // 移除初始加载状态，让渲染器在后台初始化
+  // 这样可以避免双重 spinner 显示，直接进入路由加载流程
 
   return (
     <QueryProvider>

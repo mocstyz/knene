@@ -9,7 +9,7 @@
  */
 
 import { useCurrentUser } from '@application/hooks'
-import { Button, Icon, LoadingSpinner } from '@components/atoms'
+import { Button, Icon } from '@components/atoms'
 import { UserTemplate } from '@components/templates'
 import {
   formatDateShort,
@@ -72,21 +72,10 @@ const mockDownloads = [
 
 // 用户仪表板页面组件 - 提供个人中心的全功能展示和管理
 const DashboardPage: React.FC = () => {
-  const { user, isAuthenticated, isLoading } = useCurrentUser()
+  const { user, isAuthenticated } = useCurrentUser()
   const [activeTab, setActiveTab] = useState<
     'overview' | 'recent' | 'downloads' | 'favorites'
   >('overview')
-
-  // 加载状态处理 - 显示加载动画和提示信息
-  if (isLoading) {
-    return (
-      <LoadingSpinner 
-        size="lg" 
-        fullscreen 
-        text="加载中..." 
-      />
-    )
-  }
 
   // 认证状态检查 - 未登录用户显示登录引导界面
   if (!isAuthenticated || !user) {

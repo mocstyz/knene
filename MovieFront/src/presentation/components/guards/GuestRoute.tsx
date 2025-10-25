@@ -8,7 +8,6 @@
  */
 
 import { useAuth } from '@application/hooks/useAuth'
-import { LoadingSpinner } from '@components/atoms'
 import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
@@ -24,18 +23,7 @@ const GuestRoute: React.FC<GuestRouteProps> = ({
   redirectPath = '/dashboard',
 }) => {
   const location = useLocation()
-  const { isAuthenticated, isLoading } = useAuth()
-
-  // 加载状态处理 - 正在获取用户认证信息时显示加载动画
-  if (isLoading) {
-    return (
-      <LoadingSpinner 
-        size="lg" 
-        fullscreen 
-        text="正在检查登录状态..." 
-      />
-    )
-  }
+  const { isAuthenticated } = useAuth()
 
   // 访客保护验证 - 已登录用户重定向到目标页面，避免访问访客专用页面
   if (isAuthenticated) {

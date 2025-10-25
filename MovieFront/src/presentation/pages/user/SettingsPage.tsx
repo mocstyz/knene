@@ -19,7 +19,6 @@ import {
   Input,
   Select,
   Switch,
-  LoadingSpinner,
 } from '@components/atoms'
 import { UserTemplate } from '@components/templates'
 import React, { useState } from 'react'
@@ -51,7 +50,7 @@ interface PreferencesFormData {
 
 // 账户设置页面组件 - 提供完整的账户管理功能，支持多个设置模块
 const SettingsPage: React.FC = () => {
-  const { user, isLoading: userLoading } = useCurrentUser()
+  const { user } = useCurrentUser()
   const updateProfile = useUpdateProfile()
   const updatePreferences = useUpdatePreferences()
   const changePassword = useChangePassword()
@@ -149,16 +148,6 @@ const SettingsPage: React.FC = () => {
     } catch (error) {
       console.error('更新失败，请重试')
     }
-  }
-
-  if (userLoading) {
-    return (
-      <LoadingSpinner 
-        size="lg" 
-        fullscreen 
-        text="加载用户设置..." 
-      />
-    )
   }
 
   if (!user) {

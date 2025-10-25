@@ -8,7 +8,6 @@
  */
 
 import { useAuth } from '@application/hooks/useAuth'
-import { LoadingSpinner } from '@components/atoms'
 import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
@@ -17,7 +16,6 @@ interface ProtectedRouteProps {
   children: React.ReactNode // 子组件内容，权限验证通过时渲染
   requiredPermissions?: string[] // 要求的权限列表，默认空数组（无权限要求）
   fallbackPath?: string // 身份验证失败时的重定向路径，默认'/auth/login'
-  showLoading?: boolean // 是否显示加载状态，默认true
 }
 
 // 基础受保护路由组件，提供基础的访问控制和用户状态验证功能
@@ -25,21 +23,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   requiredPermissions = [],
   fallbackPath = '/auth/login',
-  showLoading = true,
 }) => {
   const location = useLocation()
-  const { user, isAuthenticated, isLoading } = useAuth()
-
-  // 加载状态处理 - 正在获取用户认证信息时显示加载动画
-  if (isLoading && showLoading) {
-    return (
-      <LoadingSpinner 
-        size="lg" 
-        fullscreen 
-        text="正在验证身份..." 
-      />
-    )
-  }
+  const { user, isAuthenticated } = useAuth()
 
   // 身份认证验证 - 检查用户是否已登录和认证信息是否有效
   if (!isAuthenticated || !user) {

@@ -7,7 +7,6 @@
  */
 
 import { ProtectedRoute, AdminRoute, GuestRoute } from '@components/guards'
-import { RouteLoader } from '@components/atoms'
 import React, { Suspense } from 'react'
 import {
   createBrowserRouter,
@@ -15,10 +14,10 @@ import {
   type RouteObject,
 } from 'react-router-dom'
 
-// Suspense 包装器 - 使用统一的 RouteLoader 组件
+// Suspense 包装器 - 不显示加载状态，直接让页面显示骨架屏
 const SuspenseWrapper: React.FC<{ children: React.ReactNode }> = ({
   children,
-}) => <Suspense fallback={<RouteLoader />}>{children}</Suspense>
+}) => <Suspense fallback={null}>{children}</Suspense>
 
 // 懒加载页面组件
 const HomePage = React.lazy(() => import('@pages/home/HomePage'))

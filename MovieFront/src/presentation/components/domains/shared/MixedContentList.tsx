@@ -15,7 +15,6 @@ import {
   isContentItem,
 } from '@components/domains/shared/content-renderers'
 import { contentRendererFactory } from '@components/domains/shared/content-renderers/renderer-factory'
-import { LoadingSpinner } from '@components/atoms'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
 import { cn } from '@utils/cn'
 import React, { useEffect, useState, useMemo } from 'react'
@@ -327,13 +326,9 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     )
   }
 
-  // 渲染加载状态 - 显示加载指示器和提示文本
+  // 渲染加载状态 - 返回 null，让调用方显示骨架屏
   if (loading) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <LoadingSpinner size="md" text="加载中..." />
-      </div>
-    )
+    return null
   }
 
   // 渲染错误状态 - 显示错误信息和重试按钮

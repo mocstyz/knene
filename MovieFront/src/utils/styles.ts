@@ -10,11 +10,6 @@
 
 // 动画相关工具类
 export const animations = {
-  // 加载动画
-  loading: 'animate-spin',
-  loadingSpinner:
-    'inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin',
-
   // 淡入动画
   fadeIn: 'animate-fade-in',
   fadeOut: 'animate-fade-out',
@@ -203,11 +198,6 @@ export const composed = {
   navItem:
     'flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200',
   navItemHover: 'hover:bg-accent-2 hover:text-accent-11',
-
-  // 加载状态 - 使用Radix UI Themes的accent颜色
-  loadingOverlay:
-    'absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center',
-  loadingSpinner: 'animate-spin h-5 w-5 text-accent-11',
 } as const
 
 // 条件样式生成器
