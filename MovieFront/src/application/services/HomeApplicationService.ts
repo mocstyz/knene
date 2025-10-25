@@ -37,11 +37,7 @@ export class HomeApplicationService {
     this.homeRepository = new HomeRepository()
   }
 
-  /**
-   * 获取首页数据
-   * @param params 查询参数
-   * @returns 首页数据响应
-   */
+  // 获取首页数据
   async getHomeData(params: HomeDataParams = {}): Promise<HomeDataResponse> {
     console.log('🏠 HomeApplicationService.getHomeData 开始执行', {
       params,

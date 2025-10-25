@@ -11,9 +11,7 @@ import { QualityBadgeLayer, RatingBadgeLayer, VipBadgeLayer } from '@components/
 import { getOverlayGradient } from '@tokens/design-system'
 import React from 'react'
 
-/**
- * 标签样式测试页面
- */
+// 标签样式测试页面
 const BadgeTestPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-8 dark:bg-gray-900">

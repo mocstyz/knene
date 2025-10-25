@@ -15,22 +15,7 @@ import { contentRendererFactory } from '@components/domains/shared/content-rende
 import { useEffect, useState } from 'react'
 import '@styles/App.css'
 
-/**
- * 主应用组件
- *
- * 配置并包装整个应用程序的必要上下文提供者：
- * - QueryProvider: 使用TanStack Query管理服务器状态和数据获取
- * - AppThemeProvider: 基于 next-themes 和 Radix UI Themes 的统一主题系统
- * - RouterProvider: 处理客户端路由和导航
- *
- * 新的主题系统特性：
- * - 支持明暗模式自动切换
- * - 跟随系统主题偏好
- * - 本地存储主题选择
- * - SSR 友好的主题切换
- *
- * @returns {JSX.Element} 完全配置的应用程序组件树
- */
+// 主应用组件
 function App(): JSX.Element {
   const [renderersReady, setRenderersReady] = useState(false)
 

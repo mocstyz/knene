@@ -9,11 +9,7 @@
 import { ROUTES } from '@presentation/router/routes'
 import type { BaseContentItem } from '@components/domains/shared/content-renderers'
 
-/**
- * 根据内容项类型导航到对应页面
- * @param item 内容项
- * @param navigate 导航函数（来自react-router-dom的useNavigate）
- */
+// 根据内容项类型导航到对应页面
 export function navigateToContentDetail(
   item: BaseContentItem,
   navigate: (path: string, options?: any) => void
@@ -43,11 +39,7 @@ export function navigateToContentDetail(
   }
 }
 
-/**
- * 获取内容项的详情页URL
- * @param item 内容项
- * @returns 详情页URL
- */
+// 获取内容项的详情页URL
 export function getContentDetailUrl(item: BaseContentItem): string {
   switch (item.contentType) {
     case 'movie':
