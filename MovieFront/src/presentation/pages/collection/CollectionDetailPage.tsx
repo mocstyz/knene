@@ -25,6 +25,11 @@ const CollectionDetailPage: React.FC = () => {
 
   const ITEMS_PER_PAGE = 12
 
+  // 页面加载时滚动到顶部
+  React.useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   // 获取合集影片数据
   const {
     movies,

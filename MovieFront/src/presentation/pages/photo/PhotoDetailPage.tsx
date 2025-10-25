@@ -26,6 +26,11 @@ const PhotoDetailPage: React.FC = () => {
   // 从路由状态获取图片URL（如果有的话）
   const stateImageUrl = (location.state as { imageUrl?: string })?.imageUrl
 
+  // 页面加载时滚动到顶部
+  React.useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const {
     photo,
     loading: photoLoading,
