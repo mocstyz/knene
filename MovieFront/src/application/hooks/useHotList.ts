@@ -105,10 +105,8 @@ export const useHotList = (options: UseHotListOptions = {}): UseHotListReturn =>
       const minLoadingTime = 500
 
       // 通过应用服务获取数据
-      // 注意：这里使用pageSize * page来模拟分页，实际应该由后端API支持分页参数
-      const allHotItems = await homeApplicationService.getHotDaily(
-        (fetchOptions.pageSize || 12) * (fetchOptions.page || 1)
-      )
+      // 注意：获取大量数据用于前端分页，实际应该由后端API支持分页参数
+      const allHotItems = await homeApplicationService.getHotDaily(300)
 
       // 计算分页数据
       const startIndex = ((fetchOptions.page || 1) - 1) * (fetchOptions.pageSize || 12)

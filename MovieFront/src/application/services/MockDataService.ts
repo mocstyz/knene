@@ -233,10 +233,10 @@ export class MockDataService {
 
   // 获取转换后的Mock最新更新数据，返回LatestItem格式用于前端展示（混合类型：影片、写真、合集）
   public getMockLatestUpdates(count: number = 6): LatestItem[] {
-    // 生成大量数据（各50个）
-    const movies = this.generateMockMovies(50)
-    const photos = this.generateMockPhotos(50)
-    const collections = this.generateMockCollections(50)
+    // 生成大量数据用于分页测试（各100个，总共300个）
+    const movies = this.generateMockMovies(100)
+    const photos = this.generateMockPhotos(100)
+    const collections = this.generateMockCollections(100)
     
     // 转换为统一格式
     const movieItems = ContentTransformationService.transformMovieListToUnified(movies)
@@ -260,10 +260,10 @@ export class MockDataService {
 
   // 获取转换后的Mock 7天最热门数据，返回HotItem格式用于前端展示（混合类型：影片、写真、合集）
   public getMockWeeklyHot(count: number = 6): HotItem[] {
-    // 生成大量数据（各50个）
-    const movies = this.generateMockMovies(50)
-    const photos = this.generateMockPhotos(50)
-    const collections = this.generateMockCollections(50)
+    // 生成大量数据用于分页测试（各100个，总共300个）
+    const movies = this.generateMockMovies(100)
+    const photos = this.generateMockPhotos(100)
+    const collections = this.generateMockCollections(100)
     
     // 转换为统一格式
     const movieItems = ContentTransformationService.transformMovieListToUnified(movies)
