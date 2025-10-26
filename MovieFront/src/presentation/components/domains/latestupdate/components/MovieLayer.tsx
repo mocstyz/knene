@@ -58,6 +58,8 @@ export interface MovieLayerProps {
   showNewBadge?: boolean
   newBadgeType?: 'hot' | 'latest' | null
   qualityText?: string
+  isVip?: boolean // 添加isVip prop，用于控制VIP标签显示
+  isNew?: boolean // 添加isNew prop，用于控制NEW标签显示
 }
 
 // 电影层组件，提供电影特化的内容展示功能，组合多个Layer组件
@@ -75,6 +77,8 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
   showNewBadge = true,
   newBadgeType = 'latest',
   qualityText,
+  isVip = false, // 默认为false，由数据源决定
+  isNew = false, // 默认为false，由数据源决定
 }) => {
   // 列表变体的特殊处理
   if (variant === 'list') {
@@ -168,10 +172,10 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
 
           {/* 标签层 */}
           <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
-            {/* New badge - top-left */}
-            {showNewBadge && (
+            {/* New badge - top-left，根据isNew prop决定显示 */}
+            {showNewBadge && isNew && (
               <NewBadgeLayer
-                isNew={true}
+                isNew={isNew}
                 newType={newBadgeType}
                 position="top-left"
                 size="responsive"
@@ -208,6 +212,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
 
           {/* 底部标签层 */}
           <div className="absolute bottom-2 left-2 right-2 z-10 flex justify-between">
+            {/* 评分标签 - 根据rating字段决定显示 */}
             {showRatingBadge && movie.rating && (
               <RatingBadgeLayer
                 rating={movie.rating}
@@ -215,9 +220,10 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
                 variant="default"
               />
             )}
-            {showVipBadge && (
+            {/* VIP标签 - 根据isVip prop决定显示 */}
+            {showVipBadge && isVip && (
               <VipBadgeLayer
-                isVip={true}
+                isVip={isVip}
                 position="bottom-right"
                 variant="default"
               />

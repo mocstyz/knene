@@ -12,21 +12,19 @@ import { buildUrlWithParams } from '@infrastructure/api/endpoints'
 import { generateRandomRating } from '@utils/formatters'
 import { MOVIE_ENDPOINTS } from '@infrastructure/api/endpoints'
 import { mockDataService } from '@application/services/MockDataService'
-import { ContentTransformationService } from '@application/services/ContentTransformationService'
-import { toCollectionItems } from '@utils/data-converters'
 import { environmentConfig } from '@infrastructure/config/EnvironmentConfig'
-import type { 
+import type {
   CollectionItem,
-  PhotoItem, 
-  LatestItem, 
+  PhotoItem,
+  LatestItem,
   BaseMovieItem,
   HotItem,
   UnifiedContentItem
 } from '@types-movie'
-import type { 
+import type {
   HomeDataParams as ApiHomeDataParams,
-  CollectionsQueryParams, 
-  PhotosQueryParams, 
+  CollectionsQueryParams,
+  PhotosQueryParams,
   LatestUpdatesQueryParams,
   HotContentQueryParams
 } from '@infrastructure/api/interfaces/IHomeApi'
@@ -49,58 +47,86 @@ export interface HomeDataResponse {
 
 // 首页仓储实现类
 export class HomeRepository implements IHomeRepository {
+  // 验证内容项数据完整性
+  private validateContentItem(item: any, type: string): boolean {
+    const requiredFields = ['id', 'title', 'imageUrl']
+    const missingFields: string[] = []
+
+    for (const field of requiredFields) {
+      if (!item[field]) {
+        missingFields.push(field)
+      }
+    }
+
+    // 检查isVip字段（必填）
+    if (item.isVip === undefined || item.isVip === null) {
+      missingFields.push('isVip')
+    }
+
+    if (missingFields.length > 0) {
+      console.warn(`⚠️ [HomeRepository] ${type}数据缺失字段:`, {
+        id: item.id || 'unknown',
+        title: item.title || 'unknown',
+        missingFields
+      })
+      return false
+    }
+
+    return true
+  }
+
+  // 验证并修复数据（回退逻辑）
+  private validateAndFixData<T extends { id: string; title: string; isVip?: boolean }>(items: T[], type: string): T[] {
+    return items.map(item => {
+      // 验证数据
+      this.validateContentItem(item, type)
+
+      // 回退逻辑：确保isVip字段存在
+      if (item.isVip === undefined || item.isVip === null) {
+        console.warn(`⚠️ [HomeRepository] ${type}数据缺失isVip字段，使用回退值false:`, item.id)
+        return { ...item, isVip: false as any }
+      }
+
+      return item
+    })
+  }
+
   // 获取首页所有模块数据
   async getHomeData(params: ApiHomeDataParams = {}): Promise<HomeDataResponse> {
-    const { 
+    const {
       collectionsLimit = 3,
-      photosLimit = 6, 
+      photosLimit = 6,
       latestLimit = 6,
       hotLimit = 6,
-      includeRatings = true, 
-      imageQuality = 'medium' 
+      includeRatings = true,
+      imageQuality = 'medium'
     } = params
 
     // 检查是否启用Mock数据
     if (environmentConfig.isMockEnabled()) {
       console.log('🔧 使用Mock数据模式 - getHomeData')
-      
-      // 使用Mock数据服务
-      const mockData = mockDataService.generateMockHomeData()
-      
-      // 将CollectionItem[]转换为CollectionItem[]
-      const collections = toCollectionItems(
-        ContentTransformationService.transformUnifiedListToCollections(
-          ContentTransformationService.transformCollectionListToUnified(
-            mockDataService.generateMockCollections(collectionsLimit)
-          )
-        ).map(collection => ({
-          id: collection.id,
-          title: collection.title,
-          contentType: 'collection' as const,
-          description: collection.description,
-          imageUrl: collection.imageUrl,
-          alt: collection.alt,
-          isNew: collection.isNew,
-          newType: collection.newType,
-          isVip: collection.isVip,
-          tags: collection.tags
-        }))
-      )
-      
+
+      // 直接使用Mock数据服务，无需转换
+      const collections = mockDataService.getMockCollections(collectionsLimit)
+      const photos = mockDataService.getMockPhotos(photosLimit)
+      const latestUpdates = mockDataService.getMockLatestUpdates(latestLimit)
+      const hotDaily = mockDataService.getMockHotDaily(hotLimit)
+
+      // 验证数据完整性
       const result = {
-        collections,
-        photos: mockDataService.getMockPhotos(photosLimit),
-        latestUpdates: mockDataService.getMockLatestUpdates(latestLimit),
-        hotDaily: mockDataService.getMockHotDaily(hotLimit),
+        collections: this.validateAndFixData(collections, 'Collection'),
+        photos: this.validateAndFixData(photos, 'Photo'),
+        latestUpdates: this.validateAndFixData(latestUpdates, 'LatestUpdate'),
+        hotDaily: this.validateAndFixData(hotDaily, 'HotDaily'),
       }
-      
-      console.log('📦 [HomeRepository] Mock数据准备完成:', {
+
+      console.log('📦 [HomeRepository] Mock数据准备完成（已验证）:', {
         collections: result.collections?.length || 0,
         photos: result.photos?.length || 0,
         latestUpdates: result.latestUpdates?.length || 0,
         hotDaily: result.hotDaily?.length || 0
       })
-      
+
       return result
     }
 
@@ -131,42 +157,25 @@ export class HomeRepository implements IHomeRepository {
       return this.transformApiResponse(data)
     } catch (error) {
       console.error('Error fetching home data:', error)
-      
+
       // API调用失败时的回退处理
       if (environmentConfig.isDevelopment()) {
         console.log('Development: API调用失败，回退到Mock数据')
-        
-        // 使用Mock数据服务作为回退
-        const mockData = mockDataService.generateMockHomeData()
-        
-        // 将CollectionItem[]转换为CollectionItem[]
-        const collections = toCollectionItems(
-          ContentTransformationService.transformUnifiedListToCollections(
-            ContentTransformationService.transformCollectionListToUnified(
-              mockDataService.generateMockCollections(collectionsLimit)
-            )
-          ).map(collection => ({
-            id: collection.id,
-            title: collection.title,
-            contentType: 'collection' as const,
-            description: collection.description,
-            imageUrl: collection.imageUrl,
-            alt: collection.alt,
-            isNew: collection.isNew,
-            newType: collection.newType,
-            isVip: collection.isVip,
-            tags: collection.tags
-          }))
-        )
-        
+
+        // 直接使用Mock数据服务作为回退，并验证数据完整性
+        const collections = mockDataService.getMockCollections(collectionsLimit)
+        const photos = mockDataService.getMockPhotos(photosLimit)
+        const latestUpdates = mockDataService.getMockLatestUpdates(latestLimit)
+        const hotDaily = mockDataService.getMockHotDaily(hotLimit)
+
         return {
-          collections,
-          photos: mockDataService.getMockPhotos(photosLimit),
-          latestUpdates: mockDataService.getMockLatestUpdates(latestLimit),
-          hotDaily: mockDataService.getMockHotDaily(hotLimit),
+          collections: this.validateAndFixData(collections, 'Collection'),
+          photos: this.validateAndFixData(photos, 'Photo'),
+          latestUpdates: this.validateAndFixData(latestUpdates, 'LatestUpdate'),
+          hotDaily: this.validateAndFixData(hotDaily, 'HotDaily'),
         }
       }
-      
+
       // 生产环境抛出错误
       throw error
     }
@@ -174,19 +183,19 @@ export class HomeRepository implements IHomeRepository {
 
   // 获取专题合集数据
   async getCollections(params?: CollectionsQueryParams): Promise<CollectionItem[]> {
-    const { 
-      limit = 8, 
-      offset = 0, 
-      category, 
-      featured = false, 
-      sortBy = 'latest' 
+    const {
+      limit = 8,
+      offset = 0,
+      category,
+      featured = false,
+      sortBy = 'latest'
     } = params || {}
-    
+
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     // 确保baseUrl是完整的URL或者正确的相对路径
     const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
     const apiUrl = new URL(MOVIE_ENDPOINTS.COLLECTIONS, fullBaseUrl)
-    
+
     // 添加查询参数
     apiUrl.searchParams.append('limit', limit.toString())
     apiUrl.searchParams.append('offset', offset.toString())
@@ -207,33 +216,16 @@ export class HomeRepository implements IHomeRepository {
       return this.transformCollections(data)
     } catch (error) {
       console.error('Error fetching collections:', error)
-      
+
       // API调用失败时的回退处理
       if (environmentConfig.isDevelopment()) {
         console.log('Development: API调用失败，回退到Mock数据 - Collections')
-        
-        // 使用Mock数据服务作为回退
-        const mockCollections = mockDataService.generateMockCollections(limit)
-        
-        // 转换为CollectionItem[]格式
-        return toCollectionItems(
-          ContentTransformationService.transformUnifiedListToCollections(
-            ContentTransformationService.transformCollectionListToUnified(mockCollections)
-          ).map(collection => ({
-            id: collection.id,
-            title: collection.title,
-            contentType: 'collection' as const,
-            description: collection.description,
-            imageUrl: collection.imageUrl,
-            alt: collection.alt,
-            isNew: collection.isNew,
-            newType: collection.newType,
-            isVip: collection.isVip,
-            tags: collection.tags
-          }))
-        )
+
+        // 直接使用Mock数据服务作为回退，并验证数据完整性
+        const collections = mockDataService.getMockCollections(limit)
+        return this.validateAndFixData(collections, 'Collection')
       }
-      
+
       // 生产环境抛出错误
       throw error
     }
@@ -241,19 +233,19 @@ export class HomeRepository implements IHomeRepository {
 
   // 获取写真内容数据
   async getPhotos(params?: PhotosQueryParams): Promise<PhotoItem[]> {
-    const { 
-      limit = 12, 
-      offset = 0, 
-      category, 
-      quality = 'all', 
-      orientation = 'all' 
+    const {
+      limit = 12,
+      offset = 0,
+      category,
+      quality = 'all',
+      orientation = 'all'
     } = params || {}
-    
+
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     // 确保baseUrl是完整的URL或者正确的相对路径
     const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
     const apiUrl = new URL(MOVIE_ENDPOINTS.PHOTOS, fullBaseUrl)
-    
+
     // 添加查询参数
     apiUrl.searchParams.append('limit', limit.toString())
     apiUrl.searchParams.append('offset', offset.toString())
@@ -274,15 +266,16 @@ export class HomeRepository implements IHomeRepository {
       return this.transformPhotos(data)
     } catch (error) {
       console.error('Error fetching photos:', error)
-      
+
       // API调用失败时的回退处理
       if (environmentConfig.isDevelopment()) {
         console.log('Development: API调用失败，回退到Mock数据 - Photos')
-        
-        // 使用Mock数据服务作为回退
-        return mockDataService.getMockPhotos(limit)
+
+        // 使用Mock数据服务作为回退，并验证数据完整性
+        const photos = mockDataService.getMockPhotos(limit)
+        return this.validateAndFixData(photos, 'Photo')
       }
-      
+
       // 生产环境抛出错误
       throw error
     }
@@ -354,12 +347,12 @@ export class HomeRepository implements IHomeRepository {
   // 获取热门内容列表
   async getHotContent(params?: HotContentQueryParams): Promise<HotItem[]> {
     const { limit = 6, period = 'daily', minRating = 0 } = params || {}
-    
+
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
     // 确保baseUrl是完整的URL或者正确的相对路径
     const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${window.location.origin}${baseUrl}`
     const apiUrl = new URL(MOVIE_ENDPOINTS.HOT, fullBaseUrl)
-    
+
     apiUrl.searchParams.append('limit', limit.toString())
     apiUrl.searchParams.append('period', period)
     apiUrl.searchParams.append('minRating', minRating.toString())
@@ -520,7 +513,16 @@ export class HomeRepository implements IHomeRepository {
       tags: collection.tags || [],
       createdAt: collection.createdAt || new Date().toISOString(),
       updatedAt: collection.updatedAt || new Date().toISOString(),
-      isFeatured: collection.featured || false
+      isFeatured: collection.featured || false,
+      // VIP相关字段 - 确保从Mock数据或API响应中传递
+      isVip: collection.isVip !== undefined ? collection.isVip : true, // 合集默认为VIP
+      isNew: collection.isNew !== undefined ? collection.isNew : false,
+      newType: collection.newType || null,
+      // 统计字段
+      viewCount: collection.viewCount,
+      downloadCount: collection.downloadCount,
+      likeCount: collection.likeCount,
+      favoriteCount: collection.favoriteCount
     }))
   }
 
@@ -539,9 +541,16 @@ export class HomeRepository implements IHomeRepository {
         'JPEG高',
       alt: photo.alt || `${photo.title || photo.name} poster`,
       genres: photo.genres || this.getRandomGenres(),
-      // 添加NEW标签相关属性
+      // VIP相关字段 - 确保从Mock数据或API响应中传递
+      isVip: photo.isVip !== undefined ? photo.isVip : true, // 写真默认为VIP
       isNew: photo.isNew !== undefined ? photo.isNew : index < 3, // 前3个默认为新内容
       newType: photo.newType || (['hot', 'latest', 'latest'][index % 3] as 'hot' | 'latest' | null),
+      // 统计字段
+      viewCount: photo.viewCount,
+      downloadCount: photo.downloadCount,
+      likeCount: photo.likeCount,
+      favoriteCount: photo.favoriteCount,
+      contentType: 'photo' as const
     }))
   }
 
@@ -557,10 +566,16 @@ export class HomeRepository implements IHomeRepository {
       quality: item.quality || this.getRandomQuality(),
       alt: item.alt || `${item.title || item.name} poster`,
       genres: item.genres || this.getRandomGenres(),
-      // 移除随机逻辑：如果数据中有isNew则使用，否则默认为false
+      // VIP相关字段 - 确保从Mock数据或API响应中传递
+      isVip: item.isVip !== undefined ? item.isVip : false, // 最新更新根据数据源决定
       isNew: item.isNew || false,
-      // 移除随机逻辑：如果数据中有newType则使用，否则默认为'latest'
       newType: (item.newType as 'hot' | 'latest' | null) || 'latest',
+      // 统计字段
+      viewCount: item.viewCount,
+      downloadCount: item.downloadCount,
+      likeCount: item.likeCount,
+      favoriteCount: item.favoriteCount,
+      contentType: item.contentType || (item.type === 'Collection' ? 'collection' : item.type === 'Photo' ? 'photo' : 'movie')
     }))
   }
 
@@ -577,6 +592,17 @@ export class HomeRepository implements IHomeRepository {
       alt: item.alt || `${item.title || item.name} poster`,
       genres: item.genres || this.getRandomGenres(),
       rank: index + 1, // 设置排名
+      // VIP相关字段 - 确保从Mock数据或API响应中传递
+      isVip: item.isVip !== undefined ? item.isVip : false, // 热门内容根据数据源决定
+      isNew: item.isNew !== undefined ? item.isNew : false,
+      newType: item.newType || null,
+      // 统计字段
+      viewCount: item.viewCount,
+      downloadCount: item.downloadCount,
+      likeCount: item.likeCount,
+      favoriteCount: item.favoriteCount,
+      hotScore: item.hotScore,
+      contentType: item.contentType || (item.type === 'Collection' ? 'collection' : item.type === 'Photo' ? 'photo' : 'movie')
     }))
   }
 

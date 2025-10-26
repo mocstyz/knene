@@ -16,6 +16,7 @@ interface MovieResourceInfoProps {
   isFavorited: boolean
   onFavoriteToggle: () => void
   onReport: () => void
+  isVip?: boolean // VIP状态，控制是否显示VIP标签
 }
 
 // 标签颜色映射
@@ -48,6 +49,7 @@ export const MovieResourceInfo: React.FC<MovieResourceInfoProps> = ({
   isFavorited,
   onFavoriteToggle,
   onReport,
+  isVip = false,
 }) => {
   return (
     <div className="space-y-4">
@@ -83,9 +85,9 @@ export const MovieResourceInfo: React.FC<MovieResourceInfoProps> = ({
       <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg">
         <div className="flex justify-between items-center">
           <div>
-            {/* 资源标题 */}
+            {/* 资源标题 - VIP标签根据isVip prop显示 */}
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-              {resource.title} <VipBadge />
+              {resource.title} {isVip && <VipBadge />}
             </h3>
 
             {/* 标签列表 */}
@@ -107,23 +109,23 @@ export const MovieResourceInfo: React.FC<MovieResourceInfoProps> = ({
                 <span className="material-icons text-base mr-1">
                   visibility
                 </span>{' '}
-                {formatNumber(resource.stats.views)}M
+                {formatNumber(resource.stats.viewCount)}M
               </span>
               <span className="flex items-center">
                 <span className="material-icons text-base mr-1">download</span>{' '}
-                {resource.stats.downloads}
+                {resource.stats.downloadCount}
               </span>
               <span className="flex items-center">
                 <span className="material-icons text-base mr-1">
                   check_circle
                 </span>{' '}
-                {resource.stats.likes}
+                {resource.stats.likeCount}
               </span>
               <span className="flex items-center">
                 <span className="material-icons text-base mr-1">
                   thumb_down
                 </span>{' '}
-                {resource.stats.dislikes}
+                {resource.stats.dislikeCount}
               </span>
             </div>
           </div>

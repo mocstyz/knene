@@ -42,17 +42,33 @@ export interface PhotoContentItem extends BaseContentItem {
 }
 
 // 写真内容渲染器，使用Layer组件组合渲染写真内容
-export class PhotoContentRenderer extends BaseContentRenderer {
+class PhotoContentRenderer extends BaseContentRenderer {
   public readonly contentType = 'photo' as const
   public readonly name: string = 'PhotoContentRenderer'
   public readonly version: string = '1.0.0'
 
   // 具体的渲染实现方法，使用PhotoLayer组件渲染写真内容
+  // 业务规则：写真强制显示VIP标签，NEW标签根据isNew字段显示，质量标签根据quality字段显示，不显示评分标签
   protected doRender(
     item: BaseContentItem,
     config: RendererConfig
   ): React.ReactElement {
     const photoItem = item as PhotoContentItem
+
+    // 数据验证：检查关键字段
+    if (!photoItem.id || !photoItem.title || !photoItem.imageUrl) {
+      console.warn('⚠️ [PhotoRenderer] 数据不完整:', {
+        id: photoItem.id,
+        title: photoItem.title,
+        hasImage: !!photoItem.imageUrl
+      })
+    }
+
+    // 数据验证：检查isVip字段
+    if (photoItem.isVip === undefined || photoItem.isVip === null) {
+      console.warn('⚠️ [PhotoRenderer] 缺失isVip字段，使用回退值true:', photoItem.id)
+      photoItem.isVip = true // 回退逻辑：写真默认为VIP
+    }
 
     // 调试输出：检查渲染器接收到的数据
     console.log('PhotoRenderer - Rendering photo:', {
@@ -90,12 +106,15 @@ export class PhotoContentRenderer extends BaseContentRenderer {
           }}
           variant="default"
           showHover={config.hoverEffect}
-          showVipBadge={config.showVipBadge}
-          showQualityBadge={config.showQualityBadge}
-          showNewBadge={config.showNewBadge}
+          // 配置优先级规则：写真强制显示VIP标签，数据源规则优先，忽略配置
+          showVipBadge={true} // 写真强制显示VIP标签，忽略config.showVipBadge
+          // 质量标签：配置与数据源共同决定（需要配置启用且数据源提供formatType）
+          showQualityBadge={config.showQualityBadge && !!photoItem.formatType}
+          // NEW标签：配置与数据源共同决定（需要配置启用且数据源isNew为true）
+          showNewBadge={config.showNewBadge && photoItem.isNew}
           showMetadata={config.showMetadata}
           newBadgeType={photoItem.newType || 'latest'}
-          isVip={photoItem.isVip}
+          isVip={true} // 写真固定为VIP
           isNew={photoItem.isNew || false}
         />
       </div>

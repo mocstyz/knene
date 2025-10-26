@@ -272,9 +272,9 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
     try {
       // 使用动态导入来避免循环依赖，并行加载所有渲染器
       const [
-        { default: MovieContentRenderer },
-        { default: PhotoContentRenderer },
-        { default: CollectionContentRenderer }
+        MovieRendererModule,
+        PhotoRendererModule,
+        CollectionRendererModule
       ] = await Promise.all([
         import('@components/domains/latestupdate/renderers/movie-renderer'),
         import('@components/domains/photo/renderers/photo-renderer'),
@@ -282,21 +282,21 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
       ])
 
       // 注册所有渲染器
-      this.register(new MovieContentRenderer(), {
+      this.register(new MovieRendererModule.default(), {
         registrar: 'system',
         enabled: true,
         priority: 100,
         override: false,
       })
 
-      this.register(new PhotoContentRenderer(), {
+      this.register(new PhotoRendererModule.default(), {
         registrar: 'system',
         enabled: true,
         priority: 90,
         override: false,
       })
 
-      this.register(new CollectionContentRenderer(), {
+      this.register(new CollectionRendererModule.default(), {
         registrar: 'system',
         enabled: true,
         priority: 80,

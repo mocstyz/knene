@@ -28,8 +28,9 @@ const MovieDetailPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   
-  // 从路由状态获取图片URL（如果有的话）
-  const stateImageUrl = (location.state as { imageUrl?: string })?.imageUrl
+  // 从路由状态获取图片URL和VIP状态（如果有的话）
+  const stateImageUrl = (location.state as { imageUrl?: string; isVip?: boolean })?.imageUrl
+  const stateIsVip = (location.state as { imageUrl?: string; isVip?: boolean })?.isVip
 
   // 页面加载时滚动到顶部
   React.useEffect(() => {
@@ -152,13 +153,14 @@ const MovieDetailPage: React.FC = () => {
       {/* 主内容区域 */}
       <div className="container mx-auto p-8 relative z-10 -mt-24">
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 space-y-8">
-          {/* 资源信息 */}
+          {/* 资源信息 - 根据movie.isVip传递VIP状态 */}
           {movie.resource && (
             <MovieResourceInfo
               resource={movie.resource}
               isFavorited={movie.isFavorited || false}
               onFavoriteToggle={toggleFavorite}
               onReport={handleReport}
+              isVip={movie.isVip || false}
             />
           )}
 

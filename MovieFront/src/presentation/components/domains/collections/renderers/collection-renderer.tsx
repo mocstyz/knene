@@ -44,17 +44,33 @@ export interface CollectionContentItem extends BaseContentItem {
 }
 
 // 合集内容渲染器，使用CollectionLayer组件渲染合集内容
-export class CollectionContentRenderer extends BaseContentRenderer {
+class CollectionContentRenderer extends BaseContentRenderer {
   public readonly contentType = 'collection' as const
   public readonly name: string = 'CollectionContentRenderer'
   public readonly version: string = '1.0.0'
 
   // 具体的渲染实现方法，根据合集内容项和配置渲染React组件
+  // 业务规则：合集强制显示VIP标签，NEW标签根据isNew字段显示，不显示质量标签和评分标签
   protected doRender(
     item: BaseContentItem, // 预处理后的合集内容项
     config: RendererConfig // 合并后的配置
   ): React.ReactElement {
     const collectionItem = item as CollectionContentItem
+
+    // 数据验证：检查关键字段
+    if (!collectionItem.id || !collectionItem.title || !collectionItem.imageUrl) {
+      console.warn('⚠️ [CollectionRenderer] 数据不完整:', {
+        id: collectionItem.id,
+        title: collectionItem.title,
+        hasImage: !!collectionItem.imageUrl
+      })
+    }
+
+    // 数据验证：检查isVip字段
+    if (collectionItem.isVip === undefined || collectionItem.isVip === null) {
+      console.warn('⚠️ [CollectionRenderer] 缺失isVip字段，使用回退值true:', collectionItem.id)
+      collectionItem.isVip = true // 回退逻辑：合集默认为VIP
+    }
 
     return (
       <div
@@ -71,10 +87,12 @@ export class CollectionContentRenderer extends BaseContentRenderer {
           }}
           aspectRatio={config.aspectRatio}
           showHover={config.hoverEffect}
-          showVipBadge={config.showVipBadge}
-          showNewBadge={config.showNewBadge}
-          isVip={collectionItem.isVip}
-          isNew={collectionItem.isNew}
+          // 配置优先级规则：合集强制显示VIP标签，数据源规则优先，忽略配置
+          showVipBadge={true} // 合集强制显示VIP标签，忽略config.showVipBadge
+          // NEW标签：配置与数据源共同决定（需要配置启用且数据源isNew为true）
+          showNewBadge={config.showNewBadge && collectionItem.isNew}
+          isVip={true} // 合集固定为VIP
+          isNew={collectionItem.isNew || false}
           newBadgeType={collectionItem.newType || 'latest'}
           onClick={config.onClick ? () => config.onClick?.(collectionItem) : undefined}
           hoverEffect={{

@@ -43,6 +43,14 @@ export interface MediaStatusItem {
   movieCount?: number // 影片数量（用于合集类型）
 }
 
+// 媒体统计接口，处理统计相关的属性
+export interface MediaStatsItem {
+  viewCount?: number // 观看次数
+  downloadCount?: number // 下载次数
+  likeCount?: number // 点赞数
+  favoriteCount?: number // 收藏数
+}
+
 // 媒体格式接口，处理格式相关的属性（如写真模块的图片格式）
 export interface MediaFormatItem {
   formatType?: 'JPEG高' | 'PNG' | 'WebP' | 'GIF' | 'BMP' // 图片格式类型
@@ -58,8 +66,13 @@ export interface BaseMovieItem
   extends BaseMediaItem,
   MediaImageItem,
   MediaRatingItem,
-  MediaQualityItem {
+  MediaQualityItem,
+  MediaStatsItem {
   genres?: string[] // 电影类型/分类
+  year?: number // 年份
+  duration?: number // 时长（分钟）
+  createdAt?: string // 创建时间
+  updatedAt?: string // 更新时间
 }
 
 // 完整电影项目接口，包含所有电影相关属性
@@ -72,23 +85,32 @@ export interface FullMovieItem
 export interface PhotoItem
   extends BaseMovieItem,
   MediaStatusItem,
-  MediaFormatItem {
+  MediaFormatItem,
+  MediaStatsItem {
   contentType?: 'movie' | 'photo' | 'collection' // 内容类型标识符，用于内容渲染器系统
+  createdAt?: string // 创建时间
+  updatedAt?: string // 更新时间
 }
 
 // 最新更新项目接口，最新更新专用的接口组合
-export interface LatestItem extends BaseMovieItem, MediaStatusItem {
+export interface LatestItem extends BaseMovieItem, MediaStatusItem, MediaStatsItem {
   contentType?: 'movie' | 'photo' | 'collection' // 内容类型标识符，用于内容渲染器系统
+  createdAt?: string // 创建时间
+  updatedAt?: string // 更新时间
 }
 
 // TOP项目接口，TOP排名专用的接口组合
 export interface TopItem extends BaseMovieItem, MediaRankItem { }
 
 // 热门项目接口，继承基础电影项目和状态属性
-export interface HotItem extends BaseMovieItem, MediaStatusItem { }
+export interface HotItem extends BaseMovieItem, MediaStatusItem, MediaStatsItem {
+  hotScore?: number // 热度分数
+  createdAt?: string // 创建时间
+  updatedAt?: string // 更新时间
+}
 
 // 合集项目接口，合集专用的接口组合，包含合集的完整信息
-export interface CollectionItem extends BaseMediaItem, MediaImageItem, MediaStatusItem, MediaRatingItem {
+export interface CollectionItem extends BaseMediaItem, MediaImageItem, MediaStatusItem, MediaRatingItem, MediaStatsItem {
   type: 'Collection' // 合集类型固定为Collection
   contentType: 'collection' // 内容类型标识符，用于内容渲染器系统
   description?: string // 合集描述
@@ -103,7 +125,6 @@ export interface CollectionItem extends BaseMediaItem, MediaImageItem, MediaStat
   category?: string // 合集分类
   createdAt?: string // 创建时间
   updatedAt?: string // 更新时间
-  downloadCount?: number // 下载次数
   publishDate?: string // 发布日期
 }
 
@@ -145,7 +166,7 @@ export interface DownloadLink {
   size?: string
   format?: string
   quality?: string
-  requiresVip?: boolean
+  isVip?: boolean // 统一使用isVip命名，与其他接口保持一致
 }
 
 // 资源信息接口
@@ -164,10 +185,10 @@ export interface ResourceTag {
 
 // 资源统计接口
 export interface ResourceStats {
-  views: number
-  downloads: number
-  likes: number
-  dislikes: number
+  viewCount: number // 统一使用xxxCount格式
+  downloadCount: number // 统一使用xxxCount格式
+  likeCount: number // 统一使用xxxCount格式
+  dislikeCount: number // 统一使用xxxCount格式
 }
 
 // 上传者信息接口
@@ -391,4 +412,150 @@ export function isLatestItem(item: any): item is LatestItem {
 // 检查是否为TOP项目
 export function isTopItem(item: any): item is TopItem {
   return item && 'rank' in item
+}
+
+// 验证CollectionItem的完整性
+export function isValidCollectionItem(item: any): item is CollectionItem {
+  if (!item || typeof item !== 'object') {
+    return false
+  }
+  
+  // 检查必需字段
+  if (!item.id || typeof item.id !== 'string') {
+    console.warn('CollectionItem validation failed: missing or invalid id')
+    return false
+  }
+  
+  if (!item.title || typeof item.title !== 'string') {
+    console.warn('CollectionItem validation failed: missing or invalid title')
+    return false
+  }
+  
+  if (item.type !== 'Collection') {
+    console.warn('CollectionItem validation failed: type must be "Collection"')
+    return false
+  }
+  
+  if (item.contentType !== 'collection') {
+    console.warn('CollectionItem validation failed: contentType must be "collection"')
+    return false
+  }
+  
+  // 检查VIP字段（必需）
+  if (typeof item.isVip !== 'boolean') {
+    console.warn('CollectionItem validation failed: isVip must be boolean')
+    return false
+  }
+  
+  // 检查可选字段的类型
+  if (item.isNew !== undefined && typeof item.isNew !== 'boolean') {
+    console.warn('CollectionItem validation failed: isNew must be boolean if present')
+    return false
+  }
+  
+  if (item.quality !== undefined && typeof item.quality !== 'string') {
+    console.warn('CollectionItem validation failed: quality must be string if present')
+    return false
+  }
+  
+  return true
+}
+
+// 验证PhotoItem的完整性
+export function isValidPhotoItem(item: any): item is PhotoItem {
+  if (!item || typeof item !== 'object') {
+    return false
+  }
+  
+  // 检查必需字段
+  if (!item.id || typeof item.id !== 'string') {
+    console.warn('PhotoItem validation failed: missing or invalid id')
+    return false
+  }
+  
+  if (!item.title || typeof item.title !== 'string') {
+    console.warn('PhotoItem validation failed: missing or invalid title')
+    return false
+  }
+  
+  if (item.type !== 'Photo') {
+    console.warn('PhotoItem validation failed: type must be "Photo"')
+    return false
+  }
+  
+  if (item.contentType !== 'photo') {
+    console.warn('PhotoItem validation failed: contentType must be "photo"')
+    return false
+  }
+  
+  // 检查VIP字段（必需）
+  if (typeof item.isVip !== 'boolean') {
+    console.warn('PhotoItem validation failed: isVip must be boolean')
+    return false
+  }
+  
+  // 检查可选字段的类型
+  if (item.isNew !== undefined && typeof item.isNew !== 'boolean') {
+    console.warn('PhotoItem validation failed: isNew must be boolean if present')
+    return false
+  }
+  
+  if (item.quality !== undefined && typeof item.quality !== 'string') {
+    console.warn('PhotoItem validation failed: quality must be string if present')
+    return false
+  }
+  
+  if (item.formatType !== undefined && !['JPEG高', 'PNG', 'WebP', 'GIF', 'BMP'].includes(item.formatType)) {
+    console.warn('PhotoItem validation failed: invalid formatType')
+    return false
+  }
+  
+  return true
+}
+
+// 验证MovieItem的完整性
+export function isValidMovieItem(item: any): item is BaseMovieItem {
+  if (!item || typeof item !== 'object') {
+    return false
+  }
+  
+  // 检查必需字段
+  if (!item.id || typeof item.id !== 'string') {
+    console.warn('MovieItem validation failed: missing or invalid id')
+    return false
+  }
+  
+  if (!item.title || typeof item.title !== 'string') {
+    console.warn('MovieItem validation failed: missing or invalid title')
+    return false
+  }
+  
+  if (item.type !== 'Movie') {
+    console.warn('MovieItem validation failed: type must be "Movie"')
+    return false
+  }
+  
+  // 检查VIP字段（可选但如果存在必须是boolean）
+  if (item.isVip !== undefined && typeof item.isVip !== 'boolean') {
+    console.warn('MovieItem validation failed: isVip must be boolean if present')
+    return false
+  }
+  
+  // 检查可选字段的类型
+  if (item.isNew !== undefined && typeof item.isNew !== 'boolean') {
+    console.warn('MovieItem validation failed: isNew must be boolean if present')
+    return false
+  }
+  
+  if (item.quality !== undefined && typeof item.quality !== 'string') {
+    console.warn('MovieItem validation failed: quality must be string if present')
+    return false
+  }
+  
+  if (item.rating !== undefined && typeof item.rating !== 'string' && typeof item.rating !== 'number') {
+    console.warn('MovieItem validation failed: rating must be string or number if present')
+    return false
+  }
+  
+  return true
 }

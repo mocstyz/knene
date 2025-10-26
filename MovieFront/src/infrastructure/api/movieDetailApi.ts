@@ -27,8 +27,24 @@ export class MovieDetailApiService {
   // 获取影片详情
   static async getMovieDetail(movieId: string): Promise<MovieDetail> {
     if (this.useMock) {
-      // 使用 Mock 数据
+      // 使用 Mock 数据 - 从MockDataService获取基础数据，确保与列表页面数据一致
       await new Promise(resolve => setTimeout(resolve, this.mockDelay))
+
+      // 从MockDataService获取影片基础数据
+      const { mockDataService } = await import('@application/services/MockDataService')
+      
+      // 解析movieId，获取影片索引
+      const movieIndex = parseInt(movieId.replace('movie_', '')) || 1
+      
+      // 根据MockDataService的业务规则：每3个中有1个是VIP
+      const isVipFromMock = (movieIndex - 1) % 3 === 0
+      
+      console.log('🎬 [movieDetailApi] 获取影片详情:', {
+        movieId,
+        movieIndex,
+        isVip: isVipFromMock,
+        rule: '每3个中有1个是VIP'
+      })
 
       const mockData: MovieDetail = {
         id: movieId,
@@ -53,7 +69,8 @@ export class MovieDetailApiService {
         duration: 135,
         genres: ['Drama', 'Thriller', 'Crime'],
         quality: '1080p',
-        isVip: true, // 设置为VIP内容
+        // VIP状态从MockDataService的业务规则获取，确保与列表页面一致
+        isVip: isVipFromMock,
         thankYouCount: 1200,
         isFavorited: false,
         isThankYouActive: false,
@@ -70,10 +87,10 @@ export class MovieDetailApiService {
             { label: '合集', color: 'indigo' },
           ],
           stats: {
-            views: 8700000,
-            downloads: 200,
-            likes: 24,
-            dislikes: 0,
+            viewCount: 8700000,
+            downloadCount: 200,
+            likeCount: 24,
+            dislikeCount: 0,
           },
           uploader: {
             name: 'mosctz',

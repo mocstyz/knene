@@ -39,17 +39,33 @@ export interface MovieContentItem extends BaseContentItem {
 }
 
 // 电影内容渲染器，使用MovieLayer组件渲染电影内容
-export class MovieContentRenderer extends BaseContentRenderer {
+class MovieContentRenderer extends BaseContentRenderer {
   public readonly contentType = 'movie' as const
   public readonly name: string = 'MovieContentRenderer'
   public readonly version: string = '1.0.0'
 
   // 具体的渲染实现方法，使用MovieLayer组件渲染电影内容
+  // 业务规则：影片的VIP标签根据isVip字段和配置决定，NEW标签根据isNew字段显示，质量标签根据quality字段显示，评分标签根据rating字段显示
   protected doRender(
     item: BaseContentItem,
     config: RendererConfig
   ): React.ReactElement {
     const movieItem = item as MovieContentItem
+
+    // 数据验证：检查关键字段
+    if (!movieItem.id || !movieItem.title || !movieItem.imageUrl) {
+      console.warn('⚠️ [MovieRenderer] 数据不完整:', {
+        id: movieItem.id,
+        title: movieItem.title,
+        hasImage: !!movieItem.imageUrl
+      })
+    }
+
+    // 数据验证：检查isVip字段
+    if (movieItem.isVip === undefined || movieItem.isVip === null) {
+      console.warn('⚠️ [MovieRenderer] 缺失isVip字段，使用回退值false:', movieItem.id)
+      movieItem.isVip = false // 回退逻辑：影片默认为非VIP
+    }
 
     return (
       <div
@@ -76,10 +92,17 @@ export class MovieContentRenderer extends BaseContentRenderer {
           variant="default"
           onPlay={() => config.onClick?.(movieItem)}
           showHover={config.hoverEffect}
-          showVipBadge={config.showVipBadge}
+          // 配置优先级规则：影片的VIP标签根据配置和数据源共同决定
+          // VIP标签：配置与数据源共同决定（需要配置启用且数据源isVip为true）
+          showVipBadge={config.showVipBadge} // 影片VIP标签受配置控制
+          // 质量标签：配置与数据源共同决定（需要配置启用且数据源提供quality）
           showQualityBadge={config.showQualityBadge}
+          // 评分标签：配置与数据源共同决定（需要配置启用且数据源提供rating）
           showRatingBadge={config.showRatingBadge}
+          // NEW标签：配置与数据源共同决定（需要配置启用且数据源isNew为true）
           showNewBadge={config.showNewBadge}
+          isVip={movieItem.isVip} // 传递isVip数据
+          isNew={movieItem.isNew} // 传递isNew数据
           newBadgeType={movieItem.newType}
           qualityText={movieItem.quality}
         />

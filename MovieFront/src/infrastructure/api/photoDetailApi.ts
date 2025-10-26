@@ -36,7 +36,8 @@ export class PhotoDetailApiService {
         thankYouCount: 856,
         isFavorited: false,
         isThankYouActive: false,
-        isVip: true, // 设置为VIP内容
+        // 根据MockDataService的业务规则：所有写真都是VIP
+        isVip: true,
         resource: {
           title: 'Beautiful Sunset Photography Collection 2024 4K HDR',
           tags: [
@@ -46,10 +47,10 @@ export class PhotoDetailApiService {
             { label: '精选', color: 'blue' },
           ],
           stats: {
-            views: 5200000,
-            downloads: 1580,
-            likes: 342,
-            dislikes: 8,
+            viewCount: 5200000,
+            downloadCount: 1580,
+            likeCount: 342,
+            dislikeCount: 8,
           },
           uploader: {
             name: 'PhotoMaster',

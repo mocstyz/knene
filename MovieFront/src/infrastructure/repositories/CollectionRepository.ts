@@ -420,7 +420,16 @@ export class CollectionRepository implements ICollectionRepository {
         director: item.director || '未知导演',
         cast: item.cast || [],
         country: item.country || '未知',
-        language: item.language || '中文'
+        language: item.language || '中文',
+        // VIP相关字段 - 确保从Mock数据或API响应中传递
+        isVip: item.isVip !== undefined ? item.isVip : false,
+        isNew: item.isNew !== undefined ? item.isNew : false,
+        newType: item.newType || null,
+        // 统计字段
+        viewCount: item.viewCount,
+        downloadCount: item.downloadCount,
+        likeCount: item.likeCount,
+        favoriteCount: item.favoriteCount
       })),
       pagination: {
         currentPage: apiData.pagination?.page || 1,
@@ -449,7 +458,16 @@ export class CollectionRepository implements ICollectionRepository {
       createdAt: item.createdAt || new Date().toISOString(),
       updatedAt: item.updatedAt || new Date().toISOString(),
       isFeatured: item.featured || false,
-      rating: item.rating?.toString() || '0'
+      rating: item.rating?.toString() || '0',
+      // VIP相关字段 - 确保从Mock数据或API响应中传递
+      isVip: item.isVip !== undefined ? item.isVip : true, // 合集默认为VIP
+      isNew: item.isNew !== undefined ? item.isNew : false,
+      newType: item.newType || null,
+      // 统计字段
+      viewCount: item.viewCount,
+      downloadCount: item.downloadCount,
+      likeCount: item.likeCount,
+      favoriteCount: item.favoriteCount
     }
   }
 
