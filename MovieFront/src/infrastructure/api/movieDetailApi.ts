@@ -12,6 +12,38 @@ import type {
   SubtitleSource,
 } from '@types-movie'
 
+// 统一的VIP状态判断函数，确保与合集影片列表保持一致
+function determineVipStatus(movieId: string, movieIndex: number): boolean {
+  // 合集影片特征：索引值较大（合集影片使用 collectionIndex * 100 + index + 1 的ID格式）
+  if (movieIndex > 1000) {
+    // 解析合集信息
+    const collectionIndex = Math.floor(movieIndex / 100)
+    const movieInCollectionIndex = (movieIndex % 100) - 1
+
+    console.log('🎬 [determineVipStatus] 检测到合集影片:', {
+      movieId,
+      collectionIndex,
+      movieInCollectionIndex,
+      isVip: true,
+      reason: '合集中的所有影片都是VIP'
+    })
+
+    return true // 所有合集影片都是VIP
+  }
+
+  // 普通影片的VIP规则：每3个中有1个是VIP
+  const isVip = (movieIndex - 1) % 3 === 0
+
+  console.log('🎬 [determineVipStatus] 普通影片VIP判断:', {
+    movieId,
+    movieIndex,
+    isVip,
+    rule: '每3个中有1个是VIP'
+  })
+
+  return isVip
+}
+
 // 影片详情API服务类
 export class MovieDetailApiService {
   // 检查是否使用 Mock 数据
@@ -36,14 +68,14 @@ export class MovieDetailApiService {
       // 解析movieId，获取影片索引
       const movieIndex = parseInt(movieId.replace('movie_', '')) || 1
       
-      // 根据MockDataService的业务规则：每3个中有1个是VIP
-      const isVipFromMock = (movieIndex - 1) % 3 === 0
-      
+      // 统一的VIP判断逻辑，确保与合集影片列表保持一致
+      const isVipFromMock = determineVipStatus(movieId, movieIndex)
+
       console.log('🎬 [movieDetailApi] 获取影片详情:', {
         movieId,
         movieIndex,
         isVip: isVipFromMock,
-        rule: '每3个中有1个是VIP'
+        rule: isVipFromMock ? '合集影片(全部VIP)' : '普通影片(每3个中有1个VIP)'
       })
 
       const mockData: MovieDetail = {
