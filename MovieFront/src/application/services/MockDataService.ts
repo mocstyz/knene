@@ -6,7 +6,7 @@
  * @version 1.0.0
  */
 
-import type { CollectionItem, PhotoItem, LatestItem, BaseMovieItem, HotItem } from '@types-movie'
+import type { CollectionItem, PhotoItem, LatestItem, BaseMovieItem, FullMovieItem, HotItem, MovieDetail } from '@types-movie'
 
 // Mock数据管理服务，提供统一的Mock数据生成和缓存机制，支持环境配置切换
 export class MockDataService {
@@ -84,8 +84,8 @@ export class MockDataService {
     return collections
   }
 
-  // 生成Mock影片数据，直接生成BaseMovieItem格式用于前端展示
-  public generateMockMovies(count: number = 20): BaseMovieItem[] {
+  // 生成Mock影片数据，直接生成FullMovieItem格式用于前端展示
+  public generateMockMovies(count: number = 20): FullMovieItem[] {
     const cacheKey = `movies_${count}`
     
     if (this.mockDataCache.has(cacheKey)) {
@@ -371,50 +371,312 @@ export class MockDataService {
     return collections.find(c => c.id === collectionId) || null
   }
 
+  // 获取单个影片详情，模拟后端API返回MovieDetail格式
+  public getMockMovieDetail(movieId: string): MovieDetail {
+    const cacheKey = `movie_detail_${movieId}`
+
+    // 缓存检查
+    if (this.mockDataCache.has(cacheKey)) {
+      return this.mockDataCache.get(cacheKey)
+    }
+
+    // 解析影片索引，用于判断是否为合集影片
+    const movieIndex = parseInt(movieId.replace('movie_', '')) || 1
+
+    // 判断是否为合集影片（索引较大）
+    const isCollectionMovie = movieIndex > 1000
+
+    if (isCollectionMovie) {
+      // 合集影片：模拟后端返回的完整MovieDetail数据
+      const collectionIndex = Math.floor(movieIndex / 100)
+      const movieInCollectionIndex = (movieIndex % 100) - 1
+
+      const collectionMovieData: MovieDetail = {
+        id: movieId,
+        title: `合集${collectionIndex}-影片${movieInCollectionIndex + 1}`,
+        type: 'Movie',
+        year: 2019,
+        imageUrl: `https://picsum.photos/400/600?random=${movieIndex}`,
+        alt: `合集${collectionIndex}-影片${movieInCollectionIndex + 1} 海报`,
+        description: `这是合集${collectionIndex}中的第${movieInCollectionIndex + 1}部影片`,
+        director: `导演${movieInCollectionIndex + 1}`,
+        cast: [`演员${movieInCollectionIndex + 1}`, `演员${movieInCollectionIndex + 2}`],
+        country: '中国',
+        language: '中文',
+        duration: 135,
+        genres: ['动作', '剧情', '科幻'][movieInCollectionIndex % 3],
+
+        // 合集影片的VIP状态：固定为true
+        isVip: true,
+
+        // 多平台评分
+        rating: '9.2',
+        doubanRating: '9.2',
+        ratingColor: 'purple',
+        votes: 1500000,
+        imdbRating: 8.7,
+        tmdbRating: 8.1,
+        quality: '1080p',
+
+        thankYouCount: 1200,
+        isFavorited: false,
+        isThankYouActive: false,
+
+        // 资源信息
+        resource: {
+          title: `合集${collectionIndex}-影片${movieInCollectionIndex + 1} (2019) Criterion 1080p BluRay x265 10bit DDP Atmos 7.1 English VIP`,
+          tags: [
+            { label: '特效字幕', color: 'green' },
+            { label: '首发', color: 'blue' },
+            { label: '中字', color: 'yellow' },
+            { label: '国配', color: 'purple' },
+            { label: '高码', color: 'red' },
+            { label: '合集', color: 'indigo' },
+          ],
+          stats: {
+            viewCount: 8700000,
+            downloadCount: 200,
+            likeCount: 24,
+            dislikeCount: 0,
+          },
+          uploader: {
+            name: 'mosctz',
+            uploadTime: '18 hours ago',
+          },
+        },
+
+        // 文件信息
+        fileInfo: {
+          format: 'MKV',
+          size: '8.71 GiB',
+          duration: '2h 15m',
+          video: {
+            codec: 'H.265',
+            resolution: '1920x804',
+            bitrate: '8000 kbps',
+            frameRate: '23.976 fps',
+          },
+          audio: {
+            codec: 'DTS',
+            channels: '6',
+            bitrate: '768 kbps',
+            sampleRate: '48.0 kHz',
+          },
+          subtitles: [
+            {
+              language: 'Chinese',
+              label: '中字',
+              format: 'Danish',
+            },
+            {
+              language: 'English',
+              label: 'English',
+              format: 'Finnish',
+            },
+            {
+              language: 'French',
+              label: 'French',
+              format: 'French',
+            },
+            {
+              language: 'German',
+              label: 'German',
+              format: 'German',
+            },
+            {
+              layer: 'Norwegian',
+              label: 'Norwegian',
+              format: 'Norwegian',
+            },
+            {
+              language: 'Portuguese',
+              label: 'Portuguese',
+              format: 'Portuguese',
+            },
+            {
+              language: 'Spanish',
+              label: 'Spanish',
+              format: 'Spanish',
+            },
+            {
+              language: 'Swedish',
+              label: 'Swedish',
+              format: 'Swedish',
+            },
+            {
+              language: 'Thai',
+              label: 'Thai',
+              format: 'Thai',
+            },
+          ],
+        },
+
+        // 截图
+        screenshots: [
+          {
+            url: 'https://picsum.photos/1920/1080?random=801',
+            alt: 'Screenshot from movie Uncut Gems',
+            timestamp: '1h 23m 45s',
+          },
+          {
+            url: 'https://picsum.photos/1920/1080?random=802',
+            alt: 'Screenshot from movie Uncut Gems',
+            timestamp: '1h 24m 12s',
+          },
+          {
+            url: 'https://picsum.photos/1920/1080?random=803',
+            alt: 'Screenshot from movie Uncut Gems',
+            timestamp: '1h 28m 30s',
+          },
+          {
+            url: 'https://picsum.photos/1920/1080?random=804',
+            isPrimary: true,
+            alt: 'Primary screenshot from movie Uncut Gems',
+            timestamp: '1h 32m 15s',
+          },
+        ],
+      }
+
+      // 缓存并返回
+      this.mockDataCache.set(cacheKey, collectionMovieData)
+      return collectionMovieData
+    } else {
+      // 普通影片：使用原有的生成逻辑
+      const collectionIndex = Math.floor(movieIndex / 100) || 1
+      const regularMovieIndex = movieIndex - (collectionIndex * 100) + 1
+
+      return {
+        id: movieId,
+        title: `热门影片 ${regularMovieIndex}`,
+        type: 'Movie',
+        year: 2024 - Math.floor(Math.random() * 5),
+        imageUrl: `https://picsum.photos/300/450?random=${movieIndex}`,
+        alt: `热门影片 ${regularMovieIndex} 海报`,
+        description: `这是第${regularMovieIndex}部热门影片的描述`,
+        director: `导演${regularMovieIndex}`,
+        cast: ['演员1', '演员2'],
+        country: '美国',
+        language: 'English',
+        duration: 90 + Math.floor(Math.random() * 60),
+        genres: ['剧情', '动作', '喜剧', '科幻', '恐怖'][regularMovieIndex % 5],
+
+        // 普通影片的VIP规则：每3个中有1个是VIP
+        isVip: (regularMovieIndex - 1) % 3 === 0,
+
+        // 其他字段保持不变
+        rating: parseFloat((Math.random() * 4 + 6).toFixed(1)),
+        doubanRating: '6.3',
+        ratingColor: 'purple',
+        votes: 1500000,
+        imdbRating: 9.2,
+        tmdbRating: 8.5,
+        quality: ['4K', 'HD', '1080P', '720P'][regularMovieIndex % 4],
+        thankYouCount: Math.floor(Math.random() * 2000) + 100,
+        isFavorited: false,
+        isThankYouActive: false,
+
+        // 资源信息（普通影片样式）
+        resource: {
+          title: `热门影片 ${regularMovieIndex} (2019) 1080p BluRay`,
+          tags: [
+            { label: '高清', color: 'blue' },
+            { label: '中字', color: 'yellow' },
+            { label: '5.1声道', color: 'green' },
+          ],
+          stats: {
+            viewCount: 8700000,
+            downloadCount: 200,
+            likeCount: 24,
+            dislikeCount: 0,
+          },
+          uploader: {
+            name: 'mosctz',
+            uploadTime: '18 hours ago',
+          },
+        },
+
+        fileInfo: {
+          format: 'MP4',
+          size: '3.8 GiB',
+          duration: '2h 5m',
+          video: {
+            codec: 'H.264',
+            resolution: '1920x804',
+            bitrate: '5000 kbps',
+            frameRate: '23.976 fps',
+          },
+          audio: {
+            codec: 'AAC',
+            channels: '2',
+            bitrate: '192 kbps',
+            sampleRate: '48.0 kHz',
+          },
+          subtitles: [
+            {
+              language: 'Chinese',
+              label: '中字',
+              format: 'SRT',
+            },
+          ],
+        },
+
+        screenshots: [
+          {
+            url: 'https://picsum.photos/1920/1080?random=901',
+            alt: `Screenshot from movie ${regularMovieIndex}`,
+            timestamp: '1h 23m 45s',
+          },
+          {
+            url: 'https://picsum.photos/1920/1080?random=902',
+            alt: `Screenshot from movie ${regularMovieIndex}`,
+            timestamp: '1h 24m 12s',
+          },
+        ],
+      }
+    }
+  }
+
   // 获取合集中的影片列表，支持分页
   // 重要：合集中的所有影片都继承合集的VIP状态，因此isVip固定为true
   public getMockCollectionMovies(options: {
     collectionId: string
     page?: number
     pageSize?: number
-  }): { movies: import('@types-movie').MovieDetail[], total: number } {
-    const { collectionId, page = 1, pageSize = 12 } = options
-    
-    // 为每个合集生成固定的影片列表（基于collectionId生成种子）
-    const collectionIndex = parseInt(collectionId.replace('collection_', '')) || 1
-    const totalMovies = 20 + (collectionIndex % 30) // 每个合集20-50部影片
-    
-    // 生成该合集的所有影片
-    const allMovies = Array.from({ length: totalMovies }, (_, index) => {
-      const movieIndex = collectionIndex * 100 + index + 1
-      const id = `movie_${movieIndex}`
-      const genres = ['动作', '喜剧', '剧情', '科幻', '恐怖', '爱情', '悬疑'][index % 7]
-      const releaseYear = 2024 - Math.floor(Math.random() * 5)
-      const rating = parseFloat((Math.random() * 4 + 6).toFixed(1))
-      
-      return {
-        id,
-        title: `合集${collectionIndex}-影片${index + 1}`,
-        type: 'Movie' as const,
-        rating: rating.toString(),
-        ratingColor: 'white' as const,
-        imageUrl: `https://picsum.photos/400/600?random=${movieIndex}`,
-        quality: ['4K', 'HD', '1080P', '720P'][index % 4],
-        alt: `合集${collectionIndex}-影片${index + 1} 海报`,
-        genres: [genres],
-        year: releaseYear,
-        duration: 90 + Math.floor(Math.random() * 60),
-        description: `这是合集${collectionIndex}中的第${index + 1}部影片`,
-        director: `导演${index + 1}`,
-        cast: [`演员${index + 1}`, `演员${index + 2}`],
-        country: '中国',
-        language: '中文',
-        // VIP状态继承：合集中的所有影片都是VIP
-        isVip: true
-      }
-    })
+  }): { movies: FullMovieItem[]; total: number } {
+    const { collectionId, page = 1, pageSize = 20 } = options
+    const movieIndex = parseInt(collectionId.replace('collection_', '')) || 1
+    const totalMovies = 50 // 模拟每个合集有50部电影
 
-    // 分页处理
+    // 生成合集电影的Mock数据
+    const allMovies: FullMovieItem[] = []
+    for (let i = 0; i < totalMovies; i++) {
+      const movieNum = movieIndex * 1000 + i + 1 // collection_xxxx -> movie_xxxx0001, movie_xxxx0002...
+      const movieItem: FullMovieItem = {
+        id: `movie_${movieNum}`,
+        title: `合集影片 ${movieNum}`,
+        type: 'Movie' as const,
+        imageUrl: `https://picsum.photos/300/450?random=${movieNum + 100}`,
+        alt: `合集影片 ${movieNum} 海报`,
+        description: `这是合集影片 ${movieNum} 的描述`,
+
+        // 业务规则：合集电影都是VIP
+        isVip: true,
+
+        // 其他业务字段
+        genres: ['动作', '喜剧', '剧情', '科幻', '恐怖'][i % 5],
+        year: 2024 - Math.floor(Math.random() * 5),
+        duration: 120 + Math.floor(Math.random() * 60),
+        rating: (6.0 + Math.random() * 4).toFixed(1),
+        quality: ['4K', 'HD', '1080P', '720P'][i % 4],
+        viewCount: Math.floor(Math.random() * 1000000),
+        downloadCount: Math.floor(Math.random() * 50000),
+        likeCount: Math.floor(Math.random() * 5000),
+        favoriteCount: Math.floor(Math.random() * 1000),
+      }
+      allMovies.push(movieItem)
+    }
+
+    // 分页逻辑
     const startIndex = (page - 1) * pageSize
     const endIndex = startIndex + pageSize
     const paginatedMovies = allMovies.slice(startIndex, endIndex)
