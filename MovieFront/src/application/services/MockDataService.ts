@@ -35,7 +35,7 @@ export class MockDataService {
     }
 
     const collections = Array.from({ length: count }, (_, index) => {
-      const id = `collection_${index + 1}`
+      const id = index + 1
       
       // 生成最近30天内的随机发布时间
       const daysAgo = Math.random() * 30 // 0-30天前
@@ -93,7 +93,7 @@ export class MockDataService {
     }
 
     const movies = Array.from({ length: count }, (_, index) => {
-      const id = `movie_${index + 1}`
+      const id = index + 1
       const genres = ['动作', '喜剧', '剧情', '科幻', '恐怖'][index % 5]
       const releaseYear = 2024 - Math.floor(Math.random() * 5)
       
@@ -172,7 +172,7 @@ export class MockDataService {
     }
 
     const photos = Array.from({ length: count }, (_, index) => {
-      const id = `photo_${index + 1}`
+      const id = index + 1
       const category = ['风景', '人物', '建筑', '动物', '艺术'][index % 5]
       
       // 生成最近30天内的随机发布时间
@@ -277,15 +277,15 @@ export class MockDataService {
       ...collections.map(c => ({ ...c, contentType: 'collection' as const }))
     ]
     
-    // 过滤：只保留7天内的内容
-    const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
-    const withinSevenDays = allItems.filter(item => {
+    // 过滤：只保留30天内的内容（扩大范围以确保有数据）
+    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000
+    const withinThirtyDays = allItems.filter(item => {
       const publishTime = new Date(item.updatedAt || item.createdAt || 0).getTime()
-      return publishTime >= sevenDaysAgo
+      return publishTime >= thirtyDaysAgo
     })
     
     // 计算热度分数：观看次数 * 1 + 点赞数 * 5 + 收藏数 * 10
-    const withHotScore = withinSevenDays.map(item => ({
+    const withHotScore = withinThirtyDays.map(item => ({
       ...item,
       hotScore: (item.viewCount || 0) * 1 + (item.likeCount || 0) * 5 + (item.favoriteCount || 0) * 10
     }))
@@ -294,6 +294,7 @@ export class MockDataService {
     const sorted = withHotScore.sort((a, b) => (b.hotScore || 0) - (a.hotScore || 0))
     
     // 取最热的N个（如果不足N个，返回实际数量）
+    console.log('🔥 [getMockWeeklyHot] 返回数据', { total: sorted.length, returning: Math.min(count, sorted.length) })
     return sorted.slice(0, count)
   }
   
@@ -366,13 +367,17 @@ export class MockDataService {
   }
 
   // 获取单个合集详情，根据ID返回对应的合集信息
-  public getMockCollectionDetail(collectionId: string): CollectionItem | null {
-    const collections = this.generateMockCollections(50)
-    return collections.find(c => c.id === collectionId) || null
+  public getMockCollectionDetail(collectionId: number | string): CollectionItem | null {
+    const collections = this.generateMockCollections(100) // 生成更多合集以确保ID存在
+    const id = typeof collectionId === 'string' ? parseInt(collectionId) : collectionId
+    console.log('🔍 [getMockCollectionDetail] 查找合集:', { collectionId, parsedId: id, totalCollections: collections.length })
+    const found = collections.find(c => c.id === id)
+    console.log('🔍 [getMockCollectionDetail] 查找结果:', found ? `找到: ${found.title}` : '未找到')
+    return found || null
   }
 
   // 获取单个影片详情，模拟后端API返回MovieDetail格式
-  public getMockMovieDetail(movieId: string): MovieDetail {
+  public getMockMovieDetail(movieId: number | string): MovieDetail {
     const cacheKey = `movie_detail_${movieId}`
 
     // 缓存检查
@@ -381,7 +386,7 @@ export class MockDataService {
     }
 
     // 解析影片索引，用于判断是否为合集影片
-    const movieIndex = parseInt(movieId.replace('movie_', '')) || 1
+    const movieIndex = typeof movieId === 'string' ? parseInt(movieId) : movieId
 
     // 判断是否为合集影片（索引较大）
     const isCollectionMovie = movieIndex > 1000
@@ -392,7 +397,7 @@ export class MockDataService {
       const movieInCollectionIndex = (movieIndex % 100) - 1
 
       const collectionMovieData: MovieDetail = {
-        id: movieId,
+        id: movieIndex,
         title: `合集${collectionIndex}-影片${movieInCollectionIndex + 1}`,
         type: 'Movie',
         year: 2019,
@@ -404,7 +409,7 @@ export class MockDataService {
         country: '中国',
         language: '中文',
         duration: 135,
-        genres: ['动作', '剧情', '科幻'][movieInCollectionIndex % 3],
+        genres: [['动作', '剧情', '科幻'][movieInCollectionIndex % 3]],
 
         // 合集影片的VIP状态：固定为true
         isVip: true,
@@ -454,7 +459,7 @@ export class MockDataService {
             codec: 'H.265',
             resolution: '1920x804',
             bitrate: '8000 kbps',
-            frameRate: '23.976 fps',
+            fps: '23.976 fps',
           },
           audio: {
             codec: 'DTS',
@@ -484,7 +489,7 @@ export class MockDataService {
               format: 'German',
             },
             {
-              layer: 'Norwegian',
+              language: 'Norwegian',
               label: 'Norwegian',
               format: 'Norwegian',
             },
@@ -546,7 +551,7 @@ export class MockDataService {
       const regularMovieIndex = movieIndex - (collectionIndex * 100) + 1
 
       return {
-        id: movieId,
+        id: movieIndex,
         title: `热门影片 ${regularMovieIndex}`,
         type: 'Movie',
         year: 2024 - Math.floor(Math.random() * 5),
@@ -558,13 +563,13 @@ export class MockDataService {
         country: '美国',
         language: 'English',
         duration: 90 + Math.floor(Math.random() * 60),
-        genres: ['剧情', '动作', '喜剧', '科幻', '恐怖'][regularMovieIndex % 5],
+        genres: [['剧情', '动作', '喜剧', '科幻', '恐怖'][regularMovieIndex % 5]],
 
         // 普通影片的VIP规则：每3个中有1个是VIP
         isVip: (regularMovieIndex - 1) % 3 === 0,
 
         // 其他字段保持不变
-        rating: parseFloat((Math.random() * 4 + 6).toFixed(1)),
+        rating: (Math.random() * 4 + 6).toFixed(1),
         doubanRating: '6.3',
         ratingColor: 'purple',
         votes: 1500000,
@@ -603,7 +608,7 @@ export class MockDataService {
             codec: 'H.264',
             resolution: '1920x804',
             bitrate: '5000 kbps',
-            frameRate: '23.976 fps',
+            fps: '23.976 fps',
           },
           audio: {
             codec: 'AAC',
@@ -639,12 +644,12 @@ export class MockDataService {
   // 获取合集中的影片列表，支持分页
   // 重要：合集中的所有影片都继承合集的VIP状态，因此isVip固定为true
   public getMockCollectionMovies(options: {
-    collectionId: string
+    collectionId: number | string
     page?: number
     pageSize?: number
   }): { movies: FullMovieItem[]; total: number } {
     const { collectionId, page = 1, pageSize = 20 } = options
-    const movieIndex = parseInt(collectionId.replace('collection_', '')) || 1
+    const movieIndex = typeof collectionId === 'string' ? parseInt(collectionId) : collectionId
     const totalMovies = 50 // 模拟每个合集有50部电影
 
     // 生成合集电影的Mock数据
@@ -652,7 +657,7 @@ export class MockDataService {
     for (let i = 0; i < totalMovies; i++) {
       const movieNum = movieIndex * 1000 + i + 1 // collection_xxxx -> movie_xxxx0001, movie_xxxx0002...
       const movieItem: FullMovieItem = {
-        id: `movie_${movieNum}`,
+        id: movieNum,
         title: `合集影片 ${movieNum}`,
         type: 'Movie' as const,
         imageUrl: `https://picsum.photos/300/450?random=${movieNum + 100}`,
@@ -663,7 +668,7 @@ export class MockDataService {
         isVip: true,
 
         // 其他业务字段
-        genres: ['动作', '喜剧', '剧情', '科幻', '恐怖'][i % 5],
+        genres: [['动作', '喜剧', '剧情', '科幻', '恐怖'][i % 5]],
         year: 2024 - Math.floor(Math.random() * 5),
         duration: 120 + Math.floor(Math.random() * 60),
         rating: (6.0 + Math.random() * 4).toFixed(1),

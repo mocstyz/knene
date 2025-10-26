@@ -8,7 +8,7 @@
 
 // 基础媒体项目接口，所有媒体类型的通用属性
 export interface BaseMediaItem {
-  id: string // 唯一标识符
+  id: number // 唯一标识符（数字ID，由后端生成）
   title: string // 标题
   type: 'Movie' | 'TV Show' | 'Collection' | 'Photo' // 媒体类型，添加Photo支持
   description?: string // 描述信息
@@ -121,7 +121,7 @@ export interface CollectionItem extends BaseMediaItem, MediaImageItem, MediaStat
   tags?: string[] // 标签列表
   isHot?: boolean // 是否为热门内容
   isFeatured?: boolean // 是否为精选内容
-  movieIds?: string[] // 合集包含的影片ID列表
+  movieIds?: number[] // 合集包含的影片ID列表
   category?: string // 合集分类
   createdAt?: string // 创建时间
   updatedAt?: string // 更新时间
@@ -160,7 +160,7 @@ export interface MovieDetail extends FullMovieItem {
 
 // 下载链接接口
 export interface DownloadLink {
-  id: string
+  id: number
   name: string
   url: string
   size?: string
@@ -214,6 +214,7 @@ export interface VideoInfo {
   codec: string
   resolution: string
   fps: string
+  bitrate?: string
 }
 
 // 音频信息接口
@@ -221,24 +222,30 @@ export interface AudioInfo {
   codec: string
   channels: string
   sampleRate: string
+  bitrate?: string
 }
 
 // 字幕信息接口
 export interface SubtitleInfo {
   language: string
-  isHighlighted: boolean
+  isHighlighted?: boolean
+  label?: string
+  format?: string
+  layer?: string
 }
 
 // 截图接口
 export interface Screenshot {
   url: string
   alt: string
+  timestamp?: string
+  isPrimary?: boolean
 }
 
 // 评论接口
 export interface Comment {
-  id: string
-  userId: string
+  id: number
+  userId: number
   userName: string
   userAvatar: string
   content: string
@@ -258,7 +265,7 @@ export interface SubtitleSource {
 // 合集详情接口，合集详情页面专用的完整信息接口
 export interface CollectionDetail extends CollectionItem {
   coverImage?: string // 封面图片
-  movieIds?: string[] // 合集中的电影ID列表
+  movieIds?: number[] // 合集中的电影ID列表
   genre?: string // 合集类型/分类
   publishDate?: string // 发布日期
   creator?: string // 创建者
@@ -273,7 +280,7 @@ export interface CollectionDetail extends CollectionItem {
 
 // 统一内容项接口，定义所有内容类型的统一数据结构，包含完整的业务状态字段
 export interface UnifiedContentItem {
-  id: string // 内容唯一标识
+  id: number // 内容唯一标识（数字ID，由后端生成）
   title: string // 内容标题
   contentType: 'movie' | 'photo' | 'collection' | 'video' | 'article' | 'live' // 内容类型
   description?: string // 内容描述
@@ -340,7 +347,7 @@ export function isMixedContentItem(item: any): item is MixedContentItem {
   return (
     item &&
     typeof item === 'object' &&
-    typeof item.id === 'string' &&
+    typeof item.id === 'number' &&
     typeof item.title === 'string'
   )
 }
@@ -419,45 +426,45 @@ export function isValidCollectionItem(item: any): item is CollectionItem {
   if (!item || typeof item !== 'object') {
     return false
   }
-  
+
   // 检查必需字段
-  if (!item.id || typeof item.id !== 'string') {
+  if (!item.id || typeof item.id !== 'number') {
     console.warn('CollectionItem validation failed: missing or invalid id')
     return false
   }
-  
+
   if (!item.title || typeof item.title !== 'string') {
     console.warn('CollectionItem validation failed: missing or invalid title')
     return false
   }
-  
+
   if (item.type !== 'Collection') {
     console.warn('CollectionItem validation failed: type must be "Collection"')
     return false
   }
-  
+
   if (item.contentType !== 'collection') {
     console.warn('CollectionItem validation failed: contentType must be "collection"')
     return false
   }
-  
+
   // 检查VIP字段（必需）
   if (typeof item.isVip !== 'boolean') {
     console.warn('CollectionItem validation failed: isVip must be boolean')
     return false
   }
-  
+
   // 检查可选字段的类型
   if (item.isNew !== undefined && typeof item.isNew !== 'boolean') {
     console.warn('CollectionItem validation failed: isNew must be boolean if present')
     return false
   }
-  
+
   if (item.quality !== undefined && typeof item.quality !== 'string') {
     console.warn('CollectionItem validation failed: quality must be string if present')
     return false
   }
-  
+
   return true
 }
 
@@ -466,50 +473,50 @@ export function isValidPhotoItem(item: any): item is PhotoItem {
   if (!item || typeof item !== 'object') {
     return false
   }
-  
+
   // 检查必需字段
-  if (!item.id || typeof item.id !== 'string') {
+  if (!item.id || typeof item.id !== 'number') {
     console.warn('PhotoItem validation failed: missing or invalid id')
     return false
   }
-  
+
   if (!item.title || typeof item.title !== 'string') {
     console.warn('PhotoItem validation failed: missing or invalid title')
     return false
   }
-  
+
   if (item.type !== 'Photo') {
     console.warn('PhotoItem validation failed: type must be "Photo"')
     return false
   }
-  
+
   if (item.contentType !== 'photo') {
     console.warn('PhotoItem validation failed: contentType must be "photo"')
     return false
   }
-  
+
   // 检查VIP字段（必需）
   if (typeof item.isVip !== 'boolean') {
     console.warn('PhotoItem validation failed: isVip must be boolean')
     return false
   }
-  
+
   // 检查可选字段的类型
   if (item.isNew !== undefined && typeof item.isNew !== 'boolean') {
     console.warn('PhotoItem validation failed: isNew must be boolean if present')
     return false
   }
-  
+
   if (item.quality !== undefined && typeof item.quality !== 'string') {
     console.warn('PhotoItem validation failed: quality must be string if present')
     return false
   }
-  
+
   if (item.formatType !== undefined && !['JPEG高', 'PNG', 'WebP', 'GIF', 'BMP'].includes(item.formatType)) {
     console.warn('PhotoItem validation failed: invalid formatType')
     return false
   }
-  
+
   return true
 }
 
@@ -518,44 +525,44 @@ export function isValidMovieItem(item: any): item is BaseMovieItem {
   if (!item || typeof item !== 'object') {
     return false
   }
-  
+
   // 检查必需字段
-  if (!item.id || typeof item.id !== 'string') {
+  if (!item.id || typeof item.id !== 'number') {
     console.warn('MovieItem validation failed: missing or invalid id')
     return false
   }
-  
+
   if (!item.title || typeof item.title !== 'string') {
     console.warn('MovieItem validation failed: missing or invalid title')
     return false
   }
-  
+
   if (item.type !== 'Movie') {
     console.warn('MovieItem validation failed: type must be "Movie"')
     return false
   }
-  
+
   // 检查VIP字段（可选但如果存在必须是boolean）
   if (item.isVip !== undefined && typeof item.isVip !== 'boolean') {
     console.warn('MovieItem validation failed: isVip must be boolean if present')
     return false
   }
-  
+
   // 检查可选字段的类型
   if (item.isNew !== undefined && typeof item.isNew !== 'boolean') {
     console.warn('MovieItem validation failed: isNew must be boolean if present')
     return false
   }
-  
+
   if (item.quality !== undefined && typeof item.quality !== 'string') {
     console.warn('MovieItem validation failed: quality must be string if present')
     return false
   }
-  
+
   if (item.rating !== undefined && typeof item.rating !== 'string' && typeof item.rating !== 'number') {
     console.warn('MovieItem validation failed: rating must be string or number if present')
     return false
   }
-  
+
   return true
 }

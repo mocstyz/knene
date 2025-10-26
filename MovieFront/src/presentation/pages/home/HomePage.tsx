@@ -17,7 +17,7 @@ import {
 import { NavigationHeader, HeroSection } from '@components/organisms'
 import { SkeletonHomePage } from '@components/atoms'
 import { useHomeData } from '@data/home/homeData'
-import { ROUTES } from '@presentation/router/routes'
+import { ROUTES } from '@presentation/router/routePaths'
 import { navigateToContentDetail } from '../../../utils/navigation-helpers'
 import type { BaseContentItem } from '@components/domains/shared/content-renderers'
 import React, { useRef, useMemo } from 'react'
@@ -131,7 +131,7 @@ const HomePage: React.FC = () => {
           <CollectionSection
             data={processedCollections}
             showMoreLink={true}
-            moreLinkUrl={ROUTES.SPECIAL.COLLECTIONS}
+            moreLinkUrl={ROUTES.COLLECTIONS.LIST}
             onCollectionClick={handleCollectionClick}
           />
 
@@ -139,7 +139,7 @@ const HomePage: React.FC = () => {
           <PhotoSection
             data={processedPhotos}
             showMoreLink={true}
-            moreLinkUrl={ROUTES.PHOTO.LIST}
+            moreLinkUrl={ROUTES.PHOTOS.LIST}
             onPhotoClick={handlePhotoClick}
             cardConfig={{
               showNewBadge: true,
@@ -155,7 +155,7 @@ const HomePage: React.FC = () => {
           <LatestUpdateSection
             data={processedLatestUpdates}
             showMoreLink={true}
-            moreLinkUrl={ROUTES.LATEST_UPDATE.LIST}
+            moreLinkUrl={ROUTES.LATEST}
             onItemClick={(item: any) => {
               // LatestItem转换为BaseContentItem进行导航
               const baseItem: BaseContentItem = {
@@ -173,7 +173,7 @@ const HomePage: React.FC = () => {
             title="7天最热门"
             movies={processedHotDaily}
             showViewMore={true}
-            moreLinkUrl={ROUTES.HOT.LIST}
+            moreLinkUrl={ROUTES.HOT.WEEKLY}
             onItemClick={(item: any) => {
               // HotItem转换为BaseContentItem进行导航
               const baseItem: BaseContentItem = {

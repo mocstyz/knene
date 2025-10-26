@@ -30,7 +30,7 @@ import React from 'react'
 // 电影层组件属性接口
 export interface MovieLayerProps {
   movie: {
-    id: string
+    id: number
     title: string
     poster: string
     year?: number
@@ -47,9 +47,9 @@ export interface MovieLayerProps {
   }
   className?: string
   variant?: 'default' | 'detailed' | 'featured' | 'list'
-  onPlay?: (movieId: string) => void
-  onDownload?: (movieId: string) => void
-  onFavorite?: (movieId: string) => void
+  onPlay?: (movieId: number) => void
+  onDownload?: (movieId: number) => void
+  onFavorite?: (movieId: number) => void
   isFavorited?: boolean
   showHover?: boolean
   showVipBadge?: boolean
@@ -149,7 +149,7 @@ const MovieLayer: React.FC<MovieLayerProps> = ({
     >
       <div className="space-y-3">
         {/* 图片卡片区域 - 独立的阴影卡片 */}
-        <div 
+        <div
           className="relative aspect-[2/3] overflow-hidden rounded-lg shadow-md cursor-pointer"
           onClick={() => onPlay?.(movie.id)}
         >
