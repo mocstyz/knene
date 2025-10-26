@@ -8,7 +8,7 @@
 
 // 基础媒体项目接口，所有媒体类型的通用属性
 export interface BaseMediaItem {
-  id: number // 唯一标识符（数字ID，由后端生成）
+  id: number // 唯一标识符（统一使用数字ID）
   title: string // 标题
   type: 'Movie' | 'TV Show' | 'Collection' | 'Photo' // 媒体类型，添加Photo支持
   description?: string // 描述信息
@@ -280,7 +280,7 @@ export interface CollectionDetail extends CollectionItem {
 
 // 统一内容项接口，定义所有内容类型的统一数据结构，包含完整的业务状态字段
 export interface UnifiedContentItem {
-  id: number // 内容唯一标识（数字ID，由后端生成）
+  id: number // 内容唯一标识（统一使用数字ID）
   title: string // 内容标题
   contentType: 'movie' | 'photo' | 'collection' | 'video' | 'article' | 'live' // 内容类型
   description?: string // 内容描述
@@ -403,22 +403,22 @@ export interface CardConfig {
 
 // 检查是否为合集项目
 export function isCollectionItem(item: any): item is CollectionItem {
-  return item && typeof item === 'object' && item.type === 'Collection' && item.contentType === 'collection'
+  return item && typeof item === 'object' && typeof item.id === 'number' && item.type === 'Collection' && item.contentType === 'collection'
 }
 
 // 检查是否为写真项目
 export function isPhotoItem(item: any): item is PhotoItem {
-  return item && 'formatType' in item
+  return item && typeof item === 'object' && typeof item.id === 'number' && 'formatType' in item
 }
 
 // 检查是否为最新项目
 export function isLatestItem(item: any): item is LatestItem {
-  return item && ('isNew' in item || 'newType' in item)
+  return item && typeof item === 'object' && typeof item.id === 'number' && ('isNew' in item || 'newType' in item)
 }
 
 // 检查是否为TOP项目
 export function isTopItem(item: any): item is TopItem {
-  return item && 'rank' in item
+  return item && typeof item === 'object' && typeof item.id === 'number' && 'rank' in item
 }
 
 // 验证CollectionItem的完整性

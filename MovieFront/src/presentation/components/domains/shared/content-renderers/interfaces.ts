@@ -14,7 +14,7 @@ import React from 'react'
 
 // 统一内容项基础接口，所有内容类型都必须实现此基础接口
 export interface BaseContentItem {
-  id: string // 内容唯一标识符
+  id: number // 内容唯一标识符（统一使用数字ID）
   title: string // 内容标题
   contentType: ContentTypeId // 内容类型标识符
   type?: string // 内容类型（可选，用于兼容不同的类型系统）
@@ -182,7 +182,7 @@ export function isContentItem(obj: any): obj is BaseContentItem {
   return (
     obj &&
     typeof obj === 'object' &&
-    typeof obj.id === 'string' &&
+    typeof obj.id === 'number' &&
     typeof obj.title === 'string' &&
     typeof obj.contentType === 'string' &&
     typeof obj.imageUrl === 'string'

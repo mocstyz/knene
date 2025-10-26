@@ -638,7 +638,7 @@ export class MockDataService {
           },
         ],
       }
-    }
+    };
   }
 
   // 获取合集中的影片列表，支持分页

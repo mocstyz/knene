@@ -14,7 +14,7 @@ import { Title } from '@domain/value-objects/Title'
 
 // 影片详情接口，包含影片的完整信息描述
 export interface MovieDetail {
-  id: string // 影片唯一标识
+  id: number // 影片唯一标识（统一使用数字ID）
   title: Title // 影片标题值对象
   originalTitle?: string // 原始标题
   description: string // 影片描述
@@ -43,18 +43,18 @@ export interface MovieDetail {
 
 // 影片分类接口，定义影片分类的层级结构
 export interface MovieCategory {
-  id: string // 分类唯一标识
+  id: number // 分类唯一标识（统一使用数字ID）
   name: string // 分类名称
   slug: string // 分类别名（用于URL）
   description?: string // 分类描述
-  parentId?: string // 父分类ID，支持层级结构
+  parentId?: number // 父分类ID，支持层级结构
   order: number // 排序权重
 }
 
 // 影片评分接口，记录用户对影片的评分和评价
 export interface MovieRating {
-  userId: string // 用户ID
-  movieId: string // 影片ID
+  userId: number // 用户ID（统一使用数字ID）
+  movieId: number // 影片ID（统一使用数字ID）
   rating: number // 评分值（1-10）
   review?: string // 评价内容
   createdAt: Date // 评分时间
@@ -118,7 +118,7 @@ export class Movie {
   }
 
   // 获取指定用户的评分 - 返回用户对该影片的评分或undefined
-  getRatingByUser(userId: string): number | undefined {
+  getRatingByUser(userId: number): number | undefined {
     const userRating = this.ratings.find(r => r.userId === userId)
     return userRating?.rating
   }
@@ -175,7 +175,7 @@ export class Movie {
   }
 
   // 移除影片分类 - 根据分类ID移除指定分类
-  removeCategory(categoryId: string): Movie {
+  removeCategory(categoryId: number): Movie {
     return new Movie(
       this.detail,
       this.categories.filter(c => c.id !== categoryId),
@@ -256,7 +256,7 @@ export class Movie {
   }
 
   // 检查是否包含指定分类 - 根据分类ID判断影片是否属于该分类
-  hasCategory(categoryId: string): boolean {
+  hasCategory(categoryId: number): boolean {
     return this.categories.some(c => c.id === categoryId)
   }
 
@@ -353,7 +353,7 @@ export class Movie {
 
   // 静态工厂方法 - 创建新的影片实例，使用默认值初始化影片详情
   static create(
-    id: string,
+    id: number,
     title: Title,
     description: string,
     poster: string,

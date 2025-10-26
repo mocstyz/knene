@@ -41,8 +41,8 @@ export const AUTH_ENDPOINTS = {
 export const USER_ENDPOINTS = {
   // 用户管理相关
   USERS: '/users', // 用户列表
-  USER_BY_ID: (id: string) => `/users/${id}`, // 根据ID获取用户
-  USER_PROFILE: (id: string) => `/users/${id}/profile`, // 获取用户资料
+  USER_BY_ID: (id: number) => `/users/${id}`, // 根据ID获取用户
+  USER_PROFILE: (id: number) => `/users/${id}/profile`, // 获取用户资料
 
   // 用户偏好设置相关
   PREFERENCES: '/users/preferences', // 获取偏好设置
@@ -51,7 +51,7 @@ export const USER_ENDPOINTS = {
   // 用户收藏相关
   FAVORITES: '/users/favorites', // 获取收藏列表
   ADD_FAVORITE: '/users/favorites', // 添加收藏
-  REMOVE_FAVORITE: (movieId: string) => `/users/favorites/${movieId}`, // 取消收藏
+  REMOVE_FAVORITE: (movieId: number) => `/users/favorites/${movieId}`, // 取消收藏
 
   // 观看历史相关
   WATCH_HISTORY: '/users/watch-history', // 获取观看历史
@@ -69,13 +69,13 @@ export const USER_ENDPOINTS = {
 export const MOVIE_ENDPOINTS = {
   // 影片管理相关
   MOVIES: '/movies', // 影片列表
-  MOVIE_BY_ID: (id: string) => `/movies/${id}`, // 根据ID获取影片
-  MOVIE_DETAILS: (id: string) => `/movies/${id}/details`, // 获取影片详情
+  MOVIE_BY_ID: (id: number) => `/movies/${id}`, // 根据ID获取影片
+  MOVIE_DETAILS: (id: number) => `/movies/${id}/details`, // 获取影片详情
 
   // 影片合集相关
   COLLECTIONS: '/collections', // 影片合集列表
-  COLLECTION_BY_ID: (id: string) => `/collections/${id}`, // 根据ID获取合集
-  COLLECTION_MOVIES: (id: string) => `/collections/${id}/movies`, // 获取合集中的影片
+  COLLECTION_BY_ID: (id: number) => `/collections/${id}`, // 根据ID获取合集
+  COLLECTION_MOVIES: (id: number) => `/collections/${id}/movies`, // 获取合集中的影片
 
   // 影片搜索相关
   SEARCH: '/movies/search', // 搜索影片
@@ -83,26 +83,26 @@ export const MOVIE_ENDPOINTS = {
 
   // 影片分类相关
   CATEGORIES: '/movies/categories', // 获取影片分类
-  MOVIES_BY_CATEGORY: (categoryId: string) => `/movies/categories/${categoryId}`, // 根据分类获取影片
+  MOVIES_BY_CATEGORY: (categoryId: number) => `/movies/categories/${categoryId}`, // 根据分类获取影片
 
   // 影片标签相关
   GENRES: '/movies/genres', // 获取影片标签
   MOVIES_BY_GENRE: (genre: string) => `/movies/genres/${genre}`, // 根据标签获取影片
 
   // 影片评分相关
-  RATINGS: (movieId: string) => `/movies/${movieId}/ratings`, // 获取影片评分
-  ADD_RATING: (movieId: string) => `/movies/${movieId}/ratings`, // 添加影片评分
-  UPDATE_RATING: (movieId: string, ratingId: string) => `/movies/${movieId}/ratings/${ratingId}`, // 更新影片评分
+  RATINGS: (movieId: number) => `/movies/${movieId}/ratings`, // 获取影片评分
+  ADD_RATING: (movieId: number) => `/movies/${movieId}/ratings`, // 添加影片评分
+  UPDATE_RATING: (movieId: number, ratingId: number) => `/movies/${movieId}/ratings/${ratingId}`, // 更新影片评分
 
   // 影片评论相关
-  COMMENTS: (movieId: string) => `/movies/${movieId}/comments`, // 获取影片评论
-  ADD_COMMENT: (movieId: string) => `/movies/${movieId}/comments`, // 添加影片评论
-  UPDATE_COMMENT: (movieId: string, commentId: string) => `/movies/${movieId}/comments/${commentId}`, // 更新影片评论
-  DELETE_COMMENT: (movieId: string, commentId: string) => `/movies/${movieId}/comments/${commentId}`, // 删除影片评论
+  COMMENTS: (movieId: number) => `/movies/${movieId}/comments`, // 获取影片评论
+  ADD_COMMENT: (movieId: number) => `/movies/${movieId}/comments`, // 添加影片评论
+  UPDATE_COMMENT: (movieId: number, commentId: number) => `/movies/${movieId}/comments/${commentId}`, // 更新影片评论
+  DELETE_COMMENT: (movieId: number, commentId: number) => `/movies/${movieId}/comments/${commentId}`, // 删除影片评论
 
   // 推荐和热门相关
   RECOMMENDATIONS: '/movies/recommendations', // 获取推荐影片
-  SIMILAR_MOVIES: (movieId: string) => `/movies/${movieId}/similar`, // 获取相似影片
+  SIMILAR_MOVIES: (movieId: number) => `/movies/${movieId}/similar`, // 获取相似影片
   HOT: '/movies/hot', // 获取热门影片
   TOP_RATED: '/movies/top-rated', // 高评分影片
   LATEST: '/movies/latest', // 获取最新影片
@@ -111,32 +111,32 @@ export const MOVIE_ENDPOINTS = {
   PHOTOS: '/photos', // 获取写真图片列表
 
   // 影片资源相关
-  DOWNLOAD_LINKS: (movieId: string) => `/movies/${movieId}/download-links`, // 获取下载链接
-  STREAMING_LINKS: (movieId: string) => `/movies/${movieId}/streaming-links`, // 获取流媒体链接
-  SUBTITLES: (movieId: string) => `/movies/${movieId}/subtitles`, // 获取字幕文件
+  DOWNLOAD_LINKS: (movieId: number) => `/movies/${movieId}/download-links`, // 获取下载链接
+  STREAMING_LINKS: (movieId: number) => `/movies/${movieId}/streaming-links`, // 获取流媒体链接
+  SUBTITLES: (movieId: number) => `/movies/${movieId}/subtitles`, // 获取字幕文件
 
   // 影片统计相关
-  STATS: (movieId: string) => `/movies/${movieId}/stats`, // 获取影片统计
-  INCREMENT_VIEW: (movieId: string) => `/movies/${movieId}/view`, // 增加观看次数
-  INCREMENT_DOWNLOAD: (movieId: string) => `/movies/${movieId}/download`, // 增加下载次数
+  STATS: (movieId: number) => `/movies/${movieId}/stats`, // 获取影片统计
+  INCREMENT_VIEW: (movieId: number) => `/movies/${movieId}/view`, // 增加观看次数
+  INCREMENT_DOWNLOAD: (movieId: number) => `/movies/${movieId}/download`, // 增加下载次数
 } as const
 
 // 下载相关端点配置 - 包含下载管理、下载操作、下载状态、下载队列、下载历史和下载统计
 export const DOWNLOAD_ENDPOINTS = {
   // 下载管理相关
   DOWNLOADS: '/downloads', // 下载列表
-  DOWNLOAD_BY_ID: (id: string) => `/downloads/${id}`, // 根据ID获取下载
+  DOWNLOAD_BY_ID: (id: number) => `/downloads/${id}`, // 根据ID获取下载
 
   // 下载操作相关
   START_DOWNLOAD: '/downloads/start', // 开始下载
-  PAUSE_DOWNLOAD: (id: string) => `/downloads/${id}/pause`, // 暂停下载
-  RESUME_DOWNLOAD: (id: string) => `/downloads/${id}/resume`, // 恢复下载
-  CANCEL_DOWNLOAD: (id: string) => `/downloads/${id}/cancel`, // 取消下载
-  RETRY_DOWNLOAD: (id: string) => `/downloads/${id}/retry`, // 重试下载
+  PAUSE_DOWNLOAD: (id: number) => `/downloads/${id}/pause`, // 暂停下载
+  RESUME_DOWNLOAD: (id: number) => `/downloads/${id}/resume`, // 恢复下载
+  CANCEL_DOWNLOAD: (id: number) => `/downloads/${id}/cancel`, // 取消下载
+  RETRY_DOWNLOAD: (id: number) => `/downloads/${id}/retry`, // 重试下载
 
   // 下载状态相关
-  DOWNLOAD_STATUS: (id: string) => `/downloads/${id}/status`, // 获取下载状态
-  DOWNLOAD_PROGRESS: (id: string) => `/downloads/${id}/progress`, // 获取下载进度
+  DOWNLOAD_STATUS: (id: number) => `/downloads/${id}/status`, // 获取下载状态
+  DOWNLOAD_PROGRESS: (id: number) => `/downloads/${id}/progress`, // 获取下载进度
 
   // 下载队列相关
   QUEUE: '/downloads/queue', // 获取下载队列
