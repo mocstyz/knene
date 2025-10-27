@@ -27,9 +27,9 @@
 
 **后端核心框架**：
 - **核心框架**：Spring Boot 3.5.7
-- **微服务框架**：Spring Cloud Alibaba
+- **微服务框架**：Spring Cloud Alibaba（阿里云版，包含Nacos、Sentinel、RocketMQ）
 - **服务发现与配置中心**：Nacos（推荐，阿里巴巴开源）
-- **网关**：Nginx
+- **网关**：Nginx + Spring Cloud Gateway
 - **服务调用**：Spring Cloud OpenFeign
 - **负载均衡**：Spring Cloud LoadBalancer
 - **熔断降级**：Sentinel
@@ -40,6 +40,14 @@
 - **搜索引擎**：Elasticsearch
 - **文档存储**：MinIO（对象存储）
 - **ORM框架**：MyBatis-Plus
+
+**测试技术栈**：
+- **测试框架**：JUnit 5 + Mockito
+- **集成测试**：Testcontainers
+- **数据生成**：Instancio（智能测试数据生成器）
+- **性能测试**：JMeter
+- **代码覆盖率**：JaCoCo
+- **API测试**：Postman + Newman
 
 **前端技术栈**：
 
@@ -52,7 +60,7 @@
 - **日志收集**：PLG Stack（Promtail, Loki, Grafana）
   - 开发环境：Spring Boot + Logback → Loki + Grafana
   - 生产环境：Spring Boot + Logback → Filebeat → Loki + Grafana
-- **CI/CD**：Jenkins
+- **CI/CD**：GitHub Actions/GitLab CI（现代化云原生CI/CD方案）
 - **容器化**：Docker, Kubernetes
 - **反向代理**：Nginx
 
@@ -2523,10 +2531,252 @@ jobs:
 #### 12.8.2 测试数据管理
 
 **测试数据策略**：
-- 数据生成：自动化生成测试数据
+- 数据生成：使用Instancio智能数据生成器实现自动化测试数据生成
 - 数据隔离：不同测试用例数据隔离
 - 数据清理：测试完成后数据清理
 - 数据脱敏：生产数据脱敏处理
+
+#### 12.8.4 Instancio智能数据生成系统
+
+**核心特性**：
+- **智能字段匹配**：基于字段名称和类型自动生成合适的测试数据
+- **关联关系处理**：自动处理JPA实体间的关联关系，保持数据完整性
+- **高性能批量生成**：支持大规模测试数据的高效生成
+- **数据一致性保证**：确保生成的数据符合数据库约束和业务规则
+
+**技术架构**：
+```
+Instancio数据生成系统架构
+├── 核心生成引擎
+│   ├── 智能字段匹配器
+│   ├── 关联关系处理器
+│   ├── 数据约束验证器
+│   └── 性能优化器
+├── 业务实体模板
+│   ├── 用户系统模板
+│   ├── 资源系统模板
+│   ├── 内容管理模板
+│   └── VIP系统模板
+├── 集成适配器
+│   ├── JPA/Hibernate适配器
+│   ├── Bean Validation适配器
+│   ├── 数据库适配器
+│   └── 测试框架适配器
+└── 管理控制台
+    ├── 模板管理
+    ├── 生成任务管理
+    ├── 性能监控
+    └── 配置管理
+```
+
+**配置示例**：
+
+**Maven依赖配置**：
+```xml
+<dependency>
+    <groupId>org.instancio</groupId>
+    <artifactId>instancio-junit</artifactId>
+    <version>3.0.0</version>
+    <scope>test</scope>
+</dependency>
+```
+
+**全局配置**：
+```java
+@InstancioSettings
+public class TestInstancioSettings {
+    @Setting
+    public static void settings(InstancioSettings api) {
+        api.set(Keys.STRING_MIN_LENGTH, 5);
+        api.set(Keys.STRING_MAX_LENGTH, 50);
+        api.set(Keys.COLLECTION_MIN_SIZE, 1);
+        api.set(Keys.COLLECTION_MAX_SIZE, 10);
+        api.set(Keys.SEED, 12345L); // 保证可重现性
+    }
+}
+```
+
+**业务实体模板配置**：
+
+**用户实体生成模板**：
+```java
+public class UserDataTemplates {
+    public static User createRegularUser() {
+        return Instancio.of(User.class)
+            .set(field(User::getStatus, UserStatus.ACTIVE))
+            .set(field(User::getRole, UserRole.USER)
+            .ignore(field(User::getId))
+            .ignore(field(User::getPassword))
+            .create();
+    }
+
+    public static List<User> createUsersWithProfiles(int count) {
+        return Instancio.ofList(User.class)
+            .size(count)
+            .set(field(User::getProfile), Instancio.create(UserProfile.class))
+            .create();
+    }
+}
+```
+
+**资源实体生成模板**：
+```java
+public class ResourceDataTemplates {
+    public static Movie createMovieWithFullDetails() {
+        return Instancio.of(Movie.class)
+            .set(field(Movie::getRating), gen -> gen.doubles().range(1.0, 10.0))
+            .set(field(Movie::getReleaseDate), gen -> gen.temporal().localDate().past())
+            .set(field(Movie::getDirector), Instancio.create(Director.class))
+            .set(field(Movie::getGenres), Instancio.ofList(Genre.class).size(3).create())
+            .ignore(field(Movie::getId))
+            .create();
+    }
+
+    public static List<Resource> createBatchResources(int count) {
+        return Instancio.ofList(Resource.class)
+            .size(count)
+            .supply(field(Resource::getDownloadUrl), gen ->
+                gen.net().url().protocol("https").domain("example.com"))
+            .set(field(Resource::getStatus, ResourceStatus.AVAILABLE))
+            .create();
+    }
+}
+```
+
+**使用场景**：
+
+**单元测试数据生成**：
+```java
+@ExtendWith(InstancioExtension.class)
+class UserServiceTest {
+
+    @ParameterizedTest
+    @InstancioSource
+    void shouldCreateUserSuccessfully(User user) {
+        // Given - 使用Instancio生成的测试数据
+        user.setId(null);
+
+        // When
+        User createdUser = userService.createUser(user);
+
+        // Then
+        assertThat(createdUser.getId()).isNotNull();
+        assertThat(createdUser.getUsername()).isEqualTo(user.getUsername());
+    }
+
+    @Test
+    void shouldFindUsersByCriteria() {
+        // Given - 批量生成测试数据
+        List<User> users = UserDataTemplates.createUsersWithProfiles(100);
+        userRepository.saveAll(users);
+
+        // When
+        Page<User> result = userService.findUsersByStatus(UserStatus.ACTIVE,
+            Pageable.ofSize(20));
+
+        // Then
+        assertThat(result.getContent()).hasSize(20);
+        assertThat(result.getContent()).allMatch(u -> u.getStatus() == UserStatus.ACTIVE);
+    }
+}
+```
+
+**集成测试数据生成**：
+```java
+@SpringBootTest
+@Transactional
+class ResourceIntegrationTest {
+
+    @Test
+    void shouldHandleComplexResourceWorkflow() {
+        // Given - 生成完整的业务流程数据
+        User user = UserDataTemplates.createRegularUser();
+        Movie movie = ResourceDataTemplates.createMovieWithFullDetails();
+        DownloadRecord record = createDownloadRecord(user, movie);
+
+        // When
+        resourceService.processDownload(record);
+
+        // Then
+        Optional<DownloadRecord> saved = downloadRepository.findById(record.getId());
+        assertThat(saved).isPresent();
+        assertThat(saved.get().getStatus()).isEqualTo(DownloadStatus.COMPLETED);
+    }
+}
+```
+
+**性能测试数据生成**：
+```java
+@Test
+void shouldHandleLargeDatasetQuery() {
+    // Given - 生成大量性能测试数据
+    List<Movie> movies = Instancio.ofList(Movie.class)
+        .size(10000)
+        .set(field(Movie::getRating), gen -> gen.doubles().range(6.0, 9.0))
+        .set(field(Movie::getPopularity), gen -> gen.ints().range(100, 10000))
+        .create();
+
+    movieRepository.saveAll(movies);
+
+    // When - 测试查询性能
+    long startTime = System.currentTimeMillis();
+    Page<Movie> result = movieService.findPopularMovies(Pageable.ofSize(100));
+    long endTime = System.currentTimeMillis();
+
+    // Then
+    assertThat(endTime - startTime).isLessThan(1000); // 1秒内完成
+    assertThat(result.getContent()).hasSize(100);
+}
+```
+
+**性能优化策略**：
+
+**批量生成优化**：
+```java
+public class PerformanceOptimizedGenerator {
+    // 使用Builder模式复用配置
+    private static final InstancioApi<Movie> MOVIE_TEMPLATE = Instancio.of(Movie.class)
+        .ignore(field(Movie::getId))
+        .set(field(Movie::getStatus, MovieStatus.PUBLISHED));
+
+    public static List<Movie> generateMovies(int count) {
+        return MOVIE_TEMPLATE
+            .size(count)
+            .set(field(Movie::getRating), gen -> gen.doubles().range(7.0, 9.5))
+            .create();
+    }
+}
+```
+
+**内存管理**：
+- 控制单次生成数据量（建议不超过10000条）
+- 使用流式处理处理大数据集
+- 及时释放不需要的数据对象
+
+**监控和维护**：
+
+**数据生成质量监控**：
+```java
+@Component
+public class DataGenerationMonitor {
+    private final MeterRegistry meterRegistry;
+
+    public void recordGeneration(String entityType, int count, long durationMs) {
+        meterRegistry.counter("instancio.generation.count",
+            "entity", entityType).increment(count);
+        meterRegistry.timer("instancio.generation.duration",
+            "entity", entityType).record(durationMs, TimeUnit.MILLISECONDS);
+    }
+}
+```
+
+**最佳实践**：
+
+1. **模板管理**：为每个业务实体创建标准化生成模板
+2. **数据一致性**：确保关联数据的完整性和一致性
+3. **性能考虑**：合理控制数据生成规模和复杂度
+4. **版本控制**：将Instancio配置纳入版本管理
+5. **团队协作**：建立统一的命名规范和使用标准
 
 **数据类型**：
 - 基础数据：用户、资源等基础数据

@@ -794,6 +794,52 @@ KneneBackend
 - **测试覆盖率**：核心业务逻辑测试覆盖率不低于 80%
 - **测试命名**：测试方法名清晰描述测试场景
 - **测试隔离**：使用测试数据库隔离测试环境
+- **测试数据生成**：统一使用Instancio生成测试数据，确保数据的一致性和可维护性
+
+#### 3.3.6 Instancio测试代码规范
+- **导入规范**：
+  ```java
+  import org.instancio.Instancio;
+  import org.instancio.junit.InstancioExtension;
+  import org.instancio.junit.InstancioSource;
+  import static org.instancio.Select.field;
+  ```
+- **基础使用规范**：
+  ```java
+  // 标准实体生成
+  Movie movie = Instancio.create(Movie.class);
+
+  // 列表数据生成
+  List<Movie> movies = Instancio.ofList(Movie.class).size(100).create();
+
+  // 参数化测试
+  @ParameterizedTest
+  @InstancioSource
+  void testMovieCreation(Movie movie) {
+      // 测试逻辑
+  }
+  ```
+- **字段控制规范**：
+  ```java
+  // 精确字段控制
+  User user = Instancio.of(User.class)
+      .set(field(User::getEmail), "test@example.com")
+      .set(field(User::getAge), gen -> gen.ints().range(18, 65))
+      .create();
+  ```
+- **关联对象生成规范**：
+  ```java
+  // 生成带关联的对象
+  Movie movie = Instancio.of(Movie.class)
+      .set(field(Movie::getDirector), Instancio.create(Director.class))
+      .set(field(Movie::getGenres), Instancio.ofList(Genre.class).size(3).create())
+      .create();
+  ```
+- **性能最佳实践**：
+  - 避免在循环中重复调用Instancio.create()
+  - 使用批量生成方法提高效率
+  - 合理设置生成数据量，避免内存溢出
+  - 复杂对象生成时控制深度层次
 
 ## 4. API接口设计规范
 
@@ -1399,6 +1445,47 @@ AnalyticsSDK.track('event_name_example', {
 - **数据隔离**：不同测试用例数据隔离
 - **数据清理**：测试完成后数据清理
 - **数据脱敏**：生产数据脱敏处理
+
+#### 7.3.3 Instancio测试数据生成标准
+- **工具选型**：统一使用Instancio作为智能测试数据生成工具
+- **配置规范**：
+  - 为每个实体类创建标准Instancio生成模板
+  - 使用`@InstancioSource`注解进行参数化测试数据生成
+  - 配置全局Instancio设置确保数据一致性和性能
+- **字段匹配规则**：
+  - 利用Instancio的智能字段匹配功能，基于字段名称自动生成合适数据
+  - 特殊字段使用`set()`方法进行精确控制
+  - 关联字段使用`supply()`方法提供自定义生成逻辑
+- **数据质量标准**：
+  - 生成的数据必须符合Bean Validation注解约束
+  - 关联数据必须保持完整性和一致性
+  - 敏感数据（邮箱、手机号等）必须进行脱敏处理
+- **性能要求**：
+  - 单次批量数据生成不超过10000条记录
+  - 复杂对象图生成深度不超过5层
+  - 内存使用控制在合理范围内，避免OOM
+- **版本管理**：
+  - Instancio配置模板纳入版本控制
+  - 数据生成规格变更需要更新测试用例
+  - 定期review和优化数据生成配置
+
+#### 7.3.4 测试数据分类标准
+- **基础功能测试数据**：
+  - 使用Instancio生成标准业务实体数据
+  - 覆盖正常、边界、异常三种场景
+  - 每个测试类至少3组有效测试数据
+- **性能测试数据**：
+  - 使用Instancio批量生成大规模数据集（1000-10000条）
+  - 模拟真实数据分布和关联关系
+  - 确保性能测试数据的一致性和可重现性
+- **集成测试数据**：
+  - 生成完整的业务流程数据链
+  - 包含用户、资源、下载记录等关联数据
+  - 使用Instancio的关联对象生成功能
+- **安全测试数据**：
+  - 生成包含特殊字符和恶意内容的数据
+  - 测试SQL注入、XSS等安全问题
+  - 验证数据校验和过滤机制
 
 ---
 
