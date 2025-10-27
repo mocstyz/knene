@@ -1,5 +1,18 @@
 # 影视资源下载网站后端完整文档
 
+## 开发原则
+
+### 数据库优先开发原则
+- **数据库设计优先**：优先设计数据库结构和表关系
+- **测试数据驱动**：插入充足的测试数据（每个表50-100条记录）
+- **真实数据开发**：基于真实数据库数据进行所有开发工作
+- **数据完整性**：确保所有API调用都基于真实数据响应
+
+### 后端主导开发原则
+- **API权威性**：后端定义的API接口规范和数据结构为唯一标准
+- **业务逻辑核心**：以后端业务逻辑完整性为准，前端适配后端功能
+- **数据结构权威**：后端领域模型和数据结构是前端实现的依据
+
 ## 项目概述
 
 本项目是一个综合性的影视资源下载网站，提供电影、电视剧、电子书、图片等多类型资源。网站采用VIP会员制度进行商业变现，同时确保普通用户也能获得基本的资源访问权限。
@@ -829,41 +842,323 @@
 
 ## 5. 缓存设计
 
-### 5.1 缓存层次
+### 5.1 Redis基础架构
 
-1. **本地缓存（一级缓存）**
-   - Caffeine缓存
+#### Redis集群配置
+```yaml
+spring:
+  redis:
+    cluster:
+      nodes:
+        - redis-node1:6379
+        - redis-node2:6379
+        - redis-node3:6379
+        - redis-node4:6379
+        - redis-node5:6379
+        - redis-node6:6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1ms
+    timeout: 3000ms
+    password: ${REDIS_PASSWORD}
+```
+
+#### 缓存抽象层设计
+```java
+public interface CacheManager {
+    <T> T get(String key, Class<T> clazz);
+    void set(String key, Object value);
+    void set(String key, Object value, Duration ttl);
+    void delete(String key);
+    boolean exists(String key);
+    boolean expire(String key, Duration ttl);
+    Duration getTtl(String key);
+}
+```
+
+#### Spring Cache集成配置
+```java
+@Configuration
+@EnableCaching
+public class CacheConfig {
+
+    @Bean
+    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+            .entryTtl(Duration.ofMinutes(30))
+            .serializeKeysWith(RedisSerializationContext.SerializationPair
+                .fromSerializer(new StringRedisSerializer()))
+            .serializeValuesWith(RedisSerializationContext.SerializationPair
+                .fromSerializer(new GenericJackson2JsonRedisSerializer()));
+
+        return RedisCacheManager.builder(connectionFactory)
+            .cacheDefaults(config)
+            .build();
+    }
+}
+```
+
+### 5.2 缓存架构设计
+
+#### 缓存基础设施
+- **Redis集群架构**：主从复制+哨兵模式，确保高可用性
+- **数据分片策略**：按业务模块分库，避免相互影响
+- **连接池配置**：使用Lettuce客户端，支持异步操作
+- **序列化策略**：JSON序列化与二进制序列化根据场景选择
+
+#### 缓存层次结构
+
+1. **应用缓存（一级缓存）**
+   - Caffeine本地缓存
    - 适用于高频访问且变化不频繁的数据
-   - 例如：系统配置、字典数据等
+   - 例如：系统配置、字典数据、权限配置
 
 2. **分布式缓存（二级缓存）**
-   - Redis缓存
+   - Redis集群缓存
    - 适用于共享数据和需要跨服务访问的数据
-   - 例如：用户会话、热门资源、计数器等
+   - 例如：用户会话、热门资源、计数器、验证码
 
-3. **搜索引擎（三级缓存）**
-   - Elasticsearch
-   - 适用于全文搜索和复杂查询
-   - 例如：资源检索、智能推荐等
+3. **搜索缓存（三级缓存）**
+   - Elasticsearch搜索结果缓存
+   - 适用于复杂查询和搜索结果
+   - 例如：资源检索、智能推荐结果
 
-### 5.2 缓存键命名规范
+4. **CDN缓存（四级缓存）**
+   - 静态资源和图片缓存
+   - 适用于前端资源和用户上传内容
+   - 例如：图片、CSS、JS文件
+
+### 5.3 分布式锁实现
+
+#### Redis分布式锁接口
+```java
+public interface DistributedLock {
+    boolean tryLock(String key, long waitTime, long leaseTime, TimeUnit unit);
+    void unlock(String key);
+    boolean isLocked(String key);
+    void renewLock(String key, long leaseTime, TimeUnit unit);
+}
+```
+
+#### RedLock算法实现
+```java
+@Service
+public class RedLockServiceImpl implements DistributedLock {
+
+    private final RedisTemplate<String, String> redisTemplate;
+    private final String LOCK_PREFIX = "lock:";
+
+    @Override
+    public boolean tryLock(String key, long waitTime, long leaseTime, TimeUnit unit) {
+        String lockKey = LOCK_PREFIX + key;
+        String requestId = UUID.randomUUID().toString();
+
+        long endTime = System.currentTimeMillis() + unit.toMillis(waitTime);
+
+        while (System.currentTimeMillis() < endTime) {
+            Boolean result = redisTemplate.opsForValue()
+                .setIfAbsent(lockKey, requestId, leaseTime, unit);
+
+            if (Boolean.TRUE.equals(result)) {
+                return true;
+            }
+
+            try {
+                Thread.sleep(50); // 重试间隔
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public void unlock(String key) {
+        String lockKey = LOCK_PREFIX + key;
+        String script = "if redis.call('get', KEYS[1]) == ARGV[1] " +
+                       "then return redis.call('del', KEYS[1]) " +
+                       "else return 0 end";
+
+        redisTemplate.execute(new DefaultRedisScript<>(script, Long.class),
+                            Collections.singletonList(lockKey), requestId);
+    }
+}
+```
+
+#### 分布式锁应用场景
+```java
+@Service
+public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private DistributedLock distributedLock;
+
+    @Override
+    public void registerUser(UserRegistrationDTO dto) {
+        String lockKey = "register:user:" + dto.getEmail();
+
+        // 获取分布式锁，防止重复注册
+        boolean locked = distributedLock.tryLock(lockKey, 5, 10, TimeUnit.SECONDS);
+
+        if (!locked) {
+            throw new BusinessException("注册请求处理中，请稍后重试");
+        }
+
+        try {
+            // 检查用户是否已存在
+            if (userMapper.existsByEmail(dto.getEmail())) {
+                throw new BusinessException("邮箱已被注册");
+            }
+
+            // 执行用户注册逻辑
+            User user = new User();
+            BeanUtils.copyProperties(dto, user);
+            userMapper.insert(user);
+
+        } finally {
+            distributedLock.unlock(lockKey);
+        }
+    }
+}
+```
+
+### 5.4 缓存键命名规范
 
 **命名规范**：{服务}:{模块}:{类型}:{标识}:{版本}
 
 **具体命名示例**：
-- 用户信息：user:profile:info:{user_id}:v1
-- 资源详情：resource:detail:{resource_id}:v2
-- 用户会话：auth:session:{token}:v1
-- 热门资源：resource:hot:list:daily:v1
-- 下载统计：download:stats:user:{user_id}:daily:v1
-- 分类缓存：category:tree:all:v1
+
+**用户相关缓存**：
+- 用户登录状态：auth:user:session:{userId}:v1 (TTL: 2小时)
+- 用户权限信息：auth:user:permissions:{userId}:v1 (TTL: 30分钟)
+- 用户基本信息：user:info:{userId}:v1 (TTL: 1小时)
+- 用户完整资料：user:profile:full:{userId}:v2 (TTL: 24小时)
+
+**系统配置缓存**：
+- 系统配置项：config:system:{config_key}:v1 (TTL: 24小时)
+- 字典数据：dict:{type}:v1 (TTL: 12小时)
+- 权限配置：auth:permissions:all:v1 (TTL: 6小时)
+
+**验证码缓存**：
+- 邮箱验证码：verify:email:{email}:v1 (TTL: 10分钟)
+- 手机验证码：verify:sms:{phone}:v1 (TTL: 5分钟)
+- 图形验证码：verify:captcha:{session_id}:v1 (TTL: 5分钟)
+
+**资源相关缓存**：
+- 资源详情：resource:detail:{resource_id}:v2 (TTL: 1小时)
+- 热门资源：resource:hot:list:daily:v1 (TTL: 6小时)
+- 资源分类：category:tree:all:v1 (TTL: 12小时)
+- 最新资源：resource:new:list:{category_id}:v1 (TTL: 30分钟)
+
+**业务统计缓存**：
+- 下载统计：download:stats:user:{user_id}:daily:v1 (TTL: 1小时)
+- 签到状态：signin:status:{user_id}:{date}:v1 (TTL: 24小时)
+- 积分余额：points:balance:{user_id}:v1 (TTL: 15分钟)
+- 积分流水：points:history:latest:{user_id}:v1 (TTL: 30分钟)
+
+**搜索相关缓存**：
+- 搜索结果：search:result:{query_hash}:v1 (TTL: 30分钟)
+- 热门搜索：search:hot:daily:v1 (TTL: 6小时)
+- 搜索建议：search:suggest:{keyword}:v1 (TTL: 1小时)
 
 **版本管理**：
 - 缓存键包含版本号，便于缓存更新
 - 重大结构变更时升级版本号
 - 旧版本缓存自然过期，确保数据一致性
 
-### 5.3 缓存同步策略
+### 5.5 缓存使用示例
+
+#### Spring Cache注解使用
+```java
+@Service
+public class ResourceServiceImpl implements ResourceService {
+
+    @Cacheable(value = "resource:detail", key = "#resourceId", unless = "#result == null")
+    public Resource getResourceDetail(Long resourceId) {
+        return resourceMapper.selectById(resourceId);
+    }
+
+    @CacheEvict(value = "resource:detail", key = "#resource.id")
+    public void updateResource(Resource resource) {
+        resourceMapper.updateById(resource);
+    }
+
+    @CachePut(value = "resource:detail", key = "#resource.id")
+    public Resource saveResource(Resource resource) {
+        resourceMapper.insert(resource);
+        return resource;
+    }
+}
+```
+
+#### Redis Template直接使用
+```java
+@Service
+public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    public User getUserInfo(Long userId) {
+        String cacheKey = "user:info:" + userId;
+
+        // 尝试从缓存获取
+        User cachedUser = (User) redisTemplate.opsForValue().get(cacheKey);
+        if (cachedUser != null) {
+            return cachedUser;
+        }
+
+        // 从数据库获取
+        User user = userMapper.selectById(userId);
+        if (user != null) {
+            // 存入缓存，设置1小时过期
+            redisTemplate.opsForValue().set(cacheKey, user, Duration.ofHours(1));
+        }
+
+        return user;
+    }
+}
+```
+
+#### 缓存切面实现
+```java
+@Aspect
+@Component
+public class CacheAspect {
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    @Around("@annotation(cacheable)")
+    public Object aroundCacheable(ProceedingJoinPoint joinPoint, Cacheable cacheable) throws Throwable {
+        String cacheKey = buildCacheKey(joinPoint, cacheable);
+
+        // 尝试从缓存获取
+        Object cachedValue = redisTemplate.opsForValue().get(cacheKey);
+        if (cachedValue != null) {
+            return cachedValue;
+        }
+
+        // 执行原方法
+        Object result = joinPoint.proceed();
+
+        // 存入缓存
+        if (result != null) {
+            Duration ttl = getTtl(cacheable);
+            redisTemplate.opsForValue().set(cacheKey, result, ttl);
+        }
+
+        return result;
+    }
+}
+```
+
+### 5.6 缓存同步策略
 
 - **被动失效**：数据更新时主动使相关缓存失效
 - **定时刷新**：对于热点数据定时刷新缓存
@@ -904,7 +1199,91 @@
 - 新资源上线时，预热相关分类数据
 - 系统维护后，预热核心数据
 
-### 5.5 缓存监控与告警
+### 5.7 Redis监控与运维
+
+#### Redis监控指标
+```yaml
+# Prometheus Redis Exporter配置
+scrape_configs:
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+    metrics_path: /metrics
+    scrape_interval: 15s
+```
+
+#### 关键监控指标
+- **内存使用**：used_memory, used_memory_rss, used_memory_peak
+- **连接数**：connected_clients, blocked_clients
+- **命令统计**：total_commands_processed, instantaneous_ops_per_sec
+- **命中率**：keyspace_hits, keyspace_misses
+- **过期键**：expired_keys, evicted_keys
+- **持久化**：rdb_changes_since_last_save, aof_last_rewrite_time_sec
+
+#### Grafana Dashboard配置
+```json
+{
+  "dashboard": {
+    "title": "Redis监控面板",
+    "panels": [
+      {
+        "title": "内存使用情况",
+        "targets": [
+          {
+            "expr": "redis_memory_used_bytes / redis_memory_max_bytes * 100",
+            "legendFormat": "内存使用率"
+          }
+        ]
+      },
+      {
+        "title": "连接数统计",
+        "targets": [
+          {
+            "expr": "redis_connected_clients",
+            "legendFormat": "客户端连接数"
+          }
+        ]
+      },
+      {
+        "title": "缓存命中率",
+        "targets": [
+          {
+            "expr": "redis_keyspace_hits / (redis_keyspace_hits + redis_keyspace_misses) * 100",
+            "legendFormat": "命中率"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+#### Redis备份策略
+```bash
+#!/bin/bash
+# Redis备份脚本
+
+DATE=$(date +%Y%m%d_%H%M%S)
+BACKUP_DIR="/backup/redis"
+REDIS_CLI="/usr/local/bin/redis-cli"
+
+# 创建备份目录
+mkdir -p $BACKUP_DIR
+
+# RDB备份
+$REDIS_CLI --rdb $BACKUP_DIR/dump_$DATE.rdb
+
+# AOF备份
+cp /var/lib/redis/appendonly.aof $BACKUP_DIR/appendonly_$DATE.aof
+
+# 删除7天前的备份
+find $BACKUP_DIR -name "*.rdb" -mtime +7 -delete
+find $BACKUP_DIR -name "*.aof" -mtime +7 -delete
+
+echo "Redis backup completed: $DATE"
+```
+
+### 5.8 缓存监控与告警
 
 **缓存性能指标**：
 - 命中率：目标>90%
