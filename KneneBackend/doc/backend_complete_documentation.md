@@ -63,6 +63,18 @@
 - **代码覆盖率**：JaCoCo
 - **API测试**：Postman + Newman
 
+**开发工具类库**：
+- **Hutool**：全能Java工具包，提供丰富的工具类
+  - 字符串处理：StrUtil - 字符串判空、截取、格式化等常用操作
+  - 日期时间：DateUtil - 日期解析、格式化、计算等操作
+  - 加密解密：SecureUtil - MD5、SHA、AES、RSA等加密算法
+  - 集合操作：CollUtil - 集合判空、交集、并集、差集等操作
+  - 文件操作：FileUtil - 文件读写、复制、删除等操作
+  - HTTP客户端：HttpUtil - HTTP请求发送和响应处理
+  - JSON处理：JSONUtil - JSON序列化和反序列化操作
+  - 验证码：CaptchaUtil - 图形验证码生成和验证
+  - ID生成：IdUtil - 雪花算法、UUID等ID生成策略
+
 **前端技术栈**：
 
 **爬虫服务**：
@@ -2615,6 +2627,18 @@ Instancio数据生成系统架构
 **配置示例**：
 
 **Maven依赖配置**：
+
+**Hutool依赖**：
+```xml
+<!-- Hutool全能工具包 -->
+<dependency>
+    <groupId>cn.hutool</groupId>
+    <artifactId>hutool-all</artifactId>
+    <version>5.8.38</version>
+</dependency>
+```
+
+**Instancio测试数据生成器**：
 ```xml
 <dependency>
     <groupId>org.instancio</groupId>
