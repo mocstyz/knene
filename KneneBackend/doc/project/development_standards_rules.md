@@ -256,28 +256,32 @@ KneneBackend/
 │           ├── fixtures/             # 测试固件数据
 │           └── properties/           # 测试属性文件
 ├── doc/                              # 项目文档目录
-│   ├── development_standards_new.md  # 开发规范文档
-│   ├── development_modular_monolith_roadmap.md # 开发路线图
-│   ├── api/                          # API文档目录
-│   │   ├── v1/                       # API版本1文档
-│   │   │   ├── auth.md               # 认证API文档
-│   │   │   ├── user.md               # 用户API文档
-│   │   │   ├── resource.md           # 资源API文档
-│   │   │   ├── content.md            # 内容API文档
-│   │   │   ├── vip.md                # VIP API文档
-│   │   │   ├── search.md             # 搜索API文档
-│   │   │   ├── crawler.md            # 爬虫API文档
-│   │   │   ├── payment.md            # 支付API文档
-│   │   │   ├── notification.md       # 通知API文档
-│   │   │   ├── download.md           # 下载API文档
-│   │   │   ├── request.md            # 求片API文档
-│   │   │   ├── signin.md             # 签到API文档
-│   │   │   ├── points.md             # 积分API文档
-│   │   │   ├── exchange.md           # 兑换API文档
-│   │   │   ├── compliance.md         # 合规API文档
-│   │   │   ├── advertisement.md      # 广告API文档
-│   │   │   └── analytics.md          # 数据分析API文档
-│   │   └── v2/                       # API版本2文档（预留）
+│   ├── project/                      # 项目级文档目录
+│   │   ├── development_standards_rules.md # 开发规范文档
+│   │   ├── development_modular_monolith_roadmap.md # 开发路线图
+│   │   ├── development_micro_service_roadmap.md # 微服务路线图
+│   │   ├── backend_complete_documentation.md # 完整后端文档
+│   │   └── README.md                 # 项目文档索引
+│   ├── modules/                      # 业务模块文档目录（与src结构对应）
+│   │   ├── auth/                     # 认证模块文档
+│   │   ├── user/                     # 用户模块文档
+│   │   ├── resource/                 # 资源模块文档
+│   │   ├── content/                  # 内容模块文档
+│   │   ├── vip/                      # VIP模块文档
+│   │   ├── search/                   # 搜索模块文档
+│   │   ├── crawler/                  # 爬虫模块文档
+│   │   ├── payment/                  # 支付模块文档
+│   │   ├── notification/             # 通知模块文档
+│   │   ├── download/                 # 下载模块文档
+│   │   ├── request/                  # 求片模块文档
+│   │   ├── signin/                   # 签到模块文档
+│   │   ├── points/                   # 积分模块文档
+│   │   ├── exchange/                 # 兑换模块文档
+│   │   ├── compliance/               # 合规模块文档
+│   │   ├── advertisement/            # 广告模块文档
+│   │   ├── analytics/                # 数据分析模块文档
+│   │   ├── quality/                  # 质量管理模块文档
+│   │   └── monitoring/               # 监控系统模块文档
 │   ├── architecture/                 # 架构设计文档
 │   │   ├── ddd/                      # DDD架构文档
 │   │   ├── hexagonal/                # 六边形架构文档
@@ -285,6 +289,10 @@ KneneBackend/
 │   │   ├── cache/                    # 缓存架构文档
 │   │   ├── security/                 # 安全架构文档
 │   │   └── deployment/               # 部署架构文档
+│   ├── infrastructure/               # 基础设施文档
+│   │   ├── storage/                  # 存储设施文档
+│   │   ├── monitoring/               # 监控设施文档
+│   │   └── external/                 # 外部服务文档
 │   ├── deployment/                   # 部署相关文档
 │   │   ├── docker/                   # Docker部署文档
 │   │   ├── kubernetes/               # Kubernetes部署文档
@@ -295,7 +303,8 @@ KneneBackend/
 │   │   ├── schema/                   # 数据库表结构文档
 │   │   ├── migration/                # 数据库迁移文档
 │   │   ├── index/                    # 索引设计文档
-│   │   └── optimization/             # 数据库优化文档
+│   │   ├── optimization/             # 数据库优化文档
+│   │   └── redis_design.md           # Redis设计文档
 │   ├── development/                  # 开发相关文档
 │   │   ├── coding-standards/         # 编码规范文档
 │   │   ├── testing/                  # 测试规范文档
