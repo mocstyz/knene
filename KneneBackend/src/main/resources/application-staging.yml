@@ -91,7 +91,7 @@ logging:
     com.knene: INFO
     org.springframework.security: INFO
     org.springframework.web: INFO
-    org.mybatis: INFO
+    com.baomidou.mybatisplus: INFO
     root: INFO
   file:
     name: ${LOG_FILE:/var/log/knene-backend/staging-application.log}

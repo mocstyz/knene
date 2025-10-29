@@ -88,7 +88,7 @@ logging:
     com.knene: INFO
     org.springframework.security: WARN
     org.springframework.web: WARN
-    org.mybatis: INFO
+    com.baomidou.mybatisplus: INFO
     org.testcontainers: INFO
     root: WARN
 

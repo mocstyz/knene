@@ -17,7 +17,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: "jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:knene_db}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true"
     username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:password}
+    password: ${DB_PASSWORD:592714407}
     druid:
       initial-size: 5
       min-idle: 5
@@ -107,8 +107,8 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
 
-# MyBatis配置
-mybatis:
+# MyBatis Plus配置
+mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.knene.infrastructure.persistence.entity
   configuration:
@@ -127,6 +127,18 @@ mybatis:
     local-cache-scope: session
     jdbc-type-for-null: other
     lazy-load-trigger-methods: equals,clone,hashCode,toString
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      table-underline: true
+      insert-strategy: not_null
+      update-strategy: not_null
+      select-strategy: not_empty
+  type-handlers-package: com.knene.infrastructure.persistence.typehandler
 
 # 服务器配置
 server:
@@ -166,18 +178,36 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus
+        include: health,info,metrics,prometheus,env,configprops,loggers,threaddump,heapdump
       base-path: /actuator
   endpoint:
     health:
       show-details: when-authorized
       show-components: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
   metrics:
     distribution:
       percentiles-histogram:
         http.server.requests: true
+        spring.data.repository.invocations: true
       percentiles:
         http.server.requests: 0.5,0.9,0.95,0.99
+        spring.data.repository.invocations: 0.5,0.9,0.95,0.99
+    tags:
+      application: ${spring.application.name}
+    export:
+      prometheus:
+        enabled: true
+  info:
+    env:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
 
 # 日志配置
 logging:
@@ -185,7 +215,7 @@ logging:
     com.knene: ${LOG_LEVEL:INFO}
     org.springframework.security: ${SECURITY_LOG_LEVEL:WARN}
     org.springframework.web: ${WEB_LOG_LEVEL:INFO}
-    org.mybatis: ${MYBATIS_LOG_LEVEL:WARN}
+    com.baomidou.mybatisplus: ${MYBATIS_LOG_LEVEL:WARN}
     com.alibaba.druid: ${DRUID_LOG_LEVEL:INFO}
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
@@ -296,12 +326,28 @@ app:
       username: ${DATASOURCE_READ_ONLY_USERNAME:}
       password: ${DATASOURCE_READ_ONLY_PASSWORD:}
 
-  # 监控和追踪配置
+  # Spring Boot Admin配置
+  boot:
+    admin:
+      client:
+        enabled: ${SPRING_BOOT_ADMIN_ENABLED:true}
+        url: ${SPRING_BOOT_ADMIN_URL:http://localhost:8888}
+        instance:
+          prefer-ip: true
+          service-host-type: ip-address
+          name: ${spring.application.name}
+          metadata:
+            tags:
+              environment: ${spring.profiles.active}
+              version: ${app.version:1.0.0}
+
+  # 链路追踪配置
   tracing:
-    enabled: ${TRACING_ENABLED:true}
+    sampling:
+      probability: ${TRACING_SAMPLE_RATE:0.1}  # 采样率：10%
     zipkin:
       base-url: ${ZIPKIN_BASE_URL:http://localhost:9411}
-      probability: ${TRACING_SAMPLE_RATE:0.1}
+      enabled: ${ZIPKIN_ENABLED:true}
 
   # 消息队列主题配置
   rocketmq:

@@ -91,7 +91,7 @@ KneneBackend/
 │   │   │       │   │   ├── redis/      # Redis配置
 │   │   │       │   │   └── elasticsearch/ # ES配置
 │   │   │       │   ├── persistence/    # 持久化实现
-│   │   │       │   │   ├── mapper/     # MyBatis Mapper接口
+│   │   │       │   │   ├── mapper/     # MyBatis Plus Mapper接口
 │   │   │       │   │   ├── entity/     # 数据库实体
 │   │   │       │   │   ├── repository/ # 仓储实现
 │   │   │       │   │   └── migration/  # Flyway数据库迁移脚本
@@ -477,9 +477,11 @@ KneneBackend/
 
 #### 3.3.2 注释规范
 - **文件头注释**：所有文件顶部都必须使用标准的javadoc注释格式，说明文件用途、作者：mosctz、版本信息
-- **行内注释**：除了文件头注释外，其他地方只用// 不要用块注释（/* */）
+- **其他注释规范**：除了文件头注释外，其他任何地方（包括类、方法、字段、代码块等）都只能使用//注释，严禁使用/* */块注释
+- **方法注释规范**：方法、类、内部类等所有非文件头的注释都使用//格式，写在方法/类定义的上一行
 - **注释长度限制**：//注释可以换行，但是// 最多不超过3行，如果内容太多要超过3行，就要精简提炼
 - **参数字段注释**：只有特别重要的参数、字段才在后面加//注释，位置在定义行的后面
+- **顺序步骤注释**：对于有执行顺序的代码块，使用数字编号（1. 2. 3.）来标注执行步骤，提高代码可读性
 
 **文件头javadoc注释示例：**
 ```java
@@ -491,6 +493,94 @@ KneneBackend/
  * @version 1.0
  */
 ```
+
+**其他注释格式示例：**
+```java
+// 用户应用服务类实现 - 处理用户相关业务逻辑
+@Service
+public class UserServiceImpl implements UserService {
+
+    // 用户注册方法 - 实现用户注册功能
+    @Override
+    public UserDTO register(UserRegisterRequest request) {
+        // 1. 参数验证
+        if (request == null) {
+            throw new IllegalArgumentException("请求参数不能为空"); // 抛出参数异常
+        }
+
+        // 2. 创建用户对象
+        User user = new User();
+        user.setUsername(request.getUsername()); // 设置用户名
+        user.setPassword(encryptPassword(request.getPassword())); // 加密密码
+
+        // 3. 保存用户并返回DTO
+        return convertToDTO(userRepository.save(user)); // 保存并返回DTO
+    }
+
+    // 复杂业务流程示例 - 订单处理流程
+    public OrderDTO processOrder(OrderRequest request) {
+        // 1. 订单基础验证
+        if (request == null || request.getItems().isEmpty()) {
+            throw new IllegalArgumentException("订单信息不完整"); // 验证订单基础信息
+        }
+
+        // 2. 库存检查和锁定
+        List<Item> lockedItems = inventoryService.lockItems(request.getItems()); // 锁定库存
+        if (lockedItems.size() != request.getItems().size()) {
+            throw new BusinessException("库存不足"); // 检查库存是否充足
+        }
+
+        // 3. 价格计算和优惠处理
+        BigDecimal totalPrice = calculateTotalPrice(request.getItems()); // 计算总价
+        BigDecimal discountPrice = applyDiscounts(totalPrice, request.getCouponCode()); // 应用优惠
+
+        // 4. 创建订单记录
+        Order order = createOrderRecord(request, discountPrice); // 创建订单实体
+        order.setStatus(OrderStatus.PENDING_PAYMENT); // 设置订单状态
+
+        // 5. 支付处理
+        PaymentResult paymentResult = paymentService.process(order); // 处理支付
+        if (!paymentResult.isSuccess()) {
+            // 5.1 支付失败处理
+            inventoryService.releaseItems(lockedItems); // 释放库存
+            order.setStatus(OrderStatus.PAYMENT_FAILED); // 更新订单状态
+            throw new PaymentException("支付失败"); // 抛出支付异常
+        }
+
+        // 6. 订单完成处理
+        order.setStatus(OrderStatus.PAID); // 更新为已支付状态
+        orderRepository.save(order); // 保存订单
+        notificationService.sendOrderConfirmation(order); // 发送确认通知
+
+        return convertToDTO(order); // 返回订单DTO
+    }
+
+    // 内部类 - 用户验证器
+    @Component
+    private static class UserValidator {
+        // 验证用户名格式
+        public boolean validateUsername(String username) {
+            return username != null && username.length() >= 3; // 用户名长度至少3位
+        }
+    }
+}
+```
+
+**注释规范要点：**
+- ✅ 文件头：使用 `/** ... */` javavadoc格式
+- ✅ 类/方法/字段：使用 `//` 单行注释
+- ✅ 行内注释：使用 `//` 在代码行后面
+- ✅ 顺序步骤：使用 `// 1. 2. 3.` 标注执行流程
+- ✅ 子步骤：使用 `// 5.1 5.2` 标注子流程
+- ❌ 禁止使用：`/* */` 块注释（除文件头外）
+
+**顺序步骤注释使用场景：**
+- 业务流程处理（如订单处理、用户注册流程）
+- 数据处理管道（ETL流程、数据清洗）
+- 复杂算法步骤（排序、搜索算法）
+- 系统初始化流程
+- 错误处理流程
+- 配置加载步骤
 
 #### 3.3.3 异常处理
 - **统一异常处理**：使用全局异常处理器
