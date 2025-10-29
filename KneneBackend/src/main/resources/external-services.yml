@@ -1,0 +1,262 @@
+# 外部服务集成配置文件
+# @author mosctz
+# @version 1.0
+
+# 外部服务配置
+app:
+  external:
+    # TMDb API配置
+    tmdb:
+      enabled: ${TMDB_ENABLED:true}
+      api-key: ${TMDB_API_KEY:}
+      base-url: https://api.themoviedb.org/3
+      language: zh-CN
+      include-adult: false
+      timeout: 10000
+      retry-times: 3
+      rate-limit:
+        requests-per-minute: 40
+        requests-per-hour: 1000
+
+    # 豆瓣API配置
+    douban:
+      enabled: ${DOUBAN_ENABLED:false}
+      base-url: https://movie.douban.com
+      api-base-url: https://api.douban.com/v2
+      timeout: 15000
+      retry-times: 2
+      user-agent: Mozilla/5.0 (compatible; KneneCrawler/1.0)
+
+    # Google Analytics 4配置
+    ga4:
+      enabled: ${GA4_ENABLED:false}
+      measurement-id: ${GA4_MEASUREMENT_ID:}
+      api-secret: ${GA4_API_SECRET:}
+      base-url: https://www.google-analytics.com/mp/collect
+      timeout: 5000
+      batch-size: 20
+      flush-interval: 10000
+
+    # Hotjar配置
+    hotjar:
+      enabled: ${HOTJAR_ENABLED:false}
+      site-id: ${HOTJAR_SITE_ID:}
+      hjsv: 6
+      script-url: https://static.hotjar.com/c/hotjar-${HOTJAR_SITE_ID}.js?sv=6
+
+    # 115网盘API配置
+    netdisk115:
+      enabled: ${NETDISK115_ENABLED:false}
+      app-id: ${NETDISK115_APP_ID:}
+      app-secret: ${NETDISK115_APP_SECRET:}
+      base-url: https://webapi.115.com
+      upload-url: https://uplb.115.com
+      timeout: 30000
+      chunk-size: 10485760 # 10MB
+      max-retry-times: 3
+
+    # 邮件服务配置
+    email:
+      smtp:
+        enabled: ${SMTP_ENABLED:false}
+        host: ${SMTP_HOST:smtp.gmail.com}
+        port: ${SMTP_PORT:587}
+        username: ${SMTP_USERNAME:}
+        password: ${SMTP_PASSWORD:}
+        protocol: smtp
+        auth: true
+        starttls: true
+        ssl: false
+        timeout: 10000
+        connection-timeout: 10000
+        from: ${SMTP_FROM:noreply@knene.com}
+        from-name: ${SMTP_FROM_NAME:Knene影视平台}
+
+      sendgrid:
+        enabled: ${SENDGRID_ENABLED:false}
+        api-key: ${SENDGRID_API_KEY:}
+        from-email: ${SENDGRID_FROM_EMAIL:noreply@knene.com}
+        from-name: ${SENDGRID_FROM_NAME:Knene影视平台}
+        template-id:
+          welcome: ${SENDGRID_WELCOME_TEMPLATE:}
+          verification: ${SENDGRID_VERIFICATION_TEMPLATE:}
+          password-reset: ${SENDGRID_PASSWORD_RESET_TEMPLATE:}
+
+      ses:
+        enabled: ${SES_ENABLED:false}
+        region: ${SES_REGION:us-east-1}
+        access-key: ${SES_ACCESS_KEY:}
+        secret-key: ${SES_SECRET_KEY:}
+        from-email: ${SES_FROM_EMAIL:noreply@knene.com}
+        configuration-set: ${SES_CONFIGURATION_SET:}
+
+    # 短信服务配置
+    sms:
+      aliyun:
+        enabled: ${ALIYUN_SMS_ENABLED:false}
+        access-key: ${ALIYUN_SMS_ACCESS_KEY:}
+        secret-key: ${ALIYUN_SMS_SECRET_KEY:}
+        region: ${ALIYUN_SMS_REGION:cn-hangzhou}
+        sign-name: ${ALIYUN_SMS_SIGN_NAME:Knene影视}
+        template-codes:
+          verification: ${ALIYUN_SMS_VERIFICATION_TEMPLATE:}
+          notification: ${ALIYUN_SMS_NOTIFICATION_TEMPLATE:}
+
+      tencent:
+        enabled: ${TENCENT_SMS_ENABLED:false}
+        secret-id: ${TENCENT_SMS_SECRET_ID:}
+        secret-key: ${TENCENT_SMS_SECRET_KEY:}
+        region: ${TENCENT_SMS_REGION:ap-beijing}
+        sdk-app-id: ${TENCENT_SMS_SDK_APP_ID:}
+        sign-name: ${TENCENT_SMS_SIGN_NAME:Knene影视}
+        template-ids:
+          verification: ${TENCENT_SMS_VERIFICATION_TEMPLATE:}
+          notification: ${TENCENT_SMS_NOTIFICATION_TEMPLATE:}
+
+    # 支付服务配置
+    payment:
+      alipay:
+        enabled: ${ALIPAY_ENABLED:false}
+        app-id: ${ALIPAY_APP_ID:}
+        private-key: ${ALIPAY_PRIVATE_KEY:}
+        public-key: ${ALIPAY_PUBLIC_KEY:}
+        gateway-url: ${ALIPAY_GATEWAY_URL:https://openapi.alipay.com/gateway.do}
+        notify-url: ${ALIPAY_NOTIFY_URL:http://localhost:8080/api/v1/payment/alipay/notify}
+        return-url: ${ALIPAY_RETURN_URL:http://localhost:3000/payment/success}
+        sign-type: RSA2
+        charset: UTF-8
+        format: json
+
+      wechat:
+        enabled: ${WECHAT_PAY_ENABLED:false}
+        app-id: ${WECHAT_APP_ID:}
+        mch-id: ${WECHAT_MCH_ID:}
+        api-key: ${WECHAT_API_KEY:}
+        cert-path: ${WECHAT_CERT_PATH:}
+        key-path: ${WECHAT_KEY_PATH:}
+        notify-url: ${WECHAT_NOTIFY_URL:http://localhost:8080/api/v1/payment/wechat/notify}
+        sign-type: MD5
+        body: Knene影视VIP会员
+
+      paypal:
+        enabled: ${PAYPAL_ENABLED:false}
+        client-id: ${PAYPAL_CLIENT_ID:}
+        client-secret: ${PAYPAL_CLIENT_SECRET:}
+        mode: ${PAYPAL_MODE:sandbox} # sandbox, live
+        webhook-id: ${PAYPAL_WEBHOOK_ID:}
+
+    # 对象存储服务配置
+    oss:
+      aliyun-oss:
+        enabled: ${ALIYUN_OSS_ENABLED:false}
+        endpoint: ${ALIYUN_OSS_ENDPOINT:}
+        access-key-id: ${ALIYUN_OSS_ACCESS_KEY_ID:}
+        access-key-secret: ${ALIYUN_OSS_ACCESS_KEY_SECRET:}
+        bucket-name: ${ALIYUN_OSS_BUCKET_NAME:}
+        region: ${ALIYUN_OSS_REGION:oss-cn-hangzhou}
+        secure: true
+
+      aws-s3:
+        enabled: ${AWS_S3_ENABLED:false}
+        access-key: ${AWS_S3_ACCESS_KEY:}
+        secret-key: ${AWS_S3_SECRET_KEY:}
+        region: ${AWS_S3_REGION:us-east-1}
+        bucket-name: ${AWS_S3_BUCKET_NAME:}
+        endpoint: ${AWS_S3_ENDPOINT:}
+
+      qcloud-cos:
+        enabled: ${QCLOUD_COS_ENABLED:false}
+        secret-id: ${QCLOUD_COS_SECRET_ID:}
+        secret-key: ${QCLOUD_COS_SECRET_KEY:}
+        region: ${QCLOUD_COS_REGION:ap-beijing}
+        bucket-name: ${QCLOUD_COS_BUCKET_NAME:}
+
+    # CDN服务配置
+    cdn:
+      enabled: ${CDN_ENABLED:false}
+      provider: ${CDN_PROVIDER:aliyun} # aliyun, tencent, qiniu
+      domain: ${CDN_DOMAIN:}
+      ssl: ${CDN_SSL:true}
+
+      aliyun:
+        access-key: ${ALIYUN_CDN_ACCESS_KEY:}
+        secret-key: ${ALIYUN_CDN_SECRET_KEY:}
+
+      tencent:
+        secret-id: ${TENCENT_CDN_SECRET_ID:}
+        secret-key: ${TENCENT_CDN_SECRET_KEY:}
+
+      qiniu:
+        access-key: ${QINIU_CDN_ACCESS_KEY:}
+        secret-key: ${QINIU_CDN_SECRET_KEY:}
+
+    # 图片处理服务配置
+    image-processor:
+      enabled: ${IMAGE_PROCESSOR_ENABLED:true}
+      provider: ${IMAGE_PROCESSOR_PROVIDER:local} # local, aliyun, tencent
+      default-quality: 85
+      max-width: 1920
+      max-height: 1080
+      formats: [jpeg, png, webp]
+
+      aliyun:
+        access-key: ${ALIYUN_IMG_ACCESS_KEY:}
+        secret-key: ${ALIYUN_IMG_SECRET_KEY:}
+        endpoint: ${ALIYUN_IMG_ENDPOINT:}
+
+    # 验证码服务配置
+    captcha:
+      turnstile:
+        enabled: ${TURNSTILE_ENABLED:false}
+        site-key: ${TURNSTILE_SITE_KEY:}
+        secret-key: ${TURNSTILE_SECRET_KEY:}
+
+      recaptcha:
+        enabled: ${RECAPTCHA_ENABLED:false}
+        site-key: ${RECAPTCHA_SITE_KEY:}
+        secret-key: ${RECAPTCHA_SECRET_KEY:}
+        version: v3
+
+    # 搜索引擎配置
+    search-engine:
+      baidu:
+        enabled: ${BAIDU_SEARCH_ENABLED:false}
+        api-key: ${BAIDU_SEARCH_API_KEY:}
+        base-url: https://www.baidu.com/s
+
+      google:
+        enabled: ${GOOGLE_SEARCH_ENABLED:false}
+        api-key: ${GOOGLE_SEARCH_API_KEY:}
+        search-engine-id: ${GOOGLE_SEARCH_ENGINE_ID:}
+        base-url: https://www.googleapis.com/customsearch/v1
+
+    # 代理服务配置
+    proxy:
+      enabled: ${PROXY_ENABLED:false}
+      provider: ${PROXY_PROVIDER:luminati} # luminati, smartproxy, stormproxies
+      rotation: ${PROXY_ROTATION:true}
+
+      luminati:
+        username: ${LUMINATI_USERNAME:}
+        password: ${LUMINATI_PASSWORD:}
+        endpoint: ${LUMINATI_ENDPOINT:}
+
+      smartproxy:
+        username: ${SMARTPROXY_USERNAME:}
+        password: ${SMARTPROXY_PASSWORD:}
+        endpoint: ${SMARTPROXY_ENDPOINT:}
+
+    # 内容安全服务配置
+    content-safety:
+      enabled: ${CONTENT_SAFETY_ENABLED:false}
+      provider: ${CONTENT_SAFETY_PROVIDER:aliyun} # aliyun, tencent
+
+      aliyun:
+        access-key: ${ALIYUN_CONTENT_ACCESS_KEY:}
+        secret-key: ${ALIYUN_CONTENT_SECRET_KEY:}
+        region: ${ALIYUN_CONTENT_REGION:cn-shanghai}
+
+      tencent:
+        secret-id: ${TENCENT_CONTENT_SECRET_ID:}
+        secret-key: ${TENCENT_CONTENT_SECRET_KEY:}
+        region: ${TENCENT_CONTENT_REGION:ap-beijing}

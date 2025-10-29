@@ -1,0 +1,170 @@
+# 缓存配置文件
+# @author mosctz
+# @version 1.0
+
+# Spring Cache配置
+spring:
+  cache:
+    type: caffeine # caffeine, redis, ehcache
+    cache-names:
+      - user-cache
+      - resource-cache
+      - config-cache
+      - search-cache
+      - permission-cache
+
+  # Caffeine本地缓存配置
+  caffeine:
+    spec: maximumSize=10000,expireAfterWrite=30m,recordStats
+
+# 应用自定义缓存配置
+app:
+  cache:
+    # 多级缓存配置
+    multi-level:
+      enabled: ${MULTI_LEVEL_CACHE_ENABLED:true}
+      l1-cache: caffeine # 本地缓存
+      l2-cache: redis # 分布式缓存
+      l3-cache: mysql # 数据库缓存
+
+    # 缓存命名配置
+    names:
+      # 用户相关缓存
+      user-info: "user:info:{id}:v1"
+      user-permissions: "user:permissions:{id}:v1"
+      user-profile: "user:profile:{id}:v2"
+
+      # 资源相关缓存
+      resource-detail: "resource:detail:{id}:v2"
+      resource-list: "resource:list:{category}:{page}:v1"
+      hot-resources: "resource:hot:daily:v1"
+
+      # 系统配置缓存
+      system-config: "config:system:{key}:v1"
+      dictionary-data: "dict:{type}:v1"
+
+      # 搜索缓存
+      search-result: "search:result:{query_hash}:v1"
+      hot-search: "search:hot:daily:v1"
+
+      # 权限缓存
+      role-permissions: "auth:role:permissions:{id}:v1"
+      user-roles: "auth:user:roles:{id}:v1"
+
+    # 缓存过期时间配置（秒）
+    ttl:
+      user-info: 3600 # 1小时
+      user-permissions: 1800 # 30分钟
+      user-profile: 7200 # 2小时
+      resource-detail: 1800 # 30分钟
+      resource-list: 900 # 15分钟
+      hot-resources: 21600 # 6小时
+      system-config: 86400 # 24小时
+      dictionary-data: 43200 # 12小时
+      search-result: 1800 # 30分钟
+      hot-search: 21600 # 6小时
+      role-permissions: 3600 # 1小时
+      user-roles: 1800 # 30分钟
+
+    # 缓存大小配置
+    max-size:
+      user-info: 1000
+      user-permissions: 500
+      user-profile: 1000
+      resource-detail: 2000
+      resource-list: 100
+      hot-resources: 200
+      system-config: 500
+      dictionary-data: 100
+      search-result: 1000
+      hot-search: 200
+      role-permissions: 100
+      user-roles: 500
+
+    # Redis缓存配置
+    redis:
+      key-prefix: knene:cache
+      default-ttl: 1800 # 30分钟
+      enable-null-values: false
+      enable-statistics: true
+      cache-null-values: false
+
+    # Caffeine本地缓存配置
+    caffeine:
+      default-spec: "maximumSize=1000,expireAfterWrite=30m,recordStats"
+      specs:
+        user-info: "maximumSize=1000,expireAfterWrite=1h,recordStats"
+        user-permissions: "maximumSize=500,expireAfterWrite=30m,recordStats"
+        resource-detail: "maximumSize=2000,expireAfterWrite=30m,recordStats"
+        resource-list: "maximumSize=100,expireAfterWrite=15m,recordStats"
+        system-config: "maximumSize=500,expireAfterWrite=24h,recordStats"
+
+    # 缓存同步策略配置
+    sync-strategy:
+      default: cache-aside # cache-aside, write-through, write-behind
+      critical-data: write-through
+      frequent-read: cache-aside
+      infrequent-update: write-behind
+
+    # 缓存预热配置
+    warmup:
+      enabled: ${CACHE_WARMUP_ENABLED:true}
+      startup-delay: 30 # 应用启动后30秒开始预热
+      concurrent-threads: 5
+      items:
+        - system-config
+        - dictionary-data
+        - hot-search
+        - role-permissions
+
+    # 缓存刷新策略
+    refresh:
+      enabled: ${CACHE_REFRESH_ENABLED:true}
+      auto-refresh: true
+      refresh-interval: 3600 # 1小时
+      refresh-ratio: 0.8 # 当剩余有效期低于80%时刷新
+      background-refresh: true
+
+    # 缓存击穿防护
+    anti-penetration:
+      enabled: ${CACHE_ANTI_PENETRATION_ENABLED:true}
+      hot-key-protection: true
+      hot-key-threshold: 100 # 访问次数阈值
+      hot-key-expire: 60 # 热key过期时间（秒）
+      local-cache: true # 使用本地缓存防止击穿
+
+    # 缓存雪崩防护
+    anti-avalanche:
+      enabled: ${CACHE_ANTI_AVALANCHE_ENABLED:true}
+      random-ttl: true # 添加随机TTL避免同时过期
+      ttl-jitter: 300 # 随机抖动时间（秒）
+      backup-cache: true # 启用备用缓存
+
+    # 缓存监控配置
+    monitoring:
+      enabled: ${CACHE_MONITORING_ENABLED:true}
+      metrics-enabled: true
+      slow-access-threshold: 100 # 慢访问阈值（毫秒）
+      high-miss-rate-threshold: 0.2 # 高失效率阈值
+
+    # 分布式锁配置（用于缓存操作）
+    distributed-lock:
+      enabled: ${CACHE_DISTRIBUTED_LOCK_ENABLED:true}
+      lock-prefix: knene:cache:lock
+      lock-timeout: 30 # 锁超时时间（秒）
+      retry-times: 3
+      retry-interval: 100 # 重试间隔（毫秒）
+
+    # 缓存序列化配置
+    serialization:
+      key-serializer: string # string, json, kryo
+      value-serializer: json # string, json, kryo
+      compress: false
+      compression-type: gzip # gzip, lz4, deflate
+
+    # 缓存清理配置
+    cleanup:
+      enabled: ${CACHE_CLEANUP_ENABLED:true}
+      cleanup-interval: 3600 # 1小时清理一次
+      cleanup-expired-only: true # 只清理过期的缓存
+      batch-size: 1000 # 批量清理大小

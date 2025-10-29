@@ -1,0 +1,150 @@
+# Knene后端告警规则
+# @author mosctz
+# @version 1.0
+
+groups:
+  - name: knene-backend.rules
+    rules:
+      # 应用可用性告警
+      - alert: ApplicationDown
+        expr: up{job="knene-backend"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Knene后端应用不可用"
+          description: "Knene后端应用已下线超过1分钟"
+
+      # HTTP错误率告警
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "HTTP错误率过高"
+          description: "5xx错误率在过去5分钟内超过10%"
+
+      # 响应时间告警
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 0.5
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "响应时间过长"
+          description: "95%的请求响应时间超过500ms"
+
+      # JVM内存使用率告警
+      - alert: HighMemoryUsage
+        expr: (jvm_memory_used_bytes / jvm_memory_max_bytes) > 0.85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "JVM内存使用率过高"
+          description: "JVM内存使用率超过85%"
+
+      # CPU使用率告警
+      - alert: HighCpuUsage
+        expr: rate(process_cpu_seconds_total[5m]) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU使用率过高"
+          description: "CPU使用率超过80%"
+
+      # 数据库连接池告警
+      - alert: DatabaseConnectionPoolExhaustion
+        expr: hikaricp_connections_active / hikaricp_connections_max > 0.9
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "数据库连接池即将耗尽"
+          description: "数据库连接池使用率超过90%"
+
+      # Redis连接失败告警
+      - alert: RedisConnectionFailure
+        expr: redis_connected_clients == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Redis连接失败"
+          description: "无法连接到Redis服务器"
+
+  - name: knene-business.rules
+    rules:
+      # 用户注册异常
+      - alert: LowUserRegistrationRate
+        expr: rate(user_registrations_total[1h]) < 0.1
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "用户注册率过低"
+          description: "过去1小时用户注册率异常低"
+
+      # 资源下载失败率
+      - alert: HighDownloadFailureRate
+        expr: rate(download_failures_total[5m]) / rate(download_attempts_total[5m]) > 0.2
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "资源下载失败率过高"
+          description: "资源下载失败率超过20%"
+
+      # VIP转化率异常
+      - alert: LowVipConversionRate
+        expr: rate(vip_conversions_total[1h]) < 0.01
+        for: 1h
+        labels:
+          severity: info
+        annotations:
+          summary: "VIP转化率过低"
+          description: "VIP转化率低于预期"
+
+  - name: knene-infrastructure.rules
+    rules:
+      # 磁盘空间告警
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_avail_bytes / node_filesystem_size_bytes) < 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "磁盘空间不足"
+          description: "磁盘可用空间低于10%"
+
+      # 网络连接数告警
+      - alert: HighNetworkConnections
+        expr: node_netstat_Tcp_CurrEstab > 1000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "网络连接数过高"
+          description: "TCP连接数超过1000"
+
+      # Elasticsearch集群状态告警
+      - alert: ElasticsearchClusterRed
+        expr: elasticsearch_cluster_health_status{color="red"} == 1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Elasticsearch集群状态为红色"
+          description: "Elasticsearch集群处于不可用状态"
+
+      # RocketMQ消息堆积告警
+      - alert: RocketMQMessageAccumulation
+        expr: rocketmq_consumer_offset > 10000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "RocketMQ消息堆积"
+          description: "消息队列堆积超过10000条"

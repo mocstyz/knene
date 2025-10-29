@@ -1,0 +1,35 @@
+# 开发环境配置 - 禁用数据库和Redis以便快速启动测试
+
+spring:
+  # 禁用数据源自动配置
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
+      - org.springframework.ai.azure.openai.autoconfigure.AzureOpenAiAutoConfiguration
+
+  # 数据库配置（暂时注释）
+  datasource:
+    enabled: false
+
+  # Redis配置（暂时注释）
+  data:
+    redis:
+      enabled: false
+
+  # Flyway配置（暂时禁用）
+  flyway:
+    enabled: false
+
+  # Spring AI配置（暂时禁用）
+  ai:
+    azure:
+      openai:
+        enabled: false
+
+# 日志级别调整
+logging:
+  level:
+    com.knene: DEBUG
+    org.springframework: INFO

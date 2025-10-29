@@ -184,7 +184,7 @@
 - 请求响应转换
 
 **技术实现**：
-- Spring Cloud Gateway
+- Nginx (反向代理和路由)
 - Redis (限流)
 - JWT (令牌验证)
 
@@ -2037,7 +2037,7 @@ KneneBackend
 - **文档自动部署**：CI/CD自动更新API文档站点
 
 **API网关文档集成**：
-- **Spring Cloud Gateway** + **SpringDoc**：网关层聚合所有服务API
+- **Nginx** + **SpringDoc**：网关层聚合所有服务API
 - **统一认证**：API文档访问权限控制
 - **在线测试**：支持在文档页面直接测试API
 
