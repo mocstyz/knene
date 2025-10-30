@@ -191,46 +191,59 @@
 ### 1.1 核心数据库架构设计（2周）
 **依赖关系**：无依赖，必须最先
 
-#### 1.1.1 数据库架构规范制定 - 2天
+#### 1.1.1 数据库架构规范制定 - 2天 ✅ 已完成
 **核心原则：规范先行，为所有数据库设计提供标准和约束**
 
-- **表结构设计规范**
+- **表结构设计规范** ✅
   - 命名规范统一（表名、字段名、索引名）
   - 通用字段设计（id、created_at、updated_at、deleted_at）
   - 字段类型规范和长度标准
   - 字段约束规范（NOT NULL、DEFAULT、CHECK等）
-- **索引设计指导原则**
+- **索引设计指导原则** ✅
   - 主键索引策略
   - 唯一索引设计规范
   - 复合索引设计原则
   - 索引字段顺序规则
-- **数据库版本管理**
+- **数据库版本管理** ✅
   - Flyway迁移脚本规范
   - 版本号命名规则
   - 回滚策略制定
-- **数据完整性规范**
+- **数据完整性规范** ✅
   - 外键约束设计规范
   - 数据一致性检查规则
   - 数据清理策略
+
+**实际完成情况：**
+- ✅ 数据库命名规范文档制定完成（[database/naming_conventions.md](../database/naming_conventions.md)）
+- ✅ 索引设计指导原则文档完成（[database/database_index_design_guide.md](../database/database_index_design_guide.md)）
+- ✅ 数据库版本管理规范完成（[database/database_version_management_guide.md](../database/database_version_management_guide.md)）
+- ✅ 数据完整性规则规范完成（[database/data_integrity_rules.md](../database/data_integrity_rules.md)）
+- ✅ 数据库分层设计原则完成（[database/database_layer_design.md](../database/database_layer_design.md)）
 
 #### 1.1.2 数据库分层设计原则 - 1天 ✅ 已完成
 **基于规范制定的三层架构设计**
 
 **第一层：核心基础表（第一阶段设计）** ✅ 已完成
-- **用户权限核心表**：users, user_profiles, roles, permissions ✅
-- **用户权限关联表**：user_roles, role_permissions ✅
-- **系统基础表**：system_configs, dictionaries, file_storages ✅
-- **审计日志表**：operation_logs, audit_logs ✅
+- **用户权限核心表**：[users, user_profiles, roles, permissions](../../src/main/resources/db/migration/V1.1.1__Create_user_permission_core_tables.sql) ✅
+- **用户权限关联表**：[user_roles, role_permissions](../../src/main/resources/db/migration/V1.1.1__Create_user_permission_core_tables.sql) ✅
+- **系统基础表**：[system_configs, dictionaries, file_storages](../../src/main/resources/db/migration/V1.1.3__Create_system_core_tables.sql) ✅
+- **审计日志表**：[operation_logs, audit_logs](../../src/main/resources/db/migration/V1.1.3__Create_system_core_tables.sql) ✅
 
-**第二层：业务功能表（按阶段设计）**
-- **第二阶段**：认证扩展表（refresh_tokens, login_history, email_verifications）
-- **第三阶段**：VIP业务表（vip_memberships, orders, payment_records）
-- **第四阶段**：用户中心表（favorites, download_history, user_comments）
+**第二层：业务功能表（按阶段设计）** ✅ **全部已完成**
+- **第二阶段**：认证扩展表（[refresh_tokens, login_history, email_verifications](../../src/main/resources/db/migration/V2.1.1__Create_auth_extension_tables.sql)） ✅ 已完成
+  - 实际文件：[V2.1.1__Create_auth_extension_tables.sql](../../src/main/resources/db/migration/V2.1.1__Create_auth_extension_tables.sql), [V2.1.2__Insert_auth_extension_data.sql](../../src/main/resources/db/migration/V2.1.2__Insert_auth_extension_data.sql)
+  - 创建13张表，插入完整测试数据
+- **第三阶段**：VIP业务表（[vip_memberships, orders, payment_records](../../src/main/resources/db/migration/V2.1.3__Create_vip_business_tables.sql)） ✅ 已完成
+  - 实际文件：[V2.1.3__Create_vip_business_tables.sql](../../src/main/resources/db/migration/V2.1.3__Create_vip_business_tables.sql), [V2.1.4__Insert_vip_business_data.sql](../../src/main/resources/db/migration/V2.1.4__Insert_vip_business_data.sql)
+  - 创建13张表，插入完整VIP业务数据
+- **第四阶段**：用户中心表（[favorites, download_history, user_comments](../../src/main/resources/db/migration/V2.1.5__Create_user_center_tables.sql)） ✅ 已完成
+  - 实际文件：[V2.1.5__Create_user_center_tables.sql](../../src/main/resources/db/migration/V2.1.5__Create_user_center_tables.sql), [V2.1.6__Insert_user_center_data.sql](../../src/main/resources/db/migration/V2.1.6__Insert_user_center_data.sql)
+  - 创建12张表，插入完整用户中心数据
 
-**第三层：高级功能表（按需设计）**
-- **PT站点集成表**：pt_sites, torrent_files, crawl_tasks
-- **质量管理表**：quality_scores, duplicate_detection
-- **监控分析表**：search_logs, user_statistics
+**第三层：高级功能表（按需设计）** 🔄 **待实现**
+- **PT站点集成表**：pt_sites, torrent_files, crawl_tasks 📋 预留文件名：V3.3.1__Create_pt_site_tables.sql
+- **质量管理表**：quality_scores, duplicate_detection 📋 预留文件名：V3.13.1__Create_quality_management_tables.sql
+- **监控分析表**：search_logs, user_statistics 📋 预留文件名：V5.1.3__Create_statistics_tables.sql
 
 #### 1.1.3 核心基础表设计 - 4天 ✅ 已完成
 **严格按照数据库架构规范进行设计**
@@ -508,28 +521,28 @@
 ### 2.1 认证权限数据库设计与实施（1周）
 **依赖关系**：依赖核心数据库架构设计
 
-#### 2.1.1 认证扩展相关表设计 - 2天
-- **令牌管理表设计**【优化】
+#### 2.1.1 认证扩展相关表设计 - 2天 ✅ **已完成**
+- **令牌管理表设计**【优化】 ✅
   - refresh_tokens：刷新令牌表
   - email_verifications：邮箱验证表
   - password_resets：密码重置表
-- **登录历史表设计**【优化】
+- **登录历史表设计**【优化】 ✅
   - login_history：登录历史表
   - login_attempts：登录尝试记录表
-- **权限管理表设计**【优化】
+- **权限管理表设计**【优化】 ✅
   - user_permissions：用户权限表（直接权限分配）
   - permission_groups：权限分组表
-- **安全相关表设计**
+- **安全相关表设计** ✅
   - failed_login_attempts：登录失败记录表
   - user_lockouts：用户锁定记录表
   - security_questions：安全问题表
   - user_security_answers：用户安全问题答案表
 
-#### 2.1.2 认证权限数据迁移脚本 - 2天
-- **Flyway迁移脚本开发**
-  - 认证权限表创建脚本（V2.1.1__Create_auth_tables.sql）
-  - 权限数据初始化脚本（V2.1.2__Insert_permissions_data.sql）
-  - 默认角色配置脚本（V2.1.3__Insert_default_roles.sql）
+#### 2.1.2 认证权限数据迁移脚本 - 2天 ✅ **已完成**
+- **Flyway迁移脚本开发** ✅
+  - 认证权限表创建脚本（V2.1.1__Create_auth_extension_tables.sql）
+  - 权限数据初始化脚本（V2.1.2__Insert_auth_extension_data.sql）
+  - 权限分组和默认配置脚本（实际已完成）
 - **索引和约束创建**
   - 用户ID索引优化
   - 令牌唯一索引
@@ -947,28 +960,28 @@
 
 **说明**：遵循增量设计原则，核心表优先设计，时间从1周优化到0.5周
 
-#### 3.1.1 VIP会员相关表设计 - 1.5天
-- **会员管理表设计**
+#### 3.1.1 VIP会员相关表设计 - 1.5天 ✅ **已完成**
+- **会员管理表设计** ✅
   - vip_memberships：会员信息表
   - vip_plans：会员套餐表
   - vip_benefits：会员权益表
   - membership_benefits：会员权益关联表
-- **订单系统表设计**
+- **订单系统表设计** ✅
   - orders：订单主表
   - order_items：订单明细表
   - payment_records：支付记录表
   - payment_methods：支付方式表
-- **营销活动表设计**
+- **营销活动表设计** ✅
   - coupons：优惠券表
   - user_coupons：用户优惠券表
   - promotions：促销活动表
   - referral_codes：推荐码表
 
-#### 3.1.2 VIP系统数据迁移脚本 - 1天
-- **Flyway迁移脚本开发**
-  - VIP系统表创建脚本（V3.1.1__Create_vip_tables.sql）
-  - 会员套餐初始化脚本（V3.1.2__Insert_vip_plans.sql）
-  - 支付方式配置脚本（V3.1.3__Insert_payment_methods.sql）
+#### 3.1.2 VIP系统数据迁移脚本 - 1天 ✅ **已完成**
+- **Flyway迁移脚本开发** ✅
+  - VIP系统表创建脚本（V2.1.3__Create_vip_business_tables.sql）
+  - 会员套餐初始化脚本（V2.1.4__Insert_vip_business_data.sql）
+  - 支付方式配置脚本（实际已完成）
 - **索引创建**
   - 会员状态查询索引
   - 订单状态索引
@@ -2274,29 +2287,29 @@
 ### 4.1 用户中心数据库设计与实施（1周）
 **依赖关系**：依赖核心数据库架构设计
 
-#### 4.1.1 个人中心相关表设计 - 3天
-- **个人资料表设计**
+#### 4.1.1 个人中心相关表设计 - 3天 ✅ **已完成**
+- **个人资料表设计** ✅
   - user_profiles_detailed：详细个人资料表
   - user_settings：用户设置表
   - user_preferences：用户偏好设置表
-- **历史记录表设计**
+- **历史记录表设计** ✅
   - download_history：下载历史表
   - browse_history：浏览历史表
   - search_history：搜索历史表
-- **收藏管理表设计**
+- **收藏管理表设计** ✅
   - favorites：收藏主表
   - favorite_folders：收藏夹表
   - favorite_folder_relations：收藏夹关联表
   - favorite_shares：收藏分享表
-- **评论管理表设计**
+- **评论管理表设计** ✅
   - user_comments：用户评论表
   - comment_interactions：评论互动表
 
-#### 4.1.2 用户中心数据迁移脚本 - 2天
-- **Flyway迁移脚本开发**
-  - 用户中心表创建脚本（V4.1.1__Create_user_center_tables.sql）
-  - 用户设置默认值脚本（V4.1.2__Insert_default_settings.sql）
-  - 收藏夹分类初始化脚本（V4.1.3__Insert_favorite_categories.sql）
+#### 4.1.2 用户中心数据迁移脚本 - 2天 ✅ **已完成**
+- **Flyway迁移脚本开发** ✅
+  - 用户中心表创建脚本（V2.1.5__Create_user_center_tables.sql）
+  - 用户设置默认值脚本（V2.1.6__Insert_user_center_data.sql）
+  - 收藏夹分类初始化脚本（实际已完成）
 
 #### 4.1.3 用户中心测试数据准备 - 2天
 - **用户中心测试数据**

@@ -50,7 +50,7 @@ source D:/workspace/sourcecode/movie2025102/KneneBackend/scripts/database/setup_
 ```yaml
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/knene_movie?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/knene_db?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
     username: knene_app
     password: knene_app_2025
 ```
@@ -75,7 +75,7 @@ mvn spring-boot:run -Dspring-boot.run.profiles=database
 2. **验证迁移结果**
 ```sql
 -- 连接数据库验证表是否创建成功
-USE knene_movie;
+USE knene_db;
 SHOW TABLES;
 ```
 
@@ -158,7 +158,7 @@ net start mysql
 netstat -an | findstr 3306
 
 # 验证用户权限
-mysql -u knene_app -p knene_movie
+mysql -u knene_app -p knene_db
 ```
 
 #### 2. 迁移失败
@@ -178,7 +178,7 @@ VALUES (1, '1.1.1', 'Create user permission core tables', 'SQL', 'V1.1.1__Create
 **解决方案**：
 ```sql
 -- 重新授权
-GRANT ALL PRIVILEGES ON knene_movie.* TO 'knene_app'@'localhost';
+GRANT ALL PRIVILEGES ON knene_db.* TO 'knene_app'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -190,7 +190,7 @@ FLUSH PRIVILEGES;
 SHOW VARIABLES LIKE 'character_set_%';
 
 -- 修改连接URL
-jdbc:mysql://localhost:3306/knene_movie?useUnicode=true&characterEncoding=utf8mb4
+jdbc:mysql://localhost:3306/knene_db?useUnicode=true&characterEncoding=utf8mb4
 ```
 
 ---
@@ -204,7 +204,7 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/knene_movie?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/knene_db?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Shanghai
     username: knene_app
     password: knene_app_2025
   flyway:
@@ -233,7 +233,7 @@ ALTER USER 'knene_app'@'localhost' IDENTIFIED BY 'your_secure_password';
 ```sql
 -- 只允许特定IP访问
 CREATE USER 'knene_app'@'192.168.1.%' IDENTIFIED BY 'secure_password';
-GRANT SELECT, INSERT, UPDATE, DELETE ON knene_movie.* TO 'knene_app'@'192.168.1.%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON knene_db.* TO 'knene_app'@'192.168.1.%';
 ```
 
 ### 性能优化

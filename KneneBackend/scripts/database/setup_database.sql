@@ -14,7 +14,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ====================================================================
 -- 1. 创建数据库（如果不存在）
 -- ====================================================================
-CREATE DATABASE IF NOT EXISTS knene_movie
+CREATE DATABASE IF NOT EXISTS knene_db
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci
 COMMENT '影视资源下载网站数据库';
@@ -30,7 +30,7 @@ DEFAULT CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
 -- 为应用用户授权
-GRANT ALL PRIVILEGES ON knene_movie.* TO 'knene_app'@'localhost'
+GRANT ALL PRIVILEGES ON knene_db.* TO 'knene_app'@'localhost'
 WITH GRANT OPTION;
 
 -- 刷新权限
@@ -46,7 +46,7 @@ SELECT
     DEFAULT_CHARACTER_SET_NAME as '字符集',
     DEFAULT_COLLATION_NAME as '排序规则'
 FROM information_schema.SCHEMATA
-WHERE SCHEMA_NAME = 'knene_movie';
+WHERE SCHEMA_NAME = 'knene_db';
 
 -- 显示用户权限
 SHOW GRANTS FOR 'knene_app'@'localhost';
@@ -65,13 +65,13 @@ SELECT
 -- ====================================================================
 -- 使用数据库
 -- ====================================================================
-USE knene_movie;
+USE knene_db;
 
 -- ====================================================================
 -- 准备完成提示
 -- ====================================================================
 SELECT '数据库初始化完成！' as '状态',
-       'knene_movie' as '数据库名称',
+       'knene_db' as '数据库名称',
        'knene_app' as '应用用户',
        NOW() as '初始化时间';
 

@@ -26,6 +26,7 @@ COMMENT '影视资源下载网站数据库';
 SELECT CURRENT_USER() as current_user, USER() as login_user;
 
 -- 确保root用户有knene_db的权限
+-- 注意：生产环境应创建专用数据库用户，不建议使用root用户
 GRANT ALL PRIVILEGES ON knene_db.* TO 'root'@'localhost'
 WITH GRANT OPTION;
 
