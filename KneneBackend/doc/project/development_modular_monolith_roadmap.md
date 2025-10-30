@@ -240,10 +240,10 @@
   - 实际文件：[V2.1.5__Create_user_center_tables.sql](../../src/main/resources/db/migration/V2.1.5__Create_user_center_tables.sql), [V2.1.6__Insert_user_center_data.sql](../../src/main/resources/db/migration/V2.1.6__Insert_user_center_data.sql)
   - 创建12张表，插入完整用户中心数据
 
-**第三层：高级功能表（按需设计）** 🔄 **待实现**
-- **PT站点集成表**：pt_sites, torrent_files, crawl_tasks 📋 预留文件名：V3.3.1__Create_pt_site_tables.sql
-- **质量管理表**：quality_scores, duplicate_detection 📋 预留文件名：V3.13.1__Create_quality_management_tables.sql
-- **监控分析表**：search_logs, user_statistics 📋 预留文件名：V5.1.3__Create_statistics_tables.sql
+**第三层：高级功能表（按需设计）** ✅ **已完成**
+- **PT站点集成表**：pt_sites, torrent_files, crawl_tasks ✅ 已实现：[V3.1.1__Create_pt_site_tables.sql](../../src/main/resources/db/migration/V3.1.1__Create_pt_site_tables.sql), [V3.1.2__Insert_pt_site_data.sql](../../src/main/resources/db/migration/V3.1.2__Insert_pt_site_data.sql)
+- **质量管理表**：quality_scores, duplicate_detection ✅ 已实现：[V3.2.1__Create_quality_management_tables.sql](../../src/main/resources/db/migration/V3.2.1__Create_quality_management_tables.sql), [V3.2.2__Insert_quality_management_data.sql](../../src/main/resources/db/migration/V3.2.2__Insert_quality_management_data.sql)
+- **监控分析表**：search_logs, user_statistics ✅ 已实现：[V3.3.1__Create_statistics_tables.sql](../../src/main/resources/db/migration/V3.3.1__Create_statistics_tables.sql), [V3.3.2__Insert_statistics_data.sql](../../src/main/resources/db/migration/V3.3.2__Insert_statistics_data.sql)
 
 #### 1.1.3 核心基础表设计 - 4天 ✅ 已完成
 **严格按照数据库架构规范进行设计**
@@ -594,7 +594,7 @@
 - 🎯 埋点规范文档和培训：团队埋点技能培训
 
 ### 1.8 埋点系统培训（0.5周）**【新增】**
-- 🎯 埋点SDK使用培训：开发团队技能培训
+- 🎯 埋点SDK使用培训：相笑与春风技能培训
 - 🎯 埋点规范讲解：事件命名和数据格式规范
 - 🎯 前端埋点代码规范：代码集成最佳实践
 

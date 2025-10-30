@@ -121,7 +121,7 @@ spring:
  * 影视资源下载网站应用启动类
  * 负责Spring Boot应用的启动和基础配置
  *
- * @author mosctz
+ * @author 相笑与春风
  * @version 1.0
  */
 @SpringBootApplication
@@ -907,4 +907,4 @@ public class UserServiceImpl implements UserService {
 
 **文档维护**：技术栈指南随技术版本更新持续维护
 **最后更新**：2024-10-29
-**维护人员**：开发团队
+**维护人员**：相笑与春风

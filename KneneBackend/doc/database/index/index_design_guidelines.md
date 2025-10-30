@@ -609,4 +609,4 @@ CREATE INDEX idx_articles_user_status ON articles(user_id, status);
 
 **文档维护**：索引设计指导文档随数据库设计和业务发展持续更新
 **最后更新**：2025-10-30
-**维护人员**：开发团队
+**维护人员**：相笑与春风

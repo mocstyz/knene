@@ -58,7 +58,6 @@ graph TB
         I[PT站点集成表]
         J[质量管理表]
         K[监控分析表]
-        L[外部集成表]
     end
 
     A --> D
@@ -546,27 +545,223 @@ CREATE TABLE audit_logs (
 
 ---
 
-## 🚀 第三层：高级功能表（按需设计）
+## 🚀 第三层：高级功能表（已实现）
 
 ### 设计原则
 - **业务驱动**：根据具体业务需求设计
 - **性能优先**：考虑大数据量场景的性能优化
 - **可扩展性**：支持功能的持续扩展
+- **规范遵循**：严格遵循20个规范文档要求
 
-### 3.1 PT站点集成表
-- pt_sites - PT站点信息表
-- pt_accounts - PT站点账户表
-- torrent_files - 种子文件表
+### 3.1 PT站点集成表（V3.1.x - 已完成）
 
-### 3.2 质量管理表
-- quality_scores - 质量评分表
-- duplicate_detection - 重复检测表
-- integrity_checks - 完整性检查表
+#### pt_sites - PT站点信息表
+**文件位置**: `V3.1.1__Create_pt_site_tables.sql`
 
-### 3.3 监控分析表
-- user_statistics - 用户统计表
-- resource_statistics - 资源统计表
-- system_statistics - 系统统计表
+**核心功能**:
+- 存储各个PT站点的基本信息和配置参数
+- 支持站点健康度监控和爬虫配置管理
+- 实现完整的爬虫参数和代理配置
+
+**主要字段**:
+```sql
+CREATE TABLE `pt_sites` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `site_code` varchar(50) NOT NULL COMMENT '站点代码，如hdr,ttg等',
+  `site_name` varchar(200) NOT NULL COMMENT '站点名称',
+  `site_url` varchar(500) NOT NULL COMMENT '站点URL',
+  `site_type` tinyint NOT NULL DEFAULT 1 COMMENT '站点类型：1-公开PT，2-私有PT',
+  `crawl_enabled` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用爬虫',
+  `health_score` decimal(3,1) DEFAULT 100.0 COMMENT '站点健康度评分(0-100)',
+  `crawl_interval` int NOT NULL DEFAULT 3600 COMMENT '爬虫间隔(秒)',
+  `success_count` int DEFAULT 0 COMMENT '成功爬取次数',
+  `failure_count` int DEFAULT 0 COMMENT '失败爬取次数'
+);
+```
+
+**设计特点**:
+- 支持多种PT站点类型（公开、私有、半私有）
+- 完整的爬虫配置管理（User-Agent、Cookies、代理等）
+- 健康度监控和统计功能
+- 限流和重试机制配置
+
+#### torrent_files - 种子文件表
+**文件位置**: `V3.1.1__Create_pt_site_tables.sql`
+
+**核心功能**:
+- 存储从各个PT站点爬取的种子详细信息
+- 支持多维度质量评分和分类管理
+- 实现完整的元数据关联（IMDB、豆瓣、TMDB）
+
+**主要字段**:
+```sql
+CREATE TABLE `torrent_files` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `pt_site_id` bigint NOT NULL COMMENT 'PT站点ID',
+  `site_torrent_id` varchar(100) NOT NULL COMMENT '站点内种子ID',
+  `title` varchar(500) NOT NULL COMMENT '种子标题',
+  `file_size` bigint NOT NULL DEFAULT 0 COMMENT '文件大小(字节)',
+  `quality_level` tinyint DEFAULT 1 COMMENT '质量等级：1-普通，2-高清，3-超清，4-4K',
+  `seed_count` int DEFAULT 0 COMMENT '做种数',
+  `download_count` int DEFAULT 0 COMMENT '下载次数',
+  `health_score` decimal(5,2) DEFAULT 100.00 COMMENT '健康度评分'
+);
+```
+
+**设计特点**:
+- 支持多种视频格式和质量等级
+- 完整的元数据信息存储
+- 健康度评估和可用性分析
+- 支持JSON格式扩展信息存储
+
+#### crawl_tasks - 爬虫任务表
+**文件位置**: `V3.1.1__Create_pt_site_tables.sql`
+
+**核心功能**:
+- 管理爬虫任务的配置和执行状态
+- 支持多种调度策略和重试机制
+- 实现详细的执行统计和性能监控
+
+**主要字段**:
+```sql
+CREATE TABLE `crawl_tasks` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `task_name` varchar(200) NOT NULL COMMENT '任务名称',
+  `task_code` varchar(100) NOT NULL COMMENT '任务代码',
+  `task_type` tinyint NOT NULL COMMENT '任务类型：1-站点爬取，2-分类爬取',
+  `pt_site_id` bigint NOT NULL COMMENT 'PT站点ID',
+  `status` tinyint NOT NULL DEFAULT 1 COMMENT '任务状态：1-待执行，2-执行中，3-成功',
+  `success_rate` decimal(5,2) DEFAULT 0.00 COMMENT '成功率'
+);
+```
+
+**设计特点**:
+- 支持多种任务类型和调度策略
+- 完整的错误处理和重试机制
+- 详细的执行统计和性能分析
+- 支持任务依赖和并发控制
+
+### 3.2 质量管理表（V3.2.x - 已完成）
+
+#### quality_scores - 质量评分表
+**文件位置**: `V3.2.1__Create_quality_management_tables.sql`
+
+**核心功能**:
+- 实现多维度的资源质量评分体系
+- 支持自动化质量评估和人工评分
+- 提供质量趋势分析和统计功能
+
+#### duplicate_detection - 重复检测表
+**文件位置**: `V3.2.1__Create_quality_management_tables.sql`
+
+**核心功能**:
+- 基于相似度哈希的重复资源检测
+- 支持多级重复判定和去重策略
+- 实现重复资源的关联管理
+
+#### similarity_hash - 相似度哈希表
+**文件位置**: `V3.2.1__Create_quality_management_tables.sql`
+
+**核心功能**:
+- 存储资源的特征指纹和相似度哈希
+- 支持快速相似度查询和匹配
+- 实现增量哈希更新和版本管理
+
+### 3.3 监控分析表（V3.3.x - 已完成）
+
+#### search_logs - 搜索日志表
+**文件位置**: `V3.3.1__Create_statistics_tables.sql`
+
+**核心功能**:
+- 记录用户搜索行为的详细日志
+- 支持搜索性能分析和质量评估
+- 实现搜索意图识别和个性化推荐
+
+**主要字段**:
+```sql
+CREATE TABLE `search_logs` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `session_id` varchar(128) NOT NULL COMMENT '会话ID',
+  `user_id` bigint COMMENT '用户ID',
+  `search_keyword` varchar(200) NOT NULL COMMENT '搜索关键词',
+  `search_type` tinyint NOT NULL COMMENT '搜索类型：1-基础搜索，2-高级搜索',
+  `result_count` int DEFAULT 0 COMMENT '结果数量',
+  `search_time_seconds` decimal(8,3) COMMENT '搜索耗时(秒)',
+  `search_success` tinyint(1) DEFAULT 1 COMMENT '搜索是否成功'
+);
+```
+
+**设计特点**:
+- 支持多种搜索类型和场景分析
+- 详细的搜索性能指标记录
+- 用户行为分析和满意度评估
+- 支持语义搜索和AI功能分析
+
+#### user_statistics - 用户统计表
+**文件位置**: `V3.3.1__Create_statistics_tables.sql`
+
+**核心功能**:
+- 提供多维度的用户行为统计分析
+- 支持用户价值评估和流失预测
+- 实现用户画像和分群管理
+
+**主要字段**:
+```sql
+CREATE TABLE `user_statistics` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `statistics_date` date NOT NULL COMMENT '统计日期',
+  `activity_score` decimal(5,2) COMMENT '活跃度评分',
+  `login_count` int DEFAULT 0 COMMENT '登录次数',
+  `search_count` int DEFAULT 0 COMMENT '搜索次数',
+  `download_count` int DEFAULT 0 COMMENT '下载次数',
+  `user_engagement_score` decimal(5,2) COMMENT '用户参与度评分'
+);
+```
+
+**设计特点**:
+- 支持日、周、月多维度统计
+- 完整的用户行为指标体系
+- 用户价值评估和预测分析
+- 支持实时统计和历史趋势分析
+
+---
+
+## 📊 第三层测试数据（已完成）
+
+### PT站点集成测试数据（V3.1.2）
+**文件位置**: `V3.1.2__Insert_pt_site_data.sql`
+
+**测试数据内容**:
+- 5个PT站点信息（HDR、TTG、HDC、PT之家、BDC）
+- 5个种子文件详细信息（涵盖电影、剧集等不同类型）
+- 5个爬虫任务配置（包括不同类型的爬取任务）
+
+**数据特点**:
+- 涵盖不同类型的PT站点（公开、私有、半私有）
+- 包含不同质量的种子文件（1080p、2160p、4K等）
+- 模拟真实的爬虫任务配置和执行状态
+
+### 质量管理测试数据（V3.2.2）
+**文件位置**: `V3.2.2__Insert_quality_management_data.sql`
+
+**测试数据内容**:
+- 多维度质量评分样本数据
+- 重复检测和相似度哈希测试数据
+- 质量评估算法验证数据
+
+### 监控分析测试数据（V3.3.2）
+**文件位置**: `V3.3.2__Insert_statistics_data.sql`
+
+**测试数据内容**:
+- 8条搜索日志数据，涵盖不同用户类型和搜索场景
+- 8条用户统计数据，包含当日和昨日数据
+- 多维度用户行为分析样本
+
+**数据特点**:
+- 涵盖不同用户类型（VIP、普通用户、游客、管理员）
+- 模拟真实的搜索行为和用户活动模式
+- 包含详细的搜索性能指标和质量评估
 
 ---
 
@@ -600,11 +795,25 @@ erDiagram
 ### 迁移顺序
 严格按照依赖关系进行数据迁移：
 
+**第一层：核心基础表（已完成）**
 1. **V1.1.1__Create_core_tables.sql** - 创建第一层核心基础表
 2. **V1.1.2__Insert_core_data.sql** - 插入核心基础数据
-3. **V1.2.1__Create_auth_tables.sql** - 创建第二层认证权限表
-4. **V1.2.2__Insert_auth_data.sql** - 插入认证权限基础数据
-5. **V1.3.1__Create_business_tables.sql** - 创建第三层业务功能表
+
+**第二层：业务功能表（已完成）**
+3. **V2.1.1__Create_business_tables.sql** - 创建第二层业务功能表
+4. **V2.1.2__Insert_business_data.sql** - 插入业务功能基础数据
+5. **V2.1.3__Update_business_constraints.sql** - 更新业务表约束
+6. **V2.1.4__Create_indexes_business.sql** - 创建业务表索引
+7. **V2.1.5__Create_performance_optimization.sql** - 性能优化表
+8. **V2.1.6__Insert_performance_test_data.sql** - 性能测试数据
+
+**第三层：高级功能表（已完成）**
+9. **V3.1.1__Create_pt_site_tables.sql** - 创建PT站点集成表
+10. **V3.1.2__Insert_pt_site_data.sql** - 插入PT站点测试数据
+11. **V3.2.1__Create_quality_management_tables.sql** - 创建质量管理表
+12. **V3.2.2__Insert_quality_management_data.sql** - 插入质量管理测试数据
+13. **V3.3.1__Create_statistics_tables.sql** - 创建监控分析表
+14. **V3.3.2__Insert_statistics_data.sql** - 插入监控分析测试数据
 
 ### 版本命名规范
 遵循《Flyway版本管理指南》中的命名规范：
@@ -633,19 +842,68 @@ erDiagram
 
 ---
 
-## 📝 下一步工作
+## 📋 项目完成状态
 
-### 1.1.3 核心基础表设计（4天）
-基于本分层设计，下一步需要：
-1. **详细设计每个表的字段**：根据业务需求细化字段定义
-2. **创建索引策略**：为每个表设计合理的索引
-3. **编写迁移脚本**：创建V1.1.1版本的Flyway迁移脚本
-4. **准备测试数据**：为核心表准备50-100条测试数据
+### ✅ 已完成工作
 
-### 1.1.4 核心测试数据准备（1天）
-- 基础配置数据：系统配置项、字典数据、默认角色权限
-- 用户测试数据：管理员用户、普通用户数据
-- 审计测试数据：操作日志、审计日志样本数据
+**第一层：核心基础表（已完成）**
+- [x] 用户权限核心表设计（users, user_profiles, roles, permissions）
+- [x] 系统基础表设计（system_configs, dictionaries, file_storages）
+- [x] 审计日志表设计（operation_logs, audit_logs）
+- [x] 核心测试数据准备和插入
+
+**第二层：业务功能表（已完成）**
+- [x] 认证权限扩展表设计
+- [x] VIP业务表设计
+- [x] 用户中心表设计
+- [x] 资源管理表设计
+- [x] 性能优化表设计
+- [x] 业务测试数据准备
+
+**第三层：高级功能表（已完成）**
+- [x] PT站点集成表设计（pt_sites, torrent_files, crawl_tasks）
+- [x] 质量管理表设计（quality_scores, duplicate_detection, similarity_hash）
+- [x] 监控分析表设计（search_logs, user_statistics）
+- [x] 第三层测试数据准备
+- [x] 严格遵循20个规范文档要求
+- [x] 版本号规范化管理
+
+### 🎯 架构特点
+
+**设计规范遵循**
+- 严格遵循20个规范文档要求
+- 完整的命名规范和字段类型约束
+- 全面的索引设计和性能优化
+- 完善的数据完整性规则
+
+**三层架构实现**
+- 第一层：核心基础表，提供系统基础功能
+- 第二层：业务功能表，实现核心业务逻辑
+- 第三层：高级功能表，支持扩展功能和分析
+
+**技术特色**
+- 支持JSON格式扩展数据存储
+- 实现软删除和审计追踪机制
+- 包含完整的约束验证和错误处理
+- 支持国际化和多语言需求
+- 提供详细的测试数据和验证样本
+
+### 📈 项目价值
+
+**技术价值**
+- 建立了完整的数据库架构规范体系
+- 实现了可扩展的分层架构设计
+- 提供了丰富的功能模块和数据模型
+
+**业务价值**
+- 支持影视资源下载网站的核心业务
+- 提供PT站点集成和质量管理功能
+- 实现用户行为分析和监控统计
+
+**开发价值**
+- 为后续开发提供了清晰的数据库基础
+- 建立了标准化的开发流程和规范
+- 提供了完整的测试数据验证环境
 
 ---
 
