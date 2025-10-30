@@ -137,16 +137,7 @@
             <version>${mybatis-plus.version}</version>
         </dependency>
 
-        <!-- Spring AI Azure OpenAI启动器 - 集成Azure OpenAI服务（已注释） -->
-        <!-- 暂时注释掉Spring AI依赖，待后续需要时再启用 -->
-        <!--
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-azure-openai</artifactId>
-        </dependency>
-        -->
-
-        <!-- Hutool全能工具包 - 提供丰富的Java工具类库 -->
+       <!-- Hutool全能工具包 - 提供丰富的Java工具类库 -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
@@ -329,87 +320,79 @@
         </dependency>
 
         <!-- Logback日志框架 - 日志记录和输出框架 -->
+        <!-- 移除手动版本指定，Spring Boot会管理兼容版本 -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.19</version>
         </dependency>
 
         <!-- Jackson数据绑定 - JSON序列化和反序列化处理 -->
+        <!-- 移除手动版本指定，Spring Boot会管理兼容版本 -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.16.1</version>
         </dependency>
 
         <!-- Spring Security加密 - 密码加密和哈希工具 -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
-            <version>6.4.4</version>
         </dependency>
 
         <!-- Tomcat嵌入式核心 - 内嵌Tomcat Web服务器核心组件 -->
+        <!-- 移除手动版本指定，让Spring Boot BOM管理兼容版本 -->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>11.0.10</version>
         </dependency>
 
         <!-- SnakeYAML - YAML配置文件解析和处理库 -->
+        <!-- 移除手动版本指定，Spring Boot会管理兼容版本 -->
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>2.3</version>
         </dependency>
 
         <!-- Spring Beans - Spring框架Bean定义和管理组件 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>6.2.10</version>
         </dependency>
 
         <!-- Spring Context - Spring框架上下文和IoC容器 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>6.1.14</version>
         </dependency>
 
         <!-- Spring Web - Spring框架Web应用基础组件 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>6.1.14</version>
         </dependency>
 
         <!-- Spring WebMVC - Spring框架Web MVC控制器和视图组件 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>6.2.10</version>
         </dependency>
 
         <!-- Spring表达式语言 - Spring表达式解析和求值引擎 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
-            <version>6.1.14</version>
         </dependency>
 
         <!-- Spring核心 - Spring框架核心功能和IoC容器 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>6.1.14</version>
         </dependency>
 
         <!-- Hibernate验证器 - Bean验证框架实现 -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>8.0.1.Final</version>
         </dependency>
 
         <!-- Jackson ClassMate - Jackson类型解析和泛型处理库 -->
@@ -426,32 +409,11 @@
             <version>33.3.1-jre</version>
         </dependency>
 
-        <!-- Undertow Web服务器 - 高性能NIO Web服务器 -->
-        <dependency>
-            <groupId>io.undertow</groupId>
-            <artifactId>undertow-core</artifactId>
-            <version>2.3.19.Final</version>
-        </dependency>
-
         <!-- Netty网络框架 - 异步事件驱动网络应用框架 -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.1.119.Final</version>
-        </dependency>
-
-        <!-- Jetty Web服务器 - 轻量级Java Web服务器 -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>12.0.12</version>
-        </dependency>
-
-        <!-- Jetty Servlet - Jetty Servlet容器支持 -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>11.0.24</version>
         </dependency>
 
         <!-- Apache Commons配置 - 配置文件读取和处理库 -->
@@ -638,26 +600,7 @@
                 <version>4.1.119.Final</version>
             </dependency>
 
-            <!-- Logback核心 - 强制覆盖传递性依赖中的logback版本 -->
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>1.5.19</version>
-            </dependency>
-
-            <!-- Logback经典实现 - 强制覆盖传递性依赖中的logback版本 -->
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>1.5.19</version>
-            </dependency>
-
-            <!-- Janino编译器 - 强制覆盖Janino依赖版本 -->
-            <dependency>
-                <groupId>org.codehaus.janino</groupId>
-                <artifactId>janino</artifactId>
-                <version>3.1.12</version>
-            </dependency>
+            <!-- Logback和Janino等组件让Spring Boot BOM自动管理版本，避免版本冲突 -->
         </dependencies>
     </dependencyManagement>
 
