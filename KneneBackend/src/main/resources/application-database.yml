@@ -1,0 +1,158 @@
+# ====================================================================
+# 数据库配置文件 - 启用Flyway数据库迁移（使用Druid连接池）
+# ====================================================================
+# 配置文件：application-database.yml
+# 用途：数据库连接和Flyway迁移配置
+# 连接池：Druid（阿里巴巴开源）
+# ====================================================================
+
+spring:
+  # 数据源配置 - 使用Druid连接池
+  datasource:
+    # 数据源类型
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    # MySQL数据库驱动
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    # 数据库连接URL - knene_db数据库
+    url: jdbc:mysql://localhost:3306/knene_db?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+
+    # 数据库用户名
+    username: root
+
+    # 数据库密码
+    password: 592714407
+
+    # Druid连接池配置
+    druid:
+      # 初始连接数
+      initial-size: 5
+
+      # 最小空闲连接数
+      min-idle: 5
+
+      # 最大活跃连接数
+      max-active: 20
+
+      # 获取连接等待超时时间（毫秒）
+      max-wait: 60000
+
+      # 间隔多久进行一次检测，检测需要关闭的空闲连接（毫秒）
+      time-between-eviction-runs-millis: 60000
+
+      # 一个连接在池中最小生存的时间（毫秒）
+      min-evictable-idle-time-millis: 300000
+
+      # 用来检测连接是否有效的sql
+      validation-query: SELECT 1
+
+      # 申请连接时执行validationQuery检测连接是否有效（不影响性能）
+      test-while-idle: true
+
+      # 归还连接时执行validationQuery检测连接是否有效（会影响性能）
+      test-on-borrow: false
+
+      # 申请连接时执行validationQuery检测连接是否有效（会影响性能）
+      test-on-return: false
+
+      # 是否缓存preparedStatement，也就是PSCache
+      pool-prepared-statements: true
+
+      # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true
+      max-pool-prepared-statement-per-connection-size: 20
+
+      # 配置监控统计拦截的filters
+      filters: stat,wall,slf4j
+
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+  # Flyway数据库迁移配置
+  flyway:
+    # 启用Flyway
+    enabled: true
+
+    # Flyway迁移脚本位置
+    locations: classpath:db/migration
+
+    # 是否在启动时执行迁移
+    baseline-on-migrate: true
+
+    # 基线版本
+    baseline-version: 1.0.0
+
+    # 是否验证迁移脚本
+    validate-on-migrate: true
+
+    # 是否允许迁移中的事务
+    transactional: true
+
+    # 迁移脚本编码
+    encoding: UTF-8
+
+    # 迁移脚本表名
+    table: flyway_schema_history
+
+    # 迁移脚本前缀
+    sql-migration-prefix: V
+
+    # 迁移脚本分隔符
+    sql-migration-separator: __
+
+    # 迁移脚本后缀
+    sql-migration-suffixes: .sql
+
+    # 迁移超时时间（秒）
+    migrate-at-start-timeout: 300
+
+    # 清理配置
+    clean-disabled: true
+
+# ====================================================================
+# 日志配置
+# ====================================================================
+logging:
+  level:
+    # Flyway日志级别
+    org.flywaydb: INFO
+
+    # HikariCP日志级别
+    com.zaxxer.hikari: INFO
+
+    # SQL日志级别
+    org.springframework.jdbc: DEBUG
+
+    # 应用日志级别
+    com.knene: DEBUG
+
+# ====================================================================
+# 配置说明
+# ====================================================================
+# 1. 数据库配置：
+#    - 使用MySQL 8.0数据库
+#    - 连接池使用Druid（阿里巴巴开源）
+#    - 默认连接localhost:3306的knene_db数据库
+#    - 用户名/密码：root/592714407（开发环境）
+#
+# 2. Flyway配置：
+#    - 自动执行迁移脚本
+#    - 迁移脚本位于src/main/resources/db/migration目录
+#    - 支持事务性迁移
+#    - 严格验证迁移脚本
+#
+# 3. 使用方法：
+#    - 启动应用时指定--spring.profiles.active=database
+#    - 或者将配置复制到application.yml中
+#    - 主配置文件application.yml已包含相同的数据库配置
+#
+# 4. 数据库准备：
+#    - 确保MySQL服务已启动
+#    - 执行数据库初始化脚本：scripts/database/init_knene_db.sql
+#    - 确保root用户有knene_db数据库的权限
+#
+# 5. Druid监控：
+#    - 访问：http://localhost:8080/api/druid/
+#    - 用户名：admin
+#    - 密码：admin
+# ====================================================================

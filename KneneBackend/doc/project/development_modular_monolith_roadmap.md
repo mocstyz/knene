@@ -218,11 +218,12 @@
 
 **第一层：核心基础表（第一阶段设计）**
 - **用户权限核心表**：users, user_profiles, roles, permissions
+- **用户权限关联表**：user_roles, role_permissions
 - **系统基础表**：system_configs, dictionaries, file_storages
 - **审计日志表**：operation_logs, audit_logs
 
 **第二层：业务功能表（按阶段设计）**
-- **第二阶段**：认证权限表（user_roles, refresh_tokens, login_history）
+- **第二阶段**：认证扩展表（refresh_tokens, login_history, email_verifications）
 - **第三阶段**：VIP业务表（vip_memberships, orders, payment_records）
 - **第四阶段**：用户中心表（favorites, download_history, user_comments）
 
@@ -239,6 +240,9 @@
   - user_profiles：用户扩展信息表
   - roles：角色定义表
   - permissions：权限定义表
+- **用户权限关联表设计**【新增】
+  - user_roles：用户角色关联表
+  - role_permissions：角色权限关联表
 - **系统配置表设计**
   - system_configs：系统配置表
   - dictionaries：数据字典表
@@ -252,10 +256,17 @@
   - 系统配置项初始化（50-100条）
   - 数据字典数据初始化（100-200条）
   - 默认角色和权限数据（20-50条）
+- **用户权限关联数据**【新增】
+  - 管理员角色权限关联数据
+  - 普通用户角色权限关联数据
+  - 角色权限矩阵配置数据
 - **用户测试数据**
   - 管理员用户数据（5-10条）
   - 普通用户数据（50-100条）
   - 用户扩展信息数据（50-100条）
+- **审计日志测试数据**【新增】
+  - 操作日志样本数据（50-100条）
+  - 审计日志样本数据（20-50条）
 
 **阶段交付标准：**
 - ✅ 核心基础表结构设计和创建完成
@@ -495,16 +506,16 @@
 ### 2.1 认证权限数据库设计与实施（1周）
 **依赖关系**：依赖核心数据库架构设计
 
-#### 2.1.1 认证权限相关表设计 - 2天
-- **认证系统表设计**
-  - user_roles：用户角色关联表
+#### 2.1.1 认证扩展相关表设计 - 2天
+- **令牌管理表设计**【优化】
   - refresh_tokens：刷新令牌表
-  - login_history：登录历史表
   - email_verifications：邮箱验证表
   - password_resets：密码重置表
-- **权限管理表设计**
-  - user_permissions：用户权限表
-  - role_permissions：角色权限关联表
+- **登录历史表设计**【优化】
+  - login_history：登录历史表
+  - login_attempts：登录尝试记录表
+- **权限管理表设计**【优化】
+  - user_permissions：用户权限表（直接权限分配）
   - permission_groups：权限分组表
 - **安全相关表设计**
   - failed_login_attempts：登录失败记录表
