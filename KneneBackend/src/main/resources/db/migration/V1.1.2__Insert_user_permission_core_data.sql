@@ -124,12 +124,57 @@ INSERT INTO permissions (id, name, display_name, description, resource, action, 
 
 -- 注意：这里的密码是 'admin123' 的BCrypt哈希值
 -- 在实际部署时应该使用强密码
-INSERT INTO users (id, username, email, password_hash, status, email_verified, created_at, updated_at) VALUES
+INSERT INTO users (id, username, email, password_hash, status, email_verified, created_by, updated_by, version, created_at, updated_at) VALUES
 (1, 'admin', 'admin@knene.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 'active', TRUE, 1, 1, 1, NOW(), NOW());
 
 -- 为管理员创建用户档案
 INSERT INTO user_profiles (id, user_id, nickname, gender, bio, preferences, timezone, language, created_by, updated_by, version, created_at, updated_at) VALUES
 (1, 1, '系统管理员', 'unknown', '系统默认管理员账户', '{"theme": "light", "notifications": {"email": true, "push": true}}', 'Asia/Shanghai', 'zh-CN', 1, 1, 1, NOW(), NOW());
+
+-- ====================================================================
+-- 4. 插入角色权限关联数据
+-- ====================================================================
+
+-- 超级管理员拥有所有权限
+INSERT INTO role_permissions (role_id, permission_id, granted_by, status, created_by, updated_by, version, created_at, updated_at)
+SELECT 1, id, 1, 'ACTIVE', 1, 1, 1, NOW(), NOW() FROM permissions;
+
+-- 管理员拥有大部分权限（除了系统配置和系统备份恢复）
+INSERT INTO role_permissions (role_id, permission_id, granted_by, status, created_by, updated_by, version, created_at, updated_at)
+SELECT 2, id, 1, 'ACTIVE', 1, 1, 1, NOW(), NOW() FROM permissions
+WHERE name NOT IN ('system.config', 'system.backup', 'system.restore');
+
+-- VIP用户拥有内容相关权限和基础权限
+INSERT INTO role_permissions (role_id, permission_id, granted_by, status, created_by, updated_by, version, created_at, updated_at)
+SELECT 3, id, 1, 'ACTIVE', 1, 1, 1, NOW(), NOW() FROM permissions
+WHERE module IN ('content', 'resource', 'favorite', 'comment', 'profile');
+
+-- 普通用户拥有基础权限
+INSERT INTO role_permissions (role_id, permission_id, granted_by, status, created_by, updated_by, version, created_at, updated_at)
+SELECT 4, id, 1, 'ACTIVE', 1, 1, 1, NOW(), NOW() FROM permissions
+WHERE module IN ('content', 'favorite', 'comment', 'profile') AND action IN ('view', 'create', 'update', 'delete');
+
+-- 游客仅有浏览权限
+INSERT INTO role_permissions (role_id, permission_id, granted_by, status, created_by, updated_by, version, created_at, updated_at)
+SELECT 5, id, 1, 'ACTIVE', 1, 1, 1, NOW(), NOW() FROM permissions
+WHERE module IN ('content') AND action IN ('view');
+
+-- ====================================================================
+-- 5. 插入用户角色关联数据
+-- ====================================================================
+
+-- 为管理员分配超级管理员角色
+INSERT INTO user_roles (user_id, role_id, granted_by, status, remarks, created_by, updated_by, version, created_at, updated_at) VALUES
+(1, 1, 1, 'ACTIVE', '系统管理员默认拥有超级管理员角色', 1, 1, 1, NOW(), NOW());
+
+-- ====================================================================
+-- 6. 插入登录历史示例数据
+-- ====================================================================
+
+-- 管理员登录历史示例
+INSERT INTO user_login_history (user_id, username, login_type, login_status, ip_address, user_agent, browser, os, location, login_at, logout_at, session_duration, session_id, is_current_session, risk_score, is_suspicious, security_flags, created_at) VALUES
+(1, 'admin', 'PASSWORD', 'SUCCESS', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'Chrome', 'Windows', '本地', DATE_SUB(NOW(), INTERVAL 1 DAY), DATE_SUB(NOW(), INTERVAL 1 DAY), 3600, 'sess_initial_login', FALSE, 0, FALSE, '{"location": "familiar", "device": "familiar", "first_login": true}', DATE_SUB(NOW(), INTERVAL 1 DAY)),
+(1, 'admin', 'PASSWORD', 'SUCCESS', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'Chrome', 'Windows', '本地', DATE_SUB(NOW(), INTERVAL 1 HOUR), NULL, NULL, 'sess_current', TRUE, 0, FALSE, '{"location": "familiar", "device": "familiar"}', DATE_SUB(NOW(), INTERVAL 1 HOUR));
 
 -- ====================================================================
 -- 数据插入完成日志
@@ -138,4 +183,9 @@ INSERT INTO user_profiles (id, user_id, nickname, gender, bio, preferences, time
 -- 1. 系统角色数据：5个默认角色（超级管理员、管理员、VIP用户、普通用户、游客）
 -- 2. 系统权限数据：51个系统权限，涵盖用户管理、角色管理、权限管理、系统管理、内容管理、资源管理、VIP管理、统计分析、基础用户功能等
 -- 3. 管理员账户：1个默认管理员账户（用户名：admin，密码：admin123）
+-- 4. 角色权限关联数据：为所有角色分配了对应权限
+-- 5. 用户角色关联数据：为管理员分配了超级管理员角色
+-- 6. 登录历史数据：管理员登录历史示例数据
+--
+-- 所有数据均包含审计字段（created_by, updated_by, version）
 -- ====================================================================
