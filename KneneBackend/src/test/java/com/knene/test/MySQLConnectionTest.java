@@ -1,3 +1,11 @@
+/**
+ * MySQLConnectionTest类
+ * MySQLConnectionTest相关实现
+ *
+ * @author 相笑与春风
+ * @version 1.0
+ */
+
 package com.knene.test;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -8,16 +16,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
-/**
- * MySQL连接测试类（不指定数据库）
- * @author mosctz
- * @version 1.0
- */
+// /**
+// MySQL连接测试类（不指定数据库）
 public class MySQLConnectionTest {
 
-    /**
-     * 测试MySQL服务连接是否成功（不指定数据库）
-     */
+// 测试MySQL服务连接是否成功（不指定数据库）
     @Test
     public void testMySQLServiceConnection() {
         // MySQL连接参数（不指定数据库）

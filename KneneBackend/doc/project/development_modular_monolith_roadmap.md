@@ -295,67 +295,159 @@
 
 **理由**：基础架构的实现需要依赖领域模型的接口定义
 
-#### 1.2.1 用户领域模型（优先级：最高）- 3天
-- 用户实体模型
-  - User领域实体
-  - 值对象定义（如Email、Password等）
-  - 实体间关系定义
-- 用户仓储接口
-  - UserRepository接口定义
-  - 查询方法签名设计
-  - 更新方法签名设计
-- 用户领域服务接口
-  - UserService接口定义
-  - 服务方法签名设计
-  - 领域事件定义
+**架构原则**：采用企业级DDD最佳实践，专业服务设计模式，事件驱动架构
+
+#### 1.2.1 用户领域模型（优先级：最高）- 3天 ✅ **已完成**
+**架构标准**：基于已实现的企业级标准，采用专业服务分离设计
+
+- **用户实体模型** ✅
+  - User领域聚合根（基于users表）
+  - 值对象定义：UserProfile、UserRole、Permission、Email、Password等
+  - 实体间关系定义：用户-角色-权限RBAC模型
+  - 状态枚举：UserStatus、UserRoleStatus、Gender等
+
+- **认证安全实体模型** ✅
+  - RefreshToken实体（JWT令牌刷新，基于refresh_tokens表）
+  - EmailVerification实体（邮箱验证，基于email_verifications表）
+  - PasswordReset实体（密码重置，基于password_resets表）
+  - UserLockout实体（账户锁定，基于user_lockouts表）
+
+- **用户专业服务接口** ✅ **企业级标准**
+  - UserRegistrationService：用户注册服务（专注注册业务逻辑）
+  - UserAuthenticationService：用户认证服务（专注登录认证逻辑）
+  - UserSecurityService：用户安全服务（专注安全管理逻辑）
+  - UserProfileService：用户档案服务（专注档案管理逻辑）
+
+- **用户仓储接口** ✅ **企业级标准**
+  - UserRepository接口定义（50+个方法，完整CRUD+业务操作）
+  - 查询方法签名设计（复杂查询、分页、条件筛选）
+  - 更新方法签名设计（批量操作、事务支持、乐观锁）
+  - 认证相关仓储：RefreshTokenRepository、EmailVerificationRepository等
+
+- **事件发布机制** ✅ **企业级标准**
+  - UserEventPublisher：事件发布器（集中化事件处理）
+  - 关键业务事件定义：UserRegistered、UserLoggedIn、PasswordChanged等
+  - 事件处理流程：异步事件发布、事件监听、事件持久化
+
+- **应用服务层** ✅ **企业级标准**
+  - UserApplicationService：协调领域服务的应用层
+  - 完整的命令、查询和结果对象设计
+  - 事务管理、事件发布、流程编排
+
+- **接口层设计** ✅ **企业级标准**
+  - UserAuthController：用户认证REST接口
+  - UserProfileController：用户档案管理接口
+  - UserManagementController：管理员用户管理接口
+  - 完整的请求/响应DTO设计
+
+- **单元测试和集成测试** ✅ **企业级标准**
+  - 实体单元测试：User实体测试、UserProfile值对象测试
+  - 领域服务测试：用户注册服务测试、认证服务测试
+  - 控制器集成测试：HTTP接口测试
 
 #### 1.2.2 资源领域模型（优先级：最高）- 3天
-- 资源实体定义
-  - Resource核心实体
-  - 资源类型与状态定义
-  - 资源元数据模型
-- 资源仓储接口
-  - ResourceRepository接口
-  - 查询方法签名设计
-  - 更新方法签名设计
-- 资源领域服务
-  - ResourceService接口
-  - 资源操作方法定义
-  - 资源领域事件定义
+**架构标准**：遵循用户领域模型的专业服务设计模式
+
+- **资源实体模型**
+  - Resource领域聚合根（基于resources表）
+  - 值对象定义：ResourceType、ResourceStatus、ResourceMetadata、Category、Tag等
+  - 实体间关系定义：资源-分类-标签关联关系
+  - 状态枚举：ResourceStatus、ResourceType、CategoryType等
+
+- **资源专业服务接口** **企业级标准**
+  - ResourceQueryService：资源查询服务（专注搜索和筛选逻辑）
+  - ResourceManagementService：资源管理服务（专注CRUD操作逻辑）
+  - ResourceCrawlService：资源爬取服务（专注爬虫业务逻辑）
+  - ResourceValidationService：资源验证服务（专注质量检查逻辑）
+
+- **资源仓储接口**
+  - ResourceRepository接口定义（复杂查询、全文搜索、聚合统计）
+  - CategoryRepository接口定义（分类管理、层级关系）
+  - TagRepository接口定义（标签管理、关联查询）
+  - 查询方法签名设计（条件查询、排序、分页优化）
+  - 更新方法签名设计（批量更新、状态流转、版本控制）
+
+- **资源事件机制** **企业级标准**
+  - ResourceEventPublisher：资源事件发布器
+  - 关键业务事件定义：ResourceCreated、ResourceUpdated、ResourceDeleted等
+  - 事件处理流程：索引更新、缓存失效、通知发送
 
 #### 1.2.3 内容领域模型（优先级：高）- 3天
-- 文章实体定义
-  - Article领域实体
-  - 文章状态与类型
-  - 文章元数据模型
-- 知识库实体定义
-  - WikiEntry领域实体
-  - 知识点类型定义
-  - 版本历史模型
-- 内容仓储接口
-  - ArticleRepository接口
-  - WikiRepository接口
-  - 查询方法签名设计
+**架构标准**：遵循用户领域模型的专业服务设计模式
+
+- **内容实体模型**
+  - Article领域聚合根（基于articles表）
+  - WikiEntry领域聚合根（基于wiki_entries表）
+  - 值对象定义：ArticleType、ArticleStatus、WikiCategory、WikiVersion等
+  - 实体间关系定义：文章-分类-标签关联、知识库版本关系
+  - 状态枚举：ArticleStatus、WikiStatus、ContentType等
+
+- **内容专业服务接口** **企业级标准**
+  - ArticleService：文章管理服务（专注文章业务逻辑）
+  - WikiService：知识库服务（专注知识管理逻辑）
+  - ContentModerationService：内容审核服务（专注审核流程逻辑）
+  - ContentPublishingService：内容发布服务（专注发布流程逻辑）
+
+- **内容仓储接口**
+  - ArticleRepository接口定义（内容查询、版本管理）
+  - WikiRepository接口定义（知识查询、版本历史）
+  - CategoryRepository接口定义（分类管理、层级结构）
+  - 查询方法签名设计（内容搜索、关联查询、版本对比）
+  - 更新方法签名设计（版本控制、状态流转、审核流程）
+
+- **内容事件机制** **企业级标准**
+  - ContentEventPublisher：内容事件发布器
+  - 关键业务事件定义：ArticlePublished、WikiUpdated、ContentApproved等
+  - 事件处理流程：搜索索引更新、缓存更新、通知推送
 
 #### 1.2.4 VIP领域模型（优先级：高）- 3天
-- 会员实体定义
-  - VipMembership实体
-  - 会员等级与权益
-  - 会员状态定义
-- 订单实体定义
-  - Order实体模型
-  - 订单状态流转
-  - 支付记录关联
-- 会员仓储接口
-  - VipRepository接口
-  - OrderRepository接口
-  - 查询方法签名设计
+**架构标准**：遵循用户领域模型的专业服务设计模式
+
+- **VIP实体模型**
+  - VipMembership领域聚合根（基于vip_memberships表）
+  - Order领域聚合根（基于orders表）
+  - PaymentRecord值对象（基于payment_records表）
+  - 值对象定义：VipPlan、VipBenefit、OrderStatus、PaymentMethod等
+  - 实体间关系定义：会员-订单-支付关联关系
+  - 状态枚举：VipStatus、OrderStatus、PaymentStatus等
+
+- **VIP专业服务接口** **企业级标准**
+  - VipMembershipService：会员管理服务（专注会员业务逻辑）
+  - OrderService：订单管理服务（专注订单流程逻辑）
+  - PaymentService：支付处理服务（专注支付业务逻辑）
+  - VipBenefitService：会员权益服务（专注权益管理逻辑）
+
+- **VIP仓储接口**
+  - VipMembershipRepository接口定义（会员查询、状态管理）
+  - OrderRepository接口定义（订单查询、流程管理）
+  - PaymentRepository接口定义（支付记录、对账管理）
+  - 查询方法签名设计（会员统计、订单分析、支付对账）
+  - 更新方法签名设计（会员升级、订单流转、支付处理）
+
+- **VIP事件机制** **企业级标准**
+  - VipEventPublisher：VIP事件发布器
+  - 关键业务事件定义：VipActivated、OrderCompleted、PaymentSucceeded等
+  - 事件处理流程：权限更新、通知发送、统计更新
 
 #### 1.2.5 领域模型集成验证 - 2天
-- 领域模型间依赖关系验证
-- 接口设计一致性检查
-- 领域事件流程验证
-- 领域模型文档完善
+**验证标准**：基于已实现的企业级架构验证
+
+- **领域模型间依赖关系验证**
+  - 用户-资源关联关系验证
+  - 用户-VIP权限关联验证
+  - 跨领域数据一致性检查
+- **接口设计一致性检查**
+  - 专业服务接口规范统一性检查
+  - 仓储接口设计模式一致性验证
+  - 事件发布机制标准化验证
+- **领域事件流程验证**
+  - 跨领域事件流转测试
+  - 事件处理完整性验证
+  - 异步事件可靠性测试
+- **领域模型文档完善**
+  - 架构设计文档更新
+  - API接口文档生成
+  - 开发规范文档编写
 
 ### 1.3 基础架构层（2周）
 **依赖关系**：依赖领域模型设计
@@ -569,64 +661,103 @@
   - 权限继承验证
   - 测试数据完整性检查
 
-### 2.2 用户认证与权限系统实现（2周）
-**依赖关系**：依赖认证权限数据库设计、用户领域模型、安全基础设施、缓存基础设施（已在第一阶段完成）
+### 2.2 用户认证与权限系统实现（2周） ✅ **企业级标准**
+**依赖关系**：依赖认证权限数据库设计、用户领域模型（已实现企业级标准）、安全基础设施、缓存基础设施（已在第一阶段完成）
 
-#### 2.2.1 后端：认证核心模块（优先级：最高）- 4天
-- 用户注册功能
-  - 注册DTO与验证
-  - 用户唯一性检查
-  - 密码加密处理
-  - 用户初始化逻辑
-  - 注册事件发布
-- 用户登录功能
-  - 登录DTO与验证
-  - 用户认证逻辑
-  - JWT令牌生成
-  - 登录历史记录
-  - 登录尝试限制
-- 账户验证功能
-  - 邮箱验证流程
-  - 验证码生成与发送
-  - 验证激活处理
-- 密码管理功能
-  - 密码重置请求
-  - 重置链接生成与发送
-  - 新密码设置
-  - 密码修改逻辑
-  - 密码历史管理
+**架构标准**：采用已实现的企业级专业服务分离模式和事件驱动架构
 
-#### 2.2.2 后端：权限管理模块（优先级：高）- 4天
-- 角色管理功能
-  - 角色定义与关系
-  - 角色CRUD操作
-  - 用户-角色关联
-- 权限模型实现
-  - 权限定义与分类
-  - 权限-角色映射
-  - 权限检查服务
-- 动态权限控制
-  - 权限变更API
-  - 权限缓存更新
-  - 按功能权限分配
-- 权限校验切面
-  - 注解式权限控制
-  - 接口权限验证
-  - 数据权限过滤
+#### 2.2.1 后端：用户认证专业服务实现（优先级：最高）- 4天 ✅ **企业级标准**
+**说明**：基于已实现的专业服务设计模式，实施用户认证相关业务逻辑
 
-#### 2.2.3 后端：用户管理模块（优先级：高）- 3天
-- 用户信息管理
-  - 用户资料CRUD
-  - 头像URL管理
-  - 个人设置存储
-- 用户状态管理
-  - 用户激活/停用
-  - 账户锁定/解锁
-  - 用户黑名单管理
-- 用户查询功能
-  - 条件查询实现
-  - 分页查询优化
-  - 高级筛选功能
+- **UserRegistrationService实现** ✅ **专业服务模式**
+  - 注册业务逻辑封装（基于UserRegistrationService接口）
+  - 用户唯一性检查（基于UserRepository查询接口）
+  - 密码加密处理（集成PasswordEncoder）
+  - 用户初始化逻辑（UserProfile、UserRole值对象创建）
+  - 用户注册事件发布（UserEventPublisher.publishUserRegistered）
+
+- **UserAuthenticationService实现** ✅ **专业服务模式**
+  - 登录认证业务逻辑（基于UserAuthenticationService接口）
+  - JWT令牌生成和管理（集成JwtTokenProvider）
+  - 登录历史记录（LoginHistory值对象创建）
+  - 登录尝试限制（基于FailedLoginAttempts管理）
+  - 用户登录事件发布（UserEventPublisher.publishUserLoggedIn）
+
+- **UserSecurityService实现** ✅ **专业服务模式**
+  - 账户安全业务逻辑（基于UserSecurityService接口）
+  - 邮箱验证流程管理（EmailVerification值对象处理）
+  - 验证码生成与发送（集成EmailService）
+  - 验证激活处理（用户状态更新逻辑）
+  - 用户安全事件发布（UserEventPublisher相关安全事件）
+
+- **UserProfileService实现** ✅ **专业服务模式**
+  - 密码管理业务逻辑（基于UserProfileService接口）
+  - 密码重置请求处理（PasswordReset值对象管理）
+  - 重置链接生成与发送（安全链接生成）
+  - 新密码设置逻辑（密码加密存储）
+  - 密码历史管理（基于PasswordHistory表）
+
+#### 2.2.2 后端：权限管理专业服务实现（优先级：高）- 4天 ✅ **企业级标准**
+**说明**：基于已实现的RBAC权限模型，实施权限管理专业服务
+
+- **UserAuthorizationService实现** ✅ **专业服务模式**
+  - 权限检查业务逻辑（基于UserAuthorizationService接口）
+  - RBAC权限模型实现（5个角色+51项权限）
+  - 权限-角色映射管理（基于UserRole、RolePermission表）
+  - 动态权限验证（运行时权限检查）
+  - 权限缓存管理（Redis权限缓存策略）
+
+- **RoleManagementService实现** ✅ **专业服务模式**
+  - 角色管理业务逻辑（角色CRUD操作）
+  - 角色层次关系管理（支持角色继承）
+  - 用户-角色关联管理（UserRole值对象处理）
+  - 角色权限分配管理（RolePermission值对象处理）
+  - 权限变更事件发布（权限相关领域事件）
+
+- **PermissionCacheService实现** ✅ **专业服务模式**
+  - 权限缓存策略实施（Redis权限缓存）
+  - 权限缓存更新机制（事件驱动的缓存更新）
+  - 按功能权限分配（细粒度权限控制）
+  - 权限性能优化（权限检查性能优化）
+  - 权限统计数据生成（权限使用统计）
+
+- **PermissionValidationService实现** ✅ **专业服务模式**
+  - 注解式权限控制（@PreAuthorize等注解支持）
+  - 接口权限验证（AOP权限拦截器）
+  - 数据权限过滤（基于用户权限的数据过滤）
+  - 权限校验切面（统一的权限验证机制）
+  - 权限异常处理（权限不足异常统一处理）
+
+#### 2.2.3 后端：用户管理专业服务实现（优先级：高）- 3天 ✅ **企业级标准**
+**说明**：基于已实现的完整仓储接口，实施用户管理专业服务
+
+- **UserQueryService实现** ✅ **专业服务模式**
+  - 用户查询业务逻辑（基于UserQueryService接口）
+  - 复杂条件查询实现（UserRepository复杂查询接口）
+  - 分页查询优化（基于Pageable的分页查询）
+  - 高级筛选功能（多条件组合查询）
+  - 用户搜索功能（基于用户信息的全文搜索）
+
+- **UserManagementService实现** ✅ **专业服务模式**
+  - 用户信息管理业务逻辑（基于UserManagementService接口）
+  - 用户资料CRUD操作（基于UserRepository CRUD接口）
+  - 头像URL管理（文件存储集成）
+  - 个人设置存储（基于UserSettings值对象）
+  - 用户信息缓存策略（Redis用户信息缓存）
+
+- **UserStatusService实现** ✅ **专业服务模式**
+  - 用户状态管理业务逻辑（基于UserStatusService接口）
+  - 用户激活/停用处理（状态流转管理）
+  - 账户锁定/解锁管理（基于UserLockout表）
+  - 用户黑名单管理（基于SecurityPolicy表）
+  - 用户状态事件发布（用户状态变更事件）
+
+- **UserStatisticsService实现** ✅ **专业服务模式**
+  - 用户统计业务逻辑（基于UserStatisticsService接口）
+  - 用户活跃度统计（基于LoginHistory表）
+  - 用户行为分析（基于用户操作日志）
+  - 用户报告生成（用户数据报表）
+  - 统计数据缓存（Redis统计数据缓存）
 
 #### 2.2.4 前端：认证系统适配（并行开发）
 - 登录页面功能实现（基于后端 `/api/v1/auth/login` API）
@@ -794,19 +925,36 @@
   - 缓存策略实现
   - 失效检测与处理
 
-#### 2.6.4 后端：资源管理模块（优先级：高）- 3天
-- 资源创建更新
-  - 资源保存逻辑
-  - 资源更新处理
-  - 资源状态管理
-- 资源查询功能
-  - 基础查询实现
-  - 条件筛选功能
-  - 分页性能优化
-- 资源分类管理
-  - 分类体系实现
-  - 资源分类映射
-  - 分类统计功能
+#### 2.6.4 后端：资源管理专业服务实现（优先级：高）- 3天 ✅ **企业级标准**
+**说明**：基于已实现的资源领域模型，实施资源管理专业服务
+
+- **ResourceManagementService实现** ✅ **专业服务模式**
+  - 资源管理业务逻辑（基于ResourceManagementService接口）
+  - 资源保存逻辑（基于ResourceRepository保存接口）
+  - 资源更新处理（基于ResourceRepository更新接口）
+  - 资源状态管理（ResourceStatus值对象状态流转）
+  - 资源事件发布（ResourceEventPublisher相关事件）
+
+- **ResourceQueryService实现** ✅ **专业服务模式**
+  - 资源查询业务逻辑（基于ResourceQueryService接口）
+  - 基础查询实现（基于ResourceRepository查询接口）
+  - 条件筛选功能（基于ResourceQuery值对象复杂查询）
+  - 分页性能优化（基于Pageable的高性能分页查询）
+  - 全文搜索功能（集成Elasticsearch全文搜索）
+
+- **ResourceCategoryService实现** ✅ **专业服务模式**
+  - 资源分类管理业务逻辑（基于ResourceCategoryService接口）
+  - 分类体系实现（CategoryRepository层级关系管理）
+  - 资源分类映射（ResourceCategoryRelation关联管理）
+  - 分类统计功能（基于CategoryRepository统计查询）
+  - 分类缓存策略（Redis分类数据缓存）
+
+- **ResourceValidationService实现** ✅ **专业服务模式**
+  - 资源验证业务逻辑（基于ResourceValidationService接口）
+  - 资源质量检查（ResourceQuality值对象验证）
+  - 资源重复检测（基于相似度算法的重复检测）
+  - 资源完整性验证（ResourceIntegrity完整性检查）
+  - 验证事件发布（资源验证相关领域事件）
 
 #### 2.6.5 前端：资源展示系统适配（并行开发）
 - 页面适配任务

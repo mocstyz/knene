@@ -1,3 +1,11 @@
+/**
+ * DatabaseConnectionTest类
+ * DatabaseConnectionTest相关实现
+ *
+ * @author 相笑与春风
+ * @version 1.0
+ */
+
 package com.knene.test;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -6,16 +14,11 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-/**
- * 数据库连接测试类
- * @author mosctz
- * @version 1.0
- */
+// /**
+// 数据库连接测试类
 public class DatabaseConnectionTest {
 
-    /**
-     * 测试数据库连接是否成功
-     */
+// 测试数据库连接是否成功
     @Test
     public void testDatabaseConnection() {
         // 数据库连接参数

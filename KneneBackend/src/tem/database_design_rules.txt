@@ -1,0 +1,50 @@
+# KneneBackend 数据库开发规范文档列表
+
+## 重要说明
+正在按照 KneneBackend/doc/project/development_modular_monolith_roadmap.md 中的1.1.2 第三层：高级功能表  开发步骤进行数据库开发  
+  在编写任何数据库相关SQL文件时，必须严格遵守以下列出的所有文档规范。这些文档包含了数据库设计、命名规范、架构标准等所有必要的指导原则。
+
+## 必须遵守的规范文档完整列表
+
+1. KneneBackend/doc/README.md
+2. KneneBackend/doc/architecture/database/database_layer_design.md
+3. KneneBackend/doc/architecture/overview.md
+4. KneneBackend/doc/architecture/technology_stack_guide.md
+5. KneneBackend/doc/archived/development_micro_service_roadmap.md
+6. KneneBackend/doc/catalog.md
+7. KneneBackend/doc/CHANGELOG.md
+8. KneneBackend/doc/database/index/index_design_guidelines.md
+9. KneneBackend/doc/database/migration/flyway_migration_guide.md
+10. KneneBackend/doc/database/naming_conventions.md
+11. KneneBackend/doc/database/redis_design.md
+12. KneneBackend/doc/schema_design_standards.md
+13. KneneBackend/doc/database/data_integrity_rules.md
+14. KneneBackend/doc/database/schema/database_layer_design.md
+15. KneneBackend/doc/database/schema/schema_design_standards.md
+16. KneneBackend/doc/database/schema/system_core_tables.md
+17. KneneBackend/doc/database/schema/user_permission_core_tables.md
+18. KneneBackend/doc/project/backend_complete_documentation.md
+19. KneneBackend/doc/project/development_modular_monolith_roadmap.md
+20. KneneBackend/doc/project/development_standards_rules.md
+
+## 开发指导原则
+
+正在按照 KneneBackend/doc/project/development_modular_monolith_roadmap.md 中的1.1.2 第三层：高级功能表  开发步骤进行数据库开发  
+，包括：
+
+1. 标准和规范制定（已完成）
+2. SQL文件编写（当前阶段）
+3. 数据库初始化
+
+## 特别注意事项
+
+- 所有SQL文件必须严格遵循上述20个文档中的所有规范和标准
+- 重点关注数据库设计、命名规范、索引设计、数据完整性规则等核心文档
+- 确保SQL设计与模块化单体架构保持一致
+- 遵循flyway迁移管理规范进行版本控制
+- 所有表结构和字段命名必须符合既定规范
+
+## 文档统计
+- 总文档数量：20个
+- 涵盖领域：架构设计、数据库规范、开发标准等
+- 必须完整阅读并严格遵守所有文档要求

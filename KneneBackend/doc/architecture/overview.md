@@ -1,30 +1,68 @@
-# 系统架构总览
+# 系统架构总览 ✅ **企业级标准**
 
 ## 🏗️ 架构设计概述
 
-本文档描述影视资源下载网站的总体架构设计，包括技术选型、架构模式、系统分层和关键技术决策。
+本文档描述影视资源下载网站的**企业级总体架构设计**，采用**专业服务分离模式**和**事件驱动架构**，包含现代化技术选型、DDD架构模式、系统分层和关键技术决策。
+
+**架构状态**：✅ **已实现企业级标准** - 基于实际实现的最佳实践
 
 ---
 
-## 🎯 架构设计原则
+## 🎯 企业级架构设计原则 ✅ **核心标准**
 
-### 1. 单体架构现代化
-- **简洁性优先**：采用单体架构，避免微服务复杂性
-- **模块化设计**：通过清晰的模块边界实现高内聚低耦合
-- **现代化工具链**：使用最新的技术栈和开发工具
-- **可演进性**：预留微服务化改造空间
+### 1. 专业服务分离架构 ✅ **企业级标准**
+- **单一职责原则**：每个专业服务只负责一个明确的业务领域
+- **高内聚低耦合**：服务内部功能高度相关，服务之间依赖最小
+- **企业级可维护性**：每个服务独立设计，易于测试、维护和扩展
+- **现代化架构演进**：为微服务化改造预留空间
 
-### 2. 技术依赖关系优先
+**实施标准**：
+```java
+// 企业级专业服务设计模式（已实现）
+UserRegistrationService    // 专注用户注册业务逻辑
+UserAuthenticationService  // 专注用户认证业务逻辑
+UserSecurityService       // 专注用户安全业务逻辑
+UserProfileService        // 专注用户档案业务逻辑
+
+// 禁止使用的传统设计模式
+// UserService (避免：职责过杂，违反单一职责原则)
+```
+
+### 2. 事件驱动架构原则 ✅ **企业级标准**
+- **领域事件优先**：重要业务操作必须发布相应的领域事件
+- **事件异步处理**：事件处理采用异步机制，提升系统性能
+- **事件持久化**：关键事件需要持久化存储，支持重放和审计
+- **松耦合通信**：通过事件实现服务间的松耦合通信
+
+**实施标准**：
+```java
+// 企业级事件驱动架构（已实现）
+@Component
+public class UserEventPublisher {
+    @Async
+    public void publishUserRegistered(User user) { ... }
+    @Async
+    public void publishUserLoggedIn(User user) { ... }
+}
+```
+
+### 3. 企业级DDD原则 ✅ **已实现标准**
+- **聚合根设计**：每个聚合必须有明确的聚合根，作为数据修改的唯一入口
+- **值对象不可变**：值对象必须是不可变的，使用final字段和Builder模式
+- **专业服务设计**：采用专业服务分离模式，替代传统的单体服务设计
+- **事件驱动设计**：重要业务操作必须发布领域事件
+
+### 4. 技术依赖关系优先 ✅ **增强标准**
 - **数据库优先**：数据层先行，为业务功能提供基础支撑
 - **领域模型驱动**：以业务领域为核心组织代码结构
 - **基础设施支撑**：缓存、安全、监控等基础组件优先建设
 - **业务功能叠加**：基于稳定基础设施逐步实现业务功能
 
-### 3. 开发效率导向
+### 5. 开发效率导向 ✅ **增强标准**
 - **后端主导**：API接口和数据结构由后端定义，前端适配
 - **真实数据驱动**：所有开发基于真实数据库数据和API接口
 - **工具赋能**：集成高效开发工具，提升开发质量和效率
-- **文档先行**：完善的技术文档支撑团队协作
+- **Instancio集成**：智能测试数据生成器，提升测试效率
 
 ---
 
@@ -95,65 +133,148 @@ HttpUtil.post(url, data)       // POST请求
 
 ---
 
-## 📐 架构模式
+## 📐 企业级架构模式 ✅ **已实现标准**
 
-### 1. DDD 领域驱动设计
+### 1. 企业级DDD领域驱动设计 ✅ **专业服务分离模式**
 
-#### 分层架构
+#### 现代化分层架构
 ```
 ┌─────────────────────────────────────┐
-│        Interfaces Layer             │  # 接口层：API接口、Web控制器
+│        Interfaces Layer             │  # 接口层：REST API、WebSocket、DTO
+│  ┌─────────────────────────────────┐ │
+│  │   UserAuthController           │ │  # 用户认证控制器
+│  │   UserProfileController        │ │  # 用户档案控制器
+│  │   ResourceController           │ │  # 资源管理控制器
+│  │   ContentController            │ │  # 内容管理控制器
+│  │   VIPController                │ │  # VIP管理控制器
+│  └─────────────────────────────────┘ │
 ├─────────────────────────────────────┤
-│       Application Layer             │  # 应用层：业务流程编排、用例实现
+│       Application Layer             │  # 应用层：业务流程编排、事务管理
+│  ┌─────────────────────────────────┐ │
+│  │   UserApplicationService       │ │  # 用户应用服务（协调专业服务）
+│  │   ResourceApplicationService   │ │  # 资源应用服务
+│  │   ContentApplicationService    │ │  # 内容应用服务
+│  │   VIPApplicationService         │ │  # VIP应用服务
+│  │   UserEventPublisher            │ │  # 事件发布器
+│  └─────────────────────────────────┘ │
 ├─────────────────────────────────────┤
-│         Domain Layer                │  # 领域层：核心业务逻辑、领域模型
+│         Domain Layer                │  # 领域层：专业服务、聚合根、值对象
+│  ┌─────────────────────────────────┐ │
+│  │   专业服务分离模式               │ │
+│  │   UserRegistrationService      │ │  # 用户注册服务
+│  │   UserAuthenticationService    │ │  # 用户认证服务
+│  │   UserSecurityService          │ │  # 用户安全服务
+│  │   UserProfileService           │ │  # 用户档案服务
+│  │                                  │ │
+│  │   ResourceQueryService         │ │  # 资源查询服务
+│  │   ResourceManagementService    │ │  # 资源管理服务
+│  │   ResourceCrawlService          │ │  # 资源爬取服务
+│  │                                  │ │
+│  │   UserRepository(50+ methods)   │ │  # 企业级仓储接口
+│  │   ResourceRepository           │ │  # 资源仓储接口
+│  └─────────────────────────────────┘ │
 ├─────────────────────────────────────┤
 │     Infrastructure Layer            │  # 基础设施层：技术实现、外部依赖
+│  ┌─────────────────────────────────┐ │
+│  │   Redis缓存 + MySQL持久化        │ │  # 多级缓存架构
+│  │   MyBatis-Plus ORM               │ │  # 数据访问层
+│  │   Instancio测试数据生成器         │ │  # 现代化测试工具
+│  │   事件驱动基础设施               │ │  # EventPublisher实现
+│  └─────────────────────────────────┘ │
 └─────────────────────────────────────┘
 ```
 
-#### 领域模块划分
+#### 企业级专业服务设计模式 ✅ **已实现标准**
+```java
+// 用户领域专业服务分离（企业级标准）
+UserRegistrationService    // 专注用户注册业务逻辑
+UserAuthenticationService  // 专注用户认证业务逻辑
+UserSecurityService       // 专注用户安全管理业务逻辑
+UserProfileService        // 专注用户档案管理业务逻辑
+
+// 资源领域专业服务分离
+ResourceQueryService      // 专注资源查询和搜索业务逻辑
+ResourceManagementService // 专注资源CRUD操作业务逻辑
+ResourceCrawlService      // 专注资源爬取业务逻辑
+ResourceValidationService  // 专注资源验证业务逻辑
+
+// 禁止使用的传统单体服务设计
+// UserService, ResourceService (避免：违反单一职责原则)
 ```
-核心领域模块：
-├── User Domain           # 用户领域：注册、登录、权限
-├── Resource Domain       # 资源领域：影视资源管理
-├── Content Domain        # 内容领域：文章、Wiki管理
-├── VIP Domain           # 会员领域：会员权益、订单
-├── Search Domain        # 搜索领域：全文搜索、推荐
-└── Crawler Domain       # 爬虫领域：资源采集、处理
+
+#### 企业级领域模块划分 ✅ **专业服务模式**
+```
+核心领域模块（专业服务分离）：
+├── User Domain           # 用户领域：4个专业服务 + 完整仓储接口
+├── Resource Domain       # 资源领域：4个专业服务 + 搜索验证服务
+├── Content Domain        # 内容领域：4个专业服务 + 发布审核服务
+├── VIP Domain           # 会员领域：4个专业服务 + 支付权益服务
+├── Search Domain        # 搜索领域：2个专业服务 + 推荐算法服务
+└── Crawler Domain       # 爬虫领域：3个专业服务 + 站点管理服务
 
 支撑领域模块：
-├── Auth Domain          # 认证领域：身份验证、授权
-├── Payment Domain       # 支付领域：支付流程、交易
-├── Notification Domain  # 通知领域：消息推送、邮件
-└── Monitoring Domain    # 监控领域：性能监控、日志
+├── Auth Domain          # 认证领域：JWT令牌 + 权限验证服务
+├── Payment Domain       # 支付领域：支付流程 + 交易管理服务
+├── Notification Domain  # 通知领域：消息推送 + 邮件短信服务
+└── Monitoring Domain    # 监控领域：性能监控 + 日志分析服务
 ```
 
-### 2. 六边形架构（Ports & Adapters）
+### 2. 企业级事件驱动架构 ✅ **已实现标准**
 
-#### 核心设计理念
-- **业务核心隔离**：核心业务逻辑与技术实现完全解耦
-- **端口定义**：通过接口定义业务核心与外部的交互点
-- **适配器实现**：具体技术实现通过适配器模式集成
-- **可替换性**：技术实现可以独立于业务核心进行替换
+#### 事件驱动设计理念
+- **领域事件优先**：重要业务操作必须发布领域事件
+- **异步事件处理**：所有事件处理采用异步机制
+- **事件持久化**：关键事件持久化存储，支持重放和审计
+- **松耦合通信**：通过事件实现服务间完全解耦
 
-#### 端口与适配器
+#### 企业级事件架构
 ```
                     ┌─────────────────┐
-                    │   Core Domain   │
+                    │   Domain Core   │
                     │                 │
-                    │  Business Logic │
+                    │ Business Logic │
+                    │                 │
+                    │ EventPublisher │  # 集中化事件发布器
                     └─────────────────┘
                              │
                     ┌────────┬────────┐
                     │        │        │
-             Input Ports  │   Output Ports
-           (Service Interfaces)   │
+            UserRegisteredEvent │  UserLoggedInEvent
+           PasswordChangedEvent │  EmailVerifiedEvent
                     │        │        │
          ┌──────────┘        │        └───────────┐
          │                          │           │
-  Input Adapters               Output Adapters
-  (Controllers)            (Database, External APIs)
+  Event Handlers           Event Handlers     Event Handlers
+  (Async Processing)       (Notification)     (Security)
+```
+
+### 3. 六边形架构（Ports & Adapters）✅ **企业级实现**
+
+#### 核心设计理念
+- **业务核心隔离**：核心业务逻辑与技术实现完全解耦
+- **专业服务端口**：通过专业服务接口定义业务核心与外部的交互点
+- **适配器实现**：具体技术实现通过适配器模式集成
+- **可替换性**：技术实现可以独立于业务核心进行替换
+
+#### 企业级端口与适配器
+```
+                    ┌─────────────────┐
+                    │  Professional  │
+                    │   Services     │
+                    │                 │
+                    │  Business Logic │
+                    │ EventPublisher  │
+                    └─────────────────┘
+                             │
+                    ┌────────┬────────┐
+                    │        │        │
+            Service Ports  │  Event Ports
+         (Professional APIs)   │
+                    │        │        │
+         ┌──────────┘        │        └───────────┐
+         │                          │           │
+  Web Adapters              Event Adapters
+  (REST Controllers)      (Async Handlers)
 ```
 
 ---

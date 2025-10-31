@@ -1,0 +1,403 @@
+# 用户领域模型设计规范要求文档
+
+## 📋 当前工作内容
+
+**正在执行**：development_modular_monolith_roadmap.md 中的 1.2.1 用户领域模型设计
+**工作时间**：3天（第一阶段1.2数据库层和基础架构的子任务）
+**任务性质**：核心业务模块的领域模型设计与实现
+**依赖关系**：依赖核心数据库设计（V1.1.1、V2.1.1、V2.1.5等SQL文件已完成）
+
+## 🎯 必须遵守的规范文档清单
+
+### 1. 项目架构设计规范
+
+#### 1.1 系统架构概览文档
+- **文档路径**：`KneneBackend/doc/architecture/overview.md`
+- **规范要求**：
+  - 遵循DDD+六边形架构设计原则
+  - 按照四层架构组织代码：Interfaces、Application、Domain、Infrastructure
+  - 用户领域作为核心业务模块，必须放在`com.knene.user`包下
+  - 遵循模块化单体架构，保持模块间的松耦合
+- **合规要求**：✅ 必须严格遵循
+
+#### 1.2 开发规范与制度文档
+- **文档路径**：`KneneBackend/doc/project/development_standards_rules.md`
+- **规范要求**：
+  - 数据库优先开发原则
+  - DDD实体建模要求
+  - 六边形架构实现规范
+  - Spring Boot 3.3.x技术栈
+  - Java 21新特性使用
+  - Hutool工具库集成规范
+  - 统一响应体和异常处理
+- **合规要求**：✅ 必须严格遵循
+
+### 2. 数据库设计规范
+
+#### 2.1 数据库分层设计文档
+- **文档路径**：`KneneBackend/doc/database/schema/database_layer_design.md`
+- **规范要求**：
+  - 遵循三层架构设计：核心基础表、业务功能表、高级功能表
+  - 用户权限核心表作为第一层核心基础表已实现
+  - 领域模型必须基于已有的数据库表结构设计
+  - 实体映射要与数据库表结构保持一致
+- **合规要求**：✅ 必须严格遵循
+
+#### 2.2 用户权限核心表设计文档
+- **文档路径**：`KneneBackend/doc/database/schema/user_permission_core_tables.md`
+- **SQL文件依赖**：V1.1.1__Create_user_permission_core_tables.sql、V1.1.2__Insert_user_permission_core_data.sql
+- **规范要求**：
+  - 基于users、user_profiles、roles、permissions、user_roles、role_permissions表结构设计用户实体
+  - 实现RBAC权限模型（5个角色：super_admin、admin、vip_user、user、guest）
+  - 实现完整的51项权限体系（用户管理、角色管理、权限管理、系统管理、内容管理、资源管理、VIP管理）
+  - 用户聚合包含User实体、UserProfile值对象
+  - 角色权限关系通过UserRole、RolePermission值对象体现
+- **合规要求**：✅ 必须严格遵循
+
+#### 2.3 数据库命名规范文档
+- **文档路径**：`KneneBackend/doc/database/naming_conventions.md`
+- **规范要求**：
+  - 表名、字段名使用小写字母和下划线
+  - 实体类名使用大驼峰命名，对应数据库表名
+  - 字段映射遵循MyBatis-Plus命名规范
+  - 枚举值使用小写字母
+  - 时间字段使用_at或_time后缀
+- **合规要求**：✅ 必须严格遵循
+
+### 3. 领域驱动设计规范
+
+#### 3.1 DDD设计模式文档
+- **文档路径**：`KneneBackend/doc/architecture/ddd/`
+- **规范要求**：
+  - 实体（Entity）：具有唯一标识的业务对象
+  - 值对象（Value Object）：不可变的、无标识的概念
+  - 聚合（Aggregate）：数据修改的单元
+  - 聚合根（Aggregate Root）：聚合的入口点
+  - 仓储（Repository）：聚合的持久化抽象
+  - 领域服务（Domain Service）：不属于实体或值对象的业务逻辑
+- **合规要求**：✅ 必须严格遵循
+
+#### 3.2 六边形架构设计文档
+- **文档路径**：`KneneBackend/doc/architecture/hexagonal/`
+- **规范要求**：
+  - 端口和适配器模式
+  - 领域层不依赖外部框架
+  - 通过接口定义端口
+  - 适配器负责技术细节实现
+- **合规要求**：✅ 必须严格遵循
+
+### 4. 技术实现规范
+
+#### 4.1 Flyway数据库迁移文档
+- **文档路径**：`KneneBackend/doc/database/migration/flyway_migration_guide.md`
+- **规范要求**：
+  - 使用Flyway管理数据库版本
+  - 遵循迁移脚本命名规范
+  - 保证数据库结构的一致性
+- **合规要求**：✅ 必须严格遵循
+
+#### 4.2 模块化开发路线图文档
+- **文档路径**：`KneneBackend/doc/project/development_modular_monolith_roadmap.md`
+- **规范要求**：
+  - 按照路线图1.2.1的具体要求执行
+  - 3天内完成用户领域模型设计
+  - 包含用户实体、值对象、仓储接口、领域服务
+  - 与认证模块紧密集成
+- **合规要求**：✅ 必须严格遵循
+
+### 5. 业务模块设计规范
+
+#### 5.1 用户模块设计文档
+- **文档路径**：`KneneBackend/doc/modules/user/`
+- **规范要求**：
+  - 用户注册、登录、信息管理
+  - 用户状态管理（激活、禁用、删除）
+  - 用户权限和角色管理
+  - 用户偏好和设置管理
+- **合规要求**：✅ 必须严格遵循
+
+#### 5.2 认证模块设计文档
+- **文档路径**：`KneneBackend/doc/modules/auth/`
+- **规范要求**：
+  - JWT令牌管理
+  - 密码加密策略
+  - 会话管理
+  - 权限验证机制
+- **合规要求**：✅ 必须严格遵循
+
+### 6. 开发流程规范
+
+#### 6.1 编码规范文档
+- **文档路径**：`KneneBackend/doc/development/coding-standards/`
+- **规范要求**：
+  - Java编码规范
+  - 代码注释规范
+  - 代码格式化规范
+  - 异常处理规范
+- **合规要求**：✅ 必须严格遵循
+
+#### 6.2 测试规范文档
+- **文档路径**：`KneneBackend/doc/development/testing/`
+- **规范要求**：
+  - 单元测试规范
+  - 集成测试规范
+  - 测试覆盖率要求
+  - Mock测试规范
+- **合规要求**：✅ 必须严格遵循
+
+## 🏗️ 用户领域模型设计具体要求
+
+### 📋 SQL表结构分析结果
+
+经过对现有SQL文件的详细分析，数据库设计**非常合理且标准**，具体包括：
+
+#### 核心表结构（已完成）
+- **users表**：用户基础信息表，包含完整的认证、状态、安全字段
+- **user_profiles表**：用户扩展信息表，一对一关系
+- **roles表**：角色定义表，支持层次结构和系统角色
+- **permissions表**：权限定义表，采用资源-操作模型
+- **user_roles表**：用户角色关联表，支持过期时间和授权管理
+- **role_permissions表**：角色权限关联表，支持条件限制
+- **user_login_history表**：用户登录历史表，包含安全监控字段
+
+#### 扩展表结构（已完成）
+- **认证扩展表**：refresh_tokens、email_verifications、password_resets等
+- **登录历史表**：login_history、login_attempts、failed_login_attempts等
+- **权限管理表**：user_permissions、permission_groups等
+- **安全相关表**：user_lockouts、security_questions等
+- **用户中心表**：user_profiles_detailed、user_settings、user_preferences等
+
+### 1. 核心实体设计（基于现有SQL结构）
+
+#### 1.1 User聚合根（基于users表）
+```java
+// 对应users表，包含所有核心字段
+@Entity
+@Table(name = "users")
+public class User {
+    private Long id;
+    private String username;
+    private String email;
+    private String passwordHash;
+    private String phone;
+    private String avatarUrl;
+    private UserStatus status;  // ENUM('active', 'inactive', 'suspended', 'deleted')
+    private Boolean emailVerified;
+    private Boolean phoneVerified;
+    private LocalDateTime lastLoginAt;
+    private String lastLoginIp;
+    private Integer loginAttempts;
+    private LocalDateTime lockedUntil;
+    // 审计字段...
+}
+```
+
+#### 1.2 UserProfile值对象（基于user_profiles表）
+```java
+// 对应user_profiles表，用户扩展信息
+@Embeddable
+public class UserProfile {
+    private String nickname;
+    private Gender gender;       // ENUM('male', 'female', 'other', 'unknown')
+    private LocalDate birthday;
+    private String bio;
+    private String location;
+    private String website;
+    private String company;
+    private String occupation;
+    private String preferences;   // JSON字段
+    private String timezone;
+    private String language;
+}
+```
+
+#### 1.3 UserRole值对象（基于user_roles表）
+```java
+// 对应user_roles表，用户角色关联
+@Embeddable
+public class UserRole {
+    private Long roleId;
+    private Long grantedBy;
+    private LocalDateTime grantedAt;
+    private LocalDateTime expiresAt;
+    private UserRoleStatus status; // ENUM('active', 'inactive', 'expired')
+}
+```
+
+#### 1.4 权限相关值对象
+- **Permission值对象**（基于permissions表）：权限定义
+- **RolePermission值对象**（基于role_permissions表）：角色权限关联
+- **UserPermission值对象**（基于user_permissions表）：用户直接权限
+
+### 2. 认证相关实体设计（基于V2.1.1）
+
+#### 2.1 RefreshToken实体（基于refresh_tokens表）
+#### 2.2 EmailVerification实体（基于email_verifications表）
+#### 2.3 PasswordReset实体（基于password_resets表）
+#### 2.4 LoginHistory实体（基于login_history表）
+#### 2.5 UserLockout实体（基于user_lockouts表）
+
+### 3. 用户中心实体设计（基于V2.1.5）
+
+#### 3.1 UserSettings值对象（基于user_settings表）
+#### 3.2 UserPreferences值对象（基于user_preferences表）
+#### 3.3 DownloadHistory值对象（基于download_history表）
+#### 3.4 BrowseHistory值对象（基于browse_history表）
+#### 3.5 SearchHistory值对象（基于search_history表）
+
+### 4. 仓储接口设计
+- **UserRepository接口**：基于users表的核心操作
+- **UserProfileRepository接口**：基于user_profiles表
+- **UserRoleRepository接口**：基于user_roles表
+- **PermissionRepository接口**：基于permissions表
+- **AuthRepository接口**：基于认证扩展表
+
+### 5. 领域服务设计
+- **UserDomainService**：用户核心业务逻辑
+- **UserRegistrationService**：用户注册服务（基于email_verifications表）
+- **UserAuthenticationService**：用户认证服务（基于login_history表）
+- **UserAuthorizationService**：用户授权服务（基于RBAC权限模型）
+- **UserSecurityService**：用户安全服务（基于安全相关表）
+
+### 6. 应用服务设计
+- **UserApplicationService**：用户应用服务协调
+- **UserQueryService**：用户查询服务
+- **UserCommandService**：用户命令服务
+- **UserSettingsService**：用户设置服务
+
+### 7. 接口层设计
+- **UserController**：用户管理REST接口
+- **UserAuthController**：用户认证接口
+- **UserProfileController**：用户资料接口
+- **UserSettingsController**：用户设置接口
+
+## 📅 工作进度安排（基于现有SQL结构）
+
+### 第1天：核心实体和聚合设计
+- **User聚合根设计**：基于users表完整映射
+- **UserProfile值对象**：基于user_profiles表设计
+- **UserRole值对象**：基于user_roles表设计
+- **权限值对象**：基于permissions、role_permissions表设计
+- **状态枚举设计**：UserStatus、UserRoleStatus、Gender等枚举
+- **实体关系设计**：用户-角色-权限的聚合关系
+- 编写单元测试
+
+### 第2天：认证和安全实体设计
+- **认证实体设计**：RefreshToken、EmailVerification、PasswordReset
+- **安全实体设计**：UserLockout、LoginHistory、SecurityQuestion
+- **权限验证设计**：基于RBAC模型的权限检查
+- **仓储接口设计**：UserRepository、PermissionRepository、AuthRepository
+- **MyBatis-Plus映射**：实体与数据库表映射配置
+- 编写集成测试
+
+### 第3天：领域服务和应用层设计
+- **UserDomainService**：核心业务逻辑实现
+- **UserAuthenticationService**：认证服务实现
+- **UserAuthorizationService**：授权服务实现
+- **UserApplicationService**：应用服务协调
+- **UserController**：REST接口设计
+- **异常处理和验证**：完善的异常处理机制
+- **API文档编写**：SpringDoc OpenAPI文档
+
+## 🔧 技术实现细节
+
+### 数据库映射配置
+```java
+// MyBatis-Plus配置示例
+@Configuration
+@MapperScan("com.knene.user.infrastructure.persistence")
+public class UserPersistenceConfig {
+    // 数据库连接配置
+    // 审计字段自动填充
+    // 乐观锁配置
+}
+```
+
+### 权限验证实现
+```java
+// 基于现有权限表的权限验证
+@Component
+public class PermissionChecker {
+    // 检查用户权限（基于user_roles、role_permissions表）
+    // 支持直接权限检查（user_permissions表）
+    // 权限缓存机制
+}
+```
+
+### 安全功能实现
+```java
+// 基于安全相关表的安全服务
+@Service
+public class UserSecurityService {
+    // 登录失败锁定（基于failed_login_attempts表）
+    // 用户解锁机制（基于user_lockouts表）
+    // 登录历史记录（基于login_history表）
+}
+```
+
+## ✅ 合规检查清单
+
+### 数据库设计合规性
+- [x] **表结构设计合理**：所有SQL表设计规范，包含完整字段、索引、约束
+- [x] **RBAC权限模型完整**：5个角色、51项权限，支持角色层次和权限继承
+- [x] **安全机制完善**：登录历史、失败锁定、密码重置、邮箱验证等完整安全体系
+- [x] **审计字段完整**：created_by、updated_by、version、created_at、updated_at、deleted_at
+- [x] **枚举值规范**：所有枚举值使用小写字母，符合命名规范
+
+### 领域模型设计合规性
+- [ ] **架构设计合规**：遵循DDD+六边形架构
+- [ ] **数据库映射合规**：基于现有表结构设计，实体字段与表字段完全对应
+- [ ] **命名规范合规**：遵循数据库和Java命名规范，实体类使用大驼峰
+- [ ] **聚合设计合理**：User作为聚合根，包含UserProfile、UserRole等值对象
+- [ ] **权限模型完整**：支持基于角色和直接权限的复合权限模型
+
+### 技术实现合规性
+- [ ] **技术栈合规**：使用Spring Boot 3.3.x + Java 21 + MyBatis-Plus 3.5.x
+- [ ] **业务逻辑合规**：符合用户管理、认证授权业务需求
+- [ ] **安全功能完整**：实现安全认证、授权、锁定、历史记录等功能
+- [ ] **缓存设计**：支持用户权限缓存、会话缓存等
+- [ ] **测试合规**：单元测试覆盖率不低于80%，集成测试覆盖核心流程
+
+### 集成规范合规性
+- [ ] **模块独立性**：用户领域模块不直接依赖其他业务模块
+- [ ] **端口适配器模式**：通过接口定义端口，保持领域层的纯净
+- [ ] **统一异常处理**：使用全局异常处理器统一处理业务异常
+- [ ] **数据一致性**：使用事务保证数据的一致性
+- [ ] **文档完善**：API文档和代码文档完整
+
+## 📝 重要说明
+
+### SQL表结构评估结论
+经过详细分析，现有SQL表结构**设计优秀，无需修改**：
+
+1. **设计规范性**：
+   - 严格遵循数据库命名规范（小写字母+下划线）
+   - 完整的索引设计，支持高效查询
+   - 全面的约束设计，保证数据完整性
+   - 统一的审计字段，支持软删除和乐观锁
+
+2. **业务完整性**：
+   - 完整的RBAC权限模型
+   - 全面的认证安全机制
+   - 丰富的用户中心功能
+   - 完善的审计和监控能力
+
+3. **扩展性良好**：
+   - 支持角色层次结构
+   - 支持权限条件限制
+   - 支持用户直接权限分配
+   - JSON字段支持灵活扩展
+
+### 实施要求
+1. **严格遵循现有表结构**：所有实体设计必须与SQL表结构完全一致
+2. **保持SQL优先原则**：以数据库表结构为准，不得随意修改表结构
+3. **充分利用现有数据**：使用已有的角色、权限、测试数据
+4. **完善映射关系**：确保实体关系与数据库外键关系一致
+
+---
+
+**文档状态**：已生效
+**最后更新**：2025-10-31
+**维护人员**：相笑与春风
+**审核状态**：待审核
+**执行状态**：正在执行
