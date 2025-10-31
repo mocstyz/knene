@@ -67,7 +67,6 @@ KneneBackend/
 │   │   │       │   ├── resource/      # 资源领域模型
 │   │   │       │   ├── content/       # 内容领域模型
 │   │   │       │   ├── vip/           # VIP领域模型
-│   │   │       │   ├── verification/  # 验证领域模型
 │   │   │       │   ├── download/      # 下载领域模型
 │   │   │       │   ├── search/        # 搜索领域模型
 │   │   │       │   ├── request/       # 求片领域模型（新增）

@@ -70,7 +70,7 @@
 - **[redis_design.md](./database/redis_design.md)** - Redis缓存设计
 
 **数据库架构状态**：
-- ✅ **第一层：核心基础表** - [用户权限](../src/main/resources/db/migration/V1.1.1__Create_user_permission_core_tables.sql)、[系统配置](../src/main/resources/db/migration/V1.1.3__Create_system_core_tables.sql)、[审计日志](../src/main/resources/db/migration/V1.1.5__Create_verification_tables.sql)（已完成）
+- ✅ **第一层：核心基础表** - [用户权限](../src/main/resources/db/migration/V1.1.1__Create_user_permission_core_tables.sql)、[系统配置](../src/main/resources/db/migration/V1.1.3__Create_system_core_tables.sql)（已完成）
 - ✅ **第二层：业务功能表** - [认证权限](../src/main/resources/db/migration/V2.1.1__Create_auth_extension_tables.sql)、[VIP业务](../src/main/resources/db/migration/V2.1.3__Create_vip_business_tables.sql)、[用户中心](../src/main/resources/db/migration/V2.1.5__Create_user_center_tables.sql)、资源管理（已完成）
 - ✅ **第三层：高级功能表** - [PT站点集成](../src/main/resources/db/migration/V3.1.1__Create_pt_site_tables.sql)、[质量管理](../src/main/resources/db/migration/V3.2.1__Create_quality_management_tables.sql)、[监控分析](../src/main/resources/db/migration/V3.3.1__Create_statistics_tables.sql)（已完成）
 

@@ -162,7 +162,7 @@
 
 ---
 
-## 第一阶段：数据层与基础架构（10-12周）
+## 第一阶段：数据层与基础架构（9-11周）
 
 ### 阶段目标
 建立数据基础和技术架构，为所有业务功能提供支撑
@@ -289,106 +289,6 @@
 - ✅ 数据库版本管理机制建立
 - ✅ **实际完成情况：12个核心表，250+条测试数据，完整的RBAC权限体系**
 
-### 1.1.4 数据库验证脚本体系建设（新增）- 1周 ✅ **已完成**
-**依赖关系**：依赖核心基础表设计和创建完成
-
-**说明**：基于已有核心数据，建立完整的数据库验证体系，确保数据完整性和业务逻辑正确性
-
-#### 1.1.4.1 验证脚本规范制定 - 2天 ✅ **已完成**
-- **验证脚本标准文档** ✅
-  - 三层验证深度定义（Level 1-3） ✅
-  - 四级警告体系（CRITICAL/ERROR/WARN/INFO） ✅
-  - 详细的统计报告格式规范 ✅
-  - 自动执行集成方案 ✅
-  - 实际文件：[database_verification_standards.md](../database/verification/database_verification_standards.md) ✅
-- **验证脚本模板设计** ✅
-  - 标准验证脚本模板 ✅
-  - 统一的错误处理和报告格式 ✅
-  - 实际文件：[verification_template.sql](../database/verification/verification_template.sql) ✅
-- **实施计划制定** ✅
-  - 详细的分阶段实施计划 ✅
-  - 优先级排序和时间安排 ✅
-  - 质量保证措施和风险管理 ✅
-  - 实际文件：[verification_implementation_plan.md](../database/verification/verification_implementation_plan.md) ✅
-
-#### 1.1.4.2 自动执行机制建立 - 2天 ✅ **已完成**
-- **验证结果存储表设计** ✅
-  - verification_executions表结构设计 ✅
-  - verification_results表结构设计 ✅
-  - verification_alerts表结构设计 ✅
-  - 验证历史记录存储方案 ✅
-  - 实际文件：[V1.1.5__Create_verification_tables.sql](../../src/main/resources/db/migration/V1.1.5__Create_verification_tables.sql) ✅
-- **Flyway集成配置** ✅
-  - 迁移后自动执行机制 ✅
-  - after_migration.sql触发脚本 ✅
-  - 验证脚本自动发现和执行 ✅
-  - 实际文件：[after_migration.sql](../../src/main/resources/db/migration/after_migration.sql) ✅
-  - 详细配置文档：[flyway_verification_integration.md](../database/verification/flyway_verification_integration.md) ✅
-- **Spring Boot启动验证** ✅
-  - 应用启动时验证配置设计 ✅
-  - 验证结果处理机制设计 ✅
-  - 自动配置类设计 ✅
-  - 实际文件：[springboot_verification_integration.md](../database/verification/springboot_verification_integration.md) ✅
-- **定时执行机制** ✅
-  - 定期验证任务配置设计 ✅
-  - 不同频次的验证策略设计 ✅
-  - 历史趋势分析机制设计 ✅
-  - 调度器集成方案设计 ✅
-
-#### 1.1.4.3 核心模块验证脚本开发 - 3天 ✅ **已完成**
-- **核心基础表验证脚本** ✅
-  - 用户权限核心表验证：[verify_core_tables.sql](../../scripts/database/verify_core_tables.sql) ✅
-  - 深入业务逻辑验证（Level 1+2）✅
-  - 详细统计报告和改进建议 ✅
-  - 包含10+张核心表验证，1000+行代码 ✅
-- **认证扩展表验证脚本** ✅
-  - 认证相关表验证：[verify_auth_extension_tables.sql](../../scripts/database/verify_auth_extension_tables.sql) ✅
-  - 登录历史和安全验证 ✅
-  - 认证流程完整性检查 ✅
-  - 包含6+张认证表验证，1000+行代码 ✅
-- **用户中心表验证脚本** ✅
-  - 用户中心表验证：[verify_user_center_tables.sql](../../scripts/database/verify_user_center_tables.sql) ✅
-  - 用户行为和偏好验证 ✅
-  - 历史记录一致性检查 ✅
-  - 包含15+张用户中心表验证，1000+行代码 ✅
-- **VIP业务表验证脚本优化** ✅
-  - 优化现有：[verify_vip_business_tables_optimized.sql](../../scripts/database/verify_vip_business_tables_optimized.sql) ✅
-  - 按新标准升级验证逻辑 ✅
-  - 增加Level 2+3高级分析验证 ✅
-  - 包含完整的业务逻辑验证和KPI分析 ✅
-
-#### 1.1.4.4 验证系统文档体系建设 - 2天 ✅ **已完成**
-- **系统架构文档** ✅
-  - 验证系统整体架构设计 ✅
-  - 核心组件和设计原则 ✅
-  - 实际文件：[verification_system_architecture.md](../database/verification/verification_system_architecture.md) ✅
-- **执行流程文档** ✅
-  - 详细的执行流程说明 ✅
-  - 异常处理和性能优化策略 ✅
-  - 实际文件：[verification_execution_flow.md](../database/verification/verification_execution_flow.md) ✅
-- **测试指南文档** ✅
-  - 完整的测试策略和用例设计 ✅
-  - 单元测试、集成测试、性能测试 ✅
-  - 实际文件：[verification_testing_guide.md](../database/verification/verification_testing_guide.md) ✅
-- **运维手册文档** ✅
-  - 部署、配置、监控指南 ✅
-  - 故障处理和最佳实践 ✅
-  - 实际文件：[verification_operations_manual.md](../database/verification/verification_operations_manual.md) ✅
-- **故障排除文档** ✅
-  - 常见问题和解决方案 ✅
-  - 应急响应和恢复流程 ✅
-  - 实际文件：[verification_troubleshooting.md](../database/verification/verification_troubleshooting.md) ✅
-- **监控告警文档** ✅
-  - 监控架构和告警策略设计 ✅
-  - 指标体系和仪表板设计 ✅
-  - 实际文件：[verification_monitoring_alerting.md](../database/verification/verification_monitoring_alerting.md) ✅
-
-**验证脚本质量标准：**
-- **覆盖率**：每个已有数据的表都必须有对应的验证脚本
-- **深度要求**：核心表需要Level 1+2深度验证，VIP表需要Level 1+2+3深度验证
-- **自动化**：所有验证脚本支持迁移后自动执行
-- **报告质量**：提供详细的统计报告和具体的改进建议
-- **错误处理**：记录警告继续，不阻塞正常流程
 
 ### 1.2 领域模型设计（2周）
 **依赖关系**：依赖核心数据库设计
@@ -3468,17 +3368,17 @@ stages:
 
 | 阶段 | 原计划 | 最终方案 | 主要调整内容 |
 |------|--------|----------|-------------|
-| 第一阶段 | 8周 | 10-12周 | 调整内部顺序，增加埋点基础设施 |
+| 第一阶段 | 8周 | 9-11周 | 调整内部顺序，增加埋点基础设施 |
 | 第二阶段 | 6周 | 8-10周 | 增加认证、资源、内容埋点实施 |
 | 第三阶段 | 6周 | 10-12周 | 增加VIP、PT、求片埋点实施 |
 | 第四阶段 | 3周 | 4-5周 | 增加用户中心、消息埋点实施 |
 | 第五阶段 | 3周 | 5-6周 | 增加搜索、管理、数据分析埋点 |
 | 第六阶段 | 4周 | 4-6周 | 保持不变 |
-| **总计** | **30周** | **41-51周** | **增加2周埋点系统** |
+| **总计** | **30周** | **40-50周** | **增加埋点系统** |
 
 ### 时间增加的合理性分析
 
-**增加的2周时间分配：**
+**增加的埋点系统时间分配：**
 - 第一阶段：埋点基础设施（1周）
 - 第二阶段：认证、资源、内容埋点（1周）
 - 第三阶段：VIP、PT、求片埋点（已包含在原时间内）
@@ -3492,6 +3392,7 @@ stages:
 4. 埋点与开发同步，降低出错风险
 
 ### 时间调整说明
+- **移除验证脚本系统**: 删除了1.1.4数据库验证脚本体系（1周）
 - **增加测试时间**: 每个阶段增加充分的单元测试和集成测试
 - **监控系统集成**: 增加现代化监控和日志系统搭建时间
 - **缓冲期**: 为每个阶段增加20%的缓冲时间应对风险
