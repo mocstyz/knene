@@ -9,13 +9,32 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
+-- =====================================================
+-- PT站点信息表 - 数据完整性约束设计说明
+-- =====================================================
+/*
+约束命名规范：chk_{table}_{field}_{validation_type}
+例如：
+- chk_pt_sites_site_type_valid: 验证站点类型枚举值
+- chk_pt_sites_crawl_interval_min: 爬虫间隔最小值限制
+- chk_pt_sites_health_score_range: 健康度评分范围验证
+
+业务规则说明：
+1. site_type: 1=公开PT, 2=私有PT, 3=半私有PT
+2. health_score: 0-100分，100为最佳状态
+3. crawl_interval: 最小60秒，防止服务器压力
+4. availability: 0-100%，站点可用性指标
+5. rate_limit: 请求数和时间窗口必须大于0
+*/
+-- =====================================================
+
 -- ----------------------------
 -- PT站点信息表
 -- ----------------------------
-DROP TABLE IF EXISTS `pt_sites`;
+-- DROP TABLE IF EXISTS `pt_sites`;
 CREATE TABLE `pt_sites` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID，遵循通用字段设计规范',
-  `site_code` varchar(50) NOT NULL COMMENT '站点代码，如'hdr','ttg'等，遵循命名规范',
+  `site_code` varchar(50) NOT NULL COMMENT '站点代码，如hdr、ttg等，遵循命名规范',
   `site_name` varchar(200) NOT NULL COMMENT '站点名称',
   `site_url` varchar(500) NOT NULL COMMENT '站点URL',
   `site_description` text COMMENT '站点描述',
@@ -60,7 +79,7 @@ CREATE TABLE `pt_sites` (
   `last_success_time` datetime COMMENT '最后成功时间',
   `next_crawl_time` datetime COMMENT '下次爬取时间',
   `crawl_status` tinyint DEFAULT 1 COMMENT '爬虫状态：1-正常，2-失败，3-暂停，4-封禁',
-  `health_score` decimal(3,1) DEFAULT 100.0 COMMENT '站点健康度评分(0-100)',
+  `health_score` decimal(4,1) DEFAULT 100.0 COMMENT '站点健康度评分(0-100)',
   `response_time_avg` int DEFAULT 0 COMMENT '平均响应时间(毫秒)',
   `availability_rate` decimal(5,2) DEFAULT 100.00 COMMENT '可用性百分比',
   `config_version` int DEFAULT 1 COMMENT '配置版本号，遵循版本管理规范',
@@ -87,17 +106,36 @@ CREATE TABLE `pt_sites` (
   KEY `idx_created_at` (`created_at`) COMMENT '创建时间索引',
   KEY `idx_deleted_at` (`deleted_at`) COMMENT '删除时间索引，软删除查询优化',
   KEY `idx_site_active_crawl` (`is_active`, `crawl_enabled`, `crawl_status`) COMMENT '复合索引：启用状态和爬虫状态',
-  CONSTRAINT `chk_pt_sites_site_type` CHECK (`site_type` IN (1, 2, 3)) COMMENT '站点类型约束',
-  CONSTRAINT `chk_pt_sites_crawl_interval` CHECK (`crawl_interval` >= 60) COMMENT '爬虫间隔最小值约束',
-  CONSTRAINT `chk_pt_sites_rate_limit` CHECK (`rate_limit_requests` > 0 AND `rate_limit_window` > 0) COMMENT '限流参数约束',
-  CONSTRAINT `chk_pt_sites_health_score` CHECK (`health_score` >= 0 AND `health_score` <= 100) COMMENT '健康度评分范围约束',
-  CONSTRAINT `chk_pt_sites_availability` CHECK (`availability_rate` >= 0 AND `availability_rate` <= 100) COMMENT '可用性百分比约束'
+  CONSTRAINT `chk_pt_sites_site_type_valid` CHECK (`site_type` IN (1, 2, 3)),
+  CONSTRAINT `chk_pt_sites_crawl_interval_min` CHECK (`crawl_interval` >= 60),
+  CONSTRAINT `chk_pt_sites_rate_limit_positive` CHECK (`rate_limit_requests` > 0 AND `rate_limit_window` > 0),
+  CONSTRAINT `chk_pt_sites_health_score_range` CHECK (`health_score` >= 0 AND `health_score` <= 100),
+  CONSTRAINT `chk_pt_sites_availability_range` CHECK (`availability_rate` >= 0 AND `availability_rate` <= 100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='PT站点信息表，遵循数据库分层设计原则';
+
+-- =====================================================
+-- 种子文件表 - 数据完整性约束设计说明
+-- =====================================================
+/*
+约束命名规范：chk_{table}_{field}_{validation_type}
+例如：
+- chk_torrent_files_quality_level_valid: 验证质量等级枚举值
+- chk_torrent_files_size_non_negative: 验证文件大小非负
+- chk_torrent_files_rating_range: 验证评分范围0-10
+
+业务规则说明：
+1. quality_level: 1=普通, 2=高清, 3=超清, 4=4K, 5=蓝光
+2. file_size: 字节数，必须大于等于0
+3. rating: 0-10分，影视资源评分
+4. health_score: 0-100分，种子健康度综合评分
+5. seed_count/leech_count: 种子/下载数，必须非负
+*/
+-- =====================================================
 
 -- ----------------------------
 -- 种子文件表
 -- ----------------------------
-DROP TABLE IF EXISTS `torrent_files`;
+-- DROP TABLE IF EXISTS `torrent_files`;
 CREATE TABLE `torrent_files` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID，遵循通用字段设计规范',
   `pt_site_id` bigint NOT NULL COMMENT 'PT站点ID，外键关联pt_sites表',
@@ -223,19 +261,38 @@ CREATE TABLE `torrent_files` (
   KEY `idx_site_quality_size` (`pt_site_id`, `quality_level`, `file_size`) COMMENT '复合索引：站点、质量、大小',
   KEY `idx_category_upload_time` (`category_id`, `upload_time`) COMMENT '复合索引：分类和发布时间',
   KEY `idx_status_seed_count` (`status`, `seed_count`) COMMENT '复合索引：状态和做种数',
-  CONSTRAINT `fk_torrent_files_pt_site` FOREIGN KEY (`pt_site_id`) REFERENCES `pt_sites` (`id`) ON DELETE CASCADE COMMENT 'PT站点外键约束',
-  CONSTRAINT `chk_torrent_files_quality_level` CHECK (`quality_level` IN (1, 2, 3, 4, 5)) COMMENT '质量等级约束',
-  CONSTRAINT `chk_torrent_files_file_size` CHECK (`file_size` >= 0) COMMENT '文件大小非负约束',
-  CONSTRAINT `chk_torrent_files_seed_count` CHECK (`seed_count` >= 0) COMMENT '做种数非负约束',
-  CONSTRAINT `chk_torrent_files_download_count` CHECK (`download_count` >= 0) COMMENT '下载数非负约束',
-  CONSTRAINT `chk_torrent_files_rating` CHECK (`rating` >= 0 AND `rating` <= 10) COMMENT '评分范围约束',
-  CONSTRAINT `chk_torrent_files_health_score` CHECK (`health_score` >= 0 AND `health_score` <= 100) COMMENT '健康度评分范围约束'
+  CONSTRAINT `fk_torrent_files_pt_site` FOREIGN KEY (`pt_site_id`) REFERENCES `pt_sites` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `chk_torrent_files_quality_level_valid` CHECK (`quality_level` IN (1, 2, 3, 4, 5)),
+  CONSTRAINT `chk_torrent_files_size_non_negative` CHECK (`file_size` >= 0),
+  CONSTRAINT `chk_torrent_files_seed_count_non_negative` CHECK (`seed_count` >= 0),
+  CONSTRAINT `chk_torrent_files_download_count_non_negative` CHECK (`download_count` >= 0),
+  CONSTRAINT `chk_torrent_files_rating_range` CHECK (`rating` >= 0 AND `rating` <= 10),
+  CONSTRAINT `chk_torrent_files_health_score_range` CHECK (`health_score` >= 0 AND `health_score` <= 100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='种子文件表，遵循数据库分层设计原则';
+
+-- =====================================================
+-- 爬虫任务表 - 数据完整性约束设计说明
+-- =====================================================
+/*
+约束命名规范：chk_{table}_{field}_{validation_type}
+例如：
+- chk_crawl_tasks_task_type_valid: 验证任务类型枚举值
+- chk_crawl_tasks_priority_non_negative: 验证优先级非负数
+- chk_crawl_tasks_success_rate_range: 验证成功率范围0-100%
+
+业务规则说明：
+1. task_type: 1=站点爬取, 2=分类爬取, 3=种子详情, 4=用户信息, 5=统计信息
+2. status: 1=待执行, 2=执行中, 3=成功, 4=失败, 5=取消, 6=暂停
+3. priority: 数值越小优先级越高，任务队列排序依据
+4. success_rate: 0-100%，任务质量评估指标
+5. duration_seconds: 执行耗时（秒），必须非负
+*/
+-- =====================================================
 
 -- ----------------------------
 -- 爬虫任务表
 -- ----------------------------
-DROP TABLE IF EXISTS `crawl_tasks`;
+-- DROP TABLE IF EXISTS `crawl_tasks`;
 CREATE TABLE `crawl_tasks` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID，遵循通用字段设计规范',
   `task_name` varchar(200) NOT NULL COMMENT '任务名称',
@@ -328,13 +385,13 @@ CREATE TABLE `crawl_tasks` (
   KEY `idx_site_status_priority` (`pt_site_id`, `status`, `priority`) COMMENT '复合索引：站点、状态、优先级',
   KEY `idx_status_next_run` (`status`, `next_run_time`) COMMENT '复合索引：状态和下次执行时间',
   KEY `idx_type_enabled` (`task_type`, `is_enabled`) COMMENT '复合索引：任务类型和启用状态',
-  CONSTRAINT `fk_crawl_tasks_pt_site` FOREIGN KEY (`pt_site_id`) REFERENCES `pt_sites` (`id`) ON DELETE CASCADE COMMENT 'PT站点外键约束',
-  CONSTRAINT `chk_crawl_tasks_task_type` CHECK (`task_type` IN (1, 2, 3, 4, 5)) COMMENT '任务类型约束',
-  CONSTRAINT `chk_crawl_tasks_status` CHECK (`status` IN (1, 2, 3, 4, 5, 6)) COMMENT '任务状态约束',
-  CONSTRAINT `chk_crawl_tasks_schedule_type` CHECK (`schedule_type` IN (1, 2, 3, 4)) COMMENT '调度类型约束',
-  CONSTRAINT `chk_crawl_tasks_priority` CHECK (`priority` >= 0) COMMENT '优先级非负约束',
-  CONSTRAINT `chk_crawl_tasks_success_rate` CHECK (`success_rate` >= 0 AND `success_rate` <= 100) COMMENT '成功率范围约束',
-  CONSTRAINT `chk_crawl_tasks_duration` CHECK (`duration_seconds` >= 0) COMMENT '执行耗时非负约束'
+  CONSTRAINT `fk_crawl_tasks_pt_site` FOREIGN KEY (`pt_site_id`) REFERENCES `pt_sites` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `chk_crawl_tasks_task_type_valid` CHECK (`task_type` IN (1, 2, 3, 4, 5)),
+  CONSTRAINT `chk_crawl_tasks_status_valid` CHECK (`status` IN (1, 2, 3, 4, 5, 6)),
+  CONSTRAINT `chk_crawl_tasks_schedule_type_valid` CHECK (`schedule_type` IN (1, 2, 3, 4)),
+  CONSTRAINT `chk_crawl_tasks_priority_non_negative` CHECK (`priority` >= 0),
+  CONSTRAINT `chk_crawl_tasks_success_rate_range` CHECK (`success_rate` >= 0 AND `success_rate` <= 100),
+  CONSTRAINT `chk_crawl_tasks_duration_non_negative` CHECK (`duration_seconds` >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='爬虫任务表，遵循数据库分层设计原则';
 
 -- 设置外键检查

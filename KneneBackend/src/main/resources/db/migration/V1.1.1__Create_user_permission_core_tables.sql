@@ -127,7 +127,7 @@ CREATE TABLE user_profiles (
 
     -- 数据完整性约束：遵循CHECK约束规范
     CONSTRAINT chk_user_profiles_nickname_length CHECK (nickname IS NULL OR (CHAR_LENGTH(nickname) >= 2 AND CHAR_LENGTH(nickname) <= 50)),
-    CONSTRAINT chk_user_profiles_birthday_range CHECK (birthday IS NULL OR birthday BETWEEN '1900-01-01' AND CURDATE()),
+    CONSTRAINT chk_user_profiles_birthday_range CHECK (birthday IS NULL OR birthday BETWEEN '1900-01-01' AND '2030-12-31'),
     CONSTRAINT chk_user_profiles_bio_length CHECK (bio IS NULL OR CHAR_LENGTH(bio) <= 1000),
     CONSTRAINT chk_user_profiles_location_length CHECK (location IS NULL OR CHAR_LENGTH(location) <= 100),
     CONSTRAINT chk_user_profiles_website_format CHECK (website IS NULL OR website REGEXP '^https?://.+'),
@@ -258,7 +258,7 @@ CREATE TABLE user_roles (
     expires_at TIMESTAMP NULL COMMENT '过期时间（NULL表示永不过期）',
 
     -- 状态管理：支持关联状态控制
-    status ENUM('ACTIVE', 'INACTIVE', 'EXPIRED') NOT NULL DEFAULT 'ACTIVE' COMMENT '状态',
+    status ENUM('active', 'inactive', 'expired') NOT NULL DEFAULT 'active' COMMENT '状态',
     remarks VARCHAR(500) NULL COMMENT '备注',
 
     -- 通用审计字段：遵循通用字段设计规范
@@ -293,8 +293,8 @@ CREATE TABLE user_roles (
     -- 数据完整性约束：遵循CHECK约束规范
     CONSTRAINT chk_user_roles_remarks_length CHECK (remarks IS NULL OR CHAR_LENGTH(remarks) <= 500),
     CONSTRAINT chk_user_roles_expires_future CHECK (expires_at IS NULL OR expires_at >= granted_at),
-    CONSTRAINT chk_user_roles_status_valid CHECK (status IN ('ACTIVE', 'INACTIVE', 'EXPIRED')),
-    CONSTRAINT chk_user_roles_not_delete_active CHECK (deleted_at IS NULL OR status != 'ACTIVE')
+    CONSTRAINT chk_user_roles_status_valid CHECK (status IN ('active', 'inactive', 'expired')),
+    CONSTRAINT chk_user_roles_not_delete_active CHECK (deleted_at IS NULL OR status != 'active')
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户角色关联表';
 
@@ -317,7 +317,7 @@ CREATE TABLE role_permissions (
     conditions JSON NULL COMMENT '权限条件限制（如数据范围、时间限制等）',
 
     -- 状态管理：支持关联状态控制
-    status ENUM('ACTIVE', 'INACTIVE') NOT NULL DEFAULT 'ACTIVE' COMMENT '状态',
+    status ENUM('active', 'inactive') NOT NULL DEFAULT 'active' COMMENT '状态',
     remarks VARCHAR(500) NULL COMMENT '备注',
 
     -- 通用审计字段：遵循通用字段设计规范
@@ -350,8 +350,8 @@ CREATE TABLE role_permissions (
 
     -- 数据完整性约束：遵循CHECK约束规范
     CONSTRAINT chk_role_permissions_remarks_length CHECK (remarks IS NULL OR CHAR_LENGTH(remarks) <= 500),
-    CONSTRAINT chk_role_permissions_status_valid CHECK (status IN ('ACTIVE', 'INACTIVE')),
-    CONSTRAINT chk_role_permissions_not_delete_active CHECK (deleted_at IS NULL OR status != 'ACTIVE')
+    CONSTRAINT chk_role_permissions_status_valid CHECK (status IN ('active', 'inactive')),
+    CONSTRAINT chk_role_permissions_not_delete_active CHECK (deleted_at IS NULL OR status != 'active')
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色权限关联表';
 
@@ -367,8 +367,8 @@ CREATE TABLE user_login_history (
     username VARCHAR(50) NOT NULL COMMENT '用户名（冗余字段，防止用户删除后无法追溯）',
 
     -- 登录信息：记录登录详情
-    login_type ENUM('PASSWORD', 'OAUTH', 'SSO', 'API') NOT NULL DEFAULT 'PASSWORD' COMMENT '登录类型',
-    login_status ENUM('SUCCESS', 'FAILED', 'LOCKED', 'DISABLED') NOT NULL COMMENT '登录状态',
+    login_type ENUM('password', 'oauth', 'sso', 'api') NOT NULL DEFAULT 'password' COMMENT '登录类型',
+    login_status ENUM('success', 'failed', 'locked', 'disabled') NOT NULL COMMENT '登录状态',
     failure_reason VARCHAR(100) NULL COMMENT '失败原因',
 
     -- 环境信息：记录登录环境

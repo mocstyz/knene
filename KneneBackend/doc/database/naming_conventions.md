@@ -16,6 +16,7 @@
 
 ### 命名格式标准
 - **使用小写字母**：所有数据库对象名使用小写字母
+- **数据内容也使用小写**：枚举值、状态值、字典值等数据内容也必须使用小写字母
 - **下划线分隔**：使用下划线(_)分隔单词，不使用驼峰或连字符
 - **避免缩写**：除非是通用缩写，否则不使用缩写
 - **长度限制**：名称长度不超过64个字符
@@ -267,6 +268,25 @@ log_type                 # 日志类型
 notification_type        # 通知类型
 ```
 
+#### 数据内容命名规范（重要）
+```sql
+-- 状态枚举值：必须使用小写字母
+status ENUM('active', 'inactive', 'suspended', 'deleted')     # ✅ 正确：全小写
+status ENUM('ACTIVE', 'INACTIVE', 'SUSPENDED', 'DELETED')     # ❌ 错误：大写字母
+
+-- 操作类型枚举值：必须使用小写字母
+operation_type ENUM('login', 'logout', 'create', 'update', 'delete')  # ✅ 正确
+operation_type ENUM('LOGIN', 'LOGOUT', 'CREATE', 'UPDATE', 'DELETE')  # ❌ 错误
+
+-- 字典值：必须使用小写字母
+dict_value ENUM('male', 'female', 'other')                   # ✅ 正确
+dict_value ENUM('MALE', 'FEMALE', 'OTHER')                   # ❌ 错误
+
+-- 权限状态：必须使用小写字母
+permission_status ENUM('active', 'inactive')                 # ✅ 正确
+permission_status ENUM('ACTIVE', 'INACTIVE')                 # ❌ 错误
+```
+
 #### 布尔字段命名
 ```sql
 -- 使用is_或has_前缀
@@ -504,9 +524,9 @@ CONSTRAINT chk_orders_amount_positive CHECK (amount > 0)
 CONSTRAINT chk_files_size_positive CHECK (file_size >= 0)
 
 -- 枚举值检查
-CONSTRAINT chk_users_status_valid CHECK (status IN ('ACTIVE', 'INACTIVE', 'BANNED'))
-CONSTRAINT chk_articles_type_valid CHECK (type IN ('NEWS', 'BLOG', 'TUTORIAL'))
-CONSTRAINT chk_files_category_valid CHECK (category IN ('IMAGE', 'VIDEO', 'DOCUMENT'))
+CONSTRAINT chk_users_status_valid CHECK (status IN ('active', 'inactive', 'banned'))
+CONSTRAINT chk_articles_type_valid CHECK (type IN ('news', 'blog', 'tutorial'))
+CONSTRAINT chk_files_category_valid CHECK (category IN ('image', 'video', 'document'))
 
 -- 字符串格式检查
 CONSTRAINT chk_users_email_format CHECK (email REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$')

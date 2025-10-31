@@ -12,7 +12,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- 质量评分表
 -- ----------------------------
-DROP TABLE IF EXISTS `quality_scores`;
+-- DROP TABLE IF EXISTS `quality_scores`;
 CREATE TABLE `quality_scores` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID，遵循通用字段设计规范',
   `target_type` tinyint NOT NULL COMMENT '评分目标类型：1-种子文件，2-电影资源，3-用户发布，4-爬虫源',
@@ -100,20 +100,20 @@ CREATE TABLE `quality_scores` (
   KEY `idx_level_score` (`quality_level`, `overall_score`) COMMENT '复合索引：质量等级和评分',
   KEY `idx_type_level_score` (`target_type`, `quality_level`, `overall_score`) COMMENT '复合索引：类型、等级、评分',
   KEY `idx_alert_level_score` (`quality_alert_level`, `overall_score`) COMMENT '复合索引：预警级别和评分',
-  CONSTRAINT `chk_quality_scores_target_type` CHECK (`target_type` IN (1, 2, 3, 4)) COMMENT '目标类型约束',
-  CONSTRAINT `chk_quality_scores_overall_score` CHECK (`overall_score` >= 0 AND `overall_score` <= 100) COMMENT '总体评分范围约束',
+  CONSTRAINT `chk_quality_scores_target_type` CHECK (`target_type` IN (1, 2, 3, 4)),
+  CONSTRAINT `chk_quality_scores_overall_score` CHECK (`overall_score` >= 0 AND `overall_score` <= 100),
   CONSTRAINT `chk_quality_scores_sub_scores` CHECK (`video_score` >= 0 AND `video_score` <= 100 AND
                                                    `audio_score` >= 0 AND `audio_score` <= 100 AND
-                                                   `encoding_score` >= 0 AND `encoding_score` <= 100) COMMENT '子评分范围约束',
-  CONSTRAINT `chk_quality_scores_quality_level` CHECK (`quality_level` IN (1, 2, 3, 4, 5)) COMMENT '质量等级约束',
-  CONSTRAINT `chk_quality_scores_grade` CHECK (`quality_grade` IN ('A', 'B', 'C', 'D', 'F')) COMMENT '质量等级字母约束',
-  CONSTRAINT `chk_quality_scores_trend` CHECK (`quality_trend` IN (-1, 0, 1)) COMMENT '质量趋势约束'
+                                                   `encoding_score` >= 0 AND `encoding_score` <= 100),
+  CONSTRAINT `chk_quality_scores_quality_level` CHECK (`quality_level` IN (1, 2, 3, 4, 5)),
+  CONSTRAINT `chk_quality_scores_grade` CHECK (`quality_grade` IN ('A', 'B', 'C', 'D', 'F')),
+  CONSTRAINT `chk_quality_scores_trend` CHECK (`quality_trend` IN (-1, 0, 1))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='质量评分表，遵循数据库分层设计原则';
 
 -- ----------------------------
 -- 重复检测表
 -- ----------------------------
-DROP TABLE IF EXISTS `duplicate_detection`;
+-- DROP TABLE IF EXISTS `duplicate_detection`;
 CREATE TABLE `duplicate_detection` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID，遵循通用字段设计规范',
   `resource_type` tinyint NOT NULL COMMENT '资源类型：1-种子文件，2-电影资源，3-图片资源',
@@ -215,20 +215,20 @@ CREATE TABLE `duplicate_detection` (
   KEY `idx_status_priority` (`detection_status`, `priority_level`) COMMENT '复合索引：状态和优先级',
   KEY `idx_action_status_priority` (`action_status`, `action_required`, `priority_level`) COMMENT '复合索引：处理状态和优先级',
   KEY `idx_group_similarity` (`duplicate_group_id`, `similarity_score`) COMMENT '复合索引：组ID和相似度',
-  CONSTRAINT `chk_duplicate_detection_resource_type` CHECK (`resource_type` IN (1, 2, 3)) COMMENT '资源类型约束',
-  CONSTRAINT `chk_duplicate_detection_similarity_score` CHECK (`similarity_score` >= 0 AND `similarity_score` <= 100) COMMENT '相似度评分范围约束',
-  CONSTRAINT `chk_duplicate_detection_match_type` CHECK (`match_type` IN (1, 2, 3, 4)) COMMENT '匹配类型约束',
-  CONSTRAINT `chk_duplicate_detection_manual_status` CHECK (`manual_verification_status` IN (0, 1, 2, 3)) COMMENT '人工验证状态约束',
-  CONSTRAINT `chk_duplicate_detection_detection_status` CHECK (`detection_status` IN (1, 2, 3, 4)) COMMENT '检测状态约束',
-  CONSTRAINT `chk_duplicate_detection_priority` CHECK (`priority_level` IN (1, 2, 3)) COMMENT '优先级约束',
-  CONSTRAINT `chk_duplicate_detection_action_status` CHECK (`action_status` IN (0, 1, 2, 3)) COMMENT '处理状态约束',
-  CONSTRAINT `chk_duplicate_detection_confidence` CHECK (`confidence_level` >= 0 AND `confidence_level` <= 100) COMMENT '置信度范围约束'
+  CONSTRAINT `chk_duplicate_detection_resource_type` CHECK (`resource_type` IN (1, 2, 3)),
+  CONSTRAINT `chk_duplicate_detection_similarity_score` CHECK (`similarity_score` >= 0 AND `similarity_score` <= 100),
+  CONSTRAINT `chk_duplicate_detection_match_type` CHECK (`match_type` IN (1, 2, 3, 4)),
+  CONSTRAINT `chk_duplicate_detection_manual_status` CHECK (`manual_verification_status` IN (0, 1, 2, 3)),
+  CONSTRAINT `chk_duplicate_detection_detection_status` CHECK (`detection_status` IN (1, 2, 3, 4)),
+  CONSTRAINT `chk_duplicate_detection_priority` CHECK (`priority_level` IN (1, 2, 3)),
+  CONSTRAINT `chk_duplicate_detection_action_status` CHECK (`action_status` IN (0, 1, 2, 3)),
+  CONSTRAINT `chk_duplicate_detection_confidence` CHECK (`confidence_level` >= 0 AND `confidence_level` <= 100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='重复检测表，遵循数据库分层设计原则';
 
 -- ----------------------------
 -- 相似度哈希表
 -- ----------------------------
-DROP TABLE IF EXISTS `similarity_hash`;
+-- DROP TABLE IF EXISTS `similarity_hash`;
 CREATE TABLE `similarity_hash` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID，遵循通用字段设计规范',
   `resource_type` tinyint NOT NULL COMMENT '资源类型：1-种子文件，2-电影资源，3-图片资源，4-文本内容',
@@ -315,13 +315,13 @@ CREATE TABLE `similarity_hash` (
   KEY `idx_type_quality` (`resource_type`, `hash_quality_score`) COMMENT '复合索引：类型和质量',
   KEY `idx_algorithm_quality` (`hash_algorithm`, `hash_quality_score`) COMMENT '复合索引：算法和质量',
   KEY `idx_validation_obsolete` (`validation_status`, `obsolete`) COMMENT '复合索引：验证状态和过时标记',
-  CONSTRAINT `chk_similarity_hash_resource_type` CHECK (`resource_type` IN (1, 2, 3, 4)) COMMENT '资源类型约束',
-  CONSTRAINT `chk_similarity_hash_quality_score` CHECK (`hash_quality_score` >= 0 AND `hash_quality_score` <= 100) COMMENT '哈希质量评分范围约束',
-  CONSTRAINT `chk_similarity_hash_threshold` CHECK (`similarity_threshold` >= 0 AND `similarity_threshold` <= 100) COMMENT '相似度阈值范围约束',
+  CONSTRAINT `chk_similarity_hash_resource_type` CHECK (`resource_type` IN (1, 2, 3, 4)),
+  CONSTRAINT `chk_similarity_hash_quality_score` CHECK (`hash_quality_score` >= 0 AND `hash_quality_score` <= 100),
+  CONSTRAINT `chk_similarity_hash_threshold` CHECK (`similarity_threshold` >= 0 AND `similarity_threshold` <= 100),
   CONSTRAINT `chk_similarity_hash_rates` CHECK (`accuracy_rate` >= 0 AND `accuracy_rate` <= 100 AND
                                              `precision_rate` >= 0 AND `precision_rate` <= 100 AND
-                                             `recall_rate` >= 0 AND `recall_rate` <= 100) COMMENT '比率范围约束',
-  CONSTRAINT `chk_similarity_hash_validation_status` CHECK (`validation_status` IN (1, 2, 3)) COMMENT '验证状态约束'
+                                             `recall_rate` >= 0 AND `recall_rate` <= 100),
+  CONSTRAINT `chk_similarity_hash_validation_status` CHECK (`validation_status` IN (1, 2, 3))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='相似度哈希表，遵循数据库分层设计原则';
 
 -- 设置外键检查

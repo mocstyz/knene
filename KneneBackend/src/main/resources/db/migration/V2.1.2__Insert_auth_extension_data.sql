@@ -199,64 +199,54 @@ INSERT INTO user_security_answers (user_id, question_id, answer_hash, salt, is_v
 -- ====================================================================
 
 -- 管理员成功登录记录
-INSERT INTO login_history (user_id, username, email, login_type, login_status, ip_address, user_agent, browser, os, device, location, is_new_device, session_id, fingerprint, login_at, created_at, updated_at) VALUES
-(1, 'admin', 'admin@knene.com', 'password', 'success', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'Chrome', 'Windows', 'Desktop', '本地', 1, 'sess_admin_001', 'fp_admin_001', NOW(), NOW(), NOW()),
+INSERT INTO login_history (user_id, username, email, login_type, login_status, failure_reason, ip_address, user_agent, browser, os, device, location, is_new_device, session_id, fingerprint, login_at, logout_at, session_duration, is_active, created_at, updated_at) VALUES
+(1, 'admin', 'admin@knene.com', 'password', 'success', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'Chrome', 'Windows', 'Desktop', '本地', 1, 'sess_admin_001', 'fp_admin_001', NOW(), NULL, NULL, 1, NOW(), NOW());
 
 -- 模拟用户登录尝试记录
-INSERT INTO login_history (user_id, username, email, login_type, login_status, failure_reason, ip_address, user_agent, browser, os, device, location, is_new_device, session_id, fingerprint, login_at, created_at, updated_at) VALUES
-(NULL, 'testuser', 'test@example.com', 'password', 'failed', '用户名或密码错误', '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'Chrome', 'Windows', 'Desktop', '北京', 1, NULL, 'fp_test_001', NOW(), NOW(), NOW()),
-
-(NULL, 'john_doe', 'john@example.com', 'password', 'failed', '用户名或密码错误', '192.168.1.101', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36', 'Safari', 'macOS', 'Desktop', '上海', 1, NULL, 'fp_john_001', NOW(), NOW(), NOW()),
-
--- 模拟成功登录的访客记录
-(NULL, 'guest', NULL, 'password', 'success', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'Edge', 'Windows', 'Desktop', '本地', 1, 'sess_guest_001', 'fp_guest_001', NOW(), NOW(), NOW());
+INSERT INTO login_history (user_id, username, email, login_type, login_status, failure_reason, ip_address, user_agent, browser, os, device, location, is_new_device, session_id, fingerprint, login_at, logout_at, session_duration, is_active, created_at, updated_at) VALUES
+(NULL, 'testuser', 'testuser@example.com', 'password', 'failed', '用户名或密码错误', '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'Chrome', 'Windows', 'Desktop', '北京', 1, NULL, 'fp_test_001', NOW(), NULL, NULL, 0, NOW(), NOW()),
+(2, 'testuser', 'testuser@example.com', 'password', 'success', NULL, '192.168.1.101', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36', 'Safari', 'macOS', 'Desktop', '上海', 1, 'sess_test_001', 'fp_test_002', DATE_SUB(NOW(), INTERVAL 1 HOUR), DATE_SUB(NOW(), INTERVAL 30 MINUTE), 1800, 0, NOW(), NOW()),
+(3, 'lockeduser', 'lockeduser@example.com', 'password', 'success', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'Edge', 'Windows', 'Desktop', '本地', 1, 'sess_locked_001', 'fp_locked_001', DATE_SUB(NOW(), INTERVAL 2 HOUR), NULL, NULL, 1, NOW(), NOW());
 
 -- ====================================================================
 -- 6. 插入登录尝试记录样本数据
 -- ====================================================================
 
-INSERT INTO login_attempts (user_id, username, email, ip_address, user_agent, attempt_type, attempt_status, failure_reason, captcha_passed, is_blocked, attempt_count, location, fingerprint, attempted_at, created_at, updated_at) VALUES
+INSERT INTO login_attempts (user_id, username, email, ip_address, user_agent, attempt_type, attempt_status, failure_reason, captcha_passed, is_blocked, block_reason, block_expires_at, attempt_count, location, fingerprint, attempted_at, is_active, created_at, updated_at) VALUES
 -- 失败的登录尝试
-(NULL, 'testuser', 'test@example.com', '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'login', 'failed', '用户名或密码错误', NULL, 0, 1, '北京', 'fp_test_001', NOW(), NOW(), NOW()),
-
-(NULL, 'testuser', 'test@example.com', '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'login', 'failed', '用户名或密码错误', NULL, 0, 2, '北京', 'fp_test_001', DATE_SUB(NOW(), INTERVAL 1 MINUTE), NOW(), NOW()),
-
-(NULL, 'testuser', 'test@example.com', '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'login', 'blocked', '登录尝试次数过多', NULL, 1, 3, '北京', 'fp_test_001', DATE_SUB(NOW(), INTERVAL 2 MINUTES), NOW(), NOW()),
-
+(NULL, 'testuser', 'test@example.com', '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'login', 'failed', '用户名或密码错误', 0, 0, NULL, NULL, 1, '北京', 'fp_test_001', NOW(), 1, NOW(), NOW()),
+(NULL, 'testuser', 'test@example.com', '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'login', 'failed', '用户名或密码错误', 0, 0, NULL, NULL, 2, '北京', 'fp_test_001', DATE_SUB(NOW(), INTERVAL 1 MINUTE), 1, NOW(), NOW()),
+(NULL, 'testuser', 'test@example.com', '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'login', 'blocked', '登录尝试次数过多', 0, 1, '登录尝试次数过多', DATE_ADD(NOW(), INTERVAL 30 MINUTE), 3, '北京', 'fp_test_001', DATE_SUB(NOW(), INTERVAL 2 MINUTE), 1, NOW(), NOW()),
 -- 注册尝试
-(NULL, 'newuser', 'newuser@example.com', '180.150.200.88', 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15', 'register', 'success', NULL, 1, 0, 1, '广州', 'fp_newuser_001', DATE_SUB(NOW(), INTERVAL 30 MINUTE), NOW(), NOW()),
-
+(NULL, 'newuser', 'newuser@example.com', '180.150.200.88', 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15', 'register', 'success', NULL, 1, 0, NULL, NULL, 1, '广州', 'fp_newuser_001', DATE_SUB(NOW(), INTERVAL 30 MINUTE), 1, NOW(), NOW()),
 -- 密码重置尝试
-(NULL, 'admin', 'admin@knene.com', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'password_reset', 'success', NULL, 1, 0, 1, '本地', 'fp_admin_001', DATE_SUB(NOW(), INTERVAL 1 HOUR), NOW(), NOW());
+(NULL, 'admin', 'admin@knene.com', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'password_reset', 'success', NULL, 1, 0, NULL, NULL, 1, '本地', 'fp_admin_001', DATE_SUB(NOW(), INTERVAL 1 HOUR), 1, NOW(), NOW());
 
 -- ====================================================================
 -- 7. 插入登录失败记录样本数据
 -- ====================================================================
 
-INSERT INTO failed_login_attempts (user_id, username, email, ip_address, user_agent, failure_type, failure_reason, captcha_required, captcha_provided, captcha_correct, location, fingerprint, is_blocked, block_duration, block_expires_at, attempt_count, attempted_at, created_at, updated_at) VALUES
+INSERT INTO failed_login_attempts (user_id, username, email, ip_address, user_agent, failure_type, failure_reason, captcha_required, captcha_provided, captcha_correct, location, fingerprint, is_blocked, block_duration, block_expires_at, attempt_count, attempted_at, is_active, created_at, updated_at) VALUES
 -- 连续失败尝试
-(NULL, 'malicious_user', 'malicious@example.com', '10.0.0.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'invalid_credentials', '用户名或密码错误', 0, NULL, NULL, '未知', 'fp_malicious_001', 0, NULL, NULL, 1, DATE_SUB(NOW(), INTERVAL 10 MINUTE), NOW(), NOW()),
-
-(NULL, 'malicious_user', 'malicious@example.com', '10.0.0.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'invalid_credentials', '用户名或密码错误', 1, 1, 1, '未知', 'fp_malicious_001', 0, NULL, NULL, 2, DATE_SUB(NOW(), INTERVAL 8 MINUTE), NOW(), NOW()),
-
-(NULL, 'malicious_user', 'malicious@example.com', '10.0.0.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'invalid_credentials', '用户名或密码错误', 1, 1, 0, '未知', 'fp_malicious_001', 1, 30, DATE_ADD(NOW(), INTERVAL 30 MINUTE), 3, DATE_SUB(NOW(), INTERVAL 6 MINUTE), NOW(), NOW()),
-
+(NULL, 'malicious_user', 'malicious@example.com', '10.0.0.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'invalid_credentials', '用户名或密码错误', 0, NULL, NULL, '未知', 'fp_malicious_001', 0, NULL, NULL, 1, DATE_SUB(NOW(), INTERVAL 10 MINUTE), 1, NOW(), NOW()),
+(NULL, 'malicious_user', 'malicious@example.com', '10.0.0.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'invalid_credentials', '用户名或密码错误', 1, 1, 1, '未知', 'fp_malicious_001', 0, NULL, NULL, 2, DATE_SUB(NOW(), INTERVAL 8 MINUTE), 1, NOW(), NOW()),
+(NULL, 'malicious_user', 'malicious@example.com', '10.0.0.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'invalid_credentials', '用户名或密码错误', 1, 1, 0, '未知', 'fp_malicious_001', 1, 30, DATE_ADD(NOW(), INTERVAL 30 MINUTE), 3, DATE_SUB(NOW(), INTERVAL 6 MINUTE), 1, NOW(), NOW()),
 -- 账户被锁定的失败尝试
-(NULL, 'locked_user', 'locked@example.com', '192.168.1.200', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36', 'account_locked', '账户已被锁定', 0, NULL, NULL, '深圳', 'fp_locked_001', 1, NULL, NULL, 1, DATE_SUB(NOW(), INTERVAL 5 MINUTE), NOW(), NOW());
+(NULL, 'locked_user', 'locked@example.com', '192.168.1.200', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36', 'account_locked', '账户已被锁定', 0, NULL, NULL, '深圳', 'fp_locked_001', 1, NULL, NULL, 1, DATE_SUB(NOW(), INTERVAL 5 MINUTE), 1, NOW(), NOW());
 
 -- ====================================================================
 -- 8. 插入用户锁定记录样本数据
 -- ====================================================================
 
-INSERT INTO user_lockouts (user_id, lock_type, lock_reason, is_permanent, lock_duration, locked_at, expires_at, is_active, ip_address, user_agent, failed_attempts, created_by, updated_by, version, created_at, updated_at) VALUES
+INSERT INTO user_lockouts (user_id, lock_type, lock_reason, is_permanent, lock_duration, locked_at, expires_at, is_active, unlock_reason, unlocked_at, unlocked_by, ip_address, user_agent, failed_attempts, created_by, updated_by, version, created_at, updated_at) VALUES
 -- 临时锁定（密码失败次数过多）
-(1, 'password_failed', '连续登录失败次数过多', 0, 30, DATE_SUB(NOW(), INTERVAL 1 HOUR), DATE_SUB(NOW(), INTERVAL 30 MINUTE), 0, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 5, 1, 1, 1, DATE_SUB(NOW(), INTERVAL 1 HOUR), NOW()),
+(1, 'password_failed', '连续登录失败次数过多', 0, 30, DATE_SUB(NOW(), INTERVAL 1 HOUR), DATE_SUB(NOW(), INTERVAL 30 MINUTE), 0, '管理员解锁', DATE_SUB(NOW(), INTERVAL 25 MINUTE), 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 5, 1, 1, 1, DATE_SUB(NOW(), INTERVAL 1 HOUR), NOW()),
 
--- 管理员手动锁定
-(2, 'admin_action', '管理员手动锁定账户', 1, NULL, DATE_SUB(NOW(), INTERVAL 2 HOUR), NULL, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 0, 1, 1, 1, DATE_SUB(NOW(), INTERVAL 2 HOUR), NOW()),
+-- 管理员手动锁定（锁定测试用户）
+(2, 'admin_action', '管理员手动锁定测试账户', 1, NULL, DATE_SUB(NOW(), INTERVAL 2 HOUR), NULL, 1, NULL, NULL, NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 0, 1, 1, 1, DATE_SUB(NOW(), INTERVAL 2 HOUR), NOW()),
 
--- 安全风险锁定
-(3, 'security_risk', '检测到异常登录行为', 0, 120, DATE_SUB(NOW(), INTERVAL 3 HOUR), DATE_ADD(NOW(), INTERVAL 1 HOUR), 1, '10.0.0.50', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 10, 1, 1, 1, DATE_SUB(NOW(), INTERVAL 3 HOUR), NOW());
+-- 安全风险锁定（锁定测试用户）
+(3, 'security_risk', '检测到异常登录行为', 0, 120, DATE_SUB(NOW(), INTERVAL 3 HOUR), DATE_ADD(NOW(), INTERVAL 1 HOUR), 1, NULL, NULL, NULL, '10.0.0.50', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 10, 1, 1, 1, DATE_SUB(NOW(), INTERVAL 3 HOUR), NOW());
 
 -- ====================================================================
 -- 数据插入完成日志

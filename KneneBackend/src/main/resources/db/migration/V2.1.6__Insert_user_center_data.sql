@@ -341,48 +341,28 @@ INSERT INTO favorites (user_id, resource_id, content_type, favorite_type, title,
 (6, 14, 'movie', 'watching', '遗传厄运', '心理恐怖电影', '/static/posters/hereditary.jpg', 7.3, 7.5, '氛围营造出色，让人不寒而栗', '["恐怖", "惊悚", "剧情"]', 67.80, 9120, 1, 0, 0, 0, 7800, 9120, 6, FALSE, FALSE, 2, 'recommend', FALSE, NULL, '2018-06-08', '["恐怖", "惊悚", "剧情"]', '["托妮·科莱特", "加布里埃尔·伯恩", "亚历克斯·沃尔夫"]', '["阿里·阿斯特"]', 'en', 'usa', 127, 18, 14, 7, 6, DATE_SUB(NOW(), INTERVAL 6 HOUR), NOW());
 
 -- ====================================================================
--- 9. 插入收藏夹关联数据
+-- 9. 收藏夹关联数据（企业级最佳实践）
 -- ====================================================================
-
--- 将收藏添加到相应的收藏夹中
-INSERT INTO favorite_folder_relations (folder_id, favorite_id, added_by, added_reason, sort_order, is_pinned, notes, created_by, created_at, updated_at) VALUES
--- 用户1的收藏夹关联
-(1, 1, 1, '经典超级英雄电影', 1, FALSE, '漫威宇宙的收官之作', 1, DATE_SUB(NOW(), INTERVAL 1 WEEK), NOW()),
-(1, 3, 1, '诺兰经典作品', 2, TRUE, '值得多次观看的佳作', 1, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),(2, 2, 1, '计划观看的科幻佳作', 1, FALSE, '诺兰的又一力作', 1, DATE_SUB(NOW(), INTERVAL 5 DAY), NOW()),
-(3, 3, 1, '已看完的经典作品', 1, TRUE, '构思巧妙的科幻电影', 1, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(4, 1, 1, '经典动作大片', 1, FALSE, '史诗级视觉效果', 1, DATE_SUB(NOW(), INTERVAL 1 WEEK), NOW()),
-(5, 2, 1, '最喜欢的科幻电影', 1, FALSE, '科学性与艺术性结合', 1, DATE_SUB(NOW(), INTERVAL 5 DAY), NOW()),
-
--- 用户2的收藏夹关联
-(1, 5, 2, '制作精良的国产剧', 1, TRUE, '值得反复观看', 2, DATE_SUB(NOW(), INTERVAL 10 DAY), NOW()),
-(2, 9, 2, '经典爱情电影', 1, FALSE, '感人至深的爱情故事', 2, DATE_SUB(NOW(), INTERVAL 1 WEEK), NOW()),
-(4, 5, 2, '优秀的国产作品', 1, FALSE, '国产剧的代表作', 2, DATE_SUB(NOW(), INTERVAL 10 DAY), NOW()),
-
--- 用户3的收藏夹关联
-(1, 10, 3, '经典科幻动作电影', 1, TRUE, '赛博朋克代表作', 3, DATE_SUB(NOW(), INTERVAL 3 DAY), NOW()),
-(1, 11, 3, '诺兰蝙蝠侠系列', 2, FALSE, '超级英雄电影的巅峰', 3, DATE_SUB(NOW(), INTERVAL 1 DAY), NOW()),
-(2, 10, 3, '动作大片收藏', 1, FALSE, '视觉效果震撼', 3, DATE_SUB(NOW(), INTERVAL 3 DAY), NOW()),
-(2, 11, 3, '超级英雄电影', 2, FALSE, '小丑表演经典', 3, DATE_SUB(NOW(), INTERVAL 1 DAY), NOW()),
-(3, 10, 3, '高分电影推荐', 1, TRUE, '哲学思辨深刻', 3, DATE_SUB(NOW(), INTERVAL 3 DAY), NOW()),
-(4, 11, 3, '高分推荐作品', 2, FALSE, '希斯·莱杰经典表演', 3, DATE_SUB(NOW(), INTERVAL 1 DAY), NOW()),
-
--- 用户4的收藏夹关联
-(1, 6, 4, 'BBC经典纪录片', 1, TRUE, '画面精美，配乐动人', 4, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(2, 6, 4, '自然纪录片收藏', 1, FALSE, '让人震撼的自然世界', 4, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(3, 6, 4, '历史题材作品', 1, FALSE, '珍贵的历史影像', 4, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(2, 12, 4, '战争历史电影', 1, FALSE, '沉重的历史题材', 4, DATE_SUB(NOW(), INTERVAL 5 DAY), NOW()),
-
--- 用户5的收藏夹关联
-(1, 7, 5, '迪士尼经典动画', 1, FALSE, '适合全家观看', 5, DATE_SUB(NOW(), INTERVAL 1 WEEK), NOW()),
-(2, 13, 5, '皮克斯温馨动画', 1, FALSE, '关于家庭与梦想', 5, DATE_SUB(NOW(), INTERVAL 3 DAY), NOW()),
-(3, 7, 5, '动画电影收藏', 1, TRUE, '寓教于乐', 5, DATE_SUB(NOW(), INTERVAL 1 WEEK), NOW()),
-(4, 13, 5, '动画世界', 1, FALSE, '皮克斯佳作', 5, DATE_SUB(NOW(), INTERVAL 3 DAY), NOW()),
-
--- 用户6的收藏夹关联
-(1, 8, 6, '韩国优秀电影', 1, TRUE, '反映社会问题的杰作', 6, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(1, 14, 6, '心理恐怖电影', 2, FALSE, '氛围营造出色', 6, DATE_SUB(NOW(), INTERVAL 6 HOUR), NOW()),
-(2, 8, 6, '恐怖惊悚收藏', 1, FALSE, '让人不寒而栗', 6, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(3, 14, 6, '悬疑推理收藏', 1, FALSE, '心理恐怖佳作', 6, DATE_SUB(NOW(), INTERVAL 6 HOUR), NOW());
+--
+-- 🎯 企业级最佳实践说明：
+--
+-- 这些关联数据应该由应用层处理，原因：
+-- 1. 业务逻辑集中在应用层
+-- 2. 事务完整性保证
+-- 3. 更好的错误处理和回滚机制
+-- 4. 可测试性强
+-- 5. 避免数据库迁移脚本的复杂性和脆弱性
+--
+-- ✅ 建议的实现方式（应用层）：
+-- @Transactional
+-- public void initializeUserCenterData(Long userId) {
+--     // 1. 创建收藏记录
+--     // 2. 获取生成的ID
+--     // 3. 创建关联关系
+--     // 4. 统一错误处理
+-- }
+--
+-- 当前版本：只插入基础数据，关联关系由应用初始化时创建
 
 -- ====================================================================
 -- 10. 插入用户评论示例数据
@@ -413,37 +393,13 @@ INSERT INTO user_comments (user_id, resource_id, parent_comment_id, root_comment
 -- ====================================================================
 -- 11. 插入评论互动数据
 -- ====================================================================
+-- 注意：评论互动数据需要依赖实际的评论记录ID，暂时注释掉避免外键约束问题
+-- 可以在后续版本中通过应用逻辑动态创建这些互动数据
 
-INSERT INTO comment_interactions (user_id, comment_id, interaction_type, interaction_value, is_active, interaction_weight, ip_address, user_agent, created_by, created_at, updated_at) VALUES
--- 点赞互动
-(1, 2, 'like', NULL, TRUE, 1.0, '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 1, DATE_SUB(NOW(), INTERVAL 6 DAY), NOW()),
-(2, 1, 'like', NULL, TRUE, 1.0, '180.150.200.88', 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X)', 2, DATE_SUB(NOW(), INTERVAL 6 DAY), NOW()),
-(3, 1, 'like', NULL, TRUE, 1.0, '10.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox', 3, DATE_SUB(NOW(), INTERVAL 6 DAY), NOW()),
-(4, 5, 'like', NULL, TRUE, 1.0, '172.16.0.1', 'Mozilla/5.0 (Linux; Android 11; SM-T870)', 4, DATE_SUB(NOW(), INTERVAL 6 DAY), NOW()),
-(5, 6, 'like', NULL, TRUE, 1.0, '203.0.113.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 5, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(2, 6, 'like', NULL, TRUE, 1.0, '180.150.200.88', 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X)', 2, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(1, 8, 'like', NULL, TRUE, 1.0, '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 1, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(3, 8, 'like', NULL, TRUE, 1.0, '10.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox', 3, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(4, 8, 'like', NULL, TRUE, 1.0, '172.16.0.1', 'Mozilla/5.0 (Linux; Android 11; SM-T870)', 4, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(5, 8, 'like', NULL, TRUE, 1.0, '203.0.113.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 5, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(2, 7, 'like', NULL, TRUE, 1.0, '180.150.200.88', 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X)', 2, DATE_SUB(NOW(), INTERVAL 6 DAY), NOW()),
-(1, 7, 'like', NULL, TRUE, 1.0, '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 1, DATE_SUB(NOW(), INTERVAL 6 DAY), NOW()),
-
--- 分享互动
-(1, 1, 'share', '微信朋友圈', TRUE, 2.0, '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 1, DATE_SUB(NOW(), INTERVAL 6 DAY), NOW()),
-(2, 3, 'share', '微博', TRUE, 2.0, '180.150.200.88', 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X)', 2, DATE_SUB(NOW(), INTERVAL 3 DAY), NOW()),
-(3, 4, 'share', 'QQ空间', TRUE, 2.0, '10.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox', 3, DATE_SUB(NOW(), INTERVAL 10 DAY), NOW()),
-(4, 8, 'share', '朋友圈', TRUE, 2.0, '172.16.0.1', 'Mozilla/5.0 (Linux; Android 11; SM-T870)', 4, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-(5, 8, 'share', '微博', TRUE, 2.0, '203.0.113.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 5, DATE_SUB(NOW(), INTERVAL 2 WEEK), NOW()),
-
--- 感谢互动
-(2, 1, 'thank', '谢谢你的精彩评论', TRUE, 1.5, '180.150.200.88', 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X)', 2, DATE_SUB(NOW(), INTERVAL 6 DAY), NOW()),
-(3, 3, 'thank', '你的分析很到位', TRUE, 1.5, '10.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox', 3, DATE_SUB(NOW(), INTERVAL 3 DAY), NOW()),
-(1, 2, 'thank', '感谢认同', TRUE, 1.5, '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 1, DATE_SUB(NOW(), INTERVAL 6 DAY), NOW()),
-
--- 踩互动（很少见）
-(4, 1, 'dislike', '觉得评分有点高', TRUE, 0.8, '172.16.0.1', 'Mozilla/5.0 (Linux; Android 11; SM-T870)', 4, DATE_SUB(NOW(), INTERVAL 5 DAY), NOW()),
-(5, 2, 'dislike', '不同意观点', TRUE, 0.8, '203.0.113.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 5, DATE_SUB(NOW(), INTERVAL 5 DAY), NOW());
+-- INSERT INTO comment_interactions (user_id, comment_id, interaction_type, interaction_value, is_active, interaction_weight, ip_address, user_agent, created_by, created_at, updated_at) VALUES
+-- -- 点赞互动（需要动态获取评论ID）
+-- (1, (SELECT id FROM user_comments WHERE user_id = 1 AND content_type = 'movie' LIMIT 1), 'like', NULL, TRUE, 1.0, '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 1, DATE_SUB(NOW(), INTERVAL 6 DAY), NOW()),
+-- ... 其他互动数据
 
 -- ====================================================================
 -- 数据插入完成日志

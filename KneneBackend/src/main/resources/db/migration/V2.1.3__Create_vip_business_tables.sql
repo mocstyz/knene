@@ -26,9 +26,9 @@ CREATE TABLE vip_plans (
     plan_description TEXT NULL DEFAULT NULL COMMENT '套餐描述',
     plan_level TINYINT UNSIGNED NOT NULL DEFAULT 1 COMMENT '套餐等级（1-5）',
     duration_days INT UNSIGNED NOT NULL COMMENT '有效天数',
-    original_price DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '原价',
-    current_price DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '现价',
-    discount_percentage DECIMAL(5,2) UNSIGNED NULL DEFAULT NULL COMMENT '折扣百分比',
+    original_price DECIMAL(10,2) NOT NULL COMMENT '原价',
+    current_price DECIMAL(10,2) NOT NULL COMMENT '现价',
+    discount_percentage DECIMAL(5,2) NULL DEFAULT NULL COMMENT '折扣百分比',
     currency VARCHAR(3) NOT NULL DEFAULT 'CNY' COMMENT '货币单位',
     download_quota INT UNSIGNED NULL DEFAULT NULL COMMENT '下载配额（次）',
     download_speed_limit INT UNSIGNED NULL DEFAULT NULL COMMENT '下载速度限制（KB/s）',
@@ -59,7 +59,7 @@ CREATE TABLE vip_plans (
         FOREIGN KEY (updated_by) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT chk_vip_plans_level_range CHECK (plan_level BETWEEN 1 AND 5),
     CONSTRAINT chk_vip_plans_duration_positive CHECK (duration_days > 0),
-    CONSTRAINT chk_vip_plans_price_positive CHECK (current_price > 0 AND original_price > 0),
+    CONSTRAINT chk_vip_plans_price_positive CHECK (current_price >= 0 AND original_price >= 0),
     CONSTRAINT chk_vip_plans_discount_range CHECK (discount_percentage IS NULL OR (discount_percentage >= 0 AND discount_percentage <= 100)),
     CONSTRAINT uk_vip_plans_plan_code UNIQUE (plan_code)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='VIP套餐表';
@@ -78,7 +78,7 @@ CREATE TABLE vip_memberships (
     auto_renew BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否自动续费',
     renewal_plan_id BIGINT UNSIGNED NULL DEFAULT NULL COMMENT '续费套餐ID',
     payment_method VARCHAR(50) NULL DEFAULT NULL COMMENT '支付方式',
-    total_paid DECIMAL(10,2) UNSIGNED NOT NULL DEFAULT 0.00 COMMENT '累计支付金额',
+    total_paid DECIMAL(10,2) NOT NULL DEFAULT 0.00 COMMENT '累计支付金额',
     remaining_downloads INT UNSIGNED NULL DEFAULT NULL COMMENT '剩余下载次数',
     last_download_at TIMESTAMP NULL DEFAULT NULL COMMENT '最后下载时间',
     benefits_used JSON NULL DEFAULT NULL COMMENT '已使用权益（JSON格式）',
@@ -184,10 +184,10 @@ CREATE TABLE orders (
     plan_id BIGINT UNSIGNED NOT NULL COMMENT '套餐ID',
     order_type ENUM('new', 'renewal', 'upgrade', 'downgrade', 'gift') NOT NULL DEFAULT 'new' COMMENT '订单类型',
     status ENUM('pending', 'paid', 'cancelled', 'refunded', 'expired', 'failed') NOT NULL DEFAULT 'pending' COMMENT '订单状态',
-    original_price DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '原价',
-    discount_amount DECIMAL(10,2) UNSIGNED NOT NULL DEFAULT 0.00 COMMENT '折扣金额',
-    coupon_amount DECIMAL(10,2) UNSIGNED NOT NULL DEFAULT 0.00 COMMENT '优惠券金额',
-    final_price DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '最终价格',
+    original_price DECIMAL(10,2) NOT NULL COMMENT '原价',
+    discount_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00 COMMENT '折扣金额',
+    coupon_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00 COMMENT '优惠券金额',
+    final_price DECIMAL(10,2) NOT NULL COMMENT '最终价格',
     currency VARCHAR(3) NOT NULL DEFAULT 'CNY' COMMENT '货币单位',
     quantity INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '数量',
     duration_days INT UNSIGNED NOT NULL COMMENT '有效天数',
@@ -197,7 +197,7 @@ CREATE TABLE orders (
     gift_message VARCHAR(500) NULL DEFAULT NULL COMMENT '赠送留言',
     notes TEXT NULL DEFAULT NULL COMMENT '订单备注',
     cancelled_reason VARCHAR(500) NULL DEFAULT NULL COMMENT '取消原因',
-    refunded_amount DECIMAL(10,2) UNSIGNED NULL DEFAULT 0.00 COMMENT '退款金额',
+    refunded_amount DECIMAL(10,2) NULL DEFAULT 0.00 COMMENT '退款金额',
     refunded_reason VARCHAR(500) NULL DEFAULT NULL COMMENT '退款原因',
     expires_at TIMESTAMP NULL DEFAULT NULL COMMENT '过期时间',
     paid_at TIMESTAMP NULL DEFAULT NULL COMMENT '支付时间',
@@ -240,11 +240,11 @@ CREATE TABLE order_items (
     item_id BIGINT UNSIGNED NULL DEFAULT NULL COMMENT '关联项目ID',
     item_name VARCHAR(255) NOT NULL COMMENT '项目名称',
     item_description TEXT NULL DEFAULT NULL COMMENT '项目描述',
-    unit_price DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '单价',
+    unit_price DECIMAL(10,2) NOT NULL COMMENT '单价',
     quantity INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '数量',
-    total_price DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '总价',
-    discount_amount DECIMAL(10,2) UNSIGNED NOT NULL DEFAULT 0.00 COMMENT '折扣金额',
-    final_price DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '最终价格',
+    total_price DECIMAL(10,2) NOT NULL COMMENT '总价',
+    discount_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00 COMMENT '折扣金额',
+    final_price DECIMAL(10,2) NOT NULL COMMENT '最终价格',
     metadata JSON NULL DEFAULT NULL COMMENT '元数据（JSON格式）',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -266,10 +266,10 @@ CREATE TABLE payment_records (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     order_id BIGINT UNSIGNED NOT NULL COMMENT '订单ID',
     payment_no VARCHAR(64) NOT NULL COMMENT '支付单号',
-    payment_method ENUM('alipay', 'wechat', 'bank_card', 'credit_card', 'paypal', 'balance', 'gift_card') NOT NULL COMMENT '支付方式',
+    payment_method ENUM('alipay_web', 'alipay_mobile', 'wechat_web', 'wechat_mobile', 'bank_card', 'credit_card', 'paypal', 'balance', 'gift_card', 'unionpay', 'bank_transfer') NOT NULL COMMENT '支付方式',
     payment_channel ENUM('web', 'mobile', 'app', 'api', 'manual') NOT NULL DEFAULT 'web' COMMENT '支付渠道',
     payment_status ENUM('pending', 'processing', 'success', 'failed', 'cancelled', 'refunded', 'partial_refunded') NOT NULL DEFAULT 'pending' COMMENT '支付状态',
-    amount DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '支付金额',
+    amount DECIMAL(10,2) NOT NULL COMMENT '支付金额',
     currency VARCHAR(3) NOT NULL DEFAULT 'CNY' COMMENT '货币单位',
     third_party_trade_no VARCHAR(255) NULL DEFAULT NULL COMMENT '第三方交易号',
     third_party_response JSON NULL DEFAULT NULL COMMENT '第三方响应数据',
@@ -279,7 +279,7 @@ CREATE TABLE payment_records (
     callback_at TIMESTAMP NULL DEFAULT NULL COMMENT '回调时间',
     verified_at TIMESTAMP NULL DEFAULT NULL COMMENT '验证时间',
     failed_reason VARCHAR(500) NULL DEFAULT NULL COMMENT '失败原因',
-    refund_amount DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '退款金额',
+    refund_amount DECIMAL(10,2) NULL DEFAULT NULL COMMENT '退款金额',
     refund_reason VARCHAR(500) NULL DEFAULT NULL COMMENT '退款原因',
     refunded_at TIMESTAMP NULL DEFAULT NULL COMMENT '退款时间',
     ip_address VARCHAR(45) NULL DEFAULT NULL COMMENT '支付IP地址',
@@ -307,16 +307,16 @@ CREATE TABLE payment_methods (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     method_code VARCHAR(50) NOT NULL COMMENT '支付方式代码',
     method_name VARCHAR(255) NOT NULL COMMENT '支付方式名称',
-    method_type ENUM('online', 'offline', 'digital_wallet', 'bank_transfer', 'cryptocurrency') NOT NULL COMMENT '支付方式类型',
+    method_type ENUM('online', 'offline', 'digital_wallet', 'bank_transfer', 'cryptocurrency', 'gift_card') NOT NULL COMMENT '支付方式类型',
     provider_name VARCHAR(255) NULL DEFAULT NULL COMMENT '提供商名称',
     provider_code VARCHAR(100) NULL DEFAULT NULL COMMENT '提供商代码',
     description TEXT NULL DEFAULT NULL COMMENT '描述',
     icon_url VARCHAR(500) NULL DEFAULT NULL COMMENT '图标URL',
     supported_currencies JSON NULL DEFAULT NULL COMMENT '支持的货币（JSON数组）',
-    min_amount DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '最小金额',
-    max_amount DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '最大金额',
-    fee_rate DECIMAL(5,4) UNSIGNED NULL DEFAULT NULL COMMENT '手续费率',
-    fixed_fee DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '固定手续费',
+    min_amount DECIMAL(10,2) NULL DEFAULT NULL COMMENT '最小金额',
+    max_amount DECIMAL(10,2) NULL DEFAULT NULL COMMENT '最大金额',
+    fee_rate DECIMAL(5,4) NULL DEFAULT NULL COMMENT '手续费率',
+    fixed_fee DECIMAL(10,2) NULL DEFAULT NULL COMMENT '固定手续费',
     is_active BOOLEAN NOT NULL DEFAULT TRUE COMMENT '是否激活',
     sort_order INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '排序',
     config JSON NULL DEFAULT NULL COMMENT '配置信息（JSON格式）',
@@ -351,10 +351,10 @@ CREATE TABLE coupons (
     coupon_code VARCHAR(50) NOT NULL COMMENT '优惠券代码',
     coupon_name VARCHAR(255) NOT NULL COMMENT '优惠券名称',
     coupon_type ENUM('discount_percentage', 'fixed_amount', 'free_shipping', 'free_trial', 'gift') NOT NULL COMMENT '优惠券类型',
-    discount_value DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '折扣值',
-    discount_percentage DECIMAL(5,2) UNSIGNED NULL DEFAULT NULL COMMENT '折扣百分比',
-    min_order_amount DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '最小订单金额',
-    max_discount_amount DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '最大折扣金额',
+    discount_value DECIMAL(10,2) NULL DEFAULT NULL COMMENT '折扣值',
+    discount_percentage DECIMAL(5,2) NULL DEFAULT NULL COMMENT '折扣百分比',
+    min_order_amount DECIMAL(10,2) NULL DEFAULT NULL COMMENT '最小订单金额',
+    max_discount_amount DECIMAL(10,2) NULL DEFAULT NULL COMMENT '最大折扣金额',
     applicable_plans JSON NULL DEFAULT NULL COMMENT '适用套餐（JSON数组）',
     usage_limit INT UNSIGNED NULL DEFAULT NULL COMMENT '使用次数限制',
     usage_limit_per_user TINYINT UNSIGNED NULL DEFAULT NULL COMMENT '每用户使用次数限制',
@@ -422,7 +422,6 @@ CREATE TABLE user_coupons (
         FOREIGN KEY (coupon_id) REFERENCES coupons(id) ON DELETE CASCADE,
     CONSTRAINT fk_user_coupons_used_order_id_orders_id
         FOREIGN KEY (used_order_id) REFERENCES orders(id) ON DELETE SET NULL,
-    CONSTRAINT chk_user_coupons_used_order_valid CHECK ((used_order_id IS NULL) OR (status = 'used')),
     CONSTRAINT uk_user_coupons_user_coupon UNIQUE (user_id, coupon_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户优惠券表';
 
@@ -476,8 +475,8 @@ CREATE TABLE referral_codes (
     referral_link VARCHAR(500) NULL DEFAULT NULL COMMENT '推荐链接',
     description VARCHAR(500) NULL DEFAULT NULL COMMENT '描述',
     reward_type ENUM('discount', 'cashback', 'points', 'extension') NOT NULL DEFAULT 'discount' COMMENT '奖励类型',
-    reward_value DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '奖励值',
-    reward_percentage DECIMAL(5,2) UNSIGNED NULL DEFAULT NULL COMMENT '奖励百分比',
+    reward_value DECIMAL(10,2) NULL DEFAULT NULL COMMENT '奖励值',
+    reward_percentage DECIMAL(5,2) NULL DEFAULT NULL COMMENT '奖励百分比',
     max_uses INT UNSIGNED NULL DEFAULT NULL COMMENT '最大使用次数',
     used_count INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '已使用次数',
     valid_from TIMESTAMP NOT NULL COMMENT '有效期开始时间',
@@ -514,10 +513,10 @@ CREATE TABLE vip_business_statistics (
     active_memberships INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '活跃会员数',
     expired_memberships INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '过期会员数',
     renewed_memberships INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '续费会员数',
-    total_revenue DECIMAL(12,2) UNSIGNED NOT NULL DEFAULT 0.00 COMMENT '总收入',
-    average_revenue DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '平均收入',
-    conversion_rate DECIMAL(5,2) UNSIGNED NULL DEFAULT NULL COMMENT '转化率',
-    retention_rate DECIMAL(5,2) UNSIGNED NULL DEFAULT NULL COMMENT '留存率',
+    total_revenue DECIMAL(12,2) NOT NULL DEFAULT 0.00 COMMENT '总收入',
+    average_revenue DECIMAL(10,2) NULL DEFAULT NULL COMMENT '平均收入',
+    conversion_rate DECIMAL(5,2) NULL DEFAULT NULL COMMENT '转化率',
+    retention_rate DECIMAL(5,2) NULL DEFAULT NULL COMMENT '留存率',
     popular_plan_id BIGINT UNSIGNED NULL DEFAULT NULL COMMENT '热门套餐ID',
     plan_distribution JSON NULL DEFAULT NULL COMMENT '套餐分布（JSON格式）',
     revenue_by_plan JSON NULL DEFAULT NULL COMMENT '按套餐收入分布（JSON格式）',
@@ -543,47 +542,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ====================================================================
 -- 创建触发器：订单状态变更时更新会员信息
 -- ====================================================================
-DELIMITER $$
-
 -- 订单支付成功时自动创建或更新会员信息
-CREATE TRIGGER tr_orders_after_update_handle_payment
-AFTER UPDATE ON orders
-FOR EACH ROW
-BEGIN
-    -- 当订单状态从pending变为paid时
-    IF OLD.status = 'pending' AND NEW.status = 'paid' AND NEW.paid_at IS NOT NULL THEN
-        -- 检查用户是否已有活跃会员记录
-        SELECT COUNT(*) INTO @membership_count
-        FROM vip_memberships
-        WHERE user_id = NEW.user_id AND is_active = TRUE;
-
-        IF @membership_count = 0 THEN
-            -- 创建新的会员记录
-            INSERT INTO vip_memberships (
-                user_id, plan_id, membership_code, membership_level,
-                start_date, end_date, status, auto_renewal_plan_id,
-                payment_method, total_paid, is_active, created_by, updated_by
-            ) VALUES (
-                NEW.user_id, NEW.plan_id, CONCAT('VIP', DATE_FORMAT(NOW(), '%Y%m%d'), LPAD(NEW.user_id, 6, '0')),
-                (SELECT plan_level FROM vip_plans WHERE id = NEW.plan_id),
-                NEW.start_date, NEW.end_date, 'active', NEW.plan_id,
-                NEW.payment_method, NEW.final_price, TRUE, NEW.user_id, NEW.user_id
-            );
-        ELSE
-            -- 更新现有会员记录（续费场景）
-            UPDATE vip_memberships
-            SET plan_id = NEW.plan_id,
-                membership_level = (SELECT plan_level FROM vip_plans WHERE id = NEW.plan_id),
-                end_date = GREATEST(end_date, NEW.end_date),
-                total_paid = total_paid + NEW.final_price,
-                updated_by = NEW.user_id,
-                updated_at = NOW()
-            WHERE user_id = NEW.user_id AND is_active = TRUE;
-        END IF;
-    END IF;
-END$$
-
-DELIMITER ;
+-- 注意：触发器已移除，因为涉及复杂业务逻辑，建议在应用层处理
 
 -- ====================================================================
 -- 表创建完成日志

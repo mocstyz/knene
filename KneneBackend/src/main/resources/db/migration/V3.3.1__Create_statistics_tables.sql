@@ -12,7 +12,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- 搜索日志表
 -- ----------------------------
-DROP TABLE IF EXISTS `search_logs`;
+-- DROP TABLE IF EXISTS `search_logs`;
 CREATE TABLE `search_logs` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID，遵循通用字段设计规范',
   `session_id` varchar(100) COMMENT '会话ID',
@@ -146,21 +146,21 @@ CREATE TABLE `search_logs` (
   KEY `idx_engine_cache_time` (`search_engine`, `cache_hit`, `search_time_seconds`) COMMENT '复合索引：引擎、缓存、时间',
   KEY `idx_session_sequence` (`search_session_id`, `search_sequence_number`) COMMENT '复合索引：会话和序列号',
   KEY `idx_keyword_time` (`search_keyword`(100), `created_at`) COMMENT '复合索引：关键词和时间',
-  CONSTRAINT `chk_search_logs_user_type` CHECK (`user_type` IN (1, 2, 3, 4)) COMMENT '用户类型约束',
-  CONSTRAINT `chk_search_logs_search_type` CHECK (`search_type` IN (1, 2, 3, 4)) COMMENT '搜索类型约束',
-  CONSTRAINT `chk_search_logs_page_number` CHECK (`page_number` >= 1) COMMENT '页码约束',
-  CONSTRAINT `chk_search_logs_page_size` CHECK (`page_size` > 0 AND `page_size` <= 200) COMMENT '页面大小约束',
-  CONSTRAINT `chk_search_logs_result_count` CHECK (`result_count` >= 0) COMMENT '结果数量约束',
-  CONSTRAINT `chk_search_logs_quality_score` CHECK (`search_quality_score` >= 0 AND `search_quality_score` <= 100) COMMENT '质量评分范围约束',
-  CONSTRAINT `chk_search_logs_satisfaction` CHECK (`user_satisfaction_score` IN (1, 2, 3, 4, 5)) COMMENT '满意度评分约束',
-  CONSTRAINT `chk_search_logs_rates` CHECK (`click_through_rate` >= 0 AND `click_through_rate` <= 100 AND
-                                        `conversion_rate` >= 0 AND `conversion_rate` <= 100) COMMENT '比率范围约束'
+  CHECK (`user_type` IN (1, 2, 3, 4)),
+  CHECK (`search_type` IN (1, 2, 3, 4)),
+  CHECK (`page_number` >= 1),
+  CHECK (`page_size` > 0 AND `page_size` <= 200),
+  CHECK (`result_count` >= 0),
+  CHECK (`search_quality_score` >= 0 AND `search_quality_score` <= 100),
+  CHECK (`user_satisfaction_score` IN (1, 2, 3, 4, 5)),
+  CHECK (`click_through_rate` >= 0 AND `click_through_rate` <= 100 AND
+         `conversion_rate` >= 0 AND `conversion_rate` <= 100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='搜索日志表，遵循数据库分层设计原则';
 
 -- ----------------------------
 -- 用户统计表
 -- ----------------------------
-DROP TABLE IF EXISTS `user_statistics`;
+-- DROP TABLE IF EXISTS `user_statistics`;
 CREATE TABLE `user_statistics` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID，遵循通用字段设计规范',
   `user_id` bigint NOT NULL COMMENT '用户ID，外键关联users表',
@@ -306,20 +306,20 @@ CREATE TABLE `user_statistics` (
   KEY `idx_status_score` (`activity_status`, `activity_score`) COMMENT '复合索引：状态和评分',
   KEY `idx_segment_tier` (`user_segment`, `user_tier`) COMMENT '复合索引：分群和等级',
   KEY `idx_engagement_value` (`user_engagement_score`, `user_value_score`) COMMENT '复合索引：参与度和价值',
-  CONSTRAINT `chk_user_statistics_statistics_type` CHECK (`statistics_type` IN (1, 2, 3, 4)) COMMENT '统计类型约束',
-  CONSTRAINT `chk_user_statistics_activity_status` CHECK (`activity_status` IN (1, 2, 3, 4)) COMMENT '活跃状态约束',
-  CONSTRAINT `chk_user_statistics_activity_score` CHECK (`activity_score` >= 0 AND `activity_score` <= 100) COMMENT '活跃度评分范围约束',
-  CONSTRAINT `chk_user_statistics_rates` CHECK (`bounce_rate` >= 0 AND `bounce_rate` <= 100 AND
-                                             `search_success_rate` >= 0 AND `search_success_rate` <= 100 AND
-                                             `download_success_rate` >= 0 AND `download_success_rate` <= 100) COMMENT '比率范围约束',
-  CONSTRAINT `chk_user_statistics_satisfaction` CHECK (`platform_satisfaction` IN (1, 2, 3, 4, 5) AND
-                                                     `recommendation_willingness` IN (1, 2, 3, 4)) COMMENT '满意度评分约束',
-  CONSTRAINT `chk_user_statistics_nps` CHECK (`net_promoter_score` IN (-2, -1, 0, 1, 2)) COMMENT '净推荐值约束',
-  CONSTRAINT `chk_user_statistics_scores` CHECK (`user_engagement_score` >= 0 AND `user_engagement_score` <= 100 AND
-                                               `user_loyalty_score` >= 0 AND `user_loyalty_score` <= 100 AND
-                                               `user_value_score` >= 0 AND `user_value_score` <= 100) COMMENT '评分范围约束',
-  CONSTRAINT `chk_user_statistics_probabilities` CHECK (`predicted_churn_probability` >= 0 AND `predicted_churn_probability` <= 100 AND
-                                                       `retention_probability` >= 0 AND `retention_probability` <= 100) COMMENT '概率范围约束'
+  CHECK (`statistics_type` IN (1, 2, 3, 4)),
+  CHECK (`activity_status` IN (1, 2, 3, 4)),
+  CHECK (`activity_score` >= 0 AND `activity_score` <= 100),
+  CHECK (`bounce_rate` >= 0 AND `bounce_rate` <= 100 AND
+         `search_success_rate` >= 0 AND `search_success_rate` <= 100 AND
+         `download_success_rate` >= 0 AND `download_success_rate` <= 100),
+  CHECK (`platform_satisfaction` IN (1, 2, 3, 4, 5) AND
+         `recommendation_willingness` IN (1, 2, 3, 4)),
+  CHECK (`net_promoter_score` IN (-2, -1, 0, 1, 2)),
+  CHECK (`user_engagement_score` >= 0 AND `user_engagement_score` <= 100 AND
+         `user_loyalty_score` >= 0 AND `user_loyalty_score` <= 100 AND
+         `user_value_score` >= 0 AND `user_value_score` <= 100),
+  CHECK (`predicted_churn_probability` >= 0 AND `predicted_churn_probability` <= 100 AND
+         `retention_probability` >= 0 AND `retention_probability` <= 100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户统计表，遵循数据库分层设计原则';
 
 -- 设置外键检查
