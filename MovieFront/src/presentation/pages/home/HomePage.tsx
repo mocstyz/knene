@@ -17,9 +17,7 @@ import {
 import { NavigationHeader, HeroSection } from '@components/organisms'
 import { SkeletonHomePage } from '@components/atoms'
 import { useHomeData } from '@data/home/homeData'
-import { ROUTES } from '@presentation/router/routes'
-import { toUnifiedContentItem } from '@types-movie'
-import { toCollectionItems, toPhotoItems, toLatestItems, toHotItems } from '@utils/data-converters'
+import { ROUTES } from '@presentation/router/routePaths'
 import { navigateToContentDetail } from '../../../utils/navigation-helpers'
 import type { BaseContentItem } from '@components/domains/shared/content-renderers'
 import React, { useRef, useMemo } from 'react'
@@ -56,8 +54,8 @@ const HomePage: React.FC = () => {
   console.log('HomePage - photos:', photos)
   console.log('HomePage - photos length:', photos?.length)
 
-  // 数据转换处理 - 使用统一数据转换API，将所有数据转换为统一格式
-  // 影片合集数据处理 - 转换为CollectionItem格式并缓存
+  // 数据处理 - MockDataService现在直接返回最终格式的数据，无需转换
+  // 影片合集数据处理 - 直接使用从Hook获取的数据
   const processedCollections = useMemo(() => {
     console.log('🔍 [HomePage] Processing collections:', {
       length: collections?.length || 0,
@@ -69,22 +67,15 @@ const HomePage: React.FC = () => {
       return []
     }
 
-    const unifiedData = collections.map(toUnifiedContentItem)
-    console.log('🔄 [HomePage] Unified collections:', {
-      length: unifiedData.length,
-      data: unifiedData
-    })
-
-    const result = toCollectionItems(unifiedData)
     console.log('✅ [HomePage] Final processedCollections:', {
-      length: result.length,
-      data: result
+      length: collections.length,
+      data: collections
     })
 
-    return result
+    return collections
   }, [collections])
 
-  // 写真数据处理 - 转换为PhotoItem格式并缓存
+  // 写真数据处理 - 直接使用从Hook获取的数据
   const processedPhotos = useMemo(() => {
     console.log('🔍 [HomePage] Processing photos:', {
       length: photos?.length || 0,
@@ -96,31 +87,22 @@ const HomePage: React.FC = () => {
       return []
     }
 
-    const unifiedData = photos.map(toUnifiedContentItem)
-    console.log('🔄 [HomePage] Unified photos:', {
-      length: unifiedData.length,
-      data: unifiedData
-    })
-
-    const result = toPhotoItems(unifiedData)
     console.log('✅ [HomePage] Final processedPhotos:', {
-      length: result.length,
-      data: result
+      length: photos.length,
+      data: photos
     })
 
-    return result
+    return photos
   }, [photos])
 
-  // 最新更新数据处理 - 转换为LatestItem格式并缓存
+  // 最新更新数据处理 - 直接使用从Hook获取的数据
   const processedLatestUpdates = useMemo(() => {
-    const unifiedData = (latestUpdates || []).map(toUnifiedContentItem)
-    return toLatestItems(unifiedData)
+    return latestUpdates || []
   }, [latestUpdates])
 
-  // 热门内容数据处理 - 转换为HotItem格式并缓存
+  // 热门内容数据处理 - 直接使用从Hook获取的数据
   const processedHotDaily = useMemo(() => {
-    const unifiedData = (hotDaily || []).map(toUnifiedContentItem)
-    return toHotItems(unifiedData)
+    return hotDaily || []
   }, [hotDaily])
 
 
@@ -149,7 +131,7 @@ const HomePage: React.FC = () => {
           <CollectionSection
             data={processedCollections}
             showMoreLink={true}
-            moreLinkUrl={ROUTES.SPECIAL.COLLECTIONS}
+            moreLinkUrl={ROUTES.COLLECTIONS.LIST}
             onCollectionClick={handleCollectionClick}
           />
 
@@ -157,7 +139,7 @@ const HomePage: React.FC = () => {
           <PhotoSection
             data={processedPhotos}
             showMoreLink={true}
-            moreLinkUrl={ROUTES.PHOTO.LIST}
+            moreLinkUrl={ROUTES.PHOTOS.LIST}
             onPhotoClick={handlePhotoClick}
             cardConfig={{
               showNewBadge: true,
@@ -173,7 +155,7 @@ const HomePage: React.FC = () => {
           <LatestUpdateSection
             data={processedLatestUpdates}
             showMoreLink={true}
-            moreLinkUrl={ROUTES.LATEST_UPDATE.LIST}
+            moreLinkUrl={ROUTES.LATEST}
             onItemClick={(item: any) => {
               // LatestItem转换为BaseContentItem进行导航
               const baseItem: BaseContentItem = {
@@ -191,7 +173,7 @@ const HomePage: React.FC = () => {
             title="7天最热门"
             movies={processedHotDaily}
             showViewMore={true}
-            moreLinkUrl={ROUTES.HOT.LIST}
+            moreLinkUrl={ROUTES.HOT.WEEKLY}
             onItemClick={(item: any) => {
               // HotItem转换为BaseContentItem进行导航
               const baseItem: BaseContentItem = {

@@ -11,11 +11,11 @@ import { Title } from '@domain/value-objects/Title'
 
 // 影片合集详情接口，包含合集的完整信息描述
 export interface CollectionDetail {
-  id: string // 合集唯一标识
+  id: number // 合集唯一标识（统一使用数字ID）
   title: Title // 合集标题值对象
   description: string // 合集描述
   coverImage: string // 封面图片URL
-  movieIds: string[] // 包含的影片ID列表
+  movieIds: number[] // 包含的影片ID列表
   tags: string[] // 标签列表
   genre: string // 合集类型（如：动作、喜剧、科幻等）
   curator?: string // 策展人/编辑者
@@ -36,18 +36,18 @@ export interface CollectionDetail {
 
 // 影片合集分类接口，定义合集分类的层级结构
 export interface CollectionCategory {
-  id: string // 分类唯一标识
+  id: number // 分类唯一标识（统一使用数字ID）
   name: string // 分类名称
   slug: string // 分类别名（用于URL）
   description?: string // 分类描述
-  parentId?: string // 父分类ID，支持层级结构
+  parentId?: number // 父分类ID，支持层级结构
   order: number // 排序权重
 }
 
 // 影片合集评分接口，记录用户对合集的评分和评价
 export interface CollectionRating {
-  userId: string // 用户ID
-  collectionId: string // 合集ID
+  userId: number // 用户ID（统一使用数字ID）
+  collectionId: number // 合集ID（统一使用数字ID）
   rating: number // 评分值（1-10）
   review?: string // 评价内容
   createdAt: Date // 评分时间

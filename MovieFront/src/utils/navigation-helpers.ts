@@ -6,7 +6,7 @@
  * @version 1.0.0
  */
 
-import { ROUTES } from '@presentation/router/routes'
+import { ROUTES } from '@presentation/router/routePaths'
 import type { BaseContentItem } from '@components/domains/shared/content-renderers'
 
 // 根据内容项类型导航到对应页面
@@ -24,15 +24,15 @@ export function navigateToContentDetail(
   switch (item.contentType) {
     case 'movie':
       // 跳转到影片详情页，传递图片信息
-      navigate(ROUTES.MOVIE.DETAIL(item.id), { state })
+      navigate(ROUTES.MOVIES.DETAIL(item.id), { state })
       break
     case 'photo':
       // 跳转到写真详情页，传递图片信息
-      navigate(ROUTES.PHOTO.DETAIL(item.id), { state })
+      navigate(ROUTES.PHOTOS.DETAIL(item.id), { state })
       break
     case 'collection':
       // 跳转到合集影片列表页，传递图片信息
-      navigate(ROUTES.COLLECTION.DETAIL(item.id), { state })
+      navigate(ROUTES.COLLECTIONS.DETAIL(item.id), { state })
       break
     default:
       console.warn(`Unknown content type: ${item.contentType}`)
@@ -43,11 +43,11 @@ export function navigateToContentDetail(
 export function getContentDetailUrl(item: BaseContentItem): string {
   switch (item.contentType) {
     case 'movie':
-      return ROUTES.MOVIE.DETAIL(item.id)
+      return ROUTES.MOVIES.DETAIL(item.id)
     case 'photo':
-      return ROUTES.PHOTO.DETAIL(item.id)
+      return ROUTES.PHOTOS.DETAIL(item.id)
     case 'collection':
-      return ROUTES.COLLECTION.DETAIL(item.id)
+      return ROUTES.COLLECTIONS.DETAIL(item.id)
     default:
       return '#'
   }

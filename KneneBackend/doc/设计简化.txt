@@ -1,0 +1,182 @@
+完整的模块化单体架构设计（13个模块对应13个核心功能）
+
+  1. 用户系统模块 (user-system)
+
+  - 用户注册/登录（支持OAuth2第三方登录）
+  - 用户分层管理（普通用户、VIP用户、管理员、超级管理员）
+  - 用户个人中心（资料管理、下载历史、收藏列表）
+  - 用户设置与偏好管理
+
+  2. 认证授权模块 (auth-system)
+
+  - JWT认证管理
+  - RBAC权限模型
+  - 接口权限控制
+  - 数据权限控制
+  - 第三方登录集成
+
+  3. VIP会员模块 (vip-system)
+
+  - 会员等级体系管理
+  - 会员特权控制
+  - 会员状态管理（激活、到期、续费）
+  - 会员权益配置
+
+  4. 支付系统模块 (payment-system)
+
+  - 多种支付方式集成（支付宝、微信支付等）
+  - 订单管理系统
+  - 支付通知处理
+  - 交易记录管理
+  - 营销活动（优惠券、促销、推荐奖励）
+
+  5. 资源管理模块 (resource-system)
+
+  - 影视资源管理（电影、电视剧、纪录片、电子书、写真）
+  - 分类标签系统
+  - 资源评分与评论
+  - 资源推荐算法
+  - 豆瓣信息本地化
+
+  6. 下载管理模块 (download-system)
+
+  - 外部链接管理（BT网站、115网盘）
+  - 下载权限控制
+  - 下载统计与跟踪
+  - 资源健康监控
+  - 热门资源分析
+
+  7. 爬虫系统模块 (crawler-system)
+
+  - TorrentGalaxy爬虫（普通资源）
+  - SpringSunday PT站爬虫（VIP资源）
+  - 115网盘集成
+  - 资源失效自动处理
+  - 代理IP池管理
+
+  8. 求片系统模块 (request-system)
+
+  - 用户求片请求管理
+  - 自动资源搜索
+  - 请求状态跟踪
+  - 求片结果通知
+  - 管理员审核
+
+  9. 内容管理模块 (content-system)
+
+  - 新闻模块（文章发布、分类标签、评论互动）
+  - WIKI知识库（知识点管理、版本历史、用户贡献）
+  - 图床服务（图片存储与缓存）
+
+  10. 搜索系统模块 (search-system)
+
+  - 基础搜索功能
+  - 全文搜索（MySQL全文搜索或Elasticsearch）
+  - 搜索建议与历史
+  - 高级筛选功能
+
+  11. 签到积分模块 (points-system)
+
+  - 每日签到功能
+  - 积分账户管理
+  - 积分获取与消费
+  - 积分兑换VIP会员
+
+  12. 广告系统模块 (advertisement-system)
+
+  - 广告位规划与管理
+  - 广告投放策略
+  - 广告联盟对接
+  - 广告效果统计
+
+  13. 管理后台模块 (admin-system)
+
+  - 用户管理
+  - 资源管理
+  - 系统配置
+  - 数据统计与分析
+  - 操作日志管理
+
+  简化后的技术架构
+
+  核心技术栈：
+
+  ├── 应用框架: Spring Boot 3.5.7
+  ├── 数据库: MySQL 8.0 (单库，按表分模块)
+  ├── 缓存: Redis (单机或主从)
+  ├── 认证: Spring Security + JWT
+  ├── ORM: MyBatis-Plus
+  ├── 搜索: MySQL全文搜索 (可选后期升级ES)
+  ├── 文档存储: 本地文件系统或MinIO
+  ├── 任务调度: Spring Task Scheduler
+  ├── 监控: Spring Boot Actuator
+  └── 部署: Docker容器化
+
+  项目结构：
+
+  knene-movie-backend/
+  ├── knene-auth-system/          # 认证授权模块
+  ├── knene-user-system/          # 用户系统模块
+  ├── knene-vip-system/           # VIP会员模块
+  ├── knene-payment-system/       # 支付系统模块
+  ├── knene-resource-system/      # 资源管理模块
+  ├── knene-download-system/      # 下载管理模块
+  ├── knene-crawler-system/       # 爬虫系统模块
+  ├── knene-request-system/       # 求片系统模块
+  ├── knene-content-system/       # 内容管理模块
+  ├── knene-search-system/        # 搜索系统模块
+  ├── knene-points-system/        # 签到积分模块
+  ├── knene-advertisement-system/ # 广告系统模块
+  ├── knene-admin-system/         # 管理后台模块
+  ├── knene-common/               # 公共组件
+  ├── knene-config/               # 配置管理
+  └── knene-web/                  # Web层统一入口
+
+  数据库设计：
+
+  knene_movie_db/
+  ├── user_auth_tables/           # 认证授权相关表
+  ├── user_management_tables/     # 用户管理相关表
+  ├── vip_system_tables/          # VIP系统相关表
+  ├── payment_tables/             # 支付相关表
+  ├── resource_tables/            # 资源相关表
+  ├── download_tables/            # 下载相关表
+  ├── crawler_tables/             # 爬虫相关表
+  ├── request_tables/             # 求片相关表
+  ├── content_tables/             # 内容相关表
+  ├── search_tables/              # 搜索相关表
+  ├── points_tables/              # 积分相关表
+  ├── advertisement_tables/       # 广告相关表
+  └── admin_tables/               # 管理相关表
+
+  模块化设计优势
+
+  1. 完整覆盖：13个模块对应13个核心业务功能，无遗漏
+  2. 低耦合：模块间通过接口交互，便于独立开发和测试
+  3. 高内聚：每个模块内部功能紧密相关
+  4. 易于维护：单一项目，便于调试和版本控制
+  5. 渐进式开发：可以按模块优先级逐步开发
+  6. 后期可拆分：如果需要，可以轻松拆分为微服务
+
+  开发优先级建议
+
+  第一批次（核心功能）：
+  1. 用户系统模块
+  2. 认证授权模块
+  3. 资源管理模块
+  4. 下载管理模块
+
+  第二批次（业务功能）：
+  5. VIP会员模块
+  6. 支付系统模块
+  7. 爬虫系统模块
+  8. 搜索系统模块
+
+  第三批次（增强功能）：
+  9. 求片系统模块
+  10. 内容管理模块
+  11. 签到积分模块
+  12. 广告系统模块
+  13. 管理后台模块
+
+  这样的设计既保持了业务功能的完整性，又大大降低了架构复杂度，非常适合单人开发和有限资源的情况。

@@ -151,6 +151,8 @@ const CollectionDetailPage: React.FC = () => {
                 showNewBadge={true}
                 newBadgeType="latest"
                 qualityText={movie.quality}
+                isVip={movie.isVip}
+                isNew={movie.isNew}
               />
             )}
           />

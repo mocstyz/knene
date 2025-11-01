@@ -14,7 +14,7 @@ import React from 'react'
 
 // 统一内容项基础接口，所有内容类型都必须实现此基础接口
 export interface BaseContentItem {
-  id: string // 内容唯一标识符
+  id: number // 内容唯一标识符（统一使用数字ID）
   title: string // 内容标题
   contentType: ContentTypeId // 内容类型标识符
   type?: string // 内容类型（可选，用于兼容不同的类型系统）
@@ -35,13 +35,26 @@ export type ContentTypeId =
   | 'live'
 
 // 渲染器配置接口，控制渲染器的行为和显示选项
+// 注意：某些标签的显示受内容类型的业务规则约束，配置可能被覆盖
 export interface RendererConfig {
   hoverEffect?: boolean // 是否启用悬停效果
   aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape' // 宽高比
-  showVipBadge?: boolean // 是否显示VIP徽章
-  showNewBadge?: boolean // 是否显示新内容徽章
-  showQualityBadge?: boolean // 是否显示质量徽章
-  showRatingBadge?: boolean // 是否显示评分徽章
+  
+  // 标签显示配置 - 独立控制每个标签的显示
+  // 注意：对于合集和写真，VIP标签强制显示，忽略此配置
+  showVipBadge?: boolean // 是否显示VIP徽章（合集和写真强制为true）
+  
+  // NEW标签根据数据源的isNew字段和此配置共同决定
+  showNewBadge?: boolean // 是否显示新内容徽章（需要数据源isNew为true）
+  
+  // 质量标签根据数据源的quality字段和此配置共同决定
+  // 合集不显示质量标签
+  showQualityBadge?: boolean // 是否显示质量徽章（需要数据源提供quality字段）
+  
+  // 评分标签根据数据源的rating字段和此配置共同决定
+  // 合集和写真不显示评分标签
+  showRatingBadge?: boolean // 是否显示评分徽章（需要数据源提供rating字段）
+  
   showMetadata?: boolean // 是否显示元数据信息
   size?: 'sm' | 'md' | 'lg' | 'xl' // 组件尺寸
   className?: string // 自定义CSS类名
@@ -169,7 +182,7 @@ export function isContentItem(obj: any): obj is BaseContentItem {
   return (
     obj &&
     typeof obj === 'object' &&
-    typeof obj.id === 'string' &&
+    typeof obj.id === 'number' &&
     typeof obj.title === 'string' &&
     typeof obj.contentType === 'string' &&
     typeof obj.imageUrl === 'string'
@@ -199,4 +212,29 @@ export function isValidContentType(
     'live',
   ]
   return validTypes.includes(contentType)
+}
+
+// 创建默认渲染器配置
+// 默认所有标签都启用，支持通过参数覆盖默认值
+export function createDefaultRendererConfig(
+  overrides?: Partial<RendererConfig>
+): RendererConfig {
+  const defaultConfig: RendererConfig = {
+    hoverEffect: true,
+    aspectRatio: 'portrait',
+    showVipBadge: true, // 默认显示VIP标签
+    showNewBadge: true, // 默认显示NEW标签
+    showQualityBadge: true, // 默认显示质量标签
+    showRatingBadge: true, // 默认显示评分标签
+    showMetadata: false,
+    showTitle: true,
+    showDescription: false,
+    size: 'md',
+    className: '',
+  }
+
+  return {
+    ...defaultConfig,
+    ...overrides,
+  }
 }

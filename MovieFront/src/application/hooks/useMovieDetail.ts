@@ -21,7 +21,7 @@ interface UseMovieDetailReturn {
 }
 
 // 影片详情Hook，处理影片数据获取和状态管理
-export function useMovieDetail(movieId: string): UseMovieDetailReturn {
+export function useMovieDetail(movieId: string, isVipOverride?: boolean): UseMovieDetailReturn {
   const [movie, setMovie] = useState<MovieDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -32,7 +32,7 @@ export function useMovieDetail(movieId: string): UseMovieDetailReturn {
       setLoading(true)
       setError(null)
       
-      const data = await movieDetailApi.getMovieDetail(movieId)
+      const data = await movieDetailApi.getMovieDetail(movieId, isVipOverride)
       
       setMovie(data)
     } catch (err) {

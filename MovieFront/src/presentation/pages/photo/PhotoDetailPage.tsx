@@ -133,13 +133,14 @@ const PhotoDetailPage: React.FC = () => {
       {/* 主内容区域 */}
       <div className="container mx-auto p-8 relative z-10 -mt-24">
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 space-y-8">
-          {/* 资源信息 */}
+          {/* 资源信息 - 根据photo.isVip传递VIP状态（所有写真都是VIP） */}
           {photo.resource && (
             <MovieResourceInfo
               resource={photo.resource}
               isFavorited={photo.isFavorited || false}
               onFavoriteToggle={toggleFavorite}
               onReport={handleReport}
+              isVip={photo.isVip || true}
             />
           )}
 

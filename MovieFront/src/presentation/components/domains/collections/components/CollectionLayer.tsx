@@ -163,10 +163,10 @@ const CollectionLayer: React.FC<CollectionLayerProps> = ({
         {/* 底部标签层 */}
         <div className="absolute bottom-2 left-2 right-2 z-10 flex justify-between">
           <div></div>
-          {/* VIP badge - bottom-right */}
+          {/* VIP badge - bottom-right，根据isVip prop决定显示 */}
           {showVipBadge && isVip && (
             <VipBadgeLayer
-              isVip={true}
+              isVip={isVip}
               position="bottom-right"
               variant="default"
             />

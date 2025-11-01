@@ -86,11 +86,13 @@ export class CollectionRepository implements ICollectionRepository {
       return this.transformCollectionItem(data)
     } catch (error) {
       if (import.meta.env.DEV) {
-        console.log(`Development: API not available, using mock data for collection ${id}`)
+        console.log(`🎬 [CollectionRepository] Development: API not available, using mock data for collection ${id}`)
         
         // 使用Mock数据服务
         const { mockDataService } = await import('@application/services/MockDataService')
+        console.log(`🎬 [CollectionRepository] Calling getMockCollectionDetail with id:`, id, typeof id)
         const mockCollection = mockDataService.getMockCollectionDetail(id)
+        console.log(`🎬 [CollectionRepository] Mock collection result:`, mockCollection)
         
         if (mockCollection) {
           return mockCollection
@@ -150,15 +152,17 @@ export class CollectionRepository implements ICollectionRepository {
       return this.transformMoviesResponse(data)
     } catch (error) {
       if (import.meta.env.DEV) {
-        console.log(`Development: API not available, using mock data for collection ${collectionId} movies`)
+        console.log(`🎬 [CollectionRepository] Development: API not available, using mock data for collection ${collectionId} movies`)
         
         // 使用Mock数据服务
         const { mockDataService } = await import('@application/services/MockDataService')
+        console.log(`🎬 [CollectionRepository] Calling getMockCollectionMovies with:`, { collectionId, page, pageSize })
         const mockResult = mockDataService.getMockCollectionMovies({
           collectionId,
           page,
           pageSize
         })
+        console.log(`🎬 [CollectionRepository] Mock result:`, { moviesCount: mockResult.movies.length, total: mockResult.total })
         
         const totalPages = Math.ceil(mockResult.total / pageSize)
         
@@ -420,7 +424,16 @@ export class CollectionRepository implements ICollectionRepository {
         director: item.director || '未知导演',
         cast: item.cast || [],
         country: item.country || '未知',
-        language: item.language || '中文'
+        language: item.language || '中文',
+        // VIP相关字段 - 确保从Mock数据或API响应中传递
+        isVip: item.isVip !== undefined ? item.isVip : false,
+        isNew: item.isNew !== undefined ? item.isNew : false,
+        newType: item.newType || null,
+        // 统计字段
+        viewCount: item.viewCount,
+        downloadCount: item.downloadCount,
+        likeCount: item.likeCount,
+        favoriteCount: item.favoriteCount
       })),
       pagination: {
         currentPage: apiData.pagination?.page || 1,
@@ -449,7 +462,16 @@ export class CollectionRepository implements ICollectionRepository {
       createdAt: item.createdAt || new Date().toISOString(),
       updatedAt: item.updatedAt || new Date().toISOString(),
       isFeatured: item.featured || false,
-      rating: item.rating?.toString() || '0'
+      rating: item.rating?.toString() || '0',
+      // VIP相关字段 - 确保从Mock数据或API响应中传递
+      isVip: item.isVip !== undefined ? item.isVip : true, // 合集默认为VIP
+      isNew: item.isNew !== undefined ? item.isNew : false,
+      newType: item.newType || null,
+      // 统计字段
+      viewCount: item.viewCount,
+      downloadCount: item.downloadCount,
+      likeCount: item.likeCount,
+      favoriteCount: item.favoriteCount
     }
   }
 
