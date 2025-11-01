@@ -9,7 +9,7 @@ spring:
 
   # 环境配置
   profiles:
-    active: dev
+    active: database
 
   # 数据库配置
   datasource:
@@ -36,7 +36,8 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
     baseline-version: 1.0.0
-    validate-on-migrate: true
+    validate-on-migrate: true   # 启用验证模式以检测问题
+    clean-disabled: false  # 允许清理操作（开发环境）
 
   # Redis配置
   data:

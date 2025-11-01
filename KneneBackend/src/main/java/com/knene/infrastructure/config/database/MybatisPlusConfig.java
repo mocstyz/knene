@@ -1,10 +1,11 @@
 /**
- * MyBatis Plus配置类
- * 提供MyBatis Plus的增强功能配置，包括分页插件、乐观锁插件、逻辑删除等
+ * MybatisPlusConfig类
+ * MybatisPlusConfig相关实现
  *
- * @author mosctz
+ * @author 相笑与春风
  * @version 1.0
  */
+
 package com.knene.infrastructure.config.database;
 
 import com.baomidou.mybatisplus.annotation.DbType;

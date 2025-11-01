@@ -22,7 +22,7 @@ CREATE TABLE system_configs (
     -- 配置基础信息：遵循字段命名规范
     config_key VARCHAR(100) NOT NULL COMMENT '配置键',
     config_value TEXT COMMENT '配置值',
-    config_type ENUM('STRING', 'NUMBER', 'BOOLEAN', 'JSON') DEFAULT 'STRING' COMMENT '配置类型',
+    config_type ENUM('string', 'number', 'boolean', 'json') DEFAULT 'string' COMMENT '配置类型',
     module VARCHAR(50) NOT NULL DEFAULT 'default' COMMENT '所属模块',
     description VARCHAR(500) COMMENT '配置描述',
 
@@ -108,7 +108,7 @@ CREATE TABLE dictionaries (
 
     -- 数据完整性约束：遵循CHECK约束规范
     CONSTRAINT chk_dict_type_format CHECK (dict_type REGEXP '^[a-z][a-z0-9_]*$'),
-    CONSTRAINT chk_dict_key_format CHECK (dict_key REGEXP '^[a-z][a-z0-9_]*$'),
+    CONSTRAINT chk_dict_key_format CHECK (dict_key REGEXP '^[a-zA-Z0-9_/-]+$'),
     CONSTRAINT chk_dict_group_format CHECK (dict_group IS NULL OR dict_group REGEXP '^[a-z][a-z0-9_]*$'),
     CONSTRAINT chk_dict_sort_order CHECK (sort_order >= 0),
     CONSTRAINT chk_dict_label_length CHECK (dict_label IS NULL OR CHAR_LENGTH(dict_label) <= 100),
@@ -125,7 +125,7 @@ CREATE TABLE file_storages (
 
     -- 存储基础信息：遵循字段命名规范
     storage_name VARCHAR(100) NOT NULL COMMENT '存储名称',
-    storage_type ENUM('LOCAL', 'OSS', 'COS', 'QINIU', 'S3') NOT NULL COMMENT '存储类型',
+    storage_type ENUM('local', 'oss', 'cos', 'qiniu', 's3') NOT NULL COMMENT '存储类型',
 
     -- 存储配置信息：支持多种云存储
     access_key VARCHAR(200) COMMENT '访问密钥',
@@ -203,7 +203,7 @@ CREATE TABLE operation_logs (
 
     -- 性能信息：记录操作性能
     execution_time INT COMMENT '执行时间(ms)',
-    status ENUM('SUCCESS', 'FAILURE', 'ERROR') NOT NULL COMMENT '执行状态',
+    status ENUM('success', 'failure', 'error') NOT NULL COMMENT '执行状态',
     error_code VARCHAR(50) COMMENT '错误代码',
     error_message TEXT COMMENT '错误信息',
 
@@ -260,7 +260,7 @@ CREATE TABLE audit_logs (
     -- 实体信息：记录被操作实体
     entity_type VARCHAR(50) NOT NULL COMMENT '实体类型',
     entity_id BIGINT NOT NULL COMMENT '实体ID',
-    operation_type ENUM('CREATE', 'UPDATE', 'DELETE', 'RESTORE') NOT NULL COMMENT '操作类型',
+    operation_type ENUM('create', 'update', 'delete', 'restore') NOT NULL COMMENT '操作类型',
 
     -- 变更信息：记录数据变更详情
     old_values JSON COMMENT '旧值',

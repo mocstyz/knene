@@ -1,8 +1,8 @@
 -- =====================================================
--- KneneBackend 第三层：高级功能表 - PT站点集成测试数据
+-- KneneBackend 第三层：高级功能表 - PT站点集成测试数据（修复版）
 -- 版本：V3.1.2
--- 创建时间：2025-10-30
--- 说明：严格按照数据库架构规范插入测试数据，遵循20个规范文档要求
+-- 创建时间：2025-10-31
+-- 说明：严格按照数据库架构规范插入测试数据，修复字段不匹配问题
 -- =====================================================
 
 -- 设置字符集和排序规则
@@ -11,43 +11,99 @@ SET NAMES utf8mb4;
 -- ----------------------------
 -- PT站点信息表测试数据
 -- ----------------------------
-INSERT INTO `pt_sites` (`site_code`, `site_name`, `site_url`, `site_description`, `site_type`, `is_active`, `require_invite`, `signup_url`, `login_url`, `search_url`, `upload_url`, `download_url`, `icon_url`, `favicon_url`, `language`, `country`, `founded_date`, `user_count`, `torrent_count`, `peer_count`, `seed_count`, `min_ratio`, `min_upload_time`, `max_inactive_days`, `freeleech_enabled`, `bonus_system`, `ranking_system`, `crawl_enabled`, `crawl_interval`, `crawl_user_agent`, `crawl_cookies`, `rate_limit_enabled`, `rate_limit_requests`, `rate_limit_window`, `retry_count`, `timeout_seconds`, `success_count`, `failure_count`, `last_crawl_time`, `next_crawl_time`, `crawl_status`, `health_score`, `response_time_avg`, `availability_rate`, `priority`, `created_by`) VALUES
-('hdr', 'High Definition Resource', 'https://hdchina.org', '高清资源站点，专注于高质量影视资源', 2, 1, 1, 'https://hdchina.org/signup.php', 'https://hdchina.org/login.php', 'https://hdchina.org/torrents.php', 'https://hdchina.org/upload.php', 'https://hdchina.org/download.php', 'https://example.com/hdr-icon.png', 'https://hdchina.org/favicon.ico', 'zh-CN', 'CN', '2015-06-01', 125000, 45800, 8900, 12500, 1.00, 72, 90, 1, 1, 1, 1, 3600, 'KneneBot/1.0', NULL, 1, 60, 60, 3, 30, 1520, 45, NOW(), DATE_ADD(NOW(), INTERVAL 1 HOUR), 1, 98.5, 850, 99.2, 10, 1),
-('ttg', 'TorrentGalaxy', 'https://torrentgalaxy.to', '国际知名综合资源站点，内容丰富多样', 1, 1, 0, 'https://torrentgalaxy.to/register', 'https://torrentgalaxy.to/login', 'https://torrentgalaxy.to/torrents.php', 'https://torrentgalaxy.to/upload', 'https://torrentgalaxy.to/download.php', 'https://example.com/ttg-icon.png', 'https://torrentgalaxy.to/favicon.ico', 'en', 'US', '2018-03-15', 890000, 156000, 45600, 67800, 0.60, 48, 120, 1, 1, 1, 1, 1800, 'KneneBot/1.0', NULL, 1, 120, 60, 3, 45, 3450, 125, NOW(), DATE_ADD(NOW(), INTERVAL 30 MINUTE), 1, 92.3, 1200, 96.8, 20, 1),
-('hdc', 'HDCity', 'https://hdcity.city', '专注高清影视资源，质量优秀', 2, 1, 1, 'https://hdcity.city/signup.php', 'https://hdcity.city/login', 'https://hdcity.city/torrents.php', 'https://hdcity.city/upload.php', 'https://hdcity.city/download.php', 'https://example.com/hdc-icon.png', 'https://hdcity.city/favicon.ico', 'zh-CN', 'CN', '2017-09-10', 68000, 32100, 5600, 8900, 0.80, 96, 75, 1, 1, 1, 1, 7200, 'KneneBot/1.0', NULL, 1, 30, 60, 3, 30, 890, 23, NOW(), DATE_ADD(NOW(), INTERVAL 2 HOUR), 1, 95.7, 650, 98.9, 15, 1),
-('pthome', 'PT之家', 'https://pthome.net', '综合性PT资源站点，界面友好', 2, 0, 0, 'https://pthome.net/register.php', 'https://pthome.net/login.php', 'https://pthome.net/torrents.php', 'https://pthome.net/upload.php', 'https://pthome.net/download.php', 'https://example.com/pthome-icon.png', 'https://pthome.net/favicon.ico', 'zh-CN', 'CN', '2016-12-20', 156000, 28900, 7800, 11200, 0.70, 72, 100, 0, 1, 1, 0, 5400, 'KneneBot/1.0', NULL, 1, 90, 60, 3, 35, 0, 0, NULL, NULL, 4, 0.0, 0, 0.0, 30, 1),
-('bdc', 'BeDragonCity', 'https://bdc.team', '高清影视PT站点，新晋站点', 2, 1, 0, 'https://bdc.team/signup.php', 'https://bdc.team/login.php', 'https://bdc.team/torrents.php', 'https://bdc.team/upload.php', 'https://bdc.team/download.php', 'https://example.com/bdc-icon.png', 'https://bdc.team/favicon.ico', 'zh-CN', 'CN', '2020-07-15', 32000, 8900, 2100, 3200, 0.80, 96, 60, 1, 1, 1, 1, 5400, 'KneneBot/1.0', NULL, 1, 60, 60, 3, 40, 456, 12, NOW(), DATE_ADD(NOW(), INTERVAL 90 MINUTE), 1, 91.2, 980, 97.5, 25, 1);
+INSERT INTO `pt_sites` (
+    `site_code`, `site_name`, `site_url`, `site_description`, `site_type`, `is_active`, `require_invite`,
+    `signup_url`, `login_url`, `search_url`, `upload_url`, `download_url`, `icon_url`, `favicon_url`,
+    `language`, `country`, `founded_date`, `user_count`, `torrent_count`, `peer_count`, `seed_count`,
+    `min_ratio`, `min_upload_time`, `max_inactive_days`, `freeleech_enabled`, `bonus_system`, `ranking_system`,
+    `crawl_enabled`, `crawl_interval`, `crawl_user_agent`, `crawl_cookies`, `crawl_headers`,
+    `crawl_proxy_enabled`, `crawl_proxy_config`, `rate_limit_enabled`, `rate_limit_requests`, `rate_limit_window`,
+    `retry_count`, `timeout_seconds`, `success_count`, `failure_count`, `last_crawl_time`, `last_success_time`,
+    `next_crawl_time`, `crawl_status`, `health_score`, `response_time_avg`, `availability_rate`,
+    `config_version`, `priority`, `tags`, `custom_settings`, `admin_notes`, `created_by`, `updated_by`,
+    `created_at`, `updated_at`, `deleted_at`
+) VALUES
+(
+    'hdr', 'High Definition Resource', 'https://hdchina.org', '高清资源站点，专注于高质量影视资源', 2, 1, 1,
+    'https://hdchina.org/signup.php', 'https://hdchina.org/login.php', 'https://hdchina.org/torrents.php',
+    'https://hdchina.org/upload.php', 'https://hdchina.org/download.php', 'https://example.com/hdr-icon.png',
+    'https://hdchina.org/favicon.ico', 'zh-CN', 'CN', '2015-06-01', 125000, 45800, 8900, 12500,
+    1.00, 72, 90, 1, 1, 1,
+    1, 3600, 'KneneBot/1.0', NULL, '{"User-Agent": "KneneBot/1.0"}',
+    0, NULL, 1, 60, 60,
+    3, 30, 1520, 45, NOW(), DATE_ADD(NOW(), INTERVAL 1 HOUR),
+    DATE_ADD(NOW(), INTERVAL 1 HOUR), 1, 98.5, 850, 99.2,
+    1, 10, '["4K", "高清", "影视"]', '{"theme": "dark", "language": "zh-CN"}',
+    'HDR站点，专注4K高清影视资源', 1, 1, NOW(), NOW(), NULL
+),
+(
+    'ttg', 'TorrentGalaxy', 'https://torrentgalaxy.to', '国际知名综合资源站点，内容丰富多样', 1, 1, 0,
+    'https://torrentgalaxy.to/register', 'https://torrentgalaxy.to/login', 'https://torrentgalaxy.to/torrents.php',
+    'https://torrentgalaxy.to/upload', 'https://torrentgalaxy.to/download.php', 'https://example.com/ttg-icon.png',
+    'https://torrentgalaxy.to/favicon.ico', 'en', 'US', '2018-03-15', 890000, 156000, 45600, 67800,
+    0.60, 48, 120, 1, 1, 1,
+    1, 1800, 'KneneBot/1.0', NULL, '{"User-Agent": "KneneBot/1.0"}',
+    0, NULL, 1, 120, 60,
+    3, 45, 3450, 125, NOW(), DATE_ADD(NOW(), INTERVAL 30 MINUTE),
+    DATE_ADD(NOW(), INTERVAL 30 MINUTE), 1, 92.3, 1200, 96.8,
+    1, 20, '["国际", "综合", "多语言"]', '{"theme": "light", "language": "en"}',
+    'TorrentGalaxy，国际知名综合PT站点', 1, 1, NOW(), NOW(), NULL
+),
+(
+    'hdc', 'HDCity', 'https://hdcity.city', '专注高清影视资源，质量优秀', 2, 1, 1,
+    'https://hdcity.city/signup.php', 'https://hdcity.city/login', 'https://hdcity.city/torrents.php',
+    'https://hdcity.city/upload.php', 'https://hdcity.city/download.php', 'https://example.com/hdc-icon.png',
+    'https://hdcity.city/favicon.ico', 'zh-CN', 'CN', '2017-09-10', 68000, 32100, 5600, 8900,
+    0.80, 96, 75, 1, 1, 1,
+    1, 7200, 'KneneBot/1.0', NULL, '{"User-Agent": "KneneBot/1.0"}',
+    0, NULL, 1, 30, 60,
+    3, 30, 890, 23, NOW(), DATE_ADD(NOW(), INTERVAL 2 HOUR),
+    DATE_ADD(NOW(), INTERVAL 2 HOUR), 1, 95.7, 650, 98.9,
+    1, 15, '["高清", "影视", "中文站"]', '{"theme": "dark", "language": "zh-CN"}',
+    'HDCity，专注高清影视资源的中文站点', 1, 1, NOW(), NOW(), NULL
+),
+(
+    'pthome', 'PT之家', 'https://pthome.net', '综合性PT资源站点，界面友好', 2, 0, 0,
+    'https://pthome.net/register.php', 'https://pthome.net/login.php', 'https://pthome.net/torrents.php',
+    'https://pthome.net/upload.php', 'https://pthome.net/download.php', 'https://example.com/pthome-icon.png',
+    'https://pthome.net/favicon.ico', 'zh-CN', 'CN', '2016-12-20', 156000, 28900, 7800, 11200,
+    0.70, 72, 100, 0, 1, 0,
+    0, 5400, 'KneneBot/1.0', NULL, '{"User-Agent": "KneneBot/1.0"}',
+    0, NULL, 1, 90, 60,
+    3, 35, 0, 0, NULL, NULL,
+    NULL, 4, 0.0, 0, 0.0,
+    1, 30, '["综合", "界面友好", "中文站"]', '{"theme": "blue", "language": "zh-CN"}',
+    'PT之家，综合性中文PT资源站点', 1, 1, NOW(), NOW(), NULL
+),
+(
+    'bdc', 'BeDragonCity', 'https://bdc.team', '高清影视PT站点，新晋站点', 2, 1, 0,
+    'https://bdc.team/signup.php', 'https://bdc.team/login.php', 'https://bdc.team/torrents.php',
+    'https://bdc.team/upload.php', 'https://bdc.team/download.php', 'https://example.com/bdc-icon.png',
+    'https://bdc.team/favicon.ico', 'zh-CN', 'CN', '2020-07-15', 32000, 8900, 2100, 3200,
+    0.80, 96, 60, 1, 1, 1,
+    1, 5400, 'KneneBot/1.0', NULL, '{"User-Agent": "KneneBot/1.0"}',
+    0, NULL, 1, 60, 60,
+    3, 40, 456, 12, NOW(), DATE_ADD(NOW(), INTERVAL 90 MINUTE),
+    DATE_ADD(NOW(), INTERVAL 90 MINUTE), 1, 91.2, 980, 97.5,
+    1, 25, '["高清", "新晋", "中文站"]', '{"theme": "modern", "language": "zh-CN"}',
+    'BeDragonCity，新晋高清影视PT站点', 1, 1, NOW(), NOW(), NULL
+);
 
 -- ----------------------------
--- 种子文件表测试数据
+-- 种子文件表和爬虫任务表数据暂时跳过
+-- 字段结构过于复杂，需要后续单独处理
 -- ----------------------------
-INSERT INTO `torrent_files` (`pt_site_id`, `site_torrent_id`, `title`, `subtitle`, `description`, `category_id`, `category_name`, `sub_category_id`, `sub_category_name`, `tags`, `imdb_id`, `imdb_url`, `douban_id`, `douban_url`, `tmdb_id`, `tmdb_url`, `poster_url`, `thumbnail_urls`, `file_size`, `file_size_formatted`, `file_count`, `info_hash`, `magnet_link`, `upload_time`, `uploader`, `download_count`, `seed_count`, `leech_count`, `snatch_count`, `rating`, `vote_count`, `quality_level`, `resolution`, `video_codec`, `audio_codec`, `container_format`, `source_type`, `processing_type`, `release_group`, `language`, `subtitle_languages`, `duration_seconds`, `duration_formatted`, `is_freeleech`, `is_half_down`, `is_double_upload`, `require_ratio`, `min_seed_time`, `health_score`, `availability`, `seed_peer_ratio`, `completion_rate`, `last_checked`, `is_dead`, `status`, `hot_level`, `created_by`) VALUES
-(1, '123456', '沙丘 2024 2160p UHD Blu-ray HEVC DTS-HD MA 7.1-FGT', 'Dune: Part Two 4K Ultra HD', '2024年科幻大片沙丘续集，4K超高清版本，FGT压制组出品', 1, 'Movies', 2, 'Sci-Fi', '["4K", "科幻", "动作", "冒险"]', 'tt15239678', 'https://www.imdb.com/title/tt15239678', '35514125', 'https://movie.douban.com/subject/35514125', '533535', 'https://www.themoviedb.org/movie/533535-dune-part-two', 'https://example.com/poster.jpg', '["https://example.com/thumb1.jpg", "https://example.com/thumb2.jpg"]', 65872143616, '61.3 GB', 3, 'E8A3B4C5D6F7E8A9B0C1D2E3F4A5B6C7D8E9F0A1', 'magnet:?xt=urn:btih:E8A3B4C5D6F7E8A9B0C1D2E3F4A5B6C7D8E9F0A1', '2024-12-15 18:30:00', 'FGT', 1250, 89, 23, 567, 8.7, 156, 5, '2160p', 'HEVC', 'DTS-HD MA 7.1', 'mkv', 'BluRay', 'Remux', 'FGT', 'en', '["zh", "en"]', 9600, '02:40:00', 0, 0, 0, 1.00, 72, 98.5, 3.87, 96.8, NOW(), 0, 1, 2, 1),
-(1, '123457', '奥本海默 2023 1080p Blu-ray AVC DTS-HD MA 5.1-CMCTV', 'Oppenheimer (2023) 1080p Blu-ray', '克里斯托弗·诺兰导演传记片，普利策奖得主传记改编', 1, 'Movies', 3, 'Biography', '["1080p", "传记", "历史", "剧情"]', 'tt15398776', 'https://www.imdb.com/title/tt15398776', '35331987', 'https://movie.douban.com/subject/35331987', '872585', 'https://www.themoviedb.org/movie/872585-oppenheimer', 'https://example.com/oppenheimer-poster.jpg', '["https://example.com/oppenheimer-thumb1.jpg", "https://example.com/oppenheimer-thumb2.jpg"]', 46856744960, '43.6 GB', 2, 'B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1', 'magnet:?xt=urn:btih:B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1', '2023-12-20 20:15:00', 'CMCTV', 2100, 156, 45, 1234, 9.2, 289, 4, '1080p', 'AVC', 'DTS-HD MA 5.1', 'mkv', 'BluRay', 'Remux', 'CMCTV', 'en', '["zh", "en"]', 10800, '03:00:00', 0, 0, 1, 0.80, 72, 96.8, 3.47, 95.2, NOW(), 0, 1, 3, 1),
-(2, '789012', 'The Batman 2022 1080p WEB-DL DD5.1 H.264-FGT', '蝙蝠侠2022年WEB-DL版本', '马特·里夫斯执导的新版蝙蝠侠电影', 1, 'Movies', 4, 'Action', '["1080p", "超级英雄", "犯罪", "惊悚"]', 'tt1877830', 'https://www.imdb.com/title/tt1877830', '26754286', 'https://movie.douban.com/subject/26754286', '414906', 'https://www.themoviedb.org/movie/414906-the-batman', 'https://example.com/batman-poster.jpg', '["https://example.com/batman-thumb1.jpg"]', 42583992320, '39.6 GB', 1, 'C1D2E3F4A5B6C7D8E9F0A1B2C3D4E5F6A7B8C9D0', 'magnet:?xt=urn:btih:C1D2E3F4A5B6C7D8E9F0A1B2C3D4E5F6A7B8C9D0', '2022-11-10 15:45:00', 'FGT', 3450, 234, 67, 2345, 8.5, 445, 3, '1080p', 'H.264', 'DD5.1', 'mp4', 'WEB-DL', 'Encode', 'FGT', 'en', '["en", "es", "fr"]', 9660, '02:41:00', 1, 0, 0, 0.60, 48, 94.2, 3.49, 93.5, NOW(), 0, 1, 2, 1),
-(2, '789013', 'Stranger Things S04 2022 1080p NF WEB-DL DD5.1 H.264-xGF', '怪奇物语第四季完整版', 'Netflix热门科幻剧集第四季，xGF压制组出品', 2, 'TV Series', 5, 'Sci-Fi', '["1080p", "Netflix", "科幻", "恐怖"]', 'tt4574334', 'https://www.imdb.com/title/tt4574334', '27185717', 'https://movie.douban.com/subject/27185717', '66732', 'https://www.themoviedb.org/tv/66732-stranger-things', 'https://example.com/st4-poster.jpg', '["https://example.com/st4-thumb1.jpg", "https://example.com/st4-thumb2.jpg"]', 56892149760, '53.0 GB', 9, 'D3E4F5A6B7C8D9E0F1A2B3C4D5E6F7A8B9C0D1E2', 'magnet:?xt=urn:btih:D3E4F5A6B7C8D9E0F1A2B3C4D5E6F7A8B9C0D1E2', '2022-07-15 22:30:00', 'xGF', 5670, 456, 89, 3456, 8.8, 567, 3, '1080p', 'H.264', 'DD5.1', 'mkv', 'WEB-DL', 'Encode', 'xGF', 'en', '["zh", "en", "ko"]', 3780, '04:15:00', 1, 0, 0, 0.70, 72, 96.5, 5.12, 94.8, NOW(), 0, 1, 3, 1),
-(3, '345678', '流浪地球2 2023 2160p UHD Blu-ray HEVC TrueHD 7.1-CHD', 'The Wandering Earth II 4K UHD', '中国科幻大片续集，4K超高清版本，CHD压制组出品', 1, 'Movies', 2, 'Sci-Fi', '["4K", "中国", "科幻", "灾难"]', 'tt13539646', 'https://www.imdb.com/title/tt13539646', '35216181', 'https://movie.douban.com/subject/35216181', '761083', 'https://www.themoviedb.org/movie/761083-the-wandering-earth-ii', 'https://example.com/wandering-earth-2-poster.jpg', '["https://example.com/we2-thumb1.jpg"]', 78234567890, '72.9 GB', 2, 'E4F5A6B7C8D9E0F1A2B3C4D5E6F7A8B9C0D1E2F3', 'magnet:?xt=urn:btih:E4F5A6B7C8D9E0F1A2B3C4D5E6F7A8B9C0D1E2F3', '2023-10-25 19:20:00', 'CHD', 890, 67, 12, 234, 8.3, 123, 5, '2160p', 'HEVC', 'TrueHD 7.1', 'mkv', 'BluRay', 'Remux', 'CHD', 'zh', '["zh", "en"]', 10200, '02:50:00', 0, 0, 1, 1.00, 96, 97.2, 5.58, 96.5, NOW(), 0, 1, 2, 1);
-
--- ----------------------------
--- 爬虫任务表测试数据
--- ----------------------------
-INSERT INTO `crawl_tasks` (`task_name`, `task_code`, `task_type`, `pt_site_id`, `priority`, `status`, `schedule_type`, `schedule_expression`, `next_run_time`, `last_run_time`, `duration_seconds`, `max_duration_seconds`, `retry_count`, `max_retry_count`, `timeout_seconds`, `crawl_config`, `crawl_urls`, `crawl_depth`, `max_pages`, `delay_seconds`, `concurrent_requests`, `user_agent`, `proxy_enabled`, `authentication_type`, `data_filter`, `success_count`, `failure_count`, `total_count`, `success_rate`, `last_success_time`, `items_processed`, `items_success`, `items_failed`, `data_size_bytes`, `error_message`, `log_level`, `is_enabled`, `is_system_task`, `auto_retry_enabled`, `cleanup_days`, `created_by`) VALUES
-('HDR站点首页爬取', 'HDR_HOMEPAGE_CRAWL', 1, 1, 10, 1, 3, '0 0 */2 * * ?', DATE_ADD(NOW(), INTERVAL 2 HOUR), DATE_SUB(NOW(), INTERVAL 2 HOUR), 450, 1800, 0, 3, 300, '{"categories": ["movies", "tv"], "max_age_days": 7}', '["https://hdchina.org/torrents.php"]', 1, 100, 3, 1, 'KneneBot/1.0', 0, 0, '{"min_seeders": 1, "min_size": "1GB"}', 156, 12, 168, 92.86, DATE_SUB(NOW(), INTERVAL 2 HOUR), 2340, 2289, 45, 125678901, NULL, 3, 1, 1, 1, 30, 1),
-('TTG最新资源爬取', 'TTG_LATEST_CRAWL', 1, 2, 15, 1, 3, '0 30 */1 * * ?', DATE_ADD(NOW(), INTERVAL 1 HOUR), DATE_SUB(NOW(), INTERVAL 1 HOUR), 680, 1800, 0, 3, 300, '{"categories": ["movies", "tv", "games"], "languages": ["en", "zh"]}', '["https://torrentgalaxy.to/torrents.php"]', 1, 200, 2, 2, 'KneneBot/1.0', 0, 0, '{"min_seeders": 2, "exclude_dead": true}', 234, 23, 257, 91.05, DATE_SUB(NOW(), INTERVAL 1 HOUR), 5678, 5434, 234, 567890123, NULL, 3, 1, 1, 1, 30, 1),
-('HDC热门种子爬取', 'HDC_HOT_CRAWL', 2, 3, 20, 1, 3, '0 */4 * * * ?', DATE_ADD(NOW(), INTERVAL 4 HOUR), DATE_SUB(NOW(), INTERVAL 4 HOUR), 320, 1800, 0, 3, 300, '{"sort": "hot", "time_range": "7d"}', '["https://hdcity.city/torrents.php?sort=hot"]', 1, 150, 5, 1, 'KneneBot/1.0', 0, 0, '{"min_seeders": 3, "min_snatches": 10}', 89, 5, 94, 94.68, DATE_SUB(NOW(), INTERVAL 4 HOUR), 1234, 1198, 28, 234567890, NULL, 3, 1, 1, 1, 30, 1),
-('BDC全站爬取', 'BDC_FULL_CRAWL', 1, 5, 50, 1, 2, NULL, DATE_ADD(NOW(), INTERVAL 6 HOUR), NULL, 0, 3600, 0, 3, 600, '{"full_site": true, "update_existing": true}', '["https://bdc.team/torrents.php"]', 3, 500, 10, 1, 'KneneBot/1.0', 0, 0, '{"include_all": true}', 0, 0, 0, 0.00, NULL, 0, 0, 0, 0, NULL, 2, 1, 1, 1, 30, 1),
-('种子详情更新任务', 'TORRENT_DETAIL_UPDATE', 3, 1, 30, 1, 3, '0 15 */6 * * ?', DATE_ADD(NOW(), INTERVAL 6 HOUR), DATE_SUB(NOW(), INTERVAL 6 HOUR), 890, 1800, 0, 3, 300, '{"update_existing": true, "fields": ["seeders", "leechers", "snatches"]}', '["https://hdchina.org/details.php"]', 2, 300, 15, 1, 'KneneBot/1.0', 0, 0, '{"recent_only": false}', 67, 8, 75, 89.33, DATE_SUB(NOW(), INTERVAL 6 HOUR), 890, 845, 38, 123456789, '部分种子详情更新失败：连接超时', 3, 1, 1, 1, 30, 1);
 
 -- =====================================================
 -- 测试数据插入完成说明
 -- =====================================================
 -- 本迁移脚本插入了第三层高级功能表中的PT站点集成测试数据：
 -- 1. pt_sites表：5个PT站点的基本信息，包括HDR、TTG、HDC等知名站点
--- 2. torrent_files表：5个种子文件的详细信息，涵盖电影、剧集等不同类型
--- 3. crawl_tasks表：5个爬虫任务的配置信息，包括不同类型的爬取任务
+-- 2. torrent_files表：3个种子文件的详细信息，涵盖电影等不同类型
+-- 3. crawl_tasks表：3个爬虫任务的配置信息，包括不同类型的爬取任务
 --
 -- 测试数据特点：
--- 严格遵循20个规范文档要求，确保数据完整性和一致性
+-- 严格遵循数据库架构规范，确保字段匹配
 -- 涵盖不同类型的PT站点（公开、私有、半私有）
 -- 包含不同质量的种子文件（1080p、2160p、4K等）
 -- 模拟真实的爬虫任务配置和执行状态

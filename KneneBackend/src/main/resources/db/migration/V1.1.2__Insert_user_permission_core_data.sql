@@ -125,11 +125,21 @@ INSERT INTO permissions (id, name, display_name, description, resource, action, 
 -- 注意：这里的密码是 'admin123' 的BCrypt哈希值
 -- 在实际部署时应该使用强密码
 INSERT INTO users (id, username, email, password_hash, status, email_verified, created_by, updated_by, version, created_at, updated_at) VALUES
-(1, 'admin', 'admin@knene.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 'active', TRUE, 1, 1, 1, NOW(), NOW());
+(1, 'admin', 'admin@knene.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 'active', TRUE, 1, 1, 1, NOW(), NOW()),
+(2, 'testuser', 'testuser@example.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 'active', TRUE, 1, 1, 1, NOW(), NOW()),
+(3, 'lockeduser', 'lockeduser@example.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 'active', TRUE, 1, 1, 1, NOW(), NOW()),
+(4, 'lisi', 'lisi@example.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 'active', TRUE, 1, 1, 1, NOW(), NOW()),
+(5, 'wangwu', 'wangwu@example.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 'active', TRUE, 1, 1, 1, NOW(), NOW()),
+(6, 'zhaoliu', 'zhaoliu@example.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 'active', TRUE, 1, 1, 1, NOW(), NOW());
 
--- 为管理员创建用户档案
+-- 为用户创建用户档案
 INSERT INTO user_profiles (id, user_id, nickname, gender, bio, preferences, timezone, language, created_by, updated_by, version, created_at, updated_at) VALUES
-(1, 1, '系统管理员', 'unknown', '系统默认管理员账户', '{"theme": "light", "notifications": {"email": true, "push": true}}', 'Asia/Shanghai', 'zh-CN', 1, 1, 1, NOW(), NOW());
+(1, 1, '系统管理员', 'unknown', '系统默认管理员账户', '{"theme": "light", "notifications": {"email": true, "push": true}}', 'Asia/Shanghai', 'zh-CN', 1, 1, 1, NOW(), NOW()),
+(2, 2, '测试用户', 'unknown', '用于测试功能的普通用户', '{"theme": "dark", "notifications": {"email": false, "push": true}}', 'Asia/Shanghai', 'zh-CN', 1, 1, 1, NOW(), NOW()),
+(3, 3, '锁定用户', 'unknown', '用于测试锁定功能的用户', '{"theme": "light", "notifications": {"email": true, "push": false}}', 'Asia/Shanghai', 'zh-CN', 1, 1, 1, NOW(), NOW()),
+(4, 4, '李四', 'unknown', '普通用户李四', '{"theme": "light", "notifications": {"email": true, "push": true}}', 'Asia/Shanghai', 'zh-CN', 1, 1, 1, NOW(), NOW()),
+(5, 5, '王五', 'unknown', '普通用户王五', '{"theme": "dark", "notifications": {"email": false, "push": true}}', 'Asia/Shanghai', 'zh-CN', 1, 1, 1, NOW(), NOW()),
+(6, 6, '赵六', 'unknown', '普通用户赵六', '{"theme": "auto", "notifications": {"email": true, "push": false}}', 'Asia/Shanghai', 'zh-CN', 1, 1, 1, NOW(), NOW());
 
 -- ====================================================================
 -- 4. 插入角色权限关联数据
@@ -137,26 +147,26 @@ INSERT INTO user_profiles (id, user_id, nickname, gender, bio, preferences, time
 
 -- 超级管理员拥有所有权限
 INSERT INTO role_permissions (role_id, permission_id, granted_by, status, created_by, updated_by, version, created_at, updated_at)
-SELECT 1, id, 1, 'ACTIVE', 1, 1, 1, NOW(), NOW() FROM permissions;
+SELECT 1, id, 1, 'active', 1, 1, 1, NOW(), NOW() FROM permissions;
 
 -- 管理员拥有大部分权限（除了系统配置和系统备份恢复）
 INSERT INTO role_permissions (role_id, permission_id, granted_by, status, created_by, updated_by, version, created_at, updated_at)
-SELECT 2, id, 1, 'ACTIVE', 1, 1, 1, NOW(), NOW() FROM permissions
+SELECT 2, id, 1, 'active', 1, 1, 1, NOW(), NOW() FROM permissions
 WHERE name NOT IN ('system.config', 'system.backup', 'system.restore');
 
 -- VIP用户拥有内容相关权限和基础权限
 INSERT INTO role_permissions (role_id, permission_id, granted_by, status, created_by, updated_by, version, created_at, updated_at)
-SELECT 3, id, 1, 'ACTIVE', 1, 1, 1, NOW(), NOW() FROM permissions
+SELECT 3, id, 1, 'active', 1, 1, 1, NOW(), NOW() FROM permissions
 WHERE module IN ('content', 'resource', 'favorite', 'comment', 'profile');
 
 -- 普通用户拥有基础权限
 INSERT INTO role_permissions (role_id, permission_id, granted_by, status, created_by, updated_by, version, created_at, updated_at)
-SELECT 4, id, 1, 'ACTIVE', 1, 1, 1, NOW(), NOW() FROM permissions
+SELECT 4, id, 1, 'active', 1, 1, 1, NOW(), NOW() FROM permissions
 WHERE module IN ('content', 'favorite', 'comment', 'profile') AND action IN ('view', 'create', 'update', 'delete');
 
 -- 游客仅有浏览权限
 INSERT INTO role_permissions (role_id, permission_id, granted_by, status, created_by, updated_by, version, created_at, updated_at)
-SELECT 5, id, 1, 'ACTIVE', 1, 1, 1, NOW(), NOW() FROM permissions
+SELECT 5, id, 1, 'active', 1, 1, 1, NOW(), NOW() FROM permissions
 WHERE module IN ('content') AND action IN ('view');
 
 -- ====================================================================
@@ -165,7 +175,12 @@ WHERE module IN ('content') AND action IN ('view');
 
 -- 为管理员分配超级管理员角色
 INSERT INTO user_roles (user_id, role_id, granted_by, status, remarks, created_by, updated_by, version, created_at, updated_at) VALUES
-(1, 1, 1, 'ACTIVE', '系统管理员默认拥有超级管理员角色', 1, 1, 1, NOW(), NOW());
+(1, 1, 1, 'active', '系统管理员默认拥有超级管理员角色', 1, 1, 1, NOW(), NOW()),
+(2, 4, 1, 'active', '测试用户分配普通用户角色', 1, 1, 1, NOW(), NOW()),
+(3, 4, 1, 'active', '锁定用户分配普通用户角色', 1, 1, 1, NOW(), NOW()),
+(4, 4, 1, 'active', '李四分配普通用户角色', 1, 1, 1, NOW(), NOW()),
+(5, 4, 1, 'active', '王五分配普通用户角色', 1, 1, 1, NOW(), NOW()),
+(6, 4, 1, 'active', '赵六分配普通用户角色', 1, 1, 1, NOW(), NOW());
 
 -- ====================================================================
 -- 6. 插入登录历史示例数据
@@ -173,8 +188,8 @@ INSERT INTO user_roles (user_id, role_id, granted_by, status, remarks, created_b
 
 -- 管理员登录历史示例
 INSERT INTO user_login_history (user_id, username, login_type, login_status, ip_address, user_agent, browser, os, location, login_at, logout_at, session_duration, session_id, is_current_session, risk_score, is_suspicious, security_flags, created_at) VALUES
-(1, 'admin', 'PASSWORD', 'SUCCESS', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'Chrome', 'Windows', '本地', DATE_SUB(NOW(), INTERVAL 1 DAY), DATE_SUB(NOW(), INTERVAL 1 DAY), 3600, 'sess_initial_login', FALSE, 0, FALSE, '{"location": "familiar", "device": "familiar", "first_login": true}', DATE_SUB(NOW(), INTERVAL 1 DAY)),
-(1, 'admin', 'PASSWORD', 'SUCCESS', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'Chrome', 'Windows', '本地', DATE_SUB(NOW(), INTERVAL 1 HOUR), NULL, NULL, 'sess_current', TRUE, 0, FALSE, '{"location": "familiar", "device": "familiar"}', DATE_SUB(NOW(), INTERVAL 1 HOUR));
+(1, 'admin', 'password', 'success', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'Chrome', 'Windows', '本地', DATE_SUB(NOW(), INTERVAL 1 DAY), DATE_SUB(NOW(), INTERVAL 1 DAY), 3600, 'sess_initial_login', FALSE, 0, FALSE, '{"location": "familiar", "device": "familiar", "first_login": true}', DATE_SUB(NOW(), INTERVAL 1 DAY)),
+(1, 'admin', 'password', 'success', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', 'Chrome', 'Windows', '本地', DATE_SUB(NOW(), INTERVAL 1 HOUR), NULL, NULL, 'sess_current', TRUE, 0, FALSE, '{"location": "familiar", "device": "familiar"}', DATE_SUB(NOW(), INTERVAL 1 HOUR));
 
 -- ====================================================================
 -- 数据插入完成日志

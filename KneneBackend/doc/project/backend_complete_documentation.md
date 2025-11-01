@@ -1772,11 +1772,6 @@ KneneBackend
 │   │   │               │   │   ├── repository/
 │   │   │               │   │   └── service/
 │   │   │               │   │       └── impl/
-│   │   │               │   └── verification/
-│   │   │               │       ├── entity/
-│   │   │               │       ├── repository/
-│   │   │               │       └── service/
-│   │   │               │           └── impl/
 │   │   │               ├── infrastructure/
 │   │   │               │   ├── captcha/
 │   │   │               │   │   ├── TurnstileService.java
@@ -1799,11 +1794,6 @@ KneneBackend
 │   │   │               │   │   │   ├── mapper/
 │   │   │               │   │   │   └── repository/
 │   │   │               │   │   │       └── impl/
-│   │   │               │   │   └── verification/
-│   │   │               │   │       ├── entity/
-│   │   │               │   │       ├── mapper/
-│   │   │               │   │       └── repository/
-│   │   │               │   │           └── impl/
 │   │   │               │   ├── security/
 │   │   │               │   │   ├── annotation/
 │   │   │               │   │   ├── aspect/
