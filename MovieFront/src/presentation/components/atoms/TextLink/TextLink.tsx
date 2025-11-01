@@ -1,22 +1,22 @@
 /**
  * @fileoverview 文本链接组件
- * @description 提供统一的文本链接样式和交互效果，支持多种变体和尺寸，可渲染为链接或按钮样式
+ * @description 提供统一的文本链接样式和交互效果，支持多种变体和尺寸，智能区分应用内导航（React Router）和外部链接
  * @author mosctz
  * @since 1.0.0
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 import type { TextLinkProps } from '@components/atoms/TextLink/TextLink.types'
 import { textLinkVariants } from '@tokens/design-system/base-variants'
 import { cn } from '@utils/cn'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-// eslint-disable-next-line no-restricted-imports
-
-// 文本链接组件，提供统一的文本链接样式和交互效果，原子组件设计自包含完整的视觉效果
+// 文本链接组件，智能区分应用内导航和外部链接，提供统一的样式和交互效果
 export const TextLink: React.FC<TextLinkProps> = ({
   children, // 链接内容
-  href, // 链接地址
+  to, // React Router内部链接地址
+  href, // 外部链接地址
   variant = 'primary', // 默认主要样式
   size = 'md', // 默认中等尺寸
   external = false, // 默认非外部链接
@@ -25,24 +25,6 @@ export const TextLink: React.FC<TextLinkProps> = ({
   onClick, // 点击事件
   ...props // 其他属性
 }) => {
-  // 构建基础链接属性对象
-  const linkProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
-    href,
-    onClick,
-    ...props,
-  }
-
-  // 外部链接处理 - 添加target和rel属性以确保安全性
-  if (external && href) {
-    linkProps.target = '_blank' // 在新标签页打开
-    linkProps.rel = 'noopener noreferrer' // 安全性设置
-  }
-
-  // 下载链接处理 - 添加download属性
-  if (download && href) {
-    linkProps.download = true
-  }
-
   // 构建最终的样式类名 - 合并基础样式、变体样式、尺寸样式和自定义类名
   const classNames = cn(
     textLinkVariants.base, // 基础样式
@@ -51,31 +33,71 @@ export const TextLink: React.FC<TextLinkProps> = ({
     className // 自定义类名
   )
 
-  // 如果没有href，渲染为按钮样式的span元素 - 支持键盘交互
-  if (!href) {
+  // 情况1: 使用to属性 → React Router Link（应用内导航，无整页刷新）
+  if (to) {
     return (
-      <span
-        className={classNames}
-        onClick={onClick}
-        role="button"
-        tabIndex={0}
-        onKeyDown={e => {
-          // 支持Enter和空格键触发点击事件
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault()
-            onClick?.()
-          }
-        }}
-      >
+      <Link to={to} className={classNames} onClick={onClick}>
         {children}
-      </span>
+      </Link>
     )
   }
 
-  // 渲染为标准的链接元素
+  // 情况2: 外部链接 → 普通<a>标签 + target="_blank"（新标签页打开）
+  if (external && href) {
+    return (
+      <a
+        href={href}
+        className={classNames}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onClick}
+        {...props}
+      >
+        {children}
+      </a>
+    )
+  }
+
+  // 情况3: 下载链接 → 普通<a>标签 + download属性
+  if (download && href) {
+    return (
+      <a
+        href={href}
+        className={classNames}
+        download={true}
+        onClick={onClick}
+        {...props}
+      >
+        {children}
+      </a>
+    )
+  }
+
+  // 情况4: 普通链接 → 普通<a>标签
+  if (href) {
+    return (
+      <a href={href} className={classNames} onClick={onClick} {...props}>
+        {children}
+      </a>
+    )
+  }
+
+  // 情况5: 无链接 → 按钮样式的span元素（支持键盘交互）
   return (
-    <a className={classNames} {...linkProps}>
+    <span
+      className={classNames}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={e => {
+        // 支持Enter和空格键触发点击事件
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick?.()
+        }
+      }}
+    >
       {children}
-    </a>
+    </span>
   )
 }

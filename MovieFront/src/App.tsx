@@ -11,25 +11,29 @@
 import { QueryProvider, AppThemeProvider } from '@application/providers'
 import { router } from '@presentation/router/routes'
 import { RouterProvider } from 'react-router-dom'
+import { contentRendererFactory } from '@components/domains/shared/content-renderers'
+import { useEffect, useState } from 'react'
 import '@styles/App.css'
 
-/**
- * 主应用组件
- *
- * 配置并包装整个应用程序的必要上下文提供者：
- * - QueryProvider: 使用TanStack Query管理服务器状态和数据获取
- * - AppThemeProvider: 基于 next-themes 和 Radix UI Themes 的统一主题系统
- * - RouterProvider: 处理客户端路由和导航
- *
- * 新的主题系统特性：
- * - 支持明暗模式自动切换
- * - 跟随系统主题偏好
- * - 本地存储主题选择
- * - SSR 友好的主题切换
- *
- * @returns {JSX.Element} 完全配置的应用程序组件树
- */
+// 主应用组件
 function App(): JSX.Element {
+  const [renderersReady, setRenderersReady] = useState(false)
+
+  useEffect(() => {
+    // 等待渲染器初始化完成
+    contentRendererFactory.waitForInitialization().then(() => {
+      console.log('✅ Content renderers ready')
+      setRenderersReady(true)
+    }).catch((error) => {
+      console.error('❌ Failed to initialize content renderers:', error)
+      // 即使失败也继续渲染，避免白屏
+      setRenderersReady(true)
+    })
+  }, [])
+
+  // 移除初始加载状态，让渲染器在后台初始化
+  // 这样可以避免双重 spinner 显示，直接进入路由加载流程
+
   return (
     <QueryProvider>
       <AppThemeProvider

@@ -174,6 +174,23 @@ export class PhotoContentRenderer extends BaseContentRenderer {
       photoItem.tags = []
     }
 
+    // 将quality字段映射到formatType字段（用于显示质量标签）
+    // 如果formatType不存在，尝试从quality或metadata.formatType获取
+    if (!photoItem.formatType) {
+      // 优先使用metadata.formatType
+      if ((item as any).metadata?.formatType) {
+        photoItem.formatType = (item as any).metadata.formatType as 'JPEG高' | 'PNG' | 'WebP' | 'GIF' | 'BMP'
+      }
+      // 其次使用quality字段
+      else if ((item as any).quality) {
+        photoItem.formatType = (item as any).quality as 'JPEG高' | 'PNG' | 'WebP' | 'GIF' | 'BMP'
+      }
+      // 最后使用默认值
+      else {
+        photoItem.formatType = 'JPEG高'
+      }
+    }
+
     return photoItem
   }
 

@@ -73,11 +73,6 @@ export const componentZIndices = {
   alert: zIndices.banner, // 警告提示，横幅层级
   banner: zIndices.banner, // 横幅，横幅层级
 
-  // 加载相关组件层级映射
-  loadingOverlay: zIndices.overlay, // 加载遮罩，覆盖层级
-  spinner: zIndices.modal, // 加载指示器，模态层级
-  progressBar: zIndices.base, // 进度条，普通内容层级
-
   // 特殊功能组件层级映射
   skipLink: zIndices.skipLink, // 跳转链接，模态层级
   fullscreen: zIndices.fullscreen, // 全屏组件，功能层级

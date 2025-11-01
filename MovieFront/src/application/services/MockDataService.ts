@@ -47,7 +47,13 @@ export class MockDataService {
 
     const collections = Array.from({ length: count }, (_, index) => {
       const id = `collection_${index + 1}`
-      const publishDate = new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000)
+      
+      // 生成最近30天内的随机发布时间
+      const daysAgo = Math.random() * 30 // 0-30天前
+      const publishDate = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000)
+      
+      // 计算是否为新内容（24小时内）- 修复：确保只有24小时内的内容显示NEW标签
+      const isNew = daysAgo <= 1
       
       const collectionDetail: CollectionDetail = {
         id,
@@ -59,12 +65,16 @@ export class MockDataService {
         genre: ['动作', '科幻', '剧情'][index % 3],
         curator: `策展人${index + 1}`,
         publishDate: new ReleaseDate(publishDate),
-        viewCount: Math.floor(Math.random() * 10000) + 100,
+        viewCount: Math.floor(Math.random() * 50000) + 1000, // 观看次数
         downloadCount: Math.floor(Math.random() * 5000) + 50,
-        rating: Math.random() * 4 + 6, // 6.0-10.0评分
+        likeCount: Math.floor(Math.random() * 5000) + 100, // 点赞数
+        favoriteCount: Math.floor(Math.random() * 2000) + 50, // 收藏数
+        rating: Math.random() * 4 + 6,
         ratingCount: Math.floor(Math.random() * 1000) + 10,
-        isVipRequired: Math.random() > 0.7, // 30%概率为VIP内容
-        isExclusive: Math.random() > 0.8, // 20%概率为独家合集
+        isVipRequired: Math.random() > 0.7,
+        isExclusive: Math.random() > 0.8,
+        isNew: isNew, // 24小时内
+        newType: isNew ? 'latest' : null, // 统一使用latest样式
         createdAt: new Date(publishDate.getTime() - Math.random() * 7 * 24 * 60 * 60 * 1000),
         updatedAt: publishDate
       }
@@ -92,6 +102,13 @@ export class MockDataService {
       const rating = parseFloat((Math.random() * 4 + 6).toFixed(1))
       const isVip = Math.random() > 0.7
       
+      // 生成最近30天内的随机发布时间
+      const daysAgo = Math.random() * 30 // 0-30天前
+      const publishDate = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000)
+      
+      // 计算是否为新内容（24小时内）- 修复：确保只有24小时内的内容显示NEW标签
+      const isNew = daysAgo <= 1
+      
       const movieDetail: MovieDetail = {
         id,
         title: new Title(`热门影片 ${index + 1}`),
@@ -99,21 +116,24 @@ export class MockDataService {
         poster: `https://picsum.photos/300/450?random=${index + 100}`,
         genres: [new Genre(genres)],
         duration: new Duration(90 + Math.floor(Math.random() * 60)), // 90-150分钟
-        releaseDate: new ReleaseDate(`${releaseYear}-01-01`),
+        releaseDate: new ReleaseDate(publishDate.toISOString().split('T')[0]),
         rating,
-        ratingCount: Math.floor(Math.random() * 1000) + 100, // 添加评分数量
+        ratingCount: Math.floor(Math.random() * 1000) + 100,
         director: `导演${index + 1}`,
         cast: [`演员${index + 1}`, `演员${index + 2}`],
         country: '中国',
         language: '中文',
-        subtitles: ['中文', '英文'], // 添加字幕列表
+        subtitles: ['中文', '英文'],
         quality: [
           new MovieQuality('HD', 'MP4', parseFloat((Math.random() * 3 + 1).toFixed(1)) * 1024 * 1024 * 1024, 'https://example.com/download')
         ],
         fileSize: parseFloat((Math.random() * 3 + 1).toFixed(1)),
         downloadCount: Math.floor(Math.random() * 10000),
-        createdAt: new Date(),
-        updatedAt: new Date()
+        viewCount: Math.floor(Math.random() * 50000) + 1000, // 观看次数
+        likeCount: Math.floor(Math.random() * 5000) + 100, // 点赞数
+        favoriteCount: Math.floor(Math.random() * 2000) + 50, // 收藏数
+        createdAt: publishDate,
+        updatedAt: publishDate
       }
       
       return new Movie(
@@ -121,8 +141,10 @@ export class MockDataService {
         [], // MovieCategory[]
         [], // MovieRating[]
         true, // isActive
-        Math.random() > 0.8, // isFeatured - 20%概率为推荐
-        isVip // isVipRequired
+        Math.random() > 0.8, // isFeatured
+        isVip, // isVipRequired
+        isNew, // isNew - 24小时内
+        'latest' // newType - 统一使用latest样式
       )
     })
 
@@ -143,6 +165,13 @@ export class MockDataService {
       const category = ['风景', '人物', '建筑', '动物', '艺术'][index % 5]
       const isVip = Math.random() > 0.8
       
+      // 生成最近30天内的随机发布时间
+      const daysAgo = Math.random() * 30 // 0-30天前
+      const publishDate = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000)
+      
+      // 计算是否为新内容（24小时内）- 修复：确保只有24小时内的内容显示NEW标签
+      const isNew = daysAgo <= 1
+      
       const photoDetail: PhotoDetail = {
         id,
         title: new Title(`精美图片 ${index + 1}`),
@@ -157,14 +186,16 @@ export class MockDataService {
         photographer: `摄影师${index + 1}`,
         model: `模特${index + 1}`,
         location: `拍摄地${index + 1}`,
-        publishDate: new ReleaseDate(new Date(Date.now() - Math.random() * 45 * 24 * 60 * 60 * 1000)),
-        viewCount: Math.floor(Math.random() * 5000),
-        downloadCount: Math.floor(Math.random() * 1000),
-        rating: parseFloat((Math.random() * 3 + 7).toFixed(1)), // 7.0-10.0评分
+        publishDate: new ReleaseDate(publishDate.toISOString().split('T')[0]),
+        viewCount: Math.floor(Math.random() * 50000) + 1000, // 观看次数
+        downloadCount: Math.floor(Math.random() * 5000) + 100,
+        likeCount: Math.floor(Math.random() * 5000) + 100, // 点赞数
+        favoriteCount: Math.floor(Math.random() * 2000) + 50, // 收藏数
+        rating: parseFloat((Math.random() * 3 + 7).toFixed(1)),
         ratingCount: Math.floor(Math.random() * 500),
         isVipRequired: isVip,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        createdAt: publishDate,
+        updatedAt: publishDate
       }
       
       return new Photo(
@@ -172,7 +203,9 @@ export class MockDataService {
         [], // PhotoCategory[]
         [], // PhotoRating[]
         true, // isActive
-        Math.random() > 0.7 // isFeatured - 30%概率为精选
+        Math.random() > 0.7, // isFeatured
+        isNew, // isNew - 24小时内
+        'latest' // newType - 统一使用latest样式
       )
     })
 
@@ -198,18 +231,74 @@ export class MockDataService {
     })
   }
 
-  // 获取转换后的Mock最新更新数据，返回LatestItem格式用于前端展示
-  public getMockLatestUpdates(count: number = 20): LatestItem[] {
-    const movies = this.generateMockMovies(count)
-    const unifiedItems = ContentTransformationService.transformMovieListToUnified(movies)
-    return ContentTransformationService.transformUnifiedListToLatest(unifiedItems)
+  // 获取转换后的Mock最新更新数据，返回LatestItem格式用于前端展示（混合类型：影片、写真、合集）
+  public getMockLatestUpdates(count: number = 6): LatestItem[] {
+    // 生成大量数据用于分页测试（各100个，总共300个）
+    const movies = this.generateMockMovies(100)
+    const photos = this.generateMockPhotos(100)
+    const collections = this.generateMockCollections(100)
+    
+    // 转换为统一格式
+    const movieItems = ContentTransformationService.transformMovieListToUnified(movies)
+    const photoItems = ContentTransformationService.transformPhotoListToUnified(photos)
+    const collectionItems = ContentTransformationService.transformCollectionListToUnified(collections)
+    
+    // 合并所有数据
+    const allItems = [...movieItems, ...photoItems, ...collectionItems]
+    
+    // 按发布时间排序（最新的在前）
+    const sorted = allItems.sort((a, b) => 
+      new Date(b.publishDate || 0).getTime() - new Date(a.publishDate || 0).getTime()
+    )
+    
+    // 取最新的N个
+    const latest = sorted.slice(0, count)
+    
+    // 转换为LatestItem
+    return ContentTransformationService.transformUnifiedListToLatest(latest)
   }
 
-  // 获取转换后的Mock热门数据，返回HotItem格式用于前端展示
-  public getMockHotDaily(count: number = 18): HotItem[] {
-    const movies = this.generateMockMovies(count)
-    const unifiedItems = ContentTransformationService.transformMovieListToUnified(movies)
-    return ContentTransformationService.transformUnifiedListToHot(unifiedItems)
+  // 获取转换后的Mock 7天最热门数据，返回HotItem格式用于前端展示（混合类型：影片、写真、合集）
+  public getMockWeeklyHot(count: number = 6): HotItem[] {
+    // 生成大量数据用于分页测试（各100个，总共300个）
+    const movies = this.generateMockMovies(100)
+    const photos = this.generateMockPhotos(100)
+    const collections = this.generateMockCollections(100)
+    
+    // 转换为统一格式
+    const movieItems = ContentTransformationService.transformMovieListToUnified(movies)
+    const photoItems = ContentTransformationService.transformPhotoListToUnified(photos)
+    const collectionItems = ContentTransformationService.transformCollectionListToUnified(collections)
+    
+    // 合并所有数据
+    const allItems = [...movieItems, ...photoItems, ...collectionItems]
+    
+    // 过滤：只保留7天内的内容
+    const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
+    const withinSevenDays = allItems.filter(item => {
+      const publishTime = new Date(item.publishDate || 0).getTime()
+      return publishTime >= sevenDaysAgo
+    })
+    
+    // 计算热度分数：观看次数 * 1 + 点赞数 * 5 + 收藏数 * 10
+    const withHotScore = withinSevenDays.map(item => ({
+      ...item,
+      hotScore: (item.viewCount || 0) * 1 + (item.likeCount || 0) * 5 + (item.favoriteCount || 0) * 10
+    }))
+    
+    // 按热度排序（最热的在前）
+    const sorted = withHotScore.sort((a, b) => b.hotScore - a.hotScore)
+    
+    // 取最热的N个（如果不足N个，返回实际数量）
+    const hot = sorted.slice(0, count)
+    
+    // 转换为HotItem
+    return ContentTransformationService.transformUnifiedListToWeeklyHot(hot)
+  }
+  
+  // 保留旧方法名以兼容现有代码
+  public getMockHotDaily(count: number = 6): HotItem[] {
+    return this.getMockWeeklyHot(count)
   }
 
   // 获取扩展的Mock专题数据，支持更多配置选项和筛选条件

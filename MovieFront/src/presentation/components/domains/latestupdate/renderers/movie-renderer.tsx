@@ -55,7 +55,6 @@ export class MovieContentRenderer extends BaseContentRenderer {
       <div
         className={this.getClassName(config)}
         style={this.getStyle(config)}
-        onClick={this.createClickHandler(movieItem, config)}
       >
         <MovieLayer
           movie={{

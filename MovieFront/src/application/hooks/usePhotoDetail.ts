@@ -31,7 +31,9 @@ export function usePhotoDetail(photoId: string): UsePhotoDetailReturn {
     try {
       setLoading(true)
       setError(null)
+      
       const data = await photoDetailApi.getPhotoDetail(photoId)
+      
       setPhoto(data)
     } catch (err) {
       setError('加载写真详情失败，请稍后重试')

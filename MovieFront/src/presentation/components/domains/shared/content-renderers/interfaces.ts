@@ -42,6 +42,7 @@ export interface RendererConfig {
   showNewBadge?: boolean // 是否显示新内容徽章
   showQualityBadge?: boolean // 是否显示质量徽章
   showRatingBadge?: boolean // 是否显示评分徽章
+  showMetadata?: boolean // 是否显示元数据信息
   size?: 'sm' | 'md' | 'lg' | 'xl' // 组件尺寸
   className?: string // 自定义CSS类名
   onClick?: (item: BaseContentItem) => void // 点击事件处理器

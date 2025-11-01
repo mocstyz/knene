@@ -10,11 +10,7 @@
 
 import type { ResponsiveColumnsConfig } from '@components/domains/shared'
 
-// 标准响应式配置模式设计原则 - 移动端优先、渐进增强、视觉平衡的响应式设计理念
-// 设计原则说明：
-// 移动端优先：xs/sm 断点保证小屏幕设备的基本可用性
-// 渐进增强：随屏幕尺寸增大逐步增加列数，充分利用更大空间
-// 视觉平衡：避免过多或过少的列数影响用户体验和内容可读性
+// 标准响应式配置：移动端优先、渐进增强、视觉平衡的响应式设计
 
 // 6列标准模式配置 - 适用于内容密集型展示，如写真、最新更新、24小时热门等内容丰富的模块
 export const RESPONSIVE_6_COLUMN_CONFIG: ResponsiveColumnsConfig = {

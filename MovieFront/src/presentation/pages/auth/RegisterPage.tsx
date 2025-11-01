@@ -420,19 +420,9 @@ const RegisterPage: React.FC = () => {
                 variant="primary"
                 size="lg"
                 className="relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white group hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                disabled={isLoading}
+                loading={isLoading}
               >
-                {isLoading ? (
-                  <>
-                    <Icon
-                      name="spinner"
-                      className="-ml-1 mr-3 h-5 w-5 animate-spin"
-                    />
-                    注册中...
-                  </>
-                ) : (
-                  '创建账户'
-                )}
+                {isLoading ? '注册中...' : '创建账户'}
               </Button>
             </div>
 

@@ -29,39 +29,10 @@ export interface SpecialCollectionPageResponse {
   totalPages: number // 总页数
 }
 
-/**
- * 专题合集应用服务类
- * 
- * 负责专题合集相关的业务逻辑协调，包括：
- * - 专题合集列表获取
- * - 分页和筛选处理
- * - 数据转换和格式化
- * - Mock数据与真实API的统一接口
- * 
- * 遵循DDD应用服务层职责：
- * - 协调领域服务和基础设施服务
- * - 处理应用级别的业务流程
- * - 提供统一的对外接口
- */
+// 专题合集应用服务类
 export class SpecialCollectionApplicationService extends BaseApplicationService {
   
-  /**
-   * 获取专题合集列表
-   * 
-   * @param options 查询选项，包括分页、筛选、排序等参数
-   * @returns Promise<CollectionItem[]> 专题合集列表
-   * 
-   * @example
-   * ```typescript
-   * const service = new SpecialCollectionApplicationService()
-   * const collections = await service.getSpecialCollections({
-   *   page: 1,
-   *   pageSize: 12,
-   *   category: '热门',
-   *   sortBy: 'latest'
-   * })
-   * ```
-   */
+  // 获取专题合集列表
   async getSpecialCollections(options: SpecialCollectionQueryOptions = {}): Promise<CollectionItem[]> {
     const { page = 1, pageSize = 12, category, sortBy = 'latest', includeVipOnly = false } = options
     
@@ -134,22 +105,7 @@ export class SpecialCollectionApplicationService extends BaseApplicationService 
     )
   }
   
-  /**
-   * 获取专题合集分页数据
-   * 
-   * @param options 查询选项
-   * @returns Promise<SpecialCollectionPageResponse> 包含分页信息的响应数据
-   * 
-   * @example
-   * ```typescript
-   * const service = new SpecialCollectionApplicationService()
-   * const response = await service.getSpecialCollectionsWithPagination({
-   *   page: 1,
-   *   pageSize: 12
-   * })
-   * console.log(`共${response.total}个合集，当前第${response.page}页`)
-   * ```
-   */
+  // 获取专题合集分页数据
   async getSpecialCollectionsWithPagination(options: SpecialCollectionQueryOptions = {}): Promise<SpecialCollectionPageResponse> {
     const { page = 1, pageSize = 12 } = options
     
@@ -190,12 +146,7 @@ export class SpecialCollectionApplicationService extends BaseApplicationService 
     )
   }
   
-  /**
-   * 获取专题合集总数
-   * 
-   * @param options 筛选选项
-   * @returns Promise<number> 合集总数
-   */
+  // 获取专题合集总数
   async getSpecialCollectionsCount(options: Omit<SpecialCollectionQueryOptions, 'page' | 'pageSize'> = {}): Promise<number> {
     return this.fetchWithFallback(
       // 真实API调用（待后端实现）

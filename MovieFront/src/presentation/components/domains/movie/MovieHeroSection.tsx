@@ -29,6 +29,7 @@ interface MovieHeroSectionProps {
   onThankYou: () => void
   thankYouCount: number
   isThankYouActive: boolean
+  isVip?: boolean
 }
 
 // 影片Hero区域组件，展示影片主要信息和操作按钮
@@ -39,6 +40,7 @@ export const MovieHeroSection: React.FC<MovieHeroSectionProps> = ({
   onThankYou,
   thankYouCount,
   isThankYouActive,
+  isVip = false,
 }) => {
   // 计算星级评分
   const rating = parseFloat(movie.rating)
@@ -176,7 +178,17 @@ export const MovieHeroSection: React.FC<MovieHeroSectionProps> = ({
               {/* 下载按钮 */}
               <button
                 onClick={onDownload}
-                className="bg-primary text-gray-900 px-6 py-3 rounded-lg font-semibold flex items-center space-x-2 hover:opacity-90 transition"
+                className={`px-6 py-3 rounded-lg font-semibold flex items-center space-x-2 hover:opacity-90 transition ${
+                  isVip ? '' : 'bg-primary text-gray-900'
+                }`}
+                style={
+                  isVip
+                    ? {
+                        background: 'linear-gradient(90deg, #F5E6C8 0%, #F4D03F 100%)',
+                        color: '#5D4E37',
+                      }
+                    : undefined
+                }
               >
                 <span className="material-icons text-xl">download</span>
                 <span>Download</span>

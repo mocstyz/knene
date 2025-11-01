@@ -104,22 +104,8 @@ export const usePhotoList = (options: UsePhotoListOptions = {}): UsePhotoListRet
                 isPageChanging: !append
             })
 
-            // 记录开始时间，确保骨架屏至少显示 500ms
-            const startTime = Date.now()
-            const minLoadingTime = 500
-
             // 通过应用服务获取数据
             const fetchedPhotos = await applicationService.getPhotos(fetchOptions)
-
-            // 计算已经过去的时间
-            const elapsedTime = Date.now() - startTime
-            const remainingTime = Math.max(0, minLoadingTime - elapsedTime)
-
-            // 如果加载太快，等待剩余时间
-            if (remainingTime > 0) {
-                console.log(`📸 [usePhotoList] 等待 ${remainingTime}ms 以确保骨架屏可见`)
-                await new Promise(resolve => setTimeout(resolve, remainingTime))
-            }
 
             // 检查请求是否被取消
             if (abortController.signal.aborted) {

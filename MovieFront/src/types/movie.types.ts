@@ -10,7 +10,7 @@
 export interface BaseMediaItem {
   id: string // 唯一标识符
   title: string // 标题
-  type: 'Movie' | 'TV Show' | 'Collection' // 媒体类型
+  type: 'Movie' | 'TV Show' | 'Collection' | 'Photo' // 媒体类型，添加Photo支持
   description?: string // 描述信息
 }
 
@@ -72,10 +72,14 @@ export interface FullMovieItem
 export interface PhotoItem
   extends BaseMovieItem,
   MediaStatusItem,
-  MediaFormatItem { }
+  MediaFormatItem {
+  contentType?: 'movie' | 'photo' | 'collection' // 内容类型标识符，用于内容渲染器系统
+}
 
 // 最新更新项目接口，最新更新专用的接口组合
-export interface LatestItem extends BaseMovieItem, MediaStatusItem { }
+export interface LatestItem extends BaseMovieItem, MediaStatusItem {
+  contentType?: 'movie' | 'photo' | 'collection' // 内容类型标识符，用于内容渲染器系统
+}
 
 // TOP项目接口，TOP排名专用的接口组合
 export interface TopItem extends BaseMovieItem, MediaRankItem { }
@@ -130,6 +134,7 @@ export interface MovieDetail extends FullMovieItem {
   thankYouCount?: number
   isFavorited?: boolean
   isThankYouActive?: boolean
+  // isVip 字段已经从 FullMovieItem -> MediaStatusItem 继承
 }
 
 // 下载链接接口
@@ -266,6 +271,8 @@ export interface UnifiedContentItem {
   isFeatured?: boolean // 是否为精选内容
   viewCount?: number // 浏览次数
   downloadCount?: number // 下载次数
+  likeCount?: number // 点赞数
+  favoriteCount?: number // 收藏数
   publishDate?: string // 发布日期
   metadata?: Record<string, any> // 内容元数据
 }

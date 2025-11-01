@@ -121,96 +121,94 @@ const CollectionLayer: React.FC<CollectionLayerProps> = ({
       disabled={!showHover}
       className={className}
     >
-      <div className="space-y-3">
-        {/* 图片卡片区域 - 独立的阴影卡片 */}
-        <div 
-          className={cn("relative overflow-hidden rounded-lg shadow-md cursor-pointer", aspectRatioClasses[aspectRatio])}
-          onClick={handleClick}
-        >
-          <ImageLayer
-            src={collection.imageUrl}
-            alt={collection.alt || collection.title}
-            aspectRatio="custom"
-            objectFit="cover"
-            hoverScale={false} // 由CardHoverLayer统一处理
-            fallbackType="gradient"
-          />
+      {/* 图片卡片区域 - 独立的阴影卡片 */}
+      <div
+        className={cn("relative overflow-hidden rounded-lg shadow-md cursor-pointer", aspectRatioClasses[aspectRatio])}
+        onClick={handleClick}
+      >
+        <ImageLayer
+          src={collection.imageUrl}
+          alt={collection.alt || collection.title}
+          aspectRatio="custom"
+          objectFit="cover"
+          hoverScale={false} // 由CardHoverLayer统一处理
+          fallbackType="gradient"
+        />
 
-          {/* 渐变遮罩 - 使用统一的渐变Token系统 */}
-          {showGradient && (
-            <div
-              className={cn(
-                'absolute inset-0',
-                getOverlayGradient(mappedIntensity)
-              )}
-            />
-          )}
-
-          {/* 顶部标签层 */}
-          <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
-            {/* New badge - top-left */}
-            {showNewBadge && isNew && (
-              <NewBadgeLayer
-                isNew={true}
-                newType={newBadgeType}
-                position="top-left"
-                size="responsive"
-                variant="default"
-                animated={false}
-              />
-            )}
-          </div>
-
-          {/* 底部标签层 */}
-          <div className="absolute bottom-2 left-2 right-2 z-10 flex justify-between">
-            <div></div>
-            {/* VIP badge - bottom-right */}
-            {showVipBadge && isVip && (
-              <VipBadgeLayer
-                isVip={true}
-                position="bottom-right"
-                variant="default"
-              />
-            )}
-          </div>
-
-          {/* 影片合集内容 */}
+        {/* 渐变遮罩 - 使用统一的渐变Token系统 */}
+        {showGradient && (
           <div
             className={cn(
-              positionClasses[contentPosition],
-              'w-full max-w-full overflow-hidden pointer-events-none'
+              'absolute inset-0',
+              getOverlayGradient(mappedIntensity)
             )}
-          >
-            <div className={titleWidthClasses[contentPosition]}>
-              <TitleLayer
-                title={collection.title}
-                variant="overlay"
-                size="2xl"
-                maxLines={1}
-                align={contentPosition === 'bottom-right' ? 'right' : 'left'}
-                color="white"
-                weight="bold"
-                clickable={false}
-                hoverEffect={hoverEffect}
-              />
-            </div>
+          />
+        )}
 
-            {collection.description && (
-              <TextHoverLayer
-                hoverColor={hoverEffect?.hoverColor || 'red'}
-                duration={
-                  hoverEffect?.transitionDuration === '200ms' ? 'fast' : 'normal'
-                }
-                className={cn(
-                  'mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-gray-200',
-                  titleWidthClasses[contentPosition]
-                )}
-                disabled={!hoverEffect?.enabled}
-              >
-                {collection.description}
-              </TextHoverLayer>
-            )}
+        {/* 顶部标签层 */}
+        <div className="absolute left-2 right-2 top-2 z-10 flex justify-between">
+          {/* New badge - top-left */}
+          {showNewBadge && isNew && (
+            <NewBadgeLayer
+              isNew={true}
+              newType={newBadgeType}
+              position="top-left"
+              size="responsive"
+              variant="default"
+              animated={false}
+            />
+          )}
+        </div>
+
+        {/* 底部标签层 */}
+        <div className="absolute bottom-2 left-2 right-2 z-10 flex justify-between">
+          <div></div>
+          {/* VIP badge - bottom-right */}
+          {showVipBadge && isVip && (
+            <VipBadgeLayer
+              isVip={true}
+              position="bottom-right"
+              variant="default"
+            />
+          )}
+        </div>
+
+        {/* 影片合集内容 */}
+        <div
+          className={cn(
+            positionClasses[contentPosition],
+            'w-full max-w-full overflow-hidden pointer-events-none'
+          )}
+        >
+          <div className={titleWidthClasses[contentPosition]}>
+            <TitleLayer
+              title={collection.title}
+              variant="overlay"
+              size="2xl"
+              maxLines={1}
+              align={contentPosition === 'bottom-right' ? 'right' : 'left'}
+              color="white"
+              weight="bold"
+              clickable={false}
+              hoverEffect={hoverEffect}
+            />
           </div>
+
+          {collection.description && (
+            <TextHoverLayer
+              hoverColor={hoverEffect?.hoverColor || 'red'}
+              duration={
+                hoverEffect?.transitionDuration === '200ms' ? 'fast' : 'normal'
+              }
+              className={cn(
+                'mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-gray-200',
+                titleWidthClasses[contentPosition]
+              )}
+              disabled={!hoverEffect?.enabled}
+            >
+              {collection.description}
+            </TextHoverLayer>
+          )}
         </div>
       </div>
     </CardHoverLayer>

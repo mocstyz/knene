@@ -26,17 +26,7 @@ import {
 } from '@radix-ui/themes'
 import React from 'react'
 
-/**
- * 主题测试页面组件
- *
- * 提供完整的主题功能测试界面，包括：
- * - 主题切换组件演示
- * - 主题状态显示
- * - 主题切换功能测试
- * - 不同主题下的样式展示
- *
- * @returns {JSX.Element} 主题测试页面
- */
+// 主题测试页面组件
 export const ThemeTestPage: React.FC = () => {
   const {
     theme,

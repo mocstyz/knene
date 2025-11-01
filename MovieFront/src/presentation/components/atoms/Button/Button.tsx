@@ -84,7 +84,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className
     )
 
-    // 图标渲染函数 - 根据加载状态决定显示加载动画还是自定义图标
+    // 图标渲染函数 - 加载状态时显示简单的加载指示器
     const renderIcon = () => {
       if (loading) {
         return (

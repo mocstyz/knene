@@ -34,6 +34,9 @@ export interface MovieDetail {
   quality: MovieQuality[] // 可用质量选项
   fileSize: number // 文件大小
   downloadCount: number // 下载次数
+  viewCount?: number // 观看次数
+  likeCount?: number // 点赞数
+  favoriteCount?: number // 收藏数
   createdAt: Date // 创建时间
   updatedAt: Date // 更新时间
 }
@@ -65,33 +68,21 @@ export class Movie {
     public readonly ratings: MovieRating[] = [], // 用户评分列表
     public readonly isActive: boolean = true, // 是否激活状态
     public readonly isFeatured: boolean = false, // 是否为精选影片
-    public readonly isVipRequired: boolean = false // 是否需要VIP权限
+    public readonly isVipRequired: boolean = false, // 是否需要VIP权限
+    public readonly isNew: boolean = false, // 是否为新内容（24小时内）
+    public readonly newType: 'hot' | 'latest' | null = null // NEW标签类型
   ) {}
-
-  // 业务规则：是否显示NEW标签（24小时内发布）
-  public isNew(): boolean {
-    const now = new Date()
-    const hoursDiff = (now.getTime() - this.detail.createdAt.getTime()) / (1000 * 60 * 60)
-    return hoursDiff <= 24
-  }
 
   // 业务规则：是否为VIP专享内容
   public isVipContent(): boolean {
     return this.isVipRequired
   }
 
-  // 业务规则：获取NEW标签类型
-  public getNewType(): 'hot' | 'latest' | null {
-    if (!this.isNew()) return null
-    // 根据下载量判断是热门还是最新
-    return this.detail.downloadCount > 1000 ? 'hot' : 'latest'
-  }
-
   // 业务规则：生成标签列表
   public generateTags(): string[] {
     const tags: string[] = [...this.detail.genres.map(g => g.name)]
     if (this.isVipContent()) tags.push('VIP')
-    if (this.isNew()) tags.push('NEW')
+    if (this.isNew) tags.push('NEW')
     if (this.isFeatured) tags.push('精选')
     if (this.detail.quality.length > 0) tags.push(this.detail.quality[0].resolution)
     return tags

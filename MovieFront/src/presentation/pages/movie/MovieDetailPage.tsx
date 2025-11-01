@@ -20,7 +20,7 @@ import { MovieScreenshots } from '@components/domains/movie/MovieScreenshots'
 import { MovieComments } from '@components/domains/movie/MovieComments'
 import { SubtitleDownloadModal } from '@components/domains/movie/SubtitleDownloadModal'
 import { ReportModal } from '@components/domains/movie/ReportModal'
-import { SkeletonHero, SkeletonCard, SkeletonDetail } from '@components/atoms'
+import { SkeletonHero, SkeletonMovieDetail } from '@components/atoms'
 
 // 影片详情页面组件，展示影片完整信息和相关功能
 const MovieDetailPage: React.FC = () => {
@@ -30,6 +30,11 @@ const MovieDetailPage: React.FC = () => {
   
   // 从路由状态获取图片URL（如果有的话）
   const stateImageUrl = (location.state as { imageUrl?: string })?.imageUrl
+
+  // 页面加载时滚动到顶部
+  React.useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const {
     movie,
@@ -105,10 +110,15 @@ const MovieDetailPage: React.FC = () => {
       <div className="min-h-screen bg-background-light dark:bg-background-dark">
         <NavigationHeader />
         <SkeletonHero />
-        <main className="container mx-auto px-4 pb-8 pt-24 sm:px-6 lg:px-8">
-          <SkeletonCard />
-          <SkeletonDetail />
-        </main>
+        <div className="container mx-auto p-8 relative z-10 -mt-24">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6">
+            <SkeletonMovieDetail
+              showFileInfo={true}
+              showScreenshots={true}
+              showComments={true}
+            />
+          </div>
+        </div>
       </div>
     )
   }
@@ -136,6 +146,7 @@ const MovieDetailPage: React.FC = () => {
         onThankYou={incrementThankYou}
         thankYouCount={movie.thankYouCount || 0}
         isThankYouActive={movie.isThankYouActive || false}
+        isVip={movie.isVip || false}
       />
 
       {/* 主内容区域 */}

@@ -54,7 +54,7 @@ const BaseSection: React.FC<BaseSectionComponentProps> = ({
         <h2 className="text-2xl font-bold">{title}</h2>
         {showMoreLink && (
           <TextLink
-            href={moreLinkUrl}
+            to={moreLinkUrl}
             variant="secondary"
             size="sm"
             onClick={onMoreLinkClick}

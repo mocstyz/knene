@@ -26,6 +26,14 @@ export * from './useSpecialCollections'
 // 包含合集影片列表获取、分页等功能
 export * from './useCollectionMovies'
 
+// 最新更新列表相关Hooks导出
+// 包含最新更新内容列表获取、分页、排序等功能
+export * from './useLatestUpdateList'
+
+// 热门内容列表相关Hooks导出
+// 包含热门内容列表获取、分页、时间周期筛选等功能
+export * from './useHotList'
+
 // 查询客户端和查询键导出
 // 提供统一的查询客户端配置和查询键管理
 export { queryClient, QUERY_KEYS } from '@application/services/queryClient'

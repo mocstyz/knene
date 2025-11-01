@@ -22,10 +22,14 @@ export interface CollectionDetail {
   publishDate: ReleaseDate // 发布日期值对象
   viewCount: number // 浏览次数
   downloadCount: number // 下载次数
+  likeCount?: number // 点赞数
+  favoriteCount?: number // 收藏数
   rating: number // 平均评分
   ratingCount: number // 评分数量
   isVipRequired: boolean // 是否需要VIP权限
   isExclusive: boolean // 是否为独家合集
+  isNew?: boolean // 是否为新内容（24小时内）
+  newType?: 'hot' | 'latest' | null // NEW标签类型
   createdAt: Date // 创建时间
   updatedAt: Date // 更新时间
 }
@@ -59,30 +63,16 @@ export class Collection {
     public readonly isFeatured: boolean = false // 是否为精选合集
   ) {}
 
-  // 业务规则：是否显示NEW标签（24小时内发布）
-  public isNew(): boolean {
-    const now = new Date()
-    const hoursDiff = (now.getTime() - this.detail.publishDate.date.getTime()) / (1000 * 60 * 60)
-    return hoursDiff <= 24
-  }
-
   // 业务规则：是否为VIP专享内容
   public isVipContent(): boolean {
     return this.detail.isVipRequired
-  }
-
-  // 业务规则：获取NEW标签类型
-  public getNewType(): 'hot' | 'latest' | null {
-    if (!this.isNew()) return null
-    // 根据浏览量判断是热门还是最新
-    return this.detail.viewCount > 1000 ? 'hot' : 'latest'
   }
 
   // 业务规则：生成标签列表
   public generateTags(): string[] {
     const tags: string[] = [...this.detail.tags]
     if (this.isVipContent()) tags.push('VIP')
-    if (this.isNew()) tags.push('NEW')
+    if (this.detail.isNew) tags.push('NEW')
     if (this.isFeatured) tags.push('精选')
     if (this.detail.isExclusive) tags.push('独家')
     return tags

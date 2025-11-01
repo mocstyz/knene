@@ -16,7 +16,7 @@ import { MovieResourceInfo } from '@components/domains/movie/MovieResourceInfo'
 import { MovieScreenshots } from '@components/domains/movie/MovieScreenshots'
 import { MovieComments } from '@components/domains/movie/MovieComments'
 import { ReportModal } from '@components/domains/movie/ReportModal'
-import { SkeletonHero, SkeletonCard, SkeletonDetail } from '@components/atoms'
+import { SkeletonHero, SkeletonPhotoDetail } from '@components/atoms'
 
 // 写真详情页面组件
 const PhotoDetailPage: React.FC = () => {
@@ -25,6 +25,11 @@ const PhotoDetailPage: React.FC = () => {
 
   // 从路由状态获取图片URL（如果有的话）
   const stateImageUrl = (location.state as { imageUrl?: string })?.imageUrl
+
+  // 页面加载时滚动到顶部
+  React.useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const {
     photo,
@@ -93,10 +98,15 @@ const PhotoDetailPage: React.FC = () => {
       <div className="min-h-screen bg-background-light dark:bg-background-dark">
         <NavigationHeader />
         <SkeletonHero />
-        <main className="container mx-auto px-4 pb-8 pt-24 sm:px-6 lg:px-8">
-          <SkeletonCard />
-          <SkeletonDetail />
-        </main>
+        <div className="container mx-auto p-8 relative z-10 -mt-24">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6">
+            <SkeletonPhotoDetail
+              showPhotos={true}
+              showComments={true}
+              photoCount={12}
+            />
+          </div>
+        </div>
       </div>
     )
   }
@@ -117,6 +127,7 @@ const PhotoDetailPage: React.FC = () => {
         onThankYou={incrementThankYou}
         thankYouCount={photo.thankYouCount || 0}
         isThankYouActive={photo.isThankYouActive || false}
+        isVip={photo.isVip || false}
       />
 
       {/* 主内容区域 */}
@@ -134,8 +145,8 @@ const PhotoDetailPage: React.FC = () => {
 
           {/* 写真图片 */}
           {photo.screenshots && photo.screenshots.length > 0 && (
-            <MovieScreenshots 
-              screenshots={photo.screenshots} 
+            <MovieScreenshots
+              screenshots={photo.screenshots}
               title="写真图片"
             />
           )}

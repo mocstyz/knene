@@ -20,4 +20,5 @@ export interface PhotoDetail {
   thankYouCount: number
   isThankYouActive: boolean
   isFavorited: boolean
+  isVip?: boolean // 是否为VIP内容
 }

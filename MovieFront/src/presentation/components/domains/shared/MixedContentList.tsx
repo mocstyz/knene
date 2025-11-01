@@ -326,18 +326,9 @@ const MixedContentList: React.FC<MixedContentListProps> = ({
     )
   }
 
-  // 渲染加载状态 - 显示加载指示器和提示文本
+  // 渲染加载状态 - 返回 null，让调用方显示骨架屏
   if (loading) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <div className="text-center">
-          <div className="mb-4 flex justify-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-blue-500"></div>
-          </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">加载中...</p>
-        </div>
-      </div>
-    )
+    return null
   }
 
   // 渲染错误状态 - 显示错误信息和重试按钮

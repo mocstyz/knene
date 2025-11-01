@@ -72,22 +72,10 @@ const mockDownloads = [
 
 // 用户仪表板页面组件 - 提供个人中心的全功能展示和管理
 const DashboardPage: React.FC = () => {
-  const { user, isAuthenticated, isLoading } = useCurrentUser()
+  const { user, isAuthenticated } = useCurrentUser()
   const [activeTab, setActiveTab] = useState<
     'overview' | 'recent' | 'downloads' | 'favorites'
   >('overview')
-
-  // 加载状态处理 - 显示加载动画和提示信息
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="flex items-center gap-2">
-          <Icon name="loading" className="animate-spin" />
-          <span>加载中...</span>
-        </div>
-      </div>
-    )
-  }
 
   // 认证状态检查 - 未登录用户显示登录引导界面
   if (!isAuthenticated || !user) {

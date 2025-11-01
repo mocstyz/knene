@@ -21,30 +21,34 @@ interface HotSectionProps {
   movies: HotItem[] // 热门数据列表
   title?: string // 区块标题，默认"24小时热门"
   showViewMore?: boolean // 是否显示查看更多按钮，默认true
+  moreLinkUrl?: string // 查看更多按钮链接地址
   onViewMore?: () => void // 查看更多按钮点击处理
+  onItemClick?: (item: any) => void // 内容项点击处理
   className?: string // 自定义CSS类名
 }
 
 // 首页热门模块组件，使用BaseSection + HotList组合架构，遵循自包含组件设计原则，提供完整的热门模块功能
 export const HotSection: React.FC<HotSectionProps> = ({
   movies,
-  title = "24小时热门",
+  title = "7天最热门",
   showViewMore = true,
+  moreLinkUrl = "#",
   onViewMore,
+  onItemClick,
   className,
 }) => {
   return (
     <BaseSection
       title={title}
       showMoreLink={showViewMore}
-      moreLinkUrl="#"
-      // 移除硬编码的moreLinkText，使用BaseSection的默认值
+      moreLinkUrl={moreLinkUrl}
       onMoreLinkClick={onViewMore}
       className={className}
     >
       <HotList 
         hotItems={movies}
         columns={RESPONSIVE_CONFIGS.hot}
+        onHotClick={onItemClick}
       />
     </BaseSection>
   )

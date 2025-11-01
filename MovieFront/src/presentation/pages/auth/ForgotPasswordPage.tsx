@@ -180,16 +180,9 @@ const ForgotPasswordPage: React.FC = () => {
             type="submit"
             variant="primary"
             className="w-full"
-            disabled={isLoading}
+            loading={isLoading}
           >
-            {isLoading ? (
-              <div className="flex items-center justify-center">
-                <Icon name="spinner" className="mr-2 h-4 w-4 animate-spin" />
-                发送中...
-              </div>
-            ) : (
-              '发送重置邮件'
-            )}
+            {isLoading ? '发送中...' : '发送重置邮件'}
           </Button>
 
           <div className="text-center">

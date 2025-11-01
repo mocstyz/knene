@@ -31,7 +31,9 @@ export function useMovieDetail(movieId: string): UseMovieDetailReturn {
     try {
       setLoading(true)
       setError(null)
+      
       const data = await movieDetailApi.getMovieDetail(movieId)
+      
       setMovie(data)
     } catch (err) {
       setError('加载影片详情失败，请稍后重试')

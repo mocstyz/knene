@@ -109,23 +109,9 @@ export const useSpecialCollections = (options: UseSpecialCollectionsOptions = {}
         isPageChanging: !append
       })
 
-      // 记录开始时间，确保骨架屏至少显示 500ms
-      const startTime = Date.now()
-      const minLoadingTime = 500 // 最小加载时间（毫秒）
-
       // 通过应用服务获取数据
       // 注意：当前 applicationService 可能不支持 signal，这里为未来扩展预留
       const fetchedCollections = await applicationService.getSpecialCollections(fetchOptions)
-
-      // 计算已经过去的时间
-      const elapsedTime = Date.now() - startTime
-      const remainingTime = Math.max(0, minLoadingTime - elapsedTime)
-
-      // 如果加载太快，等待剩余时间以确保骨架屏可见
-      if (remainingTime > 0) {
-        console.log(`🎬 [useSpecialCollections] 等待 ${remainingTime}ms 以确保骨架屏可见`)
-        await new Promise(resolve => setTimeout(resolve, remainingTime))
-      }
 
       // 检查请求是否被取消，如果是则提前返回
       if (abortController.signal.aborted) {
