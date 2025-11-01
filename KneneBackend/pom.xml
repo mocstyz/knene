@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.7</version>
+        <version>3.2.12</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.knene</groupId>
@@ -26,71 +26,502 @@
         <tag/>
         <url/>
     </scm>
+
+    <!-- 配置多个Maven仓库，解决Spring Boot Admin依赖问题 -->
+    <repositories>
+        <!-- 华为云镜像 - 最完整的国内镜像 -->
+        <repository>
+            <id>huaweicloud</id>
+            <name>Huawei Cloud Mirror</name>
+            <url>https://repo.huaweicloud.com/repository/maven/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <!-- 腾讯云镜像 - 备用选择 -->
+        <repository>
+            <id>tencent-cloud</id>
+            <name>Tencent Cloud Mirror</name>
+            <url>https://mirrors.cloud.tencent.com/nexus/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <!-- Maven中央仓库 - 最终备用 -->
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo1.maven.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <!-- 插件仓库配置 -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>huaweicloud</id>
+            <name>Huawei Cloud Mirror</name>
+            <url>https://repo.huaweicloud.com/repository/maven/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>tencent-cloud</id>
+            <name>Tencent Cloud Mirror</name>
+            <url>https://mirrors.cloud.tencent.com/nexus/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo1.maven.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
     <properties>
-        <java.version>25</java.version>
+        <java.version>21</java.version>
         <spring-ai.version>1.0.3</spring-ai.version>
-        <spring-cloud.version>2025.0.0</spring-cloud.version>
+        <mybatis-plus.version>3.5.8</mybatis-plus.version>
+        <hutool.version>5.8.41</hutool.version>
+        <druid.version>1.2.23</druid.version>
+        <flyway.version>10.18.2</flyway.version>
+        <springdoc.version>2.5.0</springdoc.version>
+        <jjwt.version>0.12.6</jjwt.version>
+        <instancio.version>5.2.0</instancio.version>
+        <testcontainers.version>1.20.4</testcontainers.version>
+        <caffeine.version>3.1.8</caffeine.version>
+        <lombok.version>1.18.32</lombok.version>
     </properties>
     <dependencies>
+        <!-- Spring Boot OAuth2授权服务器 - 提供OAuth2和OpenID Connect认证授权服务 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
         </dependency>
+
+        <!-- Spring Boot Web - 构建RESTful Web应用和Spring MVC -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- MyBatis Plus Spring Boot启动器 - 集成MyBatis Plus持久层框架 -->
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>3.0.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-azure-openai</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
         </dependency>
 
+       <!-- Hutool全能工具包 - 提供丰富的Java工具类库 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
+        <!-- Druid数据库连接池 - 高性能数据库连接池组件 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
+        <!-- Flyway数据库迁移核心 - 数据库版本控制和迁移工具 -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+
+        <!-- Flyway MySQL支持 - Flyway数据库迁移MySQL数据库支持 -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+
+        <!-- Spring Data Redis - Redis缓存和键值存储集成 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!-- Caffeine本地缓存 - 高性能Java本地缓存库 -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>${caffeine.version}</version>
+        </dependency>
+
+        <!-- Spring Cache - Spring缓存抽象和注解支持 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
+        <!-- Spring Security - Spring安全认证和授权框架 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- JJWT API - JWT令牌生成和解析API -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+
+        <!-- JJWT实现 - JWT令牌生成和解析实现 -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- JJWT Jackson - JWT令牌Jackson序列化支持 -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Spring Boot开发工具 - 热重载和开发时工具支持 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+
+        <!-- MySQL连接器 - MySQL数据库JDBC驱动 -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- Lombok - Java注解处理工具，减少样板代码 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- Spring Boot测试启动器 - Spring Boot集成测试框架 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- MyBatis Plus Spring Boot测试 - MyBatis Plus集成测试支持 -->
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter-test</artifactId>
-            <version>3.0.5</version>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter-test</artifactId>
+            <version>${mybatis-plus.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Instancio JUnit - 测试数据生成和模拟对象创建 -->
+        <dependency>
+            <groupId>org.instancio</groupId>
+            <artifactId>instancio-junit</artifactId>
+            <version>${instancio.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Testcontainers JUnit Jupiter - 容器化集成测试框架 -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Testcontainers MySQL - MySQL数据库测试容器支持 -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mysql</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Testcontainers Redis - Redis缓存测试容器支持 -->
+        <dependency>
+            <groupId>com.redis.testcontainers</groupId>
+            <artifactId>testcontainers-redis</artifactId>
+            <version>1.6.4</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Spring Security测试 - Spring Security集成测试支持 -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- H2数据库 - 内存数据库，测试环境使用 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Apache Commons压缩 - 文件压缩和解压缩工具库 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.26.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Apache Commons IO - 文件操作和IO工具库 -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.17.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Apache Commons Lang3 - Java基础工具类扩展库 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.18.0</version>
+        </dependency>
+
+        <!-- Logback日志框架 - 日志记录和输出框架 -->
+        <!-- 移除手动版本指定，Spring Boot会管理兼容版本 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+
+        <!-- Jackson数据绑定 - JSON序列化和反序列化处理 -->
+        <!-- 移除手动版本指定，Spring Boot会管理兼容版本 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <!-- Spring Security加密 - 密码加密和哈希工具 -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+
+        <!-- Tomcat嵌入式核心 - 内嵌Tomcat Web服务器核心组件 -->
+        <!-- 移除手动版本指定，让Spring Boot BOM管理兼容版本 -->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+        </dependency>
+
+        <!-- SnakeYAML - YAML配置文件解析和处理库 -->
+        <!-- 移除手动版本指定，Spring Boot会管理兼容版本 -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+        </dependency>
+
+        <!-- Spring Beans - Spring框架Bean定义和管理组件 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+
+        <!-- Spring Context - Spring框架上下文和IoC容器 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <!-- Spring Web - Spring框架Web应用基础组件 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+
+        <!-- Spring WebMVC - Spring框架Web MVC控制器和视图组件 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
+        <!-- Spring表达式语言 - Spring表达式解析和求值引擎 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+        </dependency>
+
+        <!-- Spring核心 - Spring框架核心功能和IoC容器 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+
+        <!-- Hibernate验证器 - Bean验证框架实现 -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
+        <!-- Jackson ClassMate - Jackson类型解析和泛型处理库 -->
+        <dependency>
+            <groupId>com.fasterxml</groupId>
+            <artifactId>classmate</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
+        <!-- Google Guava - Google核心Java工具库 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.3.1-jre</version>
+        </dependency>
+
+        <!-- Netty网络框架 - 异步事件驱动网络应用框架 -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.119.Final</version>
+        </dependency>
+
+        <!-- Apache Commons配置 - 配置文件读取和处理库 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-configuration2</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+        <!-- Apache Commons文件上传 - 文件上传处理组件 -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.5</version>
+        </dependency>
+
+        <!-- Apache Commons Net - 网络协议和客户端工具库 -->
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.11.1</version>
+        </dependency>
+
+        <!-- Apache Commons文本 - 字符串处理和文本操作工具库 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.12.0</version>
+        </dependency>
+
+        <!-- Protocol Buffers - Google二进制序列化协议 -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>4.28.3</version>
+        </dependency>
+
+        <!-- Bouncy Castle加密提供者 - 加密和数字签名算法库 -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>1.78.1</version>
+        </dependency>
+
+        <!-- JSON Smart - 轻量级JSON解析和处理库 -->
+        <dependency>
+            <groupId>net.minidev</groupId>
+            <artifactId>json-smart</artifactId>
+            <version>2.5.2</version>
+        </dependency>
+
+        <!-- XMLUnit核心 - XML文档比较和测试框架 -->
+        <dependency>
+            <groupId>org.xmlunit</groupId>
+            <artifactId>xmlunit-core</artifactId>
+            <version>2.10.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Janino编译器 - Java编译器和表达式求值引擎 -->
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>3.1.12</version>
+        </dependency>
+
+        <!-- SpringDoc OpenAPI WebMVC UI - API文档生成和交互界面 -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+
+        <!-- Spring Boot Actuator - 应用监控和管理端点 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Micrometer Prometheus注册器 - Prometheus指标收集和暴露 -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Admin客户端 - Spring Boot Admin监控客户端 -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <!-- 使用与Spring Boot 3.2.12兼容的版本 -->
+            <version>3.1.8</version>
+        </dependency>
+
+        <!-- Micrometer Tracing桥接器Brave - 分布式链路追踪桥接组件 -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
+
+        <!-- Zipkin报告器Brave - Zipkin链路追踪数据报告组件 -->
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter-brave</artifactId>
         </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+            <!-- Spring AI BOM - Spring AI依赖版本管理 -->
             <dependency>
                 <groupId>org.springframework.ai</groupId>
                 <artifactId>spring-ai-bom</artifactId>
@@ -98,23 +529,105 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <!-- Netty通用组件 - 强制覆盖传递性依赖中的Netty版本 -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-common</artifactId>
+                <version>4.1.119.Final</version>
+            </dependency>
+
+            <!-- Netty处理器 - 强制覆盖传递性依赖中的Netty版本 -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-handler</artifactId>
+                <version>4.1.119.Final</version>
+            </dependency>
+
+            <!-- Netty缓冲区 - 强制覆盖传递性依赖中的Netty版本 -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-buffer</artifactId>
+                <version>4.1.119.Final</version>
+            </dependency>
+
+            <!-- Netty编解码器 - 强制覆盖传递性依赖中的Netty版本 -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec</artifactId>
+                <version>4.1.119.Final</version>
+            </dependency>
+
+            <!-- Netty HTTP编解码器 - 强制覆盖传递性依赖中的Netty版本 -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http</artifactId>
+                <version>4.1.119.Final</version>
+            </dependency>
+
+            <!-- Netty HTTP2编解码器 - 强制覆盖传递性依赖中的Netty版本 -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http2</artifactId>
+                <version>4.1.119.Final</version>
+            </dependency>
+
+            <!-- Netty传输层 - 强制覆盖传递性依赖中的Netty版本 -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport</artifactId>
+                <version>4.1.119.Final</version>
+            </dependency>
+
+            <!-- Netty解析器 - 强制覆盖传递性依赖中的Netty版本 -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-resolver</artifactId>
+                <version>4.1.119.Final</version>
+            </dependency>
+
+            <!-- Netty DNS编解码器 - 强制覆盖传递性依赖中的Netty版本 -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-dns</artifactId>
+                <version>4.1.119.Final</version>
+            </dependency>
+
+            <!-- Netty Unix通用传输层 - 强制覆盖传递性依赖中的Netty版本 -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport-native-unix-common</artifactId>
+                <version>4.1.119.Final</version>
+            </dependency>
+
+            <!-- Logback和Janino等组件让Spring Boot BOM自动管理版本，避免版本冲突 -->
         </dependencies>
     </dependencyManagement>
 
     <build>
         <plugins>
+            <!-- Maven编译插件 - Java源代码编译和注解处理 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                    <release>21</release>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <!-- Spring Boot Maven插件 - Spring Boot应用打包和运行 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

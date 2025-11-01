@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 .pnpm-debug.log*
 *.log
+logs/
 
 # -------------------------------
 # Dependencies（不要忽略锁文件）

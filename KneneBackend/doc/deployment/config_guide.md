@@ -65,15 +65,14 @@ spring:
 java -jar movie-backend.jar --spring.config.additional-location=file:/secure/path/application-prod.yml
 ```
 
-### 3. 使用配置服务器（Spring Cloud Config）
+### 3. 使用配置文件管理
+
+对于单体应用，推荐使用配置文件管理：
 
 ```yaml
 spring:
-  cloud:
-    config:
-      uri: http://config-server:8888
-      name: movie-backend
-      profile: prod
+  config:
+    import: optional:file:./config/application-prod.yml
 ```
 
 ## 数据库配置

@@ -1,0 +1,79 @@
+# Elasticsearch配置文件
+# @author mosctz
+# @version 1.0
+
+# Elasticsearch集群配置
+cluster.name: knene-es-cluster
+node.name: knene-es-node-1
+
+# 网络配置
+network.host: 0.0.0.0
+http.port: 9200
+transport.tcp.port: 9300
+
+# 发现配置
+discovery.type: single-node
+#discovery.seed_hosts: ["es01", "es02", "es03"]
+#cluster.initial_master_nodes: ["es01", "es02", "es03"]
+
+# 内存配置
+bootstrap.memory_lock: false
+
+# 数据路径配置
+path.data: /usr/share/elasticsearch/data
+path.logs: /usr/share/elasticsearch/logs
+
+# 安全配置
+xpack.security.enabled: false
+xpack.monitoring.collection.enabled: true
+
+# 索引配置
+action.auto_create_index: true
+action.destructive_requires_name: true
+
+# JVM配置（通过环境变量设置）
+# ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+
+# 中文分词器配置
+index.analysis.analyzer.default.type: ik_max_word
+index.analysis.search_analyzer.default.type: ik_smart
+
+# 索引模板配置
+index_templates:
+  - name: knene-resource-template
+    index_patterns: ["knene-resources-*"]
+    settings:
+      number_of_shards: 3
+      number_of_replicas: 1
+      analysis:
+        analyzer:
+          knene_analyzer:
+            type: custom
+            tokenizer: ik_max_word
+            filter: [lowercase, stop]
+    mappings:
+      properties:
+        title:
+          type: text
+          analyzer: knene_analyzer
+          search_analyzer: ik_smart
+        description:
+          type: text
+          analyzer: knene_analyzer
+          search_analyzer: ik_smart
+        tags:
+          type: keyword
+        category:
+          type: keyword
+        publish_date:
+          type: date
+        rating:
+          type: float
+        download_count:
+          type: integer
+        is_vip:
+          type: boolean
+        created_at:
+          type: date
+        updated_at:
+          type: date

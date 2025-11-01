@@ -1,0 +1,152 @@
+# 预发布环境配置
+# @author mosctz
+# @version 1.0
+
+spring:
+  # 数据库配置 - 预发布环境
+  datasource:
+    url: jdbc:mysql://${STAGING_DB_HOST}:${STAGING_DB_PORT}/${STAGING_DB_NAME}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=true&requireSSL=true
+    username: ${STAGING_DB_USERNAME}
+    password: ${STAGING_DB_PASSWORD}
+    druid:
+      initial-size: 8
+      min-idle: 8
+      max-active: 30
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall
+      use-global-data-source-stat: true
+      stat-view-servlet:
+        enabled: true # 预发布环境开启监控页面
+        url-pattern: /druid/*
+        login-username: ${DRUID_ADMIN_USERNAME:admin}
+        login-password: ${DRUID_ADMIN_PASSWORD:admin}
+      web-stat-filter:
+        enabled: true
+        url-pattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+
+  # Flyway配置 - 预发布环境
+  flyway:
+    enabled: true
+    locations: classpath:db/migration/staging
+    validate-on-migrate: true
+    out-of-order: false
+
+  # Redis配置 - 预发布环境
+  data:
+    redis:
+      host: ${STAGING_REDIS_HOST}
+      port: ${STAGING_REDIS_PORT}
+      password: ${STAGING_REDIS_PASSWORD}
+      database: 1
+      timeout: 4000ms
+      lettuce:
+        pool:
+          max-active: 15
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 5
+
+  # 缓存配置 - 预发布环境
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=5000,expireAfterWrite=20m
+
+  # Elasticsearch配置 - 预发布环境
+  elasticsearch:
+    rest:
+      uris: ${STAGING_ES_URIS:http://localhost:9200}
+      username: ${STAGING_ES_USERNAME:}
+      password: ${STAGING_ES_PASSWORD:}
+      connection-timeout: 5s
+      read-timeout: 30s
+
+# 服务器配置 - 预发布环境
+server:
+  port: ${STAGING_SERVER_PORT:8080}
+  tomcat:
+    max-threads: 150
+    min-spare-threads: 10
+    max-connections: 6144
+    accept-count: 100
+    connection-timeout: 20000
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+  http2:
+    enabled: true
+
+# 日志配置 - 预发布环境
+logging:
+  level:
+    com.knene: INFO
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    com.baomidou.mybatisplus: INFO
+    root: INFO
+  file:
+    name: ${LOG_FILE:/var/log/knene-backend/staging-application.log}
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+
+# 监控配置 - 预发布环境
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+  security:
+    enabled: true
+
+# 应用自定义配置 - 预发布环境
+app:
+  # JWT配置 - 预发布环境
+  jwt:
+    secret: ${STAGING_JWT_SECRET}
+    expiration: ${STAGING_JWT_EXPIRATION:14400} # 4小时
+
+  # 文件存储配置 - 预发布环境
+  storage:
+    local:
+      enabled: false
+    oss:
+      enabled: true
+      endpoint: ${STAGING_OSS_ENDPOINT}
+      access-key-id: ${STAGING_OSS_ACCESS_KEY_ID}
+      access-key-secret: ${STAGING_OSS_ACCESS_KEY_SECRET}
+      bucket-name: ${STAGING_OSS_BUCKET_NAME}
+
+  # 爬虫配置 - 预发布环境
+  crawler:
+    enabled: true
+    thread-pool-size: 10
+    delay-between-requests: 1500ms
+    user-agent: Mozilla/5.0 (compatible; KneneCrawler-Staging/1.0)
+
+  # 限流配置 - 预发布环境
+  rate-limit:
+    enabled: true
+    default-limit: 80
+    window-size: 60s
+
+  # 预发布环境特定配置
+  staging:
+    enable-https: true
+    enable-cors: true
+    session-timeout: 1800
+    data-mock: false
+    email-sending: true # 预发布环境启用邮件发送
+    payment-debug: true # 支付调试模式

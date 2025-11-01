@@ -13,18 +13,18 @@
 ```yaml
 spring:
   data:
-  redis:
+    redis:
       host: 192.168.11.130 # 修改为你的 Redis 服务器 IP 地址 (例如: 虚拟机IP)
-    port: 6379
-      password: "" # 如果你的 Redis 设置了密码，在此配置。强烈建议生产环境设置强密码！
+      port: 6379
+      password: "" # ⚠️ 生产环境必须设置强密码！开发环境可为空
       database: 0 # 默认数据库
       timeout: 5000ms # 连接超时时间 (毫秒)
     lettuce:
-        pool: # Lettuce 连接池配置
-          max-active: 8 # 最大连接数
-          max-idle: 8 # 最大空闲连接数
-          min-idle: 0 # 最小空闲连接数
-          max-wait: -1ms # 连接获取超时时间 (-1表示无限等待)
+      pool: # Lettuce 连接池配置
+        max-active: 8 # 最大连接数
+        max-idle: 8 # 最大空闲连接数
+        min-idle: 0 # 最小空闲连接数
+        max-wait: -1ms # 连接获取超时时间 (-1表示无限等待)
 ```
 
 ### 集群配置（生产环境）
@@ -272,10 +272,43 @@ appendfsync everysec
 
 ## 缓存安全考虑
 
-1. **敏感数据加密**：存储前加密敏感数据
-2. **设置密码**：Redis实例需设置强密码
-3. **网络隔离**：使用私有网络
-4. **定期更新**：保持Redis版本更新，修复安全漏洞
+### 🔒 生产环境安全配置（强制要求）
+
+1. **身份认证**
+   ```yaml
+   # 必须设置Redis密码
+   spring:
+     data:
+       redis:
+         password: ${REDIS_PASSWORD:your-strong-password-here}
+   ```
+
+2. **网络隔离**
+   ```yaml
+   # 绑定到特定IP地址
+   bind: 127.0.0.1 192.168.1.100
+   # 禁用危险命令
+   rename-command FLUSHDB ""
+   rename-command FLUSHALL ""
+   rename-command KEYS ""
+   rename-command CONFIG ""
+   ```
+
+3. **访问控制**
+   ```bash
+   # 创建专用Redis用户
+   createuser redisuser --pwprompt
+   # 限制访问权限
+   redis-cli --user redisuser --auth your-password
+   ```
+
+### 🛡️ 通用安全建议
+
+4. **敏感数据加密**：存储前加密敏感数据
+5. **SSL/TLS加密**：启用SSL连接
+6. **定期更新**：保持Redis版本更新，修复安全漏洞
+7. **监控告警**：设置异常访问监控
+8. **备份加密**：备份数据加密存储
 
 ## 故障恢复计划
 
