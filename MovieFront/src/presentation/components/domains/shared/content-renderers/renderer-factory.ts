@@ -7,9 +7,6 @@
  * @version 1.0.0
  */
 
-import CollectionContentRenderer from '@components/domains/collections/renderers/collection-renderer'
-import MovieContentRenderer from '@components/domains/latestupdate/renderers/movie-renderer'
-import PhotoContentRenderer from '@components/domains/photo/renderers/photo-renderer'
 import type {
   BaseContentItem,
   ContentRenderer,
@@ -31,9 +28,25 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
   // 渲染器优先级缓存，用于快速查找最佳渲染器
   private priorityCache: ContentTypeId[] = []
 
+  // 初始化标志
+  private initialized = false
+  private initializationPromises: Promise<void>[] = []
+
   // 私有构造函数，实现单例模式
   private constructor() {
+    // 立即开始初始化
     this.initializeBuiltinRenderers()
+  }
+
+  // 确保渲染器已初始化
+  private ensureInitialized(): void {
+    if (!this.initialized) {
+      // 等待所有渲染器加载完成
+      Promise.all(this.initializationPromises).then(() => {
+        this.initialized = true
+        console.log('All built-in renderers initialized')
+      })
+    }
   }
 
   // 获取工厂实例
@@ -110,6 +123,8 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
 
   // 根据内容类型获取渲染器
   public getRenderer(contentType: ContentTypeId): ContentRenderer | null {
+    this.ensureInitialized()
+    
     const registration = this.renderers.get(contentType)
 
     if (registration && registration.enabled) {
@@ -121,6 +136,8 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
 
   // 根据内容项自动选择最佳渲染器
   public getBestRenderer(item: BaseContentItem): ContentRenderer | null {
+    this.ensureInitialized()
+    
     // 首先尝试直接匹配内容类型
     const renderer = this.getRenderer(item.contentType)
 
@@ -242,27 +259,41 @@ export class DefaultContentRendererFactory implements ContentRendererFactory {
   private initializeBuiltinRenderers(): void {
     console.log('Initializing built-in content renderers...')
 
-    // 注册内置渲染器
-    this.register(new MovieContentRenderer(), {
-      registrar: 'system',
-      enabled: true,
-      priority: 100,
-      override: false,
-    })
+    // 使用动态导入来避免循环依赖
+    const moviePromise = import('@components/domains/latestupdate/renderers/movie-renderer').then(
+      ({ default: MovieContentRenderer }) => {
+        this.register(new MovieContentRenderer(), {
+          registrar: 'system',
+          enabled: true,
+          priority: 100,
+          override: false,
+        })
+      }
+    )
 
-    this.register(new PhotoContentRenderer(), {
-      registrar: 'system',
-      enabled: true,
-      priority: 90,
-      override: false,
-    })
+    const photoPromise = import('@components/domains/photo/renderers/photo-renderer').then(
+      ({ default: PhotoContentRenderer }) => {
+        this.register(new PhotoContentRenderer(), {
+          registrar: 'system',
+          enabled: true,
+          priority: 90,
+          override: false,
+        })
+      }
+    )
 
-    this.register(new CollectionContentRenderer(), {
-      registrar: 'system',
-      enabled: true,
-      priority: 80,
-      override: false,
-    })
+    const collectionPromise = import('@components/domains/collections/renderers/collection-renderer').then(
+      ({ default: CollectionContentRenderer }) => {
+        this.register(new CollectionContentRenderer(), {
+          registrar: 'system',
+          enabled: true,
+          priority: 80,
+          override: false,
+        })
+      }
+    )
+
+    this.initializationPromises = [moviePromise, photoPromise, collectionPromise]
   }
 
   // 调试和监控方法

@@ -10,6 +10,9 @@ export * from './badge-layer-variants'
 // 渐变变体配置导出 - 导出遮罩、特殊效果、背景等渐变变体配置
 export * from './gradient-variants'
 
+// 分页组件变体导出 - 导出分页组件的变体配置
+export * from './pagination-variants'
+
 // 基础组件类型重新导出 - 保持向后兼容性，导出所有基础组件的类型定义
 export type {
   ButtonVariant, // 按钮变体类型
@@ -52,3 +55,9 @@ export type {
   GradientVariant, // 渐变类型联合
   GradientCategory, // 渐变类别类型
 } from './gradient-variants'
+
+// 分页组件类型重新导出 - 导出分页组件相关的类型定义
+export type {
+  PaginationVariantKey, // 分页变体类型
+  PaginationSizeKey, // 分页尺寸类型
+} from './pagination-variants'

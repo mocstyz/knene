@@ -11,9 +11,10 @@
 
 import { useSpecialCollections } from '@application/hooks/useSpecialCollections'
 import { CollectionList, type CollectionItem } from '@components/domains'
+import { Pagination } from '@components/atoms'
 import { NavigationHeader } from '@components/organisms'
 import { RESPONSIVE_CONFIGS } from '@tokens/responsive-configs'
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // 专题合集列表页面组件 - 展示所有精选合集，支持分页和交互功能
@@ -73,8 +74,8 @@ const SpecialCollectionsPage: React.FC = () => {
             <div className="text-center">
               <h2 className="text-2xl font-bold text-text-primary mb-4">加载失败</h2>
               <p className="text-text-secondary mb-6">{error}</p>
-              <button 
-                onClick={refresh} 
+              <button
+                onClick={refresh}
                 className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
               >
                 重新加载
@@ -96,13 +97,6 @@ const SpecialCollectionsPage: React.FC = () => {
           title="专题合集"
           loading={loading}
           isPageChanging={isPageChanging}
-          pagination={{
-            currentPage,
-            totalPages,
-            onPageChange: handlePageChange,
-            itemsPerPage: ITEMS_PER_PAGE,
-          }}
-          serverPaginated={true}
           onCollectionClick={handleCollectionClick}
           variant="grid"
           cardConfig={{
@@ -111,6 +105,18 @@ const SpecialCollectionsPage: React.FC = () => {
             showVipBadge: true,
           }}
           columns={RESPONSIVE_CONFIGS.specialPage}
+        />
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          mode="full"
+          variant="default"
+          size="md"
+          showPageInfo={false}
+          loading={loading}
+          disabled={isPageChanging}
         />
       </main>
     </div>

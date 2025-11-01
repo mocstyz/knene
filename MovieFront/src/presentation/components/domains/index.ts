@@ -12,10 +12,7 @@ export type { HotItem } from '@types-movie'
 
 // Collections领域 - 影片合集内容，CollectionCard已被内容渲染器系统替代
 export { CollectionList, CollectionSection } from './collections'
-export type {
-  PaginationConfig,
-  CollectionListProps,
-} from './collections/CollectionList'
+export type { CollectionListProps } from './collections/CollectionList'
 export type { CollectionSectionProps } from './collections/CollectionSection'
 export type { CollectionItem } from '@types-movie'
 

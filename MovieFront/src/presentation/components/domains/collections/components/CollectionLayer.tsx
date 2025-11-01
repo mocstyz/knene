@@ -123,7 +123,10 @@ const CollectionLayer: React.FC<CollectionLayerProps> = ({
     >
       <div className="space-y-3">
         {/* 图片卡片区域 - 独立的阴影卡片 */}
-        <div className={cn("relative overflow-hidden rounded-lg shadow-md", aspectRatioClasses[aspectRatio])}>
+        <div 
+          className={cn("relative overflow-hidden rounded-lg shadow-md cursor-pointer", aspectRatioClasses[aspectRatio])}
+          onClick={handleClick}
+        >
           <ImageLayer
             src={collection.imageUrl}
             alt={collection.alt || collection.title}
@@ -175,7 +178,7 @@ const CollectionLayer: React.FC<CollectionLayerProps> = ({
           <div
             className={cn(
               positionClasses[contentPosition],
-              'w-full max-w-full overflow-hidden'
+              'w-full max-w-full overflow-hidden pointer-events-none'
             )}
           >
             <div className={titleWidthClasses[contentPosition]}>
@@ -187,8 +190,7 @@ const CollectionLayer: React.FC<CollectionLayerProps> = ({
                 align={contentPosition === 'bottom-right' ? 'right' : 'left'}
                 color="white"
                 weight="bold"
-                clickable={!!onClick}
-                onClick={handleClick}
+                clickable={false}
                 hoverEffect={hoverEffect}
               />
             </div>

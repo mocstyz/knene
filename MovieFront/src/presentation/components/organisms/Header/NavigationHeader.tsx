@@ -13,7 +13,13 @@ import { MobileNavigationDrawer } from '@components/molecules/MobileNavigationDr
 import { NavigationMenu } from '@components/molecules/NavigationMenu'
 import { pageConfigs } from '@components/molecules/NavigationMenu/designTokens'
 import { useMobileNavigation } from '@hooks/useMobileNavigation'
-import { forwardRef } from 'react'
+import { forwardRef, useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+
+// 样式常量定义
+const TRANSPARENT_CLASSES = 'bg-transparent backdrop-blur-0'
+const SOLID_CLASSES = 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md'
+const BASE_CLASSES = 'fixed left-0 right-0 top-0 z-40 transition-colors duration-300'
 
 // 导航头部组件属性，定义组件的配置选项和可定制内容
 export interface NavigationHeaderProps {
@@ -26,6 +32,7 @@ export interface NavigationHeaderProps {
   loginText?: string // 登录按钮文本
   registerText?: string // 注册按钮文本
   className?: string // 自定义CSS类名
+  transparentMode?: boolean // 是否启用透明模式（首页使用），默认false
 }
 
 // 导航头部有机体组件，DDD架构中的复杂UI区块，管理网站标识、主导航菜单、搜索功能和用户认证区域，具有完整的业务功能和高度可配置性
@@ -41,28 +48,70 @@ export const NavigationHeader = forwardRef<HTMLElement, NavigationHeaderProps>(
       loginText = 'Log In',
       registerText = 'Register',
       className = '',
+      transparentMode = false,
     },
     ref
   ) => {
     const config = pageConfigs[currentPage]
     const mobileNav = useMobileNavigation()
+    
+    // 状态管理：控制导航栏是否透明
+    const [isTransparent, setIsTransparent] = useState(transparentMode)
+
+    // 滚动事件监听（仅在transparentMode=true时启用）
+    useEffect(() => {
+      if (!transparentMode) {
+        // 非透明模式，不监听滚动
+        return
+      }
+
+      const handleScroll = () => {
+        const scrollY = window.scrollY
+        const shouldBeTransparent = scrollY < 100 // 滚动阈值100px
+        
+        if (shouldBeTransparent !== isTransparent) {
+          setIsTransparent(shouldBeTransparent)
+        }
+      }
+
+      // 初始检查
+      handleScroll()
+
+      // 添加滚动监听（使用passive优化性能）
+      window.addEventListener('scroll', handleScroll, { passive: true })
+
+      // 清理函数
+      return () => {
+        window.removeEventListener('scroll', handleScroll)
+      }
+    }, [transparentMode, isTransparent])
+
+    // 动态计算className
+    const headerClassName = `
+      ${BASE_CLASSES}
+      ${transparentMode && isTransparent ? TRANSPARENT_CLASSES : SOLID_CLASSES}
+      ${className}
+    `.trim().replace(/\s+/g, ' ')
 
     return (
       <>
         <header
           ref={ref}
           id="site-header"
-          className={`fixed left-0 right-0 top-0 z-40 bg-transparent transition-colors duration-300 ${className}`}
+          className={headerClassName}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
               {/* 左侧：Logo + 桌面端导航菜单 */}
               <div className="flex items-center space-x-8">
-                {/* Logo区域 */}
-                <div className="flex items-center space-x-2">
+                {/* Logo区域 - 点击跳转首页 */}
+                <Link
+                  to="/"
+                  className="flex items-center space-x-2 transition-opacity hover:opacity-80"
+                >
                   <Icon name={logoIcon} className="text-[#6EE7B7]" />
                   <span className="text-xl font-bold">{logoText}</span>
-                </div>
+                </Link>
 
                 {/* 桌面端主导航菜单 - 1024px及以上显示 */}
                 <div className="hidden lg:flex">
